@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>TMedia Webclient</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="./styles/roboto.css" />
+  <link href="./styles/roboto2.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/animate.min.css" />
+
+  <script type="text/javascript">
+    function test() {
+      alert('Function from index.html');
+    }
+
+    function clearStorage() {
+      console.log('Limpieza de cache')
+      sessionStorage.clear();
+    }
+    function isReload() {
+      return performance.navigation.type === performance.navigation.TYPE_RELOAD || window.location.href === document.referrer || !document.referrer;
+    }
+    window.addEventListener('beforeunload', function (event) {
+      if (isReload()) {
+        console.log('La pestaña se está recargando');
+        // Realice una acción específica para una recarga de página aquí
+      } else {
+        console.log('La pestaña/navegador se está cerrando');
+
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const key = sessionStorage.key(i);
+
+          const intValue = parseInt(key);
+
+          if (!isNaN(intValue) && Number.isInteger(intValue)) {
+            let value = JSON.parse(sessionStorage.getItem(key));
+            value.urls?.forEach(element => {
+              URL.revokeObjectURL(element)
+            });
+          }
+        }
+        clearStorage()
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <noscript>Es necesario habilitar Javascript para utilizar esta aplicacion.</noscript>
+  <div id="root">
+
+  </div>
+  <script src="runtime.bundle.js"></script><script src="vendors.bundle.js"></script><script src="main.bundle.js"></script></body>
+
+</html>

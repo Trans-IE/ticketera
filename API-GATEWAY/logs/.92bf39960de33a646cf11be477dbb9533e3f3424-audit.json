@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\NodeProjects\\T-Ticketera\\API-GATEWAY\\logs\\.92bf39960de33a646cf11be477dbb9533e3f3424-audit.json",
+    "files": [
+        {
+            "date": 1700242860070,
+            "name": "C:\\NodeProjects\\T-Ticketera\\API-GATEWAY\\logs\\time1.csv.2023-11-17",
+            "hash": "f74fc32a65dda4b9a710e0b4ffaaedaa9104da3cb6aafadf3a039c8e16b3179d"
+        }
+    ],
+    "hashType": "sha256"
+}
