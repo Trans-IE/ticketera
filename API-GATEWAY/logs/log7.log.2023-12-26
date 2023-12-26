@@ -1,0 +1,19 @@
+[26/12/2023, 10:20:19] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 10:20:19] error loginAgent : undefined
+[26/12/2023, 10:20:20] info ==> loginUser - username:fgarcia
+[26/12/2023, 10:20:20] info ==> loginUser body :[object Response]
+[26/12/2023, 10:20:20] info <== loginUser - username:fgarcia
+[26/12/2023, 10:39:40] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 10:39:40] error loginAgent : undefined
+[26/12/2023, 10:39:41] info ==> loginUser - username:fgarcia
+[26/12/2023, 10:39:41] info ==> loginUser body :[object Response]
+[26/12/2023, 10:39:41] info <== loginUser - username:fgarcia
+[26/12/2023, 10:39:59] info ==> loginUser - username:fgarcia
+[26/12/2023, 10:39:59] info ==> loginUser body :[object Response]
+[26/12/2023, 10:39:59] info <== loginUser - username:fgarcia
+[26/12/2023, 10:41:09] info ==> loginUser - username:fgarcia
+[26/12/2023, 10:41:09] info ==> loginUser body :[object Response]
+[26/12/2023, 10:41:09] info <== loginUser - username:fgarcia
+[26/12/2023, 10:42:27] info ==> loginUser - username:fgarcia
+[26/12/2023, 10:42:27] info ==> loginUser body :[object Response]
+[26/12/2023, 10:42:27] info <== loginUser - username:fgarcia

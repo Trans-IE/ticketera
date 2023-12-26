@@ -91,7 +91,7 @@ export const Test = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Info */}
                     <div>
-                        <ButtonTrans variant="text" text="Ticket N°: 19279"></ButtonTrans>
+                        <ButtonTrans variant="text" style={{ borderRadius: '20px' }} >Ticket N°: 19279</ButtonTrans>
                         <span style={{color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
                         <Button variant="text" style={{ borderRadius: '20px' }} >Producto: Reporting</Button>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>

@@ -1,0 +1,20 @@
+[26/12/2023, 10:20:20] info ==> getUserByLogin - username: fgarcia check_password: true AUTHENTICATION_MODE: 1
+[26/12/2023, 10:20:20] info ==> authenticateUser - username: fgarcia
+[26/12/2023, 10:20:20] info <== authenticateUser
+[26/12/2023, 10:20:20] info <== getUserByLogin
+[26/12/2023, 10:39:41] info ==> getUserByLogin - username: fgarcia check_password: true AUTHENTICATION_MODE: 1
+[26/12/2023, 10:39:41] info ==> authenticateUser - username: fgarcia
+[26/12/2023, 10:39:41] info <== authenticateUser
+[26/12/2023, 10:39:41] info <== getUserByLogin
+[26/12/2023, 10:39:59] info ==> getUserByLogin - username: fgarcia check_password: true AUTHENTICATION_MODE: 1
+[26/12/2023, 10:39:59] info ==> authenticateUser - username: fgarcia
+[26/12/2023, 10:39:59] info <== authenticateUser
+[26/12/2023, 10:39:59] info <== getUserByLogin
+[26/12/2023, 10:41:09] info ==> getUserByLogin - username: fgarcia check_password: true AUTHENTICATION_MODE: 1
+[26/12/2023, 10:41:09] info ==> authenticateUser - username: fgarcia
+[26/12/2023, 10:41:09] info <== authenticateUser
+[26/12/2023, 10:41:09] info <== getUserByLogin
+[26/12/2023, 10:42:27] info ==> getUserByLogin - username: fgarcia check_password: true AUTHENTICATION_MODE: 1
+[26/12/2023, 10:42:27] info ==> authenticateUser - username: fgarcia
+[26/12/2023, 10:42:27] info <== authenticateUser
+[26/12/2023, 10:42:27] info <== getUserByLogin
