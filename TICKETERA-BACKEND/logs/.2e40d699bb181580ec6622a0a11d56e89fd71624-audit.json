@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\.2e40d699bb181580ec6622a0a11d56e89fd71624-audit.json",
+    "files": [
+        {
+            "date": 1702922788718,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log3.log.2023-12-18",
+            "hash": "be45ace479f414f5eb4ac131e3c72905ac5b78817c8a54c98d5ca21937108ff8"
+        },
+        {
+            "date": 1702989180044,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log3.log.2023-12-19",
+            "hash": "a87d9e8cbfeac715ed4ec5eea9e794f90077a5bd74eec8db65a684185cf4d363"
+        },
+        {
+            "date": 1703084072475,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log3.log.2023-12-20",
+            "hash": "73419fba21684b8ecefd8f243bbc6766c2e4d6756e85ffad1ad60a8b2ec86489"
+        },
+        {
+            "date": 1703163512613,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log3.log.2023-12-21",
+            "hash": "fcbc2e05d5b61e1481cd5c995db3f94e9a8197a9bb3418b70e833a005602f2ac"
+        },
+        {
+            "date": 1703248722927,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log3.log.2023-12-22",
+            "hash": "ab001f554fbae3095c0f363a79377cc0405c4a103a0fd38be0ad6c96c27d090a"
+        }
+    ],
+    "hashType": "sha256"
+}

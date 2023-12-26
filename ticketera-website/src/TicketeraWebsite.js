@@ -8,9 +8,14 @@ import { Toaster } from "sonner";
 import { MainScreen } from "./components/root/MainScreen";
 import { TicketsScreen } from "./components/ticket/TicketsScreen";
 import { BrowserRouter } from "react-router-dom";
+import { useTheme } from '@mui/styles';
+
 
 
 const TicketeraWebsite = () => {
+  const theme = useTheme()
+
+  document.body.style.backgroundColor = theme.palette.background.background;
 
   return (
     <Provider store={store}>

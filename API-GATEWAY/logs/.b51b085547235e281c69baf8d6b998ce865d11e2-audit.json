@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\.b51b085547235e281c69baf8d6b998ce865d11e2-audit.json",
+    "files": [
+        {
+            "date": 1702922786806,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\time5.csv.2023-12-18",
+            "hash": "dace58104519131873950524dfddc6f6ff6569beb7624e151ba621d7eecb8f52"
+        },
+        {
+            "date": 1702989404399,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\time5.csv.2023-12-19",
+            "hash": "36328967af57eb283799f5e099c6226f4133a151994232f3ea0223e5ab4d17c4"
+        },
+        {
+            "date": 1703084093019,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\time5.csv.2023-12-20",
+            "hash": "e74e4a3b34394295a51cb43f0f1da149103cc1947eee547034a254a1a9abada6"
+        },
+        {
+            "date": 1703163512752,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\time5.csv.2023-12-21",
+            "hash": "313144509dfa2af29f0f16f9f0b9b568823aeca6fd68a85797ec94ee6f0e92c8"
+        },
+        {
+            "date": 1703248743425,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\time5.csv.2023-12-22",
+            "hash": "912880542227dd9c4ef306c685cb38b66765a15d885482b1ffbb8d96b51e8c22"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -21,19 +21,12 @@ import { MainMenu, SecondaryMenu } from './MainMenu';
 import { TabsScreen } from './TabsScreen';
 import { TicketsScreen } from '../ticket/TicketsScreen';
 import { isAbsolute } from 'path';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { DataTable } from './Table';
+import { Filters } from './Filters';
+import { Test } from './Test';
+import Logo from '../../../public/trans.png'
+import { Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const drawerWidth = 240;
 
@@ -58,6 +51,7 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
+      backgroundColor: theme.palette.background.main,
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
@@ -74,7 +68,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
         },
       }),
     },
@@ -91,104 +84,50 @@ export const MainScreen = () => {
 
   const onClick = (tipo, valor) => {
 
-    setTicketsListVisible(bol => !bol);
+    setTicketsListVisible(!ticketsListVisible);
 
   }
+
 
   return (
 
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="absolute" open={open}>
-        {/*           <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar> */}
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={false}>
         <Toolbar
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'flex-end',
-            px: [1],
+            justifyContent: 'center',
           }}
         >
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
+          <img src={Logo} style={{ width: '35px' }} />
         </Toolbar>
         <Divider />
         <List component="nav">
           <MainMenu onClick={onClick} />
-          <Divider sx={{ my: 1 }} />
           {SecondaryMenu}
         </List>
       </Drawer>
       <Box
         component="main"
         sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto',
         }}
       >
-        {/* <Toolbar /> */}
-        <Container maxWidth="xl" sx={{ mt: 1, mb: 1 }}>
-{/* 
-          <Grid container spacing={3}>
+        {ticketsListVisible ?
+          <div style={{ width: '100hf', justifyContent: 'center' }}>
+            <Test />
+          </div>
+          :
+          <div style={{ width: '100hf', justifyContent: 'center' }}>
+            <Filters />
+            <DataTable />
+          </div>
+        }
 
-            <Grid item xs={12} md={12} lg={12} >
-               */}
-              <Paper sx={{ position: 'relative', zIndex: 1, p: 4, m: 'auto', mt: 3, }} >
-
-
-              <TabsScreen />
-
-
-              </Paper>
-
-              <Paper  sx={{ position: 'relative', zIndex: 2, p: 4, m: 'auto', mt: -100, backgroundColor: 'rgba(255, 255, 255, 1)' }} >
-                
-                <TicketsScreen />
-              </Paper>
-
-{/*             </Grid>
-          </Grid> */}
-          {/*  <Copyright sx={{ pt: 4 }} /> */}
-        </Container>
       </Box>
     </Box>
 

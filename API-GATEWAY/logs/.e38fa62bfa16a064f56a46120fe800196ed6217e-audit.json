@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\.e38fa62bfa16a064f56a46120fe800196ed6217e-audit.json",
+    "files": [
+        {
+            "date": 1702558136647,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\log4.log.2023-12-14",
+            "hash": "3ca7f9f19c2970145737cead974796d26720081a9cd13d72f489c4bb5951cc4f"
+        }
+    ],
+    "hashType": "sha256"
+}

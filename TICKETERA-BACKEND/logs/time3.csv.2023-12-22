@@ -1,0 +1,14 @@
+22/12/2023, 9:39:03,authenticateUser,0.064;
+22/12/2023, 9:39:03,getUserByLogin,0.324;
+22/12/2023, 9:39:27,authenticateUser,0.048;
+22/12/2023, 9:39:27,getUserByLogin,0.167;
+22/12/2023, 9:40:18,authenticateUser,0.038;
+22/12/2023, 9:40:18,getUserByLogin,0.227;
+22/12/2023, 9:40:34,authenticateUser,0.039;
+22/12/2023, 9:40:34,getUserByLogin,0.207;
+22/12/2023, 9:41:22,authenticateUser,0.043;
+22/12/2023, 9:41:22,getUserByLogin,0.182;
+22/12/2023, 9:41:29,authenticateUser,0.044;
+22/12/2023, 9:41:29,getUserByLogin,0.086;
+22/12/2023, 9:41:55,authenticateUser,0.042;
+22/12/2023, 9:41:55,getUserByLogin,0.199;
