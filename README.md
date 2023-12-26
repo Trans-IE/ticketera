@@ -11,6 +11,17 @@ Nueva version de la Ticketera Trans en React y Node.js
   npm run dw
 ```
 
+  Back-end: 
+```bash
+  cd TICKETERA-BACKEND
+  npm start
+```
+
+  Api gateway: 
+```bash
+  cd API-GATEWAY
+  npm start
+```
 
 ## Link Utiles
 
