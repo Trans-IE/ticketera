@@ -16,6 +16,8 @@ export default class ErrorBoundary extends React.Component {
   }
 
   render() {
+    // nuevo cambio
+    
     if (this.state.errorInfo) {
       console.error(this.state.error);
       console.error(this.state.errorInfo);
