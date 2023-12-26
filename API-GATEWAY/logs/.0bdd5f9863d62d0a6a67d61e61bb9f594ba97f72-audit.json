@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Documents\\GitHub\\ticketera\\API-GATEWAY\\logs\\.0bdd5f9863d62d0a6a67d61e61bb9f594ba97f72-audit.json",
+    "files": [
+        {
+            "date": 1703596752982,
+            "name": "C:\\Users\\fseib\\Documents\\GitHub\\ticketera\\API-GATEWAY\\logs\\log7.log.2023-12-26",
+            "hash": "2d383bf8725f1a7c4e775c2ab13a3fc1d991118f8cdf9b656ef4ee978fed6007"
+        }
+    ],
+    "hashType": "sha256"
+}

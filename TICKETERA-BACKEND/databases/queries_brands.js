@@ -3,7 +3,7 @@ const pooldata = require('./poolpg')
 const getAllDBBrands = (offset, limit) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [offset, limit], (error, results) => {
+        pooldata.getPool.query('select * from marcas by nombre asc;', [offset, limit], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -24,14 +24,14 @@ const getAllDBBrands = (offset, limit) => {
 const createDBBrand = (nombre) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_empresas_create($1)', [nombre], (error, results) => {
+        pooldata.getPool.query('select * from public.f_brand_create($1)', [nombre], (error, results) => {
             if (error) {
 
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_empresas_create);
+                    resolve(results.rows[0].f_brand_create);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -46,7 +46,7 @@ const createDBBrand = (nombre) => {
 const deleteDBBrand = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_empresas_delete($1)', [id], (error, results) => {
+        pooldata.getPool.query('select * from public.f_brand_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -65,13 +65,13 @@ const deleteDBBrand = (id) => {
 
 const updateDBBrand = (id, nombre) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_empresas_update($1,$2)', [id, nombre], (error, results) => {
+        pooldata.getPool.query('select * from public.f_brand_update($1,$2)', [id, nombre], (error, results) => {
             if (error) {
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_empresas_update);
+                    resolve(results.rows[0].f_brand_update);
                 } catch (error) {
                     reject(error.message);
                 }

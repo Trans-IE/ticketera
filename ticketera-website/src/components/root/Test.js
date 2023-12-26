@@ -17,6 +17,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import BusinessIcon from '@mui/icons-material/Business';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/styles';
+import { ButtonTrans } from '../ui/ButtonTrans';
 
 export const Test = () => {
     const theme = useTheme()
@@ -90,7 +91,7 @@ export const Test = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Info */}
                     <div>
-                        <Button variant="text" style={{ borderRadius: '20px' }} >Ticket N°: 19279</Button>
+                        <ButtonTrans variant="text" text="Ticket N°: 19279"></ButtonTrans>
                         <span style={{color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
                         <Button variant="text" style={{ borderRadius: '20px' }} >Producto: Reporting</Button>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>

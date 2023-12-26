@@ -87,7 +87,7 @@ const updateContract = async (req, res = response) => {
     logger.info(`updateContract. id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}  `)
     try {
 
-        updateDBCompany(id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
+        updateDBContract(id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
             .then(result => {
                 res.status(200).json({
                     ok: true,
