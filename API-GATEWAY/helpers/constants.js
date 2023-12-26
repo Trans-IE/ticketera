@@ -1,4 +1,5 @@
 const UserRol = {
+  LocalSM: 1,
   LocalTEC: 2,
   LocalEJ: 3,
   ClienteADM: 4,

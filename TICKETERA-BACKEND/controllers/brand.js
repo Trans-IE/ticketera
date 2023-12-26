@@ -1,10 +1,10 @@
 const { response } = require('express');
-const { getAllDBCompanies, createDBCompany, updateDBCompany, deleteDBCompany } = require('../databases/queries_companies');
+const { getAllDBBrands, createDBBrand, updateDBBrand, deleteDBBrand } = require('../databases/queries_brands');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
-const getAllCompanies = async (req, res = response) => {
+const getAllBrands = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
@@ -12,35 +12,34 @@ const getAllCompanies = async (req, res = response) => {
     const { offset, limit } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getAllCompanies. username:${label}  offset:${offset} limit:${limit}`)
+    logger.info(`getAllBrands. username:${label}  offset:${offset} limit:${limit}`)
     try {
 
-        getAllDBCompanies(offset, limit)
+        getAllDBBrands(offset, limit)
             .then(result => {
-                logger.info(`<== getAllCompanies`);
-                loggerCSV.info(`getAllCompanies, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getAllBrands`);
+                loggerCSV.info(`getAllBrands, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     items: result.rows,
-                    msg: 'Listado de empresas obtenido correctamente.'
+                    msg: 'Listado de marcas obtenido correctamente.'
                 });
             })
             .catch(error => {
-                logger.error(`getAllCompanies => getAllDBCompanies : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+                logger.error(`getAllBrands => getAllDBBrands : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBCompanies : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+        logger.error(`getAllDBBrands : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de empresas.'
+            msg: 'Error obteniendo listado de marcas.'
         });
     }
 }
 
-// CREATE COMPANY
-const createCompany = async (req, res = response) => {
+const createBrand = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
@@ -48,61 +47,23 @@ const createCompany = async (req, res = response) => {
 
     const { nombre, direccion, telefono, mail } = req.body;
 
-    logger.info(`createCompany nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+    logger.info(`createBrand nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
 
-    const codigoMD5Company = nombre => crypto.createHash('md5').update(nombre).digest("hex");
+    const codigoMD5Brand = nombre => crypto.createHash('md5').update(nombre).digest("hex");
 
     try {
 
-        createDBCompany(nombre, direccion, telefono, mail, codigoMD5Company(nombre))
-            .then(id_company_new => {
+        createDBBrand(nombre, direccion, telefono, mail)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    value: { brand: result },
+                    msg: `empresa ${nombre} creado correctamente con id: ${result}`
+                });
 
-                // let id_company_new = result.rows[0].f_createDBCompany;
-
-                if (id_company_new > 0) {
-                    // http status 201: elemento agregado correctamente
-                    // retorno objeto nuevo creado 
-                    let company = new Object();
-                    company.id = id_company_new;
-                    company.nombre = nombre;
-                    company.direccion = direccion;
-                    company.telefono = telefono;
-                    company.mail = mail;
-                    company.codigo = codigoMD5Company;
-                    //let jsoncompany = JSON.stringify(company);
-
-                    res.status(200).json({
-                        ok: true,
-                        value: { company },
-                        msg: `empresa ${nombre} creado correctamente con id: ${id_company_new}`
-                    });
-                    // 401: OPERACION NO AUTORIZADA POR DISTINTMOS MOTIVOS.
-                } else if (id_company_new == -1) {
-                    return res.status(200).json({
-                        ok: false,
-                        msg: 'El nombre de empresa ya fue ingresado anteriormente al sistema.'
-                    });
-                } else if (id_company_new == -2) {
-                    return res.status(200).json({
-                        ok: false,
-                        msg: 'El e-mail de empresa ya fue ingresado anteriormente al sistema.'
-                    });
-                } else if (id_company_new == -3) {
-                    return res.status(200).json({
-                        ok: false,
-                        msg: 'El codigo de empresa ya fue ingresado anteriormente al sistema.'
-                    });
-                } else {
-                    // ocurrio otro error no manejado en capa base de datos (sql).
-                    return res.status(200).json({
-                        ok: false,
-                        msg: `El empresa no pudo ser ingresado al sistema. ID ${id_company_new}`
-                    });
-                }
             })
             .catch(dataError => {
-                // nombre, direccion, telefono, mail, codigoMD5Company
-                logger.error(`createCompany => createDBCompany : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${dataError}`);
+                logger.error(`createBrand => createDBBrand : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -111,7 +72,7 @@ const createCompany = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`createCompany => createDBCompany : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${error}`);
+        logger.error(`createBrand => createDBBrand : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -120,18 +81,17 @@ const createCompany = async (req, res = response) => {
     }
 }
 
-const updateCompany = async (req, res = response) => {
+const updateBrand = async (req, res = response) => {
 
-    const id = req.params.id;
-
+    const { id } = req.body;
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
     const { nombre, direccion, telefono, mail, habilitado } = req.body;
-    logger.info(`updateCompany. id:${id}  nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}  `)
+    logger.info(`updateBrand. id:${id}  nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}  `)
     try {
 
-        updateDBCompany(id, nombre, direccion, telefono, mail, habilitado)
+        updateDBBrand(id, nombre, direccion, telefono, mail, habilitado)
             .then(id_result => {
 
                 // let id_result = result.rows[0].f_r2_skill_update; 
@@ -170,7 +130,7 @@ const updateCompany = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`updateCompany => updateDBCompany : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${dataError}`);
+                logger.error(`updateBrand => updateDBBrand : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -179,7 +139,7 @@ const updateCompany = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`updateCompany : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${error}`);
+        logger.error(`updateBrand : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -189,19 +149,19 @@ const updateCompany = async (req, res = response) => {
 
 }
 
-const deleteCompany = async (req, res = response) => {
+const deleteBrand = async (req, res = response) => {
 
-    const id = req.params.id;
+    const { id } = req.body;
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
-    logger.info(`deleteCompany id:${id}`)
+    logger.info(`deleteBrand id:${id}`)
 
     try {
         // AL ELIMINAR PUEDE QUE SEA NECESARIO CHEQUEAR PRIVILEGIOS DE USUARIO
         // DEBE VALIDAR SI EXISTE EL ELEMENTO
 
-        deleteDBCompany(id)
+        deleteDBBrand(id)
             .then(id_result => {
 
                 // LA FUNCION FINALIZO SU EJECUCION 
@@ -210,53 +170,53 @@ const deleteCompany = async (req, res = response) => {
                 if (id_result > 0) {
                     // http status 200: elemento actualizado correctamente
                     // retorno objeto actualizado
-                    let objempresa = new Object();
-                    objempresa.deleted_id = id;
+                    let objBrand = new Object();
+                    objBrand.deleted_id = id;
 
                     res.status(200).json({
                         ok: true,
-                        item: objempresa,
-                        msg: `Empresa id: ${id} fue eliminado correctamente`
+                        item: objBrand,
+                        msg: `Marca id: ${id} fue eliminado correctamente`
                     });
                 }
                 else if (id == -1) {
                     // la empresa NO EXISTE: retorno msg "empresa no pudo ser encontrado". retorno HTTP 404 recurso no encontrado.
                     return res.status(404).json({
                         ok: false,
-                        msg: `Empresa id: ${id} no pudo ser encontrado en el sistema.`
+                        msg: `Marca id: ${id} no pudo ser encontrado en el sistema.`
                     });
                 }
                 else {
                     // ocurrio otro error no manejado en sql.
                     return res.status(401).json({
                         ok: false,
-                        msg: 'La Empresa no pudo ser eliminado del sistema.'
+                        msg: 'La marca no pudo ser eliminado del sistema.'
                     });
                 }
             })
             .catch(dataError => {
-                logger.error(`deleteCompany => deleteDBCompany: params=> id=${id} error=> ${dataError}`);
+                logger.error(`deleteBrand => deleteDBBrand: params=> id=${id} error=> ${dataError}`);
                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo eliminar la empresa '${id}' `
+                    msg: `No se pudo eliminar la marca '${id}' `
                 });
 
             });
     } catch (error) {
-        logger.error(`deleteCompany: params=> id=${id} error=> ${error}`);
+        logger.error(`deleteBrand: params=> id=${id} error=> ${error}`);
         res.status(502).json({
             ok: false,
             error: error,
-            msg: `No se pudo eliminar la empresa '${id}' `
+            msg: `No se pudo eliminar la marca '${id}' `
         });
     }
 }
 
 module.exports = {
-    getAllCompanies,
-    createCompany,
-    updateCompany,
-    deleteCompany
+    getAllBrands,
+    createBrand,
+    updateBrand,
+    deleteBrand
 }

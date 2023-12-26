@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getDBUserByLogin, createDBUser } = require('../databases/queries_users');
+const { getDBUserByLogin, createDBUser, getDBUserRolByUsername } = require('../databases/queries_users');
 const { logger, loggerCSV } = require('../logger');
 const { authenticateUser, authenticateUserAzure, authenticateUserAuth0 } = require('../helpers/apiAuthHelper');
 const { userType } = require('../helpers/constants');
@@ -14,15 +14,15 @@ const getUserByLogin = async (req, res = response) => {
 
         let formattedUsername = username.indexOf('@') > -1 ? username.substr(0, username.indexOf('@')) : username;
 
-        let user = await getDBUserByLogin(formattedUsername, '', false );
+        let user = await getDBUserByLogin(formattedUsername, '', false);
 
         // TIPO 1: TRAMS TIPO 2: CLIENTE
-        if( user.tipo == userType.client || `${process.env.AUTHENTICATION_MODE}` === '2') {
+        if (user.tipo == userType.client || `${process.env.AUTHENTICATION_MODE}` === '2') {
             // convertir password libre en bcrypt
             const validPassword = bcrypt.compareSync(password, user.password);
 
             // bcrypt no puede ser validado en base de datos 
-           // user = await getDBUserByLogin(formattedUsername, password, true );
+            // user = await getDBUserByLogin(formattedUsername, password, true );
             logger.info(`<== getUserByLogin`);
             loggerCSV.info(`getUserByLogin,${(new Date() - function_enter_time) / 1000}`)
             if (validPassword) {
@@ -31,7 +31,7 @@ const getUserByLogin = async (req, res = response) => {
                 delete user['passwordnew'];
                 res.status(200).json({
                     ok: true,
-                    value: {user},
+                    value: { user },
                     msg: 'Exito en la llamada'
                 });
             } else {
@@ -39,7 +39,7 @@ const getUserByLogin = async (req, res = response) => {
                 // volver a checkear el login sino devolver lo de abajo 
                 const md5Password = password => crypto.createHash('md5').update(password).digest("hex");
 
-                const isValidMD5 = ( md5Password(password) == user.passwordnew );
+                const isValidMD5 = (md5Password(password) == user.passwordnew);
 
                 delete user['password'];
                 delete user['passwordnew'];
@@ -47,16 +47,16 @@ const getUserByLogin = async (req, res = response) => {
                 if (isValidMD5) {
                     res.status(200).json({
                         ok: true,
-                        value: {user},
+                        value: { user },
                         msg: 'Exito en la llamada'
                     });
                 } else {
-                        res.status(401).json({
-                            ok: true,
-                            value: {user},
-                            msg: 'Credenciales invalidas'
-                        });
-                    }
+                    res.status(401).json({
+                        ok: true,
+                        value: { user },
+                        msg: 'Credenciales invalidas'
+                    });
+                }
             }
         } else {
 
@@ -68,7 +68,7 @@ const getUserByLogin = async (req, res = response) => {
                     delete user['passwordnew'];
                     res.status(200).json({
                         ok: true,
-                        value: {user},
+                        value: { user },
                         msg: 'Exito en la llamada'
                     });
                 } else {
@@ -84,13 +84,13 @@ const getUserByLogin = async (req, res = response) => {
                                         delete user['passwordnew'];
                                         res.status(200).json({
                                             ok: true,
-                                            value: {user},
+                                            value: { user },
                                             msg: 'Exito en la llamada'
                                         });
                                     } else {
                                         res.status(500).json({
                                             ok: false,
-                                            value: {user:null},
+                                            value: { user: null },
                                             msg: 'Error por autenticacion externa.'
                                         });
                                     }
@@ -99,7 +99,7 @@ const getUserByLogin = async (req, res = response) => {
                                     logger.error(`authenticateUser : ${error}`);
                                     res.status(500).json({
                                         ok: false,
-                                        value: {user:null},
+                                        value: { user: null },
                                         msg: 'Error. Por favor hable con un administrador'
                                     });
                                 })
@@ -108,27 +108,27 @@ const getUserByLogin = async (req, res = response) => {
                                 // valido password almacenada al usuario con bcrypt
                                 const validPassword = bcrypt.compareSync(password, user.password);
 
-                                        if (validPassword) {
-                                            logger.info(`<== getUserByLogin`);
-                                            loggerCSV.info(`getUserByLogin,${(new Date() - function_enter_time) / 1000}`)
-                                            delete user['password']; 
-                                            delete user['passwordnew'];
-                                            res.status(200).json({
-                                                ok: true,
-                                                value: {user},
-                                                msg: 'Exito en la llamada'
-                                            });
-                                        } else {
+                                if (validPassword) {
+                                    logger.info(`<== getUserByLogin`);
+                                    loggerCSV.info(`getUserByLogin,${(new Date() - function_enter_time) / 1000}`)
+                                    delete user['password'];
+                                    delete user['passwordnew'];
+                                    res.status(200).json({
+                                        ok: true,
+                                        value: { user },
+                                        msg: 'Exito en la llamada'
+                                    });
+                                } else {
 
-                                            delete user['password'];
-                                            delete user['passwordnew'];
-                                                res.status(500).json({
-                                                    ok: false,
-                                                    value: {user},
-                                                    msg: 'Credenciales invalidas'
-                                                });
+                                    delete user['password'];
+                                    delete user['passwordnew'];
+                                    res.status(500).json({
+                                        ok: false,
+                                        value: { user },
+                                        msg: 'Credenciales invalidas'
+                                    });
 
-                                        }
+                                }
                             }
                             break;
                         case '0':
@@ -140,13 +140,13 @@ const getUserByLogin = async (req, res = response) => {
                                     delete user['passwordnew'];
                                     res.status(200).json({
                                         ok: true,
-                                        value: {user},
+                                        value: { user },
                                         msg: 'Exito en la llamada'
                                     });
                                 } else {
                                     res.status(500).json({
                                         ok: false,
-                                        value: {user:null},
+                                        value: { user: null },
                                         msg: 'Error por autenticacion externa.'
                                     });
                                 }
@@ -154,7 +154,7 @@ const getUserByLogin = async (req, res = response) => {
                                 logger.error(`authenticateUser : ${error}`);
                                 res.status(500).json({
                                     ok: false,
-                                    value: {user:null},
+                                    value: { user: null },
                                     msg: 'Error. Por favor hable con un administrador'
                                 });
                             })
@@ -168,13 +168,13 @@ const getUserByLogin = async (req, res = response) => {
                                     delete user['passwordnew'];
                                     res.status(200).json({
                                         ok: true,
-                                        value: {user},
+                                        value: { user },
                                         msg: 'Exito en la llamada'
                                     });
                                 } else {
                                     res.status(500).json({
                                         ok: false,
-                                        value: {user:null},
+                                        value: { user: null },
                                         msg: 'Error por autenticacion externa.'
                                     });
                                 }
@@ -182,7 +182,7 @@ const getUserByLogin = async (req, res = response) => {
                                 logger.error(`authenticateUser : ${error}`);
                                 res.status(500).json({
                                     ok: false,
-                                    value: {user:null},
+                                    value: { user: null },
                                     msg: 'Error. Por favor hable con un administrador'
                                 });
                             })
@@ -191,7 +191,7 @@ const getUserByLogin = async (req, res = response) => {
                             logger.error(`getUserByLogin : no existe modo de autenticacion`);
                             res.status(500).json({
                                 ok: false,
-                                value: {user:null},
+                                value: { user: null },
                                 msg: 'Error. Por favor hable con un administrador'
                             });
                             break;
@@ -201,7 +201,7 @@ const getUserByLogin = async (req, res = response) => {
                 logger.error(`No existe usuario : ${formattedUsername}`);
                 res.status(500).json({
                     ok: false,
-                    value: {user:null},
+                    value: { user: null },
                     msg: 'Credenciales invalidas'
                 });
             }
@@ -212,7 +212,7 @@ const getUserByLogin = async (req, res = response) => {
         logger.error(`getAgentByLogin : ${error.toString()}`);
         res.status(500).json({
             ok: false,
-            value: {user:null},
+            value: { user: null },
             msg: 'Error. Por favor hable con un administrador'
         });
     }
@@ -228,7 +228,7 @@ const createUser = async (req, res = response) => {
     try {
 
         const timestamp = Date.now();
-        const timestamp_in_seconds = Math.floor(timestamp/1000);
+        const timestamp_in_seconds = Math.floor(timestamp / 1000);
 
         // definir si se le agrega el factor para calculo de password.
         let factor = (usuario.length + nombre.length + apellido.length + timestamp_in_seconds);
@@ -254,7 +254,7 @@ const createUser = async (req, res = response) => {
 
                     res.status(201).json({
                         ok: true,
-                        value: {user},
+                        value: { user },
                         msg: `usuario ${usuario} creado correctamente con id: ${id_user_new}`
                     });
                     // 401: OPERACION NO AUTORIZADA POR DISTINTMOS MOTIVOS.
@@ -300,13 +300,47 @@ const createUser = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
+}
 
+const getUserRol = async (req, res = response) => {
+    let function_enter_time = new Date();
+    const { label } = req.body;
+    logger.info(`==> getUserRol - ${label}`);
+    try {
+        getDBUserRolByUsername(label)
+            .then(result => {
+                logger.info(`<== getUserRol`);
+                loggerCSV.info(`getUserRol,${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Exito en la llamada'
+                });
+            })
+            .catch(error => {
+                logger.error(`getDBUserRolByUsername : ${error}`);
+                res.status(500).json({
+                    ok: false,
+                    value: false,
+                    msg: 'Error. Por favor hable con un administrador'
+                });
+            })
+
+    } catch (error) {
+        logger.error(`getUserRolByUsername : ${error.toString()}`);
+        res.status(500).json({
+            ok: false,
+            value: false,
+            msg: 'Error. Por favor hable con un administrador'
+        });
+    }
 }
 
 
 
 module.exports = {
     getUserByLogin,
-    createUser
+    createUser,
+    getUserRol
 
 }

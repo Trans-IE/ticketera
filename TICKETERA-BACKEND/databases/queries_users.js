@@ -54,8 +54,29 @@ const createDBUser = (usuario, password, apellido, nombre, telefono, mail, codig
     return return_promise;
 }
 
+const getDBUserRolByUsername = (label) => {
+    const return_promise = new Promise((resolve, reject) => {
+        pooldata.getPool.query('select * from public.f_ticketera_user_get_rol_by_username($1)', [label], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]['o_rol']);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 
 module.exports = {
     getDBUserByLogin, 
-    createDBUser
+    createDBUser,
+    getDBUserRolByUsername
 }

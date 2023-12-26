@@ -1,15 +1,15 @@
 const pooldata = require('./poolpg')
 
-const getAllDBCompanies = (offset, limit) => {
+const getDBProduct = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [offset, limit], (error, results) => {
+        pooldata.getPool.query('SELECT * FROM public.f_ticketera_product_get_product_by_id($1);', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -21,17 +21,17 @@ const getAllDBCompanies = (offset, limit) => {
     return return_promise;
 }
 
-const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
+const createDBProduct = (nombre, modelo, habilitado, marca_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_create($1,$2,$3,$4,$5)', [nombre, direccion, telefono, mail, codigo], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_product_create($1,$2,$3,$4)', [nombre, modelo, habilitado, marca_id], (error, results) => {
             if (error) {
 
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_empresas_create);
+                    resolve(results.rows[0].f_ticketera_product_create);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -43,10 +43,10 @@ const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
     return return_promise;
 }
 
-const deleteDBCompany = (id) => {
+const deleteDBProduct = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_delete($1)', [id], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_product_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -63,15 +63,15 @@ const deleteDBCompany = (id) => {
     return return_promise;
 }
 
-const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
+const updateDBProduct = (id, nombre, modelo, habilitado, marca_id) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_update($1,$2,$3,$4,$5,$6)', [id, nombre, direccion, telefono, mail, habilitado], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_product_update($1,$2,$3,$4,$5)', [id, nombre, modelo, habilitado, marca_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_empresas_update);
+                    resolve(results.rows[0].f_ticketera_product_update);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -84,10 +84,10 @@ const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
 }
 
 module.exports = {
-    getAllDBCompanies,
-    createDBCompany,
-    deleteDBCompany,
-    updateDBCompany
+    getDBProduct,
+    createDBProduct,
+    deleteDBProduct,
+    updateDBProduct
 
 }
 

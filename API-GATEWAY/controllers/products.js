@@ -5,16 +5,16 @@ const { fetchConToken, fetchSinToken } = require('../helpers/fetch');
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 
-const createCompany = async (req, res = response) => {
+const getProduct = async (req, res = response) => {
     const { label: username } = req;
-    const { nombre, direccion, telefono, mail } = req.body;
+    const { id } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> createCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createCompany";
+    logger.info(`==> getProduct - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProduct";
 
     try {
-        logger.info(`createCompany nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+        logger.info(`getProduct id:${id} `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -22,7 +22,7 @@ const createCompany = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { nombre, direccion, telefono, mail }, 'POST');
+            const resp = await fetchSinToken(url, { id }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -33,16 +33,16 @@ const createCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== createCompany - username:${username}`);
-                loggerCSV.info(`createCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== getProduct - username:${username}`);
+                loggerCSV.info(`getProduct,${(new Date() - function_enter_time) / 1000}`)
+                const { product } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
-                    msg: 'Empresa creado correctamente.'
+                    value: product,
+                    msg: 'Producto obtenido correctamente.'
                 });
             } else {
-                logger.error(`createCompany : ${body.msg}`);
+                logger.error(`getProduct : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -57,7 +57,7 @@ const createCompany = async (req, res = response) => {
         }
 
     } catch (error) {
-        logger.error(`createCompany : ${error.message}`);
+        logger.error(`getProduct : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -67,18 +67,16 @@ const createCompany = async (req, res = response) => {
 
 }
 
-const updateCompany = async (req, res = response) => {
+const createProduct = async (req, res = response) => {
     const { label: username } = req;
-    const id = req.params.id;
-    const { nombre, direccion, telefono, mail, habilitado } = req.body;
+    const { nombre, modelo, habilitado, marca_id } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> updateCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateCompany/${id}`;
+    logger.info(`==> createProduct - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createProduct";
 
     try {
-
-        logger.info(`updateCompany id:${id} nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}`)
+        logger.info(`createProduct nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id} `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -86,7 +84,7 @@ const updateCompany = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id, nombre, direccion, telefono, mail, habilitado }, 'PUT');
+            const resp = await fetchSinToken(url, { nombre, modelo, habilitado, marca_id }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -97,16 +95,79 @@ const updateCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== updateCompany - username:${username}`);
-                loggerCSV.info(`updateCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== createProduct - username:${username}`);
+                loggerCSV.info(`createProduct,${(new Date() - function_enter_time) / 1000}`)
+                const { products } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
+                    value: { products },
+                    msg: 'Producto creado correctamente.'
+                });
+            } else {
+                logger.error(`createProduct : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`createProduct : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+
+}
+
+const updateProduct = async (req, res = response) => {
+    const { label: username } = req;
+    const { id, nombre, modelo, habilitado, marca_id } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> updateProduct - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateProduct`;
+
+    try {
+
+        logger.info(`updateProduct id:${id} nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { id, nombre, modelo, habilitado, marca_id }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== updateProduct - username:${username}`);
+                loggerCSV.info(`updateProduct,${(new Date() - function_enter_time) / 1000}`)
+                const { Products } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { Products },
                     msg: 'Empresa actualizada correctamente.'
                 });
             } else {
-                logger.error(`updateCompany : ${body.msg}`);
+                logger.error(`updateProduct : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     //  value: body.value,
@@ -121,7 +182,7 @@ const updateCompany = async (req, res = response) => {
             });
         }
     } catch (error) {
-        logger.error(`updateCompany : ${error.message}`);
+        logger.error(`updateProduct : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -130,16 +191,16 @@ const updateCompany = async (req, res = response) => {
     }
 }
 
-const deleteCompany = async (req, res = response) => {
+const deleteProduct = async (req, res = response) => {
 
     const { label: username } = req;
-    const id = req.params.id;
+    const { id } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> deleteCompany - username:${username}`);
+    logger.info(`==> deleteProducts - username:${username}`);
 
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteCompany/${id}`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteProduct`;
 
     try {
         const rol = await getUserRol(username)
@@ -159,16 +220,16 @@ const deleteCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== deleteCompany - id:${id}`);
-                loggerCSV.info(`updateCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== deleteProduct - id:${id}`);
+                loggerCSV.info(`updateProduct,${(new Date() - function_enter_time) / 1000}`)
+                const { products } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
+                    value: { products },
                     msg: 'Empresa actualizada correctamente.'
                 });
             } else {
-                logger.error(`deleteCompany : ${body.msg}`);
+                logger.error(`deleteProduct : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -182,7 +243,7 @@ const deleteCompany = async (req, res = response) => {
             });
         }
     } catch (error) {
-        logger.error(`deleteCompany : ${error.message}`);
+        logger.error(`deleteProduct : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -193,7 +254,8 @@ const deleteCompany = async (req, res = response) => {
 }
 
 module.exports = {
-    createCompany,
-    updateCompany,
-    deleteCompany
+    getProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct
 }

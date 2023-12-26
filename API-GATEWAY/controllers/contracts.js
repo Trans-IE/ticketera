@@ -5,16 +5,78 @@ const { fetchConToken, fetchSinToken } = require('../helpers/fetch');
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 
-const createCompany = async (req, res = response) => {
+const getAllContracts = async (req, res = response) => {
+    const { label: username } = req;
+    const { offset, limit } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> getAllContracts - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllContracts";
+
+    try {
+        logger.info(`getAllContracts offset:${offset} limit:${limit} `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { offset, limit }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== getAllContracts - username:${username}`);
+                loggerCSV.info(`getAllContracts,${(new Date() - function_enter_time) / 1000}`)
+                const { contract } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: contract,
+                    msg: 'Contrato obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getAllContracts : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getAllContracts : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+
+}
+
+const createContract = async (req, res = response) => {
     const { label: username } = req;
     const { nombre, direccion, telefono, mail } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> createCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createCompany";
+    logger.info(`==> createContract - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createContract";
 
     try {
-        logger.info(`createCompany nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+        logger.info(`createContract nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -33,16 +95,16 @@ const createCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== createCompany - username:${username}`);
-                loggerCSV.info(`createCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== createContract - username:${username}`);
+                loggerCSV.info(`createContract,${(new Date() - function_enter_time) / 1000}`)
+                const { Contract } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
-                    msg: 'Empresa creado correctamente.'
+                    value: { Contract },
+                    msg: 'Contrato creado correctamente.'
                 });
             } else {
-                logger.error(`createCompany : ${body.msg}`);
+                logger.error(`createContract : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -57,7 +119,7 @@ const createCompany = async (req, res = response) => {
         }
 
     } catch (error) {
-        logger.error(`createCompany : ${error.message}`);
+        logger.error(`createContract : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -67,18 +129,18 @@ const createCompany = async (req, res = response) => {
 
 }
 
-const updateCompany = async (req, res = response) => {
+const updateContract = async (req, res = response) => {
     const { label: username } = req;
-    const id = req.params.id;
+    const { id } = req.body;
     const { nombre, direccion, telefono, mail, habilitado } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> updateCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateCompany/${id}`;
+    logger.info(`==> updateContract - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateContract`;
 
     try {
 
-        logger.info(`updateCompany id:${id} nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}`)
+        logger.info(`updateContract id:${id} nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -97,16 +159,16 @@ const updateCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== updateCompany - username:${username}`);
-                loggerCSV.info(`updateCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== updateContract - username:${username}`);
+                loggerCSV.info(`updateContract,${(new Date() - function_enter_time) / 1000}`)
+                const { Contract } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
-                    msg: 'Empresa actualizada correctamente.'
+                    value: { Contract },
+                    msg: 'Contrato actualizado correctamente.'
                 });
             } else {
-                logger.error(`updateCompany : ${body.msg}`);
+                logger.error(`updateContract : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     //  value: body.value,
@@ -121,7 +183,7 @@ const updateCompany = async (req, res = response) => {
             });
         }
     } catch (error) {
-        logger.error(`updateCompany : ${error.message}`);
+        logger.error(`updateContract : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -130,16 +192,16 @@ const updateCompany = async (req, res = response) => {
     }
 }
 
-const deleteCompany = async (req, res = response) => {
+const deleteContract = async (req, res = response) => {
 
     const { label: username } = req;
-    const id = req.params.id;
+    const { id } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> deleteCompany - username:${username}`);
+    logger.info(`==> deleteContract - username:${username}`);
 
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteCompany/${id}`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteContract`;
 
     try {
         const rol = await getUserRol(username)
@@ -159,16 +221,16 @@ const deleteCompany = async (req, res = response) => {
                     });
                 }
 
-                logger.info(`<== deleteCompany - id:${id}`);
-                loggerCSV.info(`updateCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { company } = body.value;
+                logger.info(`<== deleteContract - id:${id}`);
+                loggerCSV.info(`updateContract,${(new Date() - function_enter_time) / 1000}`)
+                const { Contract } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { company },
-                    msg: 'Empresa actualizada correctamente.'
+                    value: { Contract },
+                    msg: 'Contrato actualizado correctamente.'
                 });
             } else {
-                logger.error(`deleteCompany : ${body.msg}`);
+                logger.error(`deleteContract : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -182,18 +244,18 @@ const deleteCompany = async (req, res = response) => {
             });
         }
     } catch (error) {
-        logger.error(`deleteCompany : ${error.message}`);
+        logger.error(`deleteContract : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 module.exports = {
-    createCompany,
-    updateCompany,
-    deleteCompany
+    createContract,
+    updateContract,
+    deleteContract,
+    getAllContracts
 }

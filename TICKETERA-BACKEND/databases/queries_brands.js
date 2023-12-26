@@ -1,6 +1,6 @@
 const pooldata = require('./poolpg')
 
-const getAllDBCompanies = (offset, limit) => {
+const getAllDBBrands = (offset, limit) => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [offset, limit], (error, results) => {
@@ -21,10 +21,10 @@ const getAllDBCompanies = (offset, limit) => {
     return return_promise;
 }
 
-const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
+const createDBBrand = (nombre) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_create($1,$2,$3,$4,$5)', [nombre, direccion, telefono, mail, codigo], (error, results) => {
+        pooldata.getPool.query('select * from public.f_empresas_create($1)', [nombre], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -43,10 +43,10 @@ const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
     return return_promise;
 }
 
-const deleteDBCompany = (id) => {
+const deleteDBBrand = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_delete($1)', [id], (error, results) => {
+        pooldata.getPool.query('select * from public.f_empresas_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -63,9 +63,9 @@ const deleteDBCompany = (id) => {
     return return_promise;
 }
 
-const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
+const updateDBBrand = (id, nombre) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_update($1,$2,$3,$4,$5,$6)', [id, nombre, direccion, telefono, mail, habilitado], (error, results) => {
+        pooldata.getPool.query('select * from public.f_empresas_update($1,$2)', [id, nombre], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -84,10 +84,10 @@ const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
 }
 
 module.exports = {
-    getAllDBCompanies,
-    createDBCompany,
-    deleteDBCompany,
-    updateDBCompany
+    getAllDBBrands,
+    createDBBrand,
+    deleteDBBrand,
+    updateDBBrand
 
 }
 
