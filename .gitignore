@@ -1,1 +1,5 @@
 *.svn*
+ticketera-website/dist/main.bundle.js
+ticketera-website/node_modules
+API-GATEWAY/logs/*
+TICKETERA-BACKEND/logs/*
