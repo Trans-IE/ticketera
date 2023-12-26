@@ -87,7 +87,7 @@ const revalidarToken = async (req, res = response) => {
     logger.info(`==> revalidarToken - label:${label}`);
     try {
         let url = process.env.HOST_TICKETERA_BACKEND + "/getUserByLogin";
-        const resp = await fetchSinToken(url, { username: label, password: '', check_password: false }, 'POST');
+        const resp = await fetchSinToken(url, { username: label, password: ' ', check_password: false }, 'POST');
         const body = await resp.json();
         if (body.ok) {
             if (!body.value) {
@@ -107,7 +107,7 @@ const revalidarToken = async (req, res = response) => {
             });
 
         } else {
-            logger.error(`loginAgent : ${body.msg}`);
+            logger.error(`revalidarToken : ${body.msg}`);
             res.status(500).json({
                 ok: false,
                 value: body.value,

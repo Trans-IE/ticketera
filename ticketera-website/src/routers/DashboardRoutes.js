@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { UserRol } from '../helpers/constants';
 import { InvalidSession } from '../components/auth/InvalidSession';
 import { TabsScreen } from '../components/root/TabsScreen';
+import { TicketDetail } from '../components/ticket/TicketDetail';
 
 export const DashboardRoutes = () => {
 
@@ -26,7 +27,7 @@ export const DashboardRoutes = () => {
     return (
       <Routes>
         <Route path="tickets" element={<MainScreen />} />
-      {/*   <Route path="ticket/:id" element={ <TabsScreen /> } /> */}
+        <Route path="tickets/:id" element={ <TicketDetail /> } />
         <Route path="/" element={<Navigate to="/tickets" />} />
       </Routes>
     )
