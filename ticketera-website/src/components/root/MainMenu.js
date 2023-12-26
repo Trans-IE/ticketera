@@ -12,6 +12,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { Tooltip } from '@mui/material';
 
 export const MainMenu = ({ onClick }) => {
 
@@ -25,56 +26,62 @@ export const MainMenu = ({ onClick }) => {
 
   return (
     <React.Fragment>
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
-      <ListItemButton onClick={onClickTickets}>
-        <ListItemIcon>
-          <ConfirmationNumberIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tickets" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reportes" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <AccountCircleOutlinedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Mi cuenta" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <SettingsOutlinedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Administración" />
-      </ListItemButton>
+      <Tooltip title="Dashboard" arrow placement='right'>
+        <ListItemButton>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+
+      <Tooltip title="Tickets" arrow placement='right'>
+        <ListItemButton onClick={onClickTickets}>
+          <ListItemIcon>
+            <ConfirmationNumberIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+
+      <Tooltip title="Reportes" arrow placement='right'>
+        <ListItemButton>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </ Tooltip>
+
+      <Tooltip title="Mi cuenta" arrow placement='right'>
+        <ListItemButton>
+          <ListItemIcon>
+            <AccountCircleOutlinedIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+
+      <Tooltip title="Administracion" arrow placement='right'>
+        <ListItemButton>
+          <ListItemIcon>
+            <SettingsOutlinedIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+
     </React.Fragment>
   );
-} 
+}
 
 export const SecondaryMenu = (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Reportes mas usados
-    </ListSubheader>
+
     <ListItemButton>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Mes en curso (horas)" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Horas proyectadas" />
     </ListItemButton>
   </React.Fragment>
 );

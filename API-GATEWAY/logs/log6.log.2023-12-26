@@ -1,0 +1,33 @@
+[26/12/2023, 9:24:36] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:24:36] info ==> loginUser body :[object Response]
+[26/12/2023, 9:24:36] info <== loginUser - username:fgarcia
+[26/12/2023, 9:25:10] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:25:10] error loginAgent : undefined
+[26/12/2023, 9:25:15] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:25:15] info ==> loginUser body :[object Response]
+[26/12/2023, 9:25:15] info <== loginUser - username:fgarcia
+[26/12/2023, 9:25:24] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:25:24] error loginAgent : undefined
+[26/12/2023, 9:25:25] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:25:25] info ==> loginUser body :[object Response]
+[26/12/2023, 9:25:25] info <== loginUser - username:fgarcia
+[26/12/2023, 9:25:32] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:25:32] error loginAgent : undefined
+[26/12/2023, 9:25:33] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:25:33] info ==> loginUser body :[object Response]
+[26/12/2023, 9:25:33] info <== loginUser - username:fgarcia
+[26/12/2023, 9:32:40] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:32:40] error loginAgent : undefined
+[26/12/2023, 9:32:41] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:32:41] info ==> loginUser body :[object Response]
+[26/12/2023, 9:32:41] info <== loginUser - username:fgarcia
+[26/12/2023, 9:33:02] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:33:02] error loginAgent : undefined
+[26/12/2023, 9:33:03] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:33:03] info ==> loginUser body :[object Response]
+[26/12/2023, 9:33:03] info <== loginUser - username:fgarcia
+[26/12/2023, 9:33:59] info ==> revalidarToken - label:fgarcia
+[26/12/2023, 9:33:59] error loginAgent : undefined
+[26/12/2023, 9:34:00] info ==> loginUser - username:fgarcia
+[26/12/2023, 9:34:00] info ==> loginUser body :[object Response]
+[26/12/2023, 9:34:00] info <== loginUser - username:fgarcia

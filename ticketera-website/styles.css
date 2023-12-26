@@ -1,8 +1,8 @@
-/* 
 body {
-    background: green;
-  } 
-  */
+  padding: 0;
+  margin: 0;
+}
+
 
 .without-padding input {
   padding: 0px;
@@ -48,7 +48,27 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
  */
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #ccc #222325;
+  }
 
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    margin: 15px 0;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 25px;
+    border: 3px solid #64646400;
+  }
 
 #emailoutbound input:-webkit-autofill {
 

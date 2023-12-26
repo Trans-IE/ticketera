@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\.9d8571848a70c143856b700d9bc09429c2d86c59-audit.json",
+    "files": [
+        {
+            "date": 1703268929357,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\log6.log.2023-12-22",
+            "hash": "b9bae5d2ef0ff3bcb16c5ef5bf09aaa7a6ba669eaa95f59bc46a374fe9f59a10"
+        },
+        {
+            "date": 1703593476020,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\API-GATEWAY\\logs\\log6.log.2023-12-26",
+            "hash": "e0a70fe5652465b8f23cef1e09c6fc1d4afcc8bc4abcbb4a0f999459a97a9a6e"
+        }
+    ],
+    "hashType": "sha256"
+}

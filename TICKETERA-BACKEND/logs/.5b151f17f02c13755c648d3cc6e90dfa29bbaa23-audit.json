@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\.5b151f17f02c13755c648d3cc6e90dfa29bbaa23-audit.json",
+    "files": [
+        {
+            "date": 1703268935449,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log4.log.2023-12-22",
+            "hash": "f329fb3e8a8ae9fd1f7681d307e624ad299373930795b8fd7189da468d0c712c"
+        },
+        {
+            "date": 1703593476058,
+            "name": "C:\\Users\\fseib\\Desktop\\llll\\TICKETERA-BACKEND\\logs\\log4.log.2023-12-26",
+            "hash": "c49d953bfbad7a0025495c269e70c1500471d06340699ffc19f4b5be0bf1ce4e"
+        }
+    ],
+    "hashType": "sha256"
+}
