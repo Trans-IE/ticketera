@@ -73,6 +73,7 @@ export const AppRouter = () => {
                      <DashboardRoutes />
                     </PrivateRoute>
                 } />}
+                
 
 
             </Routes>

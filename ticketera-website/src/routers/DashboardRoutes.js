@@ -26,9 +26,20 @@ export const DashboardRoutes = () => {
     // ADMINISTRADOR 
     return (
       <Routes>
-        <Route path="tickets" element={<MainScreen />} />
-        <Route path="tickets/:id" element={ <TicketDetail /> } />
+       {/*  <Route path="tickets" element={<MainScreen />} /> */}
+
+
+        <Route path="/tickets">
+            <Route index element={<MainScreen />} />
+            <Route path=":id" element={ <TicketDetail /> } />
+   
+        </Route>
+
+        {/* <Route path="tickets/:id" element={ <TicketDetail /> } />
+ */}
+
         <Route path="/" element={<Navigate to="/tickets" />} />
+
       </Routes>
     )
   } else {
