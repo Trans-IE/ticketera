@@ -21,7 +21,6 @@ export const LoginRoutes = () => {
           </Grid>
         } />
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/tickets" element={<Navigate to="/login" />} />
 
     </Routes>
   )

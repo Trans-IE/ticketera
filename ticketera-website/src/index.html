@@ -12,42 +12,6 @@
   <link rel="stylesheet" href="./styles/roboto.css" />
   <link href="./styles/roboto2.css" rel="stylesheet">
   <link rel="stylesheet" href="./styles/animate.min.css" />
-
-  <script type="text/javascript">
-    function test() {
-      alert('Function from index.html');
-    }
-
-    function clearStorage() {
-      console.log('Limpieza de cache')
-      sessionStorage.clear();
-    }
-    function isReload() {
-      return performance.navigation.type === performance.navigation.TYPE_RELOAD || window.location.href === document.referrer || !document.referrer;
-    }
-    window.addEventListener('beforeunload', function (event) {
-      if (isReload()) {
-        console.log('La pestaña se está recargando');
-        // Realice una acción específica para una recarga de página aquí
-      } else {
-        console.log('La pestaña/navegador se está cerrando');
-
-        for (let i = 0; i < sessionStorage.length; i++) {
-          const key = sessionStorage.key(i);
-
-          const intValue = parseInt(key);
-
-          if (!isNaN(intValue) && Number.isInteger(intValue)) {
-            let value = JSON.parse(sessionStorage.getItem(key));
-            value.urls?.forEach(element => {
-              URL.revokeObjectURL(element)
-            });
-          }
-        }
-        clearStorage()
-      }
-    });
-  </script>
 </head>
 
 <body>

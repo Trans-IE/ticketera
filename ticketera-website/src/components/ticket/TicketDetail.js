@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 const blue = {
     100: '#DAECFF',
@@ -58,6 +59,8 @@ const Textarea = styled(BaseTextareaAutosize)(
 
 
 export const TicketDetail = () => {
+    const { id } = useParams();
+    
     return (
         <>
             <Typography variant="h6" gutterBottom>
@@ -76,7 +79,7 @@ export const TicketDetail = () => {
                 central1-fpr2 esta caido (URGENTE) - Prioridad Critica
             </Typography>
 
-            <Textarea
+{/*             <Textarea
                 
                 aria-label="maximum height"
                 placeholder="detalle del ticket"
@@ -93,7 +96,7 @@ export const TicketDetail = () => {
                 Eth111/1/3    A CENTRAL1-FPR2-G1 notconnec 1021      full    1000    1000base-T
                 Eth112/1/5    A CENTRAL1-FPR2 G2 connected trunk     full    1000    1000base-T
                 Eth112/1/6    A CENTRAL1-FPR2 G1 disabled  1022      full    10G     1000base-T"
-            />
+            /> */}
 
         </>
     )
