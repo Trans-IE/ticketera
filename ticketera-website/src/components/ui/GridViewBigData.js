@@ -6,6 +6,7 @@ import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
+import { useTheme } from '@mui/styles';
 
 import { GridViewColSelector } from './GridViewColSelector';
 
@@ -107,29 +108,6 @@ const CustomTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const CustomTableCellIcon = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#ea8234",
-    color: theme.palette.common.white,
-    fontSize: 11,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 5,
-    paddingBottom: 5,
-    whiteSpace: "pre",
-  },
-  body: {
-    fontSize: 9,
-    paddingLeft: 1,
-    paddingRight: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    marginLeft: 2,
-    marginRight: 2,
-    whiteSpace: "pre",
-  },
-}))(TableCell);
-
 const CustomTableCellFormatter = ({ column, value, customColors }) => {
   const classes = useStyles();
   let colorItem = customColors?.find(item => item[0] === column.id);
@@ -138,37 +116,25 @@ const CustomTableCellFormatter = ({ column, value, customColors }) => {
     if (value.toString().length < 50) {
       return (
         column?.visible === true &&
-        <CustomTableCell
+        <TableCell
           style={{ color }}
           align="left"
-          className={
-            column.cellWidth === 1
-              ? classes.cell_short
-              : classes.cell_long
-          }
         >
           {value}
-        </CustomTableCell>
+        </TableCell>
       );
     } else {
       return (
         column?.visible === true &&
         <Tooltip title={value}>
-          <CustomTableCell
-            style={{ color }}
-            align="left"
-            className={
-              column.cellWidth === 1
-                ? classes.cell_short
-                : classes.cell_long
-            }
+          <TableCell
           >
             {
               column.cellWidth === 1
-                ? value.toString().substr(0, 25)
-                : value.toString().substr(0, 50)
+                ? `${value.toString().substr(0, 25)}...`
+                : `${value.toString().substr(0, 50)}...`
             }
-          </CustomTableCell>
+          </TableCell>
         </Tooltip>
       );
     }
@@ -176,19 +142,12 @@ const CustomTableCellFormatter = ({ column, value, customColors }) => {
 
     return (
       column?.visible === true &&
-      <CustomTableCell
-
-        align="left"
-        className={
-          column.cellWidth === 1
-            ? classes.cell_short
-            : classes.cell_long
-        }
+      <TableCell
       >
         {
           value.join("\n")
         }
-      </CustomTableCell>
+      </TableCell>
     );
 
 
@@ -197,13 +156,12 @@ const CustomTableCellFormatter = ({ column, value, customColors }) => {
 
 // crea y controla anidados de una fila
 const GridViewBigDataRow = React.memo(
-  ({ columns, detailcolumns, order, dataitem, page, customButtonNumber, handleCustomButton, customButtonIcon, customButtonTooltip, customButtonEnable, showColumnSelector, handleOnExpand, oneExpandOnly = false, customButtonNumberDetail, customButtonEnableDetail, customButtonIconDetail, customButtonTooltipDetail, handleCustomButtonDetail, subDataActionRowsStyle = {}, subDataActionHeaderStyle = {}, subDataActionColumnShowLeft = false }) => {
+  ({ columns, detailcolumns, order, dataitem, page, customButtonNumber, gridSelectionOnClick, handleCustomButton, customButtonIcon, customButtonTooltip, customButtonEnable, showColumnSelector, handleOnExpand, oneExpandOnly = false, customButtonNumberDetail, customButtonEnableDetail, customButtonIconDetail, customButtonTooltipDetail, handleCustomButtonDetail, subDataActionRowsStyle = {}, subDataActionHeaderStyle = {}, subDataActionColumnShowLeft = false }) => {
     const [dataItemRow, setDataItemRow] = useState({
       ...dataitem,
       expanded: false,
     });
     const [initPage, setInitPage] = useState(0);
-    const classes = useStyles();
     useEffect(() => {
       setDataItemRow({
         ...dataitem,
@@ -232,21 +190,17 @@ const GridViewBigDataRow = React.memo(
 
     return (
       <>
-        <TableRowMain tabIndex={-1} key={"ro" + dataitem[columns[0].id]}>
+        <TableRow hover tabIndex={-1} key={"ro" + dataitem[columns[0].id]} style={{ cursor: 'pointer' }} onClick={() => gridSelectionOnClick(dataitem)}
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
           {(showColumnSelector || detailcolumns.length > 0 || (columns.length > 0 && customButtonQuantity.length > 0)) &&
 
-            <CustomTableCellIcon
+            <TableCell
               key={dataitem[columns[0].id]}
-              align="left"
-              className={classes.cell_expand_fix_short}
             >
               {detailcolumns.length > 0 &&
                 (
                   <IconButton
-                    style={{
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                    }}
                     aria-label="expand row"
                     size="small"
                     onClick={() => {
@@ -268,7 +222,6 @@ const GridViewBigDataRow = React.memo(
                   return (
                     <Tooltip title={customButtonTooltip[i] ? typeof customButtonTooltip[i] === 'string' ? customButtonTooltip[i] : customButtonTooltip[i](dataitem) : ''} placement="top">
                       <IconButton
-                        className={classes.iconButtonClass}
                         key={dataitem[columns[0].id] + "-custom-button"}
                         aria-label="custom"
                         onClick={(e) => {
@@ -280,7 +233,7 @@ const GridViewBigDataRow = React.memo(
                     </Tooltip>)
                 }
               })}
-            </CustomTableCellIcon>
+            </TableCell>
 
           }
           {order.map((colIdx, i) => {
@@ -292,15 +245,13 @@ const GridViewBigDataRow = React.memo(
             );
 
           })}
-        </TableRowMain>
+        </TableRow>
 
         {dataItemRow.expanded === true && dataitem.detail?.length > 0 && (
-          <TableRowMain tabIndex={-1} key={"expanded" + dataitem[columns[0].id]}>
-            <CustomTableCellIcon
+          <TableRow tabIndex={-1} key={"expanded" + dataitem[columns[0].id]}>
+            <TableCell
               colSpan={columns.length + (showColumnSelector ? 1 : 0)}
               align="left"
-              className={classes.cell_expand_fix_short}
-              style={{ padding: 10 }}
             >
               <DatagridEdit
                 data={dataitem.detail}
@@ -320,8 +271,8 @@ const GridViewBigDataRow = React.memo(
                 actionHeaderStyle={subDataActionHeaderStyle}
                 actionColumnShowLeft={subDataActionColumnShowLeft}
               />
-            </CustomTableCellIcon>
-          </TableRowMain>
+            </TableCell>
+          </TableRow>
         )}
 
       </>
@@ -337,6 +288,7 @@ export const GridViewBigData = ({
   resetPagination,
   initRowsPerPage = 50,
   gridDataHasMorePages,
+  gridSelectionOnClick = () => {},
   handleColSelectorOnChange,
   customButtonNumber = 0,
   customButtonIcon,
@@ -358,10 +310,11 @@ export const GridViewBigData = ({
   maxHeight,
   canReorderColumns = false
 }) => {
+  const theme = useTheme()
+
   const { height, width } = useWindowDimensions();
   const propsStyles = { maxHeight: maxHeight || (height * 82) / 100 };
 
-  const classes = useStyles(propsStyles);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(initRowsPerPage);
   const [position, setPosition] = React.useState(null);
@@ -412,56 +365,43 @@ export const GridViewBigData = ({
 
   return (
     <>
-      <TableContainer className={classes.tcontainer}>
+      <TableContainer style={{ borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border }}>
         <Table
-          className={classes.table}
-          stickyHeader
           aria-label="listado de GridViewBigData"
-          size="small"
+          sx={{ minWidth: 650 }}
         >
-          <SortableHead axis="x" onSortEnd={onReorderEnd}>
-            {showColumnSelector && <CustomTableCellIcon
-              className={classes.cell_mini_short}
-              style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 10, backgroundColor: specialButtonStyle.backgroundColor ? specialButtonStyle.backgroundColor : '', color: specialButtonStyle.color ? specialButtonStyle.color : '' }}
-              align="left"
-            >
-              <div id="test">
-                <GridViewColSelector columns={columns} handleOnChangeValue={handleColSelectorOnChange} position={position} />
-              </div>
-            </CustomTableCellIcon>}
+          <TableHead style={{ backgroundColor: theme.palette.background.dark }} >
+            <TableRow>
 
-            {!showColumnSelector && (detailcolumns.length > 0 || customButtonNumber > 0) && (
-              <CustomTableCell align="left" className={classes.cell_mini_short} style={{ backgroundColor: specialButtonStyle.backgroundColor ? specialButtonStyle.backgroundColor : '', color: specialButtonStyle.color ? specialButtonStyle.color : '' }}>
-                {""}
-              </CustomTableCell>
-            )}
+              {showColumnSelector && <TableCell
 
-            {order.map((colIdx, i) => {
-              return (
-                columns[colIdx]?.visible === true && (
-                  <SortableCell
-                    index={i}
-                    key={colIdx}
-                    value={
-                      <CustomTableCell
-                        key={columns[colIdx].id}
-                        align="left"
-                        className={
-                          columns[colIdx].cellWidth === 1
-                            ? classes.cell_short
-                            : classes.cell_long
-                        }
-                        style={{ backgroundColor: columns[colIdx].backgroundColor || '', color: columns[colIdx].color || '' }}
-                      >
-                        {columns[colIdx].label}
-                      </CustomTableCell>
-                    }
-                  />
-                )
-              );
-            })}
-          </SortableHead>
-          <TableBody>
+              >
+                <div id="test">
+                  <GridViewColSelector columns={columns} handleOnChangeValue={handleColSelectorOnChange} position={position} />
+                </div>
+              </TableCell>}
+
+              {!showColumnSelector && (detailcolumns.length > 0 || customButtonNumber > 0) && (
+                <TableCell
+                >
+                  {""}
+                </TableCell>
+              )}
+
+              {order.map((colIdx, i) => {
+                console.log(columns[colIdx])
+                return (
+                  columns[colIdx]?.visible === true && (
+                    <TableCell
+                      index={i}
+                      key={colIdx}
+                    > {columns[colIdx].label}</TableCell>
+                  )
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody style={{ backgroundColor: theme.palette.background.main }}>
             {data.length > 0 &&
               data.map((dataitem, index) => {
                 return (
@@ -490,6 +430,7 @@ export const GridViewBigData = ({
                       subDataActionRowsStyle={subDataActionRowsStyle}
                       subDataActionHeaderStyle={subDataActionHeaderStyle}
                       subDataActionColumnShowLeft={subDataActionColumnShowLeft}
+                      gridSelectionOnClick={gridSelectionOnClick}
                     />
                   )
                 );

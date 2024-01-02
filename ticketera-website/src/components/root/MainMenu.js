@@ -1,18 +1,17 @@
 import React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Tooltip } from '@mui/material';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import Swal from 'sweetalert2';
+import { useTheme } from '@mui/styles';
+import { toast } from 'sonner';
 
 export const MainMenu = ({ onClick }) => {
 
@@ -22,6 +21,8 @@ export const MainMenu = ({ onClick }) => {
     onClick("tickets", 1);
 
   }
+
+
 
 
   return (
@@ -35,7 +36,7 @@ export const MainMenu = ({ onClick }) => {
       </Tooltip>
 
       <Tooltip title="Tickets" arrow placement='right'>
-        <ListItemButton onClick={onClickTickets}>
+        <ListItemButton selected onClick={onClickTickets}>
           <ListItemIcon>
             <ConfirmationNumberIcon />
           </ListItemIcon>
@@ -49,14 +50,6 @@ export const MainMenu = ({ onClick }) => {
           </ListItemIcon>
         </ListItemButton>
       </ Tooltip>
-
-      <Tooltip title="Mi cuenta" arrow placement='right'>
-        <ListItemButton>
-          <ListItemIcon>
-            <AccountCircleOutlinedIcon />
-          </ListItemIcon>
-        </ListItemButton>
-      </Tooltip>
 
       <Tooltip title="Administracion" arrow placement='right'>
         <ListItemButton>
@@ -72,7 +65,6 @@ export const MainMenu = ({ onClick }) => {
 
 export const SecondaryMenu = (
   <React.Fragment>
-
     <ListItemButton>
       <ListItemIcon>
         <AssignmentIcon />
@@ -85,3 +77,48 @@ export const SecondaryMenu = (
     </ListItemButton>
   </React.Fragment>
 );
+
+export const UserMenu = () => {
+  const theme = useTheme()
+
+  const logout = () => {
+
+    Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "¿Esta seguro que desea cerrar la sesión?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Cerrar",
+      cancelButtonText: 'Cancelar',
+      background: theme.palette.background.dark,
+      color: theme.palette.text.primary,
+      confirmButtonColor: theme.palette.primary.main
+    }).then((result) => {
+      if(result.isConfirmed){
+        toast.success('¡Sesión cerrada exitosamente!')
+      }
+    })
+
+  }
+
+  return (
+    <React.Fragment>
+      <Tooltip title="Mi cuenta" arrow placement='right'>
+        <ListItemButton>
+          <ListItemIcon>
+            <AccountCircleOutlinedIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+
+      <Tooltip title="Cerrar sesion" arrow placement='right'>
+        <ListItemButton onClick={logout}>
+          <ListItemIcon>
+            <PowerSettingsNewIcon />
+          </ListItemIcon>
+        </ListItemButton>
+      </Tooltip>
+    </React.Fragment>
+  )
+
+};

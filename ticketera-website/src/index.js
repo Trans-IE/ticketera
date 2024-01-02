@@ -24,6 +24,8 @@ import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/
 //
 // 1 - Gama de colores globales de la aplicacion
 // 2 - Fuentes de textos
+
+//TESTETSTETSESTESTESTET
 const lightTheme = createTheme({
   typography: {
     fontFamily: [
@@ -86,6 +88,11 @@ const lightTheme = createTheme({
     },
   },
   palette: {
+    trans: {
+      light: '#0095DA',
+      main: '#23558e',
+      dark: '#18315B'
+    },
     background: {
       dark: 'white',
       main: '#eee',
@@ -180,6 +187,11 @@ const darkTheme = createTheme({
     },
   },
   palette: {
+    trans: {
+      light: '#0095DA',
+      main: '#23558e',
+      dark: '#18315B'
+    },
     background: {
       dark: '#1C1D1F',
       main: '#222325',
@@ -229,4 +241,4 @@ import '../styles.css';
 const divRoot = document.getElementById('root');
 const root = createRoot(divRoot);
 
-root.render(<ErrorBoundary ><StyledEngineProvider injectFirst ><ThemeProvider theme={darkTheme}><TicketeraWebsite /></ThemeProvider></StyledEngineProvider></ErrorBoundary>);
+root.render(<ErrorBoundary ><StyledEngineProvider injectFirst ><ThemeProvider theme={lightTheme}><TicketeraWebsite /></ThemeProvider></StyledEngineProvider></ErrorBoundary>);

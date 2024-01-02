@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { DatagridSelection } from '../ui/DatagridSelection';
-import { CssBaseline, Grid, Paper } from '@mui/material';
-import { Box, Container, padding } from '@mui/system';
+import { Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Title } from '../ui/Title';
 import { GridViewBigData } from '../ui/GridViewBigData';
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme) => ({
@@ -112,98 +109,225 @@ export const TicketsScreen = () => {
   const classes = useStyles();
 
 
+  const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
+  const [rowsPerPageTickets, setRowsPerPageTickets] = useState(10);
+  const [actualOffsetTickets, setActualOffsetTickets] = useState(0);
+
   const [resetPaginationGrid, setResetPaginationGrid] = useState(false);
-  const { agentsGridDataHasMorePages, setAgentsGridDataHasMorePages } = useState(false);
   const [agentList, setAgentList] = useState([]);
   const [ivrFilterListSelectedConfirm, setivrFilterListSelectedConfirm] = useState([]);
   // Tipo	 Id 	Título	Empresa	Tipo de falla	Responsable 	 Estado	 Creado	Cerrado	T. Trans	T. Cliente
 
   const columnsData = [
-    { id: 'id', label: 'Ticket', cellWidth: 1, visible: true , backgroundColor: "#b5b3b3", color: 'black'},
-    { id: 'title', label: 'Titulo', cellWidth: 1, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
-    { id: 'empresa', label: 'Empresa', cellWidth: 1, visible: true , backgroundColor: "#b5b3b3", color: 'black' },
-    { id: 'tipofalla', label: 'Tipo Falla', cellWidth: 1, visible: true , backgroundColor: "#b5b3b3", color: 'black'},
-    { id: 'responsable', label: 'Responsable', cellWidth: 1, visible: true , backgroundColor: "#b5b3b3", color: 'black'},
-    { id: 'estado', label: 'Estado', cellWidth: 1, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
-    { id: 'creado', label: 'Creado', cellWidth: 1, visible: true, backgroundColor: "#b5b3b3", color: 'black' }
-/*     { id: 'cerrado', label: 'Cerrado', minWidth: 100 },
-    { id: 'tktrans', label: 'T.Trans', minWidth: 50 },
-    { id: 'tkcliente', label: 'T.Cliente', minWidth: 50 } */
+    { id: 'priority', label: '', cellWidth: 0, visible: true },
+    { id: 'id', label: 'ID', cellWidth: 0, visible: true },
+    { id: 'title', label: 'Titulo', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'empresa', label: 'Empresa', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'tipofalla', label: 'Tipo de falla', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'responsable', label: 'Responsable', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'estado', label: 'Estado', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'creado', label: 'Creado', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' }
+    /*     { id: 'cerrado', label: 'Cerrado', minWidth: 100 },
+        { id: 'tktrans', label: 'T.Trans', minWidth: 50 },
+        { id: 'tkcliente', label: 'T.Cliente', minWidth: 50 } */
   ]
 
+  const setPriority = (priority) => {
+    let color = 'black';
+    let text = '';
+
+    switch (priority) {
+      case 1:
+        color = 'green'
+        text = 'Prioridad baja'
+        break;
+      case 2:
+        color = 'yellow'
+        text = 'Prioridad media'
+        break;
+      case 3:
+        color = 'orange'
+        text = 'Prioridad alta'
+        break;
+      case 4:
+        color = 'red'
+        text = 'Prioridad muy alta'
+        break;
+    }
+
+    return (
+      <Tooltip title={text}>
+        <CircleIcon style={{ color: color }} />
+      </Tooltip>
+    );
+  }
+
   useEffect(() => {
+   setResetPaginationTickets(true);
+    setActualOffsetTickets(0);
 
     setAgentList([
       {
-        id: 1,
-        title: 'Titulo de ticket 1',
-        empresa: 'Empresa 1',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        priority: setPriority(1),
+        id: 28179,
+        title: 'No entran mensajes a LinkedIn',
+        empresa: 'Swiss Medical Group',
+        tipofalla: 'Falla',
+        responsable: '',
+        estado: 'Pendiente de Asignacion',
+        creado: '14/12'
+      },
+      {
+        priority: setPriority(4),
+        id: 28178,
+        title: 'Supervivencia por caida de enlaces...',
+        empresa: 'Sancor Seguros',
+        tipofalla: 'Configuracion',
+        responsable: 'Salvia, Pablo',
+        estado: 'Re-Abierto',
+        creado: '14/12'
+
+      },
+      {
+        priority: setPriority(3),
+        id: 28177,
+        title: 'Quitar regla de grabacion de pantalla a los agentes en el archivo',
+        empresa: 'CITYTECH S.A.',
+        tipofalla: 'Configuracion',
+        responsable: 'Siciliano, Juan Pablo',
         estado: 'Abierto',
         creado: '01/12/2023'
       },
       {
-        id: 50,
-
-        title: 'Titulo de ticket 2',
-        empresa: 'Empresa 1',
+        priority: setPriority(2),
+        id: 28176,
+        title: 'MFA Microsoft Authenticator',
+        empresa: 'KPMG',
         tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-
-      },
-      {
-        id: 163,
-        title: 'Titulo de ticket n 3',
-
-        empresa: 'Empresa 1',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        responsable: 'Flores, William',
         estado: 'Abierto',
         creado: '01/12/2023'
       },
       {
-        id: 161,
-        title: 'Titulo de ticket 4',
-
-        empresa: 'Empresa 1,0',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        priority: setPriority(4),
+        id: 28175,
+        title: 'Certificado SSL Administracion Web',
+        empresa: 'KPMG',
+        tipofalla: 'Configuracion',
+        responsable: 'Guerra, Mauro',
         estado: 'Abierto',
         creado: '01/12/2023'
       },
       {
-        id: 76,
-        title: 'Titulo de ticket 5',
-
-        empresa: 'Empresa 1,0',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        priority: setPriority(3),
+        id: 28174,
+        title: 'Upgrade de Avaya',
+        empresa: 'YMK S.A',
+        tipofalla: 'Actualizacion',
+        responsable: 'Aravena, Gustavo',
         estado: 'Abierto',
         creado: '01/12/2023'
       },
       {
-        id: 97,
-        title: 'Titulo de ticket 6',
-
-        empresa: 'Empresa 1',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        priority: setPriority(1),
+        id: 28173,
+        title: 'CERTIFICADOS EXPRESSWAY',
+        empresa: 'Experta',
+        tipofalla: 'Reparacion',
+        responsable: 'Gonzalez, Diego',
         estado: 'Abierto',
         creado: '01/12/2023'
       },
       {
-        id: 134,
-        title: 'Titulo de ticket 7',
-
-        empresa: 'Empresa 1',
-        tipofalla: 'Consulta',
-        responsable: 'Juan Perez',
+        priority: setPriority(4),
+        id: 28175,
+        title: 'Certificado SSL Administracion Web',
+        empresa: 'KPMG',
+        tipofalla: 'Configuracion',
+        responsable: 'Guerra, Mauro',
         estado: 'Abierto',
         creado: '01/12/2023'
-      }
+      },
+      {
+        priority: setPriority(3),
+        id: 28174,
+        title: 'Upgrade de Avaya',
+        empresa: 'YMK S.A',
+        tipofalla: 'Actualizacion',
+        responsable: 'Aravena, Gustavo',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(1),
+        id: 28173,
+        title: 'CERTIFICADOS EXPRESSWAY',
+        empresa: 'Experta',
+        tipofalla: 'Reparacion',
+        responsable: 'Gonzalez, Diego',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(4),
+        id: 28175,
+        title: 'Certificado SSL Administracion Web',
+        empresa: 'KPMG',
+        tipofalla: 'Configuracion',
+        responsable: 'Guerra, Mauro',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(3),
+        id: 28174,
+        title: 'Upgrade de Avaya',
+        empresa: 'YMK S.A',
+        tipofalla: 'Actualizacion',
+        responsable: 'Aravena, Gustavo',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(1),
+        id: 28173,
+        title: 'CERTIFICADOS EXPRESSWAY',
+        empresa: 'Experta',
+        tipofalla: 'Reparacion',
+        responsable: 'Gonzalez, Diego',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(4),
+        id: 28175,
+        title: 'Certificado SSL Administracion Web',
+        empresa: 'KPMG',
+        tipofalla: 'Configuracion',
+        responsable: 'Guerra, Mauro',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(3),
+        id: 28174,
+        title: 'Upgrade de Avaya',
+        empresa: 'YMK S.A',
+        tipofalla: 'Actualizacion',
+        responsable: 'Aravena, Gustavo',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(1),
+        id: 28173,
+        title: 'CERTIFICADOS EXPRESSWAY',
+        empresa: 'Experta',
+        tipofalla: 'Reparacion',
+        responsable: 'Gonzalez, Diego',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
     ])
 
     return () => {
@@ -213,10 +337,15 @@ export const TicketsScreen = () => {
 
 
 
+const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
+    setResetPaginationTickets(false);
+    setActualOffsetTickets(newpage_offset)
+};
+
   const GridSelectionOnClickHandleSelect = (item) => {
     // obtengo el item seleccionado
-
-    handleCloseModal("Selected", item);
+    console.log(item)
+    alert(`Entrar al ticket N: ${item.id}`);
   }
 
   const GridSelectionOnClickChangePage = (grid_limit, grid_offset) => {
@@ -224,9 +353,6 @@ export const TicketsScreen = () => {
     setResetPaginationGrid(false);
   }
 
-  const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
-    // cambio de pagina
-  };
 
   const editTicket = (ticket) => {
 
@@ -234,76 +360,49 @@ export const TicketsScreen = () => {
 
 
   return (
-    <Container component="main" maxWidth="xl" className={classes.container}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <main className={classes.content}>
-          {/*           <Backdrop className={classes.backdrop} open={ivrGridDataLoading}>
-            <CircularProgress color="inherit" />
-          </Backdrop> */}
-            <Grid container spacing={0}>
-              <Grid item xs={12}>
-                <Box display="flex" alignItems="flex-start" justifyContent="flex-start" sx={{ padding: 2, }} >
-                  <Title componentVariant="h5">{`Listado de Tickets`}</Title>
-                </Box>
 
-              </Grid>
+    <div style={{
+      width: '1600px', height: '100%', margin: ' 0 auto', padding: '25px'
+    }}>
+      {
+        agentList.length > 0 && (
+          <GridViewBigData
+            columns={columnsData}
+            data={agentList}
+            customButtonNumber={0}
+            customButtonTooltip={[]}
+            customButtonIcon={[]}
+            handleCustomButton={[]}
+            customButtonEnable={[false]}
+            initRowsPerPage={rowsPerPageTickets}
+            handleGridChangePage={handleGridChangePageTickets}
+            resetPagination={resetPaginationTickets}
+            gridDataHasMorePages={true}
+            showColumnSelector={false}
+            gridSelectionOnClick={GridSelectionOnClickHandleSelect}
+            detailcolumns={[]}
+            oneExpandOnly={false}
+            specialButtonStyle={{ backgroundColor: "#b5b3b3", color: 'black' }}
+            handleOnExpand={(item, expand) => {
 
-              <Grid item xs={12} style={{ width: '-webkit-fill-available' }}>
-                <Paper className={classes.paper}>
-                  {
-                    agentList.length > 0 && (
-                      <GridViewBigData
-                        columns={columnsData}
-                        data={agentList}
-                        customButtonNumber={1} 
+            }}
+            canReorderColumns={true}
+            customButtonNumberDetail={0}
+            customButtonEnableDetail={[]}
+            customButtonTooltipDetail={[]}
+            customButtonIconDetail={[]}
+            handleCustomButtonDetail={[]}
 
-                        customButtonEnable={[ true ]}
-                        customButtonTooltip={[  "editar"  ]}
-                        customButtonIcon={[ <OpenInNewIcon /> ]}
-                        handleCustomButton={[ editTicket   ]}
+            subDataActionHeaderStyle={{ backgroundColor: grey[400], color: 'black', zIndex: 1 }}
+            subDataActionRowsStyle={{ backgroundColor: grey[50] }}
+            subDataActionColumnShowLeft={true}
+            maxHeight={'calc(100vh - 135px)'}
+          />
+        )
+      }
 
+    </div>
 
-                        initRowsPerPage={50}
-                        handleGridChangePage={handleGridChangePageTickets}
-                        resetPagination={resetPaginationGrid}
-                        gridDataHasMorePages={false}
-                        showColumnSelector={false}
-
-                        detailcolumns={[]}
-                        oneExpandOnly={false}
-                        specialButtonStyle={{ backgroundColor: "#b5b3b3", color: 'black' }}
-                        handleOnExpand={(item, expand) => {
-
-                        }}
-                        canReorderColumns={ true } 
-                        customButtonNumberDetail={0}
-                        customButtonEnableDetail={[]}
-                        customButtonTooltipDetail={[]}
-                        customButtonIconDetail={[]}
-                        handleCustomButtonDetail={[]}
-
-                        subDataActionHeaderStyle={{ backgroundColor: grey[400], color: 'black', zIndex: 1 }}
-                        subDataActionRowsStyle={{ backgroundColor: grey[50] }}
-                        subDataActionColumnShowLeft={true}
-                        maxHeight={'calc(100vh - 135px)'}
-                      />
-                    )
-                  }
-
-                </Paper>
-              </Grid>
-
-
-            </Grid>
-            {/* <Box pt={4}>
-              <Copyright />
-            </Box> */}
-        </main>
-
-
-      </div>
-    </Container>
 
   )
 }

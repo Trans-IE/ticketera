@@ -4,63 +4,30 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import clsx from "clsx";
 import { loadConfigData, loginUser, startChecking } from "../../redux/actions/userActions";
-import {  getValueFromConfig } from "../../helpers/getConfigFunctions";
+import { getValueFromConfig } from "../../helpers/getConfigFunctions";
 import { PanelOpResultInfo } from "../ui/PanelOpResultInfo";
 import LoginTheme from "./LoginTheme";
-import { Autocomplete, Box, Button, Container, CssBaseline, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, ThemeProvider } from "@mui/material";
+import { Autocomplete, Box, Button, Container, CssBaseline, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, ThemeProvider } from "@mui/material";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
-import { makeStyles } from '@mui/styles'
+import { makeStyles, useTheme } from '@mui/styles'
 
 import encryptStorage from "../../helpers/storageEncrypter";
 import { Copyright } from "../ui/Copyright";
 
 import { LoginButtonAzure } from "./LoginButtonAzure";
 import { LoginButtonAuth0 } from "./LoginButtonAuth0";
-
+import Logo from '../../../public/translogo.png'
+import './SignIn.scss'
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(5),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    borderWidth: "3px",
-    borderColor: theme.palette.text.primary,
-    backgroundColor: 'white',
-    opacity: 0.75,
-    color: 'white',
-    boxShadow: '0 5px 5px 2px black',
 
-    paddingRight: theme.spacing(10),
-    paddingLeft: theme.spacing(10),
-  },
-  formLogin: {
-    width: "100%"
-  },
+
   submit: {
     margin: theme.spacing(1, 0, 2),
     background: theme.palette.primary.main,
     color: 'white'
   },
-  loginTextField: {
-    '& .MuiInputLabel-root': {
-      color: 'black',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'rgba(0, 0, 0, 0.2)',
-      },
-      '&:hover fieldset': {
-        borderColor: 'rgba(0, 0, 0, 0.4)',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.main,
-      },
-      '& .MuiOutlinedInput-input': {
-        color: 'black',
-      },
-    },
-  },
+
   robotoMediumsz16: {
     fontFamily: "Roboto",
     fontStyle: "normal",
@@ -71,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SignIn = () => {
+  const theme = useTheme()
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -116,20 +84,20 @@ si esta autenticado debo hacer lo siguiente:
     }
 
     dispatch(loginUser(agent, password)).then(user => {
-      
+
       setOpResultInfoState(1);
       setOpResultInfoText("");
 
       navigate('/');
 
-/*       dispatch(startChecking()).then((data) => {
-        setOpResultInfoState(1);
-        setOpResultInfoText("");
-        navigate('/');
-      }).catch((error) => {
-        setOpResultInfoState(3);
-        setOpResultInfoText("error: " + (error.message === "Failed to fetch" ? "No es posible conectar en T-WebToolbar." : error.message));
-      }); */
+      /*       dispatch(startChecking()).then((data) => {
+              setOpResultInfoState(1);
+              setOpResultInfoText("");
+              navigate('/');
+            }).catch((error) => {
+              setOpResultInfoState(3);
+              setOpResultInfoText("error: " + (error.message === "Failed to fetch" ? "No es posible conectar en T-WebToolbar." : error.message));
+            }); */
 
 
 
@@ -174,107 +142,110 @@ si esta autenticado debo hacer lo siguiente:
 
   return (
     <ThemeProvider theme={LoginTheme}>
-      <Container
-        component="main"
-        maxWidth="sm"
-      >
-        <CssBaseline />
-        <div className={classes.paper}>
+      <div>
+          {/* <div style={{ backgroundColor: 'red' }}>
+            Hola
+          </div> */}
+        <Container
+          component="main"
+          maxWidth="sm"
+        >
+          <CssBaseline />
+          <div style={{ backgroundColor: theme.palette.trans.dark, padding: '25px', borderRadius: '20px' }}>
 
 
-          {
-            // SI ES AZURE 
-            AuthenticationMode === '0' &&
-            <LoginButtonAzure handlerOnCallback={OnCallbackAzure} />
+            {
+              // SI ES AZURE 
+              AuthenticationMode === '0' &&
+              <LoginButtonAzure handlerOnCallback={OnCallbackAzure} />
 
-          }
+            }
 
-          {
-            // SI ES AUTH0
-            AuthenticationMode === '3' &&
-            <LoginButtonAuth0 handlerOnCallback={OnCallbackAuth0} />
+            {
+              // SI ES AUTH0
+              AuthenticationMode === '3' &&
+              <LoginButtonAuth0 handlerOnCallback={OnCallbackAuth0} />
 
-          }
+            }
 
-          { (AuthenticationMode !== '0') && (AuthenticationMode !== '3') &&
-            <>
-{/*               <img src={Logo} style={{ padding: 10, transform: 'scale(0.7)' }} /> */}
-              <form id="loginAuto" className={classes.formLogin} onSubmit={loginThroughDB} autoComplete="off">
-                <TextField
-                  className={clsx(classes.loginTextField, classes.robotoMediumsz16)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <AccountCircle style={{ color: 'black' }} />
-                      </InputAdornment>
-                    ),
-                    autoComplete: 'off',
-                  }}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="agent"
-                  label="AGENTE"
-                  name="agent"
-                  onChange={handleLoginInputChange}
-                  value={agent}
-                  autoComplete={"off"}
-                />
-                <FormControl variant="outlined" fullWidth className={clsx(classes.loginTextField, classes.robotoMediumsz16)} >
-                  <InputLabel variant={"outlined"} htmlFor="password">
-                    CLAVE *
-                  </InputLabel>
-                  <OutlinedInput
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={handleLoginInputChange}
-
+            {(AuthenticationMode !== '0') && (AuthenticationMode !== '3') &&
+              <>
+                <div style={{ textAlign: 'center' }}>
+                  <img src={Logo} style={{ padding: 10, transform: 'scale(0.8)' }} />
+                </div>
+                <form id="loginAuto" className={classes.formLogin} onSubmit={loginThroughDB} autoComplete="off">
+                  <TextField
                     endAdornment={
                       <InputAdornment position="end">
-                        <IconButton
-                          aria-label="visibilizar clave"
-                          onMouseEnter={EventHandleShowPassword}
-                          onMouseLeave={EventHandleShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <Visibility style={{ color: 'black' }} /> : <VisibilityOff style={{ color: 'black' }} />}
-                        </IconButton>
+                        <AccountCircle />
                       </InputAdornment>
                     }
-                    label="CLAVE"
-
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="agent"
+                    color="primary"
+                    label="Agente"
+                    name="agent"
+                    onChange={handleLoginInputChange}
+                    value={agent}
+                    autoComplete={"off"}
                   />
-                </FormControl>
+                  <FormControl variant="outlined" fullWidth className={clsx(classes.loginTextField, classes.robotoMediumsz16)} >
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  disabled={opResultInfoState === 1 || agent.trim().length === 0 || password.trim().length === 0}
-                >
-                  Ingresar
-                </Button>
-              </form>
-            </>
-          }
-          <Box mt={1} pt={0} pb={1}>
-            <PanelOpResultInfo
-              text={opResultInfoText}
-              stateResult={opResultInfoState}
-              btnCloseOnClick={handlePanelInfoOnClose}
-            />
-          </Box>
-          <Box mt={1}>
-            <Copyright version={"1.0.0"} color={'black'} />
-          </Box>
-        </div>
-      </Container>
+                    <TextField
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={handleLoginInputChange}
+                      required
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="visibilizar clave"
+                            onMouseEnter={EventHandleShowPassword}
+                            onMouseLeave={EventHandleShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility style={{ color: 'black' }} /> : <VisibilityOff style={{ color: 'black' }} />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Clave"
+                      autoComplete={"off"}
+                    />
+                  </FormControl>
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={opResultInfoState === 1 || agent.trim().length === 0 || password.trim().length === 0}
+                  >
+                    Ingresar
+                  </Button>
+                </form>
+              </>
+            }
+            <Box mt={1} pt={0} pb={1}>
+              <PanelOpResultInfo
+                text={opResultInfoText}
+                stateResult={opResultInfoState}
+                btnCloseOnClick={handlePanelInfoOnClose}
+              />
+            </Box>
+            <Box mt={1}>
+              <Copyright version={"1.0.0"} color='white' />
+            </Box>
+          </div>
+        </Container>
+      </div>
+
     </ThemeProvider>
 
   );

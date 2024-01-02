@@ -6,27 +6,15 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { MainMenu, SecondaryMenu } from './MainMenu';
+import { MainMenu, SecondaryMenu, UserMenu } from './MainMenu';
 import { TabsScreen } from './TabsScreen';
 import { TicketsScreen } from '../ticket/TicketsScreen';
-import { isAbsolute } from 'path';
-import { DataTable } from './Table';
 import { Filters } from './Filters';
-import { Test } from './Test';
 import Logo from '../../../public/trans.png'
-import { Fab } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { TicketDetail } from '../ticket/TicketDetail';
+import { TabItem } from './TabItem';
+import { Grid } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -127,9 +115,15 @@ export const MainScreen = () => {
           <img src={Logo} style={{ width: '35px' }} />
         </Toolbar>
         <Divider />
-        <List component="nav">
-          <MainMenu onClick={onClick} />
-          {SecondaryMenu}
+        <List component="nav" style={{display: 'flex', flexDirection: 'column', height: '100%',  justifyContent: 'space-between'}}>
+          <div>
+            <MainMenu onClick={onClick} />
+            <Divider style={{margin: '8px'}}/>
+            {SecondaryMenu}
+          </div>
+          <div>
+            {<UserMenu />}
+          </div>
         </List>
       </Drawer>
 {/*       <Box
@@ -150,12 +144,12 @@ export const MainScreen = () => {
 
 {/*         {ticketsListVisible ?
           <div style={{ width: '100hf', justifyContent: 'center' }}>
-            <Test />
+            <TabItem />
           </div>
           :
           <div style={{ width: '100hf', justifyContent: 'center' }}>
             <Filters />
-            <DataTable />
+            <TicketsScreen />
           </div>
         } */}
 
