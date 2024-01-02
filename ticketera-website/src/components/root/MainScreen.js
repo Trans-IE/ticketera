@@ -20,7 +20,7 @@ const drawerWidth = 240;
 
 const ComponenteSuperior = () => {
   return (
-    <Grid xs={12} sx={{ position: 'absolute', top: 80, left: 10, zIndex: 2,  padding: '10px', backgroundColor: 'black' }}>
+    <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: 2, padding: '10px' }}>
       {/* Contenido del componente superior */}
       {/* <p>Componente Superior</p> */}
       {/* <Test /> */}
@@ -31,12 +31,12 @@ const ComponenteSuperior = () => {
 
 const ComponenteInferior = () => {
   return (
-    <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: 1, padding: '10px', backgroundColor: 'black' }}>
+    <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: 1, padding: '10px' }}>
       {/* Contenido del componente inferior */}
-     {/*  <p>Componente Inferior</p> */}
-{/*      <Filters />
+      {/*  <p>Componente Inferior</p> */}
+      {/*      <Filters />
             <DataTable /> */}
-            <TabsScreen />
+      <TabsScreen />
     </Grid>
   );
 };
@@ -115,10 +115,10 @@ export const MainScreen = () => {
           <img src={Logo} style={{ width: '35px' }} />
         </Toolbar>
         <Divider />
-        <List component="nav" style={{display: 'flex', flexDirection: 'column', height: '100%',  justifyContent: 'space-between'}}>
+        <List component="nav" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
           <div>
             <MainMenu onClick={onClick} />
-            <Divider style={{margin: '8px'}}/>
+            <Divider style={{ margin: '8px' }} />
             {SecondaryMenu}
           </div>
           <div>
@@ -126,7 +126,7 @@ export const MainScreen = () => {
           </div>
         </List>
       </Drawer>
-{/*       <Box
+      {/*       <Box
         component="main"
         sx={{
           flexGrow: 1,
@@ -136,13 +136,13 @@ export const MainScreen = () => {
       > */}
 
 
-<Grid xs={12} style={{ position: 'relative', height: '100vh', width: '100vw' }}>
-    {/* Contenedor para los componentes */}
-    <ComponenteInferior />
-    <ComponenteSuperior />
-  </Grid>
+      <Grid xs={12} style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+        {/* Contenedor para los componentes */}
+        <ComponenteInferior />
+        <ComponenteSuperior />
+      </Grid>
 
-{/*         {ticketsListVisible ?
+      {/*         {ticketsListVisible ?
           <div style={{ width: '100hf', justifyContent: 'center' }}>
             <TabItem />
           </div>
@@ -153,7 +153,7 @@ export const MainScreen = () => {
           </div>
         } */}
 
-{/*       </Box> */}
+      {/*       </Box> */}
     </Box>
 
   );

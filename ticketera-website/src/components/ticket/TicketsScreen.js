@@ -287,47 +287,7 @@ export const TicketsScreen = () => {
         responsable: 'Aravena, Gustavo',
         estado: 'Abierto',
         creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(1),
-        id: 28173,
-        title: 'CERTIFICADOS EXPRESSWAY',
-        empresa: 'Experta',
-        tipofalla: 'Reparacion',
-        responsable: 'Gonzalez, Diego',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(4),
-        id: 28175,
-        title: 'Certificado SSL Administracion Web',
-        empresa: 'KPMG',
-        tipofalla: 'Configuracion',
-        responsable: 'Guerra, Mauro',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(3),
-        id: 28174,
-        title: 'Upgrade de Avaya',
-        empresa: 'YMK S.A',
-        tipofalla: 'Actualizacion',
-        responsable: 'Aravena, Gustavo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(1),
-        id: 28173,
-        title: 'CERTIFICADOS EXPRESSWAY',
-        empresa: 'Experta',
-        tipofalla: 'Reparacion',
-        responsable: 'Gonzalez, Diego',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
+      }
     ])
 
     return () => {
@@ -362,7 +322,7 @@ const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
   return (
 
     <div style={{
-      width: '1600px', height: '100%', margin: ' 0 auto', padding: '25px'
+      width: '95vw', height: '100%', margin: ' 0 auto', padding: '25px'
     }}>
       {
         agentList.length > 0 && (

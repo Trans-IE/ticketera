@@ -241,4 +241,4 @@ import '../styles.css';
 const divRoot = document.getElementById('root');
 const root = createRoot(divRoot);
 
-root.render(<ErrorBoundary ><StyledEngineProvider injectFirst ><ThemeProvider theme={lightTheme}><TicketeraWebsite /></ThemeProvider></StyledEngineProvider></ErrorBoundary>);
+root.render(<ErrorBoundary ><StyledEngineProvider injectFirst ><ThemeProvider theme={darkTheme}><TicketeraWebsite /></ThemeProvider></StyledEngineProvider></ErrorBoundary>);
