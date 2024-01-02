@@ -241,7 +241,6 @@ export const TicketsScreen = () => {
           {/*           <Backdrop className={classes.backdrop} open={ivrGridDataLoading}>
             <CircularProgress color="inherit" />
           </Backdrop> */}
-          <Container maxWidth="xl" className={classes.container}>
             <Grid container spacing={0}>
               <Grid item xs={12}>
                 <Box display="flex" alignItems="flex-start" justifyContent="flex-start" sx={{ padding: 2, }} >
@@ -300,7 +299,6 @@ export const TicketsScreen = () => {
             {/* <Box pt={4}>
               <Copyright />
             </Box> */}
-          </Container>
         </main>
 
 

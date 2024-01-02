@@ -30,6 +30,29 @@ import AddIcon from '@mui/icons-material/Add';
 
 const drawerWidth = 240;
 
+const ComponenteSuperior = () => {
+  return (
+    <Grid xs={12} sx={{ position: 'absolute', top: 80, left: 10, zIndex: 2,  padding: '10px', backgroundColor: 'black' }}>
+      {/* Contenido del componente superior */}
+      {/* <p>Componente Superior</p> */}
+      {/* <Test /> */}
+      <TicketsScreen />
+    </Grid>
+  );
+};
+
+const ComponenteInferior = () => {
+  return (
+    <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: 1, padding: '10px', backgroundColor: 'black' }}>
+      {/* Contenido del componente inferior */}
+     {/*  <p>Componente Inferior</p> */}
+{/*      <Filters />
+            <DataTable /> */}
+            <TabsScreen />
+    </Grid>
+  );
+};
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -109,15 +132,23 @@ export const MainScreen = () => {
           {SecondaryMenu}
         </List>
       </Drawer>
-      <Box
+{/*       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          height: '100vh',
+          height: '100vh', 
           overflow: 'auto',
         }}
-      >
-        {ticketsListVisible ?
+      > */}
+
+
+<Grid xs={12} style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+    {/* Contenedor para los componentes */}
+    <ComponenteInferior />
+    <ComponenteSuperior />
+  </Grid>
+
+{/*         {ticketsListVisible ?
           <div style={{ width: '100hf', justifyContent: 'center' }}>
             <Test />
           </div>
@@ -126,9 +157,9 @@ export const MainScreen = () => {
             <Filters />
             <DataTable />
           </div>
-        }
+        } */}
 
-      </Box>
+{/*       </Box> */}
     </Box>
 
   );
