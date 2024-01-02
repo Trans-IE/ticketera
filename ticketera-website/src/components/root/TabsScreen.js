@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -12,12 +13,17 @@ import { TabItem } from './TabItem';
 import { useTheme } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
+import { editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
 
 export const TabsScreen = () => {
+
   const theme = useTheme();
   const [value, setValue] = useState('1');
+  const dispatch = useDispatch();
+  const { config } = useSelector((state) => state.auth, shallowEqual);
 
   const handleChange = (event, newValue) => {
+    dispatch ( editTicketTabShownChange( newValue ) );
     setValue(newValue);
   };
 
