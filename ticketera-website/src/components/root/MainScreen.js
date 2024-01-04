@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -15,15 +16,13 @@ import Logo from '../../../public/trans.png'
 import { TicketDetail } from '../ticket/TicketDetail';
 import { TabItem } from './TabItem';
 import { Grid } from '@mui/material';
+import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 
 const drawerWidth = 240;
 
 const ComponenteSuperior = () => {
   return (
     <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: 2, padding: '10px' }}>
-      {/* Contenido del componente superior */}
-      {/* <p>Componente Superior</p> */}
-      {/* <Test /> */}
       <TicketsScreen />
     </Grid>
   );
@@ -32,10 +31,6 @@ const ComponenteSuperior = () => {
 const ComponenteInferior = () => {
   return (
     <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: 1, padding: '10px' }}>
-      {/* Contenido del componente inferior */}
-      {/*  <p>Componente Inferior</p> */}
-      {/*      <Filters />
-            <DataTable /> */}
       <TabsScreen />
     </Grid>
   );
@@ -87,15 +82,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export const MainScreen = () => {
   const [open, setOpen] = useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const dispatch = useDispatch();
+  const { uiMainMenuShown, editTicketTabShown } = useSelector((state) => state.ui, shallowEqual);
 
   const [ticketsListVisible, setTicketsListVisible] = useState(false);
 
-  const onClick = (tipo, valor) => {
+  const onClick = (type, value) => {
 
-    setTicketsListVisible(!ticketsListVisible);
+    dispatch(mainMenuShownChange(parseInt(value)));
+
+    //  setTicketsListVisible(!ticketsListVisible);
 
   }
 
@@ -117,7 +113,10 @@ export const MainScreen = () => {
         <Divider />
         <List component="nav" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
           <div>
-            <MainMenu onClick={onClick} />
+            {
+              
+              <MainMenu onClick={onClick} optionSelected={uiMainMenuShown} />
+            }
             <Divider style={{ margin: '8px' }} />
             {SecondaryMenu}
           </div>
@@ -126,32 +125,19 @@ export const MainScreen = () => {
           </div>
         </List>
       </Drawer>
-      {/*       <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          height: '100vh', 
-          overflow: 'auto',
-        }}
-      > */}
-
 
       <Grid xs={12} style={{ position: 'relative', height: '100vh', width: '100vw' }}>
         {/* Contenedor para los componentes */}
-        <ComponenteInferior />
-        <ComponenteSuperior />
-      </Grid>
 
-      {/*         {ticketsListVisible ?
-          <div style={{ width: '100hf', justifyContent: 'center' }}>
-            <TabItem />
-          </div>
-          :
-          <div style={{ width: '100hf', justifyContent: 'center' }}>
-            <Filters />
-            <TicketsScreen />
-          </div>
-        } */}
+
+        <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: (editTicketTabShown === 0)? 1: 2, padding: '10px' }}>
+          <TabsScreen />
+        </Grid>
+
+        <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: (editTicketTabShown === 0)? 2: 1, padding: '10px' }}>
+          <TicketsScreen />
+        </Grid>
+      </Grid>
 
       {/*       </Box> */}
     </Box>

@@ -389,7 +389,7 @@ export const GridViewBigData = ({
               )}
 
               {order.map((colIdx, i) => {
-                console.log(columns[colIdx])
+              //  console.log(columns[colIdx])
                 return (
                   columns[colIdx]?.visible === true && (
                     <TableCell

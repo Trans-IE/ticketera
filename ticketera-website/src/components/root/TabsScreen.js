@@ -23,9 +23,17 @@ export const TabsScreen = () => {
   const { config } = useSelector((state) => state.auth, shallowEqual);
 
   const handleChange = (event, newValue) => {
-    dispatch ( editTicketTabShownChange( newValue ) );
+    dispatch ( editTicketTabShownChange( parseInt(newValue) ) );
     setValue(newValue);
   };
+
+  const handleClickTab = ( ) => {
+
+
+
+    dispatch ( editTicketTabShownChange( parseInt(value) ) );
+
+  }
 
 
   const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
@@ -61,22 +69,14 @@ export const TabsScreen = () => {
         <Box sx={{}}>
           <Stack direction="row"   >
             <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example">
-              <StyledTab label="Item One 1" value="1" />
-              <StyledTab label="Item Two 2" value="2" />
-              {/*             <Tab label="Item Three 3" value="3" /> */}
+              <StyledTab label="Item One 1" value="1" onClick={handleClickTab}  />
             </Tabs>
             <StyledIconTab value={0} icon={<AddCircleIcon color="primary"/>}/>
-
-              {/* <IconButton color="primary" aria-label="add an alarm">
-                <AddCircleIcon />
-              </IconButton> */}
           </Stack>
         </Box>
         <TabPanel value="1">
           <TabItem />
         </TabPanel>
-        <TabPanel value="2"></TabPanel>
-        {/*  <TabPanel value="3">Item Three</TabPanel> */}
       </TabContext>
     </Box>
   );

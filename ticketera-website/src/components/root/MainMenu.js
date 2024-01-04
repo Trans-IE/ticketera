@@ -13,12 +13,21 @@ import Swal from 'sweetalert2';
 import { useTheme } from '@mui/styles';
 import { toast } from 'sonner';
 
-export const MainMenu = ({ onClick }) => {
+export const MainMenu = ({ onClick , optionSelected }) => {
 
 
-  const onClickTickets = () => {
+  const onClickMenu = ( option ) => {
 
-    onClick("tickets", 1);
+    switch (option) {
+      case 1:
+        onClick("Tickets", option );
+        
+        break;
+    
+      default:
+        break;
+    }
+
 
   }
 
@@ -36,7 +45,7 @@ export const MainMenu = ({ onClick }) => {
       </Tooltip>
 
       <Tooltip title="Tickets" arrow placement='right'>
-        <ListItemButton selected onClick={onClickTickets}>
+        <ListItemButton selected={(optionSelected === 1)?true:false} onClick={() => onClickMenu(1)}>
           <ListItemIcon>
             <ConfirmationNumberIcon />
           </ListItemIcon>
@@ -44,7 +53,7 @@ export const MainMenu = ({ onClick }) => {
       </Tooltip>
 
       <Tooltip title="Reportes" arrow placement='right'>
-        <ListItemButton>
+        <ListItemButton selected={(optionSelected === 2)?true:false } onClick={() => onClickMenu(2)}>
           <ListItemIcon>
             <BarChartIcon />
           </ListItemIcon>
@@ -52,7 +61,7 @@ export const MainMenu = ({ onClick }) => {
       </ Tooltip>
 
       <Tooltip title="Administracion" arrow placement='right'>
-        <ListItemButton>
+        <ListItemButton selected={(optionSelected === 3)?true:false } onClick={() => onClickMenu(3)}>
           <ListItemIcon>
             <SettingsOutlinedIcon />
           </ListItemIcon>
