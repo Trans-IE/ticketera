@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+
+    // **** variables de grilla de tickets *****
     ticketsFilterListSelected: [],
     ticketsFilterListSelectedConfirm: [],
+
     ticketsGridDataList: [],
+
     ticketsGridDataLoading: false,
     // bandera para controlar el paginado,
     // determina si aparece o no el boton "siguiente pagina" 
     ticketsGridDataHasMorePages: false,
+
 }
 
 
@@ -51,7 +56,7 @@ export const ticketSlice = createSlice(
                 state.ticketFilterListSelected= state.echiFilterListSelected.filter(
                     (item) => item.source !== action.payload.source
                   )
-            }
+            },
         }
     }
 );

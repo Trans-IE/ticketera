@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
+import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,6 +110,9 @@ export const TicketsScreen = () => {
   const theme = useTheme();
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const { config } = useSelector((state) => state.auth, shallowEqual);
+  const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
   const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
   const [rowsPerPageTickets, setRowsPerPageTickets] = useState(10);
@@ -309,8 +314,19 @@ export const TicketsScreen = () => {
 
   const GridSelectionOnClickHandleSelect = (item) => {
     // obtengo el item seleccionado
-    console.log(item)
-    alert(`Entrar al ticket N: ${item.id}`);
+  //  console.log(item)
+  //  alert(`Entrar al ticket N: ${item.id}`);
+
+    let tabNew = new Object();
+    // definir constantes con tipos asociados a la operacion_ 
+    // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
+    tabNew.type = 0;
+    tabNew.title =`Ticket ${item.id}`;
+    tabNew.id = 0;
+    tabNew.index = arrayTabs.length + 1;
+
+    dispatch(arrayTabsAddNew(tabNew));
+
   }
 
   const GridSelectionOnClickChangePage = (grid_limit, grid_offset) => {

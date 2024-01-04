@@ -1,4 +1,4 @@
-import { editTicketTabShownChangeRedux, mainMenuShownChangeRedux } from "../slices/userInterfaceSlice";
+import { arrayTabsAddNewRedux, editTicketTabShownChangeRedux, mainMenuShownChangeRedux } from "../slices/userInterfaceSlice";
 
 export const editTicketTabShownChange = (index) => {
   return  (dispatch, getState) => {
@@ -14,4 +14,13 @@ export const mainMenuShownChange = (index) => {
     dispatch(mainMenuShownChangeRedux({ menuShown: index }));
   };
 };
+
+export const arrayTabsAddNew = ( tabNew ) => {
+  return (dispatch, getState) => {
+
+    // suscribir al usuario al socket si es un tab de ticket con id existente
+
+    dispatch(arrayTabsAddNewRedux(tabNew));
+  };
+}
 

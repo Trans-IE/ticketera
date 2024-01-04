@@ -3,11 +3,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Stack from '@mui/material/Stack';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { TabItem } from './TabItem';
 import { useTheme } from '@mui/styles';
@@ -15,25 +12,43 @@ import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import { editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
 import { NewTicketScreen } from '../ticket/NewTicketScreen';
+import { object } from 'prop-types';
+import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 
-export const TabsScreen = (props) => {
+export const TabsScreen = () => {
 
   const theme = useTheme();
   const [value, setValue] = useState('1');
   const dispatch = useDispatch();
   const { config } = useSelector((state) => state.auth, shallowEqual);
-  const { editTicketTabShown } = useSelector((state) => state.ui, shallowEqual)
+  const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
   const handleChange = (event, newValue) => {
-    dispatch ( editTicketTabShownChange( parseInt(newValue) ) );
+    dispatch(editTicketTabShownChange(parseInt(newValue)));
     setValue(newValue);
   };
 
-  const handleClickTab = ( ) => {
+  const handleClickTab = (objTab) => {
 
 
 
-    dispatch ( editTicketTabShownChange( parseInt(value) ) );
+    dispatch(editTicketTabShownChange(parseInt(value)));
+
+  }
+
+  const handleCreateNewTicket = () => {
+
+
+    let tabNew = new Object();
+    // definir constantes con tipos asociados a la operacion_ 
+    // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
+    tabNew.type = 0;
+    tabNew.title = "Nuevo Ticket";
+    tabNew.id = 0;
+    tabNew.index = arrayTabs.length + 1;
+
+    dispatch(arrayTabsAddNew(tabNew));
+
 
   }
 
@@ -69,18 +84,34 @@ export const TabsScreen = (props) => {
   return (
     <Box sx={{ width: '95vw' }}>
       <TabContext value={value}>
-        <Box sx={{}}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Stack direction="row"   >
             <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example">
-              <StyledTab label="Ticket 28179" value="1"  onClick={handleClickTab} />
-              {/*             <Tab label="Item Three 3" value="3" /> */}
+
+              {
+
+                arrayTabs.map((objTab, i) => {
+                  //  console.log(columns[colIdx])
+                  return (
+                    <StyledTab key={i} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
+                  );
+                })
+
+              }
+
             </Tabs>
-            <StyledIconTab value={0} icon={<AddCircleIcon color="primary"/>}/>
+            <StyledIconTab value={0} icon={<AddCircleIcon color="primary" />} onClick={handleCreateNewTicket} />
           </Stack>
         </Box>
-        <TabPanel value="1" style={{display: !editTicketTabShown ? 'none' : 'block'}}>
-          <TabItem />
-        </TabPanel>
+        {
+          arrayTabs.map((objTab, i) => {
+            return (
+              <TabPanel index={i} value={i} style={{ display: (editTicketTabShown === -1) ? 'none' : 'block' }}>
+                <TabItem />
+              </TabPanel>
+            );
+          })
+        }
       </TabContext>
     </Box>
   );
