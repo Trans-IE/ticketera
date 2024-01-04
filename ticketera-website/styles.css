@@ -80,3 +80,7 @@ input:-webkit-autofill:active {
 .rs-picker-menu {
   z-index: 9999;
 }
+
+.swal2-container {
+  z-index: 20000 !important;
+}

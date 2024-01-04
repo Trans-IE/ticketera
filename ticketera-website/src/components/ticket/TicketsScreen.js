@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
@@ -105,7 +105,7 @@ const drawerWidth = 330;
 
 
 export const TicketsScreen = () => {
-
+  const theme = useTheme();
   const classes = useStyles();
 
 
@@ -162,12 +162,48 @@ export const TicketsScreen = () => {
     );
   }
 
+
   useEffect(() => {
-   setResetPaginationTickets(true);
+    setResetPaginationTickets(true);
     setActualOffsetTickets(0);
 
     setAgentList([
       {
+        priority: setPriority(1),
+        id: 28179,
+        title: 'No entran mensajes a LinkedIn',
+        empresa: 'Swiss Medical Group',
+        tipofalla: 'Falla',
+        responsable: '',
+        estado: 'Pendiente de Asignacion',
+        creado: '14/12'
+      },
+      {
+        priority: setPriority(4),
+        id: 28178,
+        title: 'Supervivencia por caida de enlaces...',
+        empresa: 'Sancor Seguros',
+        tipofalla: 'Configuracion',
+        responsable: 'Salvia, Pablo',
+        estado: 'Re-Abierto',
+        creado: '14/12'
+
+      },
+      {
+        priority: setPriority(3),
+        id: 28177,
+        title: 'Quitar regla de grabacion de pantalla a los agentes en el archivo',
+        empresa: 'CITYTECH S.A.',
+        tipofalla: 'Configuracion',
+        responsable: 'Siciliano, Juan Pablo',
+        estado: 'Abierto',
+        creado: '01/12/2023'
+      },
+      {
+        priority: setPriority(2),
+        id: 28176,
+        title: 'MFA Microsoft Authenticator',
+        empresa: 'KPMG',
         priority: setPriority(1),
         id: 28179,
         title: 'No entran mensajes a LinkedIn',
@@ -257,36 +293,6 @@ export const TicketsScreen = () => {
         responsable: 'Aravena, Gustavo',
         estado: 'Abierto',
         creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(1),
-        id: 28173,
-        title: 'CERTIFICADOS EXPRESSWAY',
-        empresa: 'Experta',
-        tipofalla: 'Reparacion',
-        responsable: 'Gonzalez, Diego',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(4),
-        id: 28175,
-        title: 'Certificado SSL Administracion Web',
-        empresa: 'KPMG',
-        tipofalla: 'Configuracion',
-        responsable: 'Guerra, Mauro',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(3),
-        id: 28174,
-        title: 'Upgrade de Avaya',
-        empresa: 'YMK S.A',
-        tipofalla: 'Actualizacion',
-        responsable: 'Aravena, Gustavo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
       }
     ])
 
@@ -296,11 +302,10 @@ export const TicketsScreen = () => {
   }, [])
 
 
-
-const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
+  const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
     setResetPaginationTickets(false);
     setActualOffsetTickets(newpage_offset)
-};
+  };
 
   const GridSelectionOnClickHandleSelect = (item) => {
     // obtengo el item seleccionado
@@ -360,9 +365,6 @@ const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
           />
         )
       }
-
     </div>
-
-
   )
 }

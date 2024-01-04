@@ -14,13 +14,15 @@ import { useTheme } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import { editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
+import { NewTicketScreen } from '../ticket/NewTicketScreen';
 
-export const TabsScreen = () => {
+export const TabsScreen = (props) => {
 
   const theme = useTheme();
   const [value, setValue] = useState('1');
   const dispatch = useDispatch();
   const { config } = useSelector((state) => state.auth, shallowEqual);
+  const { editTicketTabShown } = useSelector((state) => state.ui, shallowEqual)
 
   const handleChange = (event, newValue) => {
     dispatch ( editTicketTabShownChange( parseInt(newValue) ) );
@@ -59,7 +61,8 @@ export const TabsScreen = () => {
       borderColor: theme.palette.background.border,
       fontSize: theme.typography.pxToRem(15),
       color: theme.palette.text.primary,
-      minWidth: '60px'
+      minWidth: '60px',
+      opacity: '1'
     }),
   );
 
@@ -69,12 +72,13 @@ export const TabsScreen = () => {
         <Box sx={{}}>
           <Stack direction="row"   >
             <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example">
-              <StyledTab label="Item One 1" value="1" onClick={handleClickTab}  />
+              <StyledTab label="Ticket 28179" value="1"  onClick={handleClickTab} />
+              {/*             <Tab label="Item Three 3" value="3" /> */}
             </Tabs>
             <StyledIconTab value={0} icon={<AddCircleIcon color="primary"/>}/>
           </Stack>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value="1" style={{display: !editTicketTabShown ? 'none' : 'block'}}>
           <TabItem />
         </TabPanel>
       </TabContext>

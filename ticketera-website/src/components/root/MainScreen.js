@@ -134,7 +134,7 @@ export const MainScreen = () => {
           <TabsScreen />
         </Grid>
 
-        <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: (editTicketTabShown === 0)? 2: 1, padding: '10px' }}>
+        <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: (editTicketTabShown === 0)? 2: 1, display: editTicketTabShown ? 'none' : 'block', padding: '10px' }}>
           <TicketsScreen />
         </Grid>
       </Grid>

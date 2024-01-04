@@ -87,7 +87,7 @@ export const TicketDetail = () => {
     }
 
     return (
-        <div style={{ maxWidth: '1600px', height: '100vh', margin: ' 0 auto', padding: '25px 25px 25px 25px' }} >
+        <div style={{ maxWidth: '1600px', height: '100vh', margin: ' 0 auto', padding: '25px 25px 25px 25px', backgroundColor: theme.palette.background.background }} >
             <div>
 
                 {/* Header */}
