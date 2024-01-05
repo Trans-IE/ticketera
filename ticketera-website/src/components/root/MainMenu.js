@@ -12,6 +12,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import Swal from 'sweetalert2';
 import { useTheme } from '@mui/styles';
 import { toast } from 'sonner';
+import { userMenuOptions } from '../../helpers/constants';
 
 export const MainMenu = ({ onClick , optionSelected }) => {
 
@@ -87,9 +88,28 @@ export const SecondaryMenu = (
   </React.Fragment>
 );
 
-export const UserMenu = () => {
-  const theme = useTheme()
+export const UserMenu = ( {onClick } ) => {
+  
 
+  const onClickMenu = ( option ) => {
+
+    switch (option) {
+      case userMenuOptions.LogoutMenu:
+        onClick("Cierre de Sesion", option );
+        
+        break;
+
+      case userMenuOptions.MyAccountMenu:
+        onClick("Mi Cuenta", option );
+    
+      default:
+        break;
+    }
+
+
+  }
+
+/* 
   const logout = () => {
 
     Swal.fire({
@@ -109,11 +129,11 @@ export const UserMenu = () => {
     })
 
   }
-
+ */
   return (
     <React.Fragment>
       <Tooltip title="Mi cuenta" arrow placement='right'>
-        <ListItemButton>
+        <ListItemButton onClick={() => onClickMenu(userMenuOptions.MyAccountMenu)}>
           <ListItemIcon>
             <AccountCircleOutlinedIcon />
           </ListItemIcon>
@@ -121,7 +141,7 @@ export const UserMenu = () => {
       </Tooltip>
 
       <Tooltip title="Cerrar sesion" arrow placement='right'>
-        <ListItemButton onClick={logout}>
+        <ListItemButton onClick={() => onClickMenu(userMenuOptions.LogoutMenu)}>
           <ListItemIcon>
             <PowerSettingsNewIcon />
           </ListItemIcon>

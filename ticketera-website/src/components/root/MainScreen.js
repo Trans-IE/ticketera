@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +18,9 @@ import { TicketDetail } from '../ticket/TicketDetail';
 import { TabItem } from './TabItem';
 import { Grid } from '@mui/material';
 import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
+import Swal from 'sweetalert2';
+import { useTheme } from '@mui/styles';
+import { logoutUser } from '../../redux/actions/userActions';
 
 const drawerWidth = 240;
 
@@ -83,15 +87,39 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export const MainScreen = () => {
   const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { uiMainMenuShown, editTicketTabShown } = useSelector((state) => state.ui, shallowEqual);
-
+  const theme = useTheme();
   const [ticketsListVisible, setTicketsListVisible] = useState(false);
 
-  const onClick = (type, value) => {
+  const mainMenuOnClick = (type, value) => {
 
     dispatch(mainMenuShownChange(parseInt(value)));
 
     //  setTicketsListVisible(!ticketsListVisible);
+
+  }
+
+  const userMenuOnClick = ( type, value ) => {
+    
+    Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "¿Esta seguro que desea cerrar la sesión?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Cerrar",
+      cancelButtonText: 'Cancelar',
+      background: theme.palette.background.dark,
+      color: theme.palette.text.primary,
+      confirmButtonColor: theme.palette.primary.main
+    }).then((result) => {
+      if(result.isConfirmed){
+        console.log("LOGOUT DE USUARIOS");
+        //toast.success('¡Sesión cerrada exitosamente!')
+        dispatch( logoutUser() );
+        navigate('/');
+      }
+    })
 
   }
 
@@ -115,13 +143,13 @@ export const MainScreen = () => {
           <div>
             {
               
-              <MainMenu onClick={onClick} optionSelected={uiMainMenuShown} />
+              <MainMenu onClick={mainMenuOnClick} optionSelected={uiMainMenuShown} />
             }
             <Divider style={{ margin: '8px' }} />
             {SecondaryMenu}
           </div>
           <div>
-            {<UserMenu />}
+            {<UserMenu onClick={ userMenuOnClick } />}
           </div>
         </List>
       </Drawer>

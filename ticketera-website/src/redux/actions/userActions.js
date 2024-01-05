@@ -10,7 +10,7 @@ export const startChecking = (afterCheckingPath = "", history) => {
         const { config } = getState().auth;
 
         if (token !== '') {
-            console.log("hay token ", token );
+          //  console.log("hay token ", token );
             let url = getURLFromConfigByName(config, "api_gateway_host", "auth/renew");
             const resp = await fetchConToken(url);
             const body = await resp.json();
@@ -38,8 +38,8 @@ export const startChecking = (afterCheckingPath = "", history) => {
     }
 }
 
-export const logout = () => {
-    return async (dispatch, getState) => {
+export const logoutUser = () => {
+    return (dispatch) => {
         try {
             encryptStorage.clear();
             dispatch(authLogoutRedux());

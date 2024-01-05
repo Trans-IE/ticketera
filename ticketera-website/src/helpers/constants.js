@@ -1,10 +1,13 @@
-const agentStates = {
-    LoggedOut: 0,
-    LoggedIn: 1,
-    AutoIn: 2,
-    ManualIn: 3,
-    Unavailable: 4,
-    AfterCallWork: 5
+const mainMenuOptions = {
+    DashboardMenu: 1,
+    TicketsMenu: 2,
+    ReportsMenu: 3,
+    AdministrationMenu: 4,
+}
+
+const userMenuOptions = {
+    LogoutMenu: 1,
+    MyAccountMenu: 2,
 }
 
 const UserRol = {
@@ -120,6 +123,6 @@ const CategoriesColor = {
 }
 
 
-const TMEDIAVersion = "2.0.0";
+const TReportingVersion = "3.0.0";
 
-module.exports = { CategoriesColor, agentStates, messageTypes, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TMEDIAVersion, GupshupErrorCodes, MIMETypes, UserRol };
+module.exports = { CategoriesColor,  messageTypes, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TReportingVersion, GupshupErrorCodes, MIMETypes, UserRol, userMenuOptions };

@@ -24,7 +24,7 @@ export const AppRouter = () => {
     useEffect(() => {
 
         dispatch(loadConfigData()).then((data) => {
-            console.log("CARGO LA DATA CONFIG: ", data);
+           // console.log("CARGO LA DATA CONFIG: ", data);
 
             dispatch(startChecking()).then(result => {
                 console.log("START CHECKING OK ");
