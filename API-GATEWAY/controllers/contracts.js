@@ -58,16 +58,17 @@ const getAllContracts = async (req, res = response) => {
     }
 }
 
-const getAllContractsByCompany = async (req, res = response) => {
+const getContractsByCompany = async (req, res = response) => {
     const { label: username } = req;
-    const { company } = req.body;
+    const { empresa_id } = req.body;
+
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> getAllContractsByCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllContractsByCompany";
+    logger.info(`==> getContractsByCompany - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getContractsByCompany";
 
     try {
-        logger.info(`getAllContractsByCompany company:${company} `)
+        logger.info(`getContractsByCompany empresa_id:${empresa_id}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -75,27 +76,20 @@ const getAllContractsByCompany = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { offset, limit }, 'POST');
+            const resp = await fetchSinToken(url, { empresa_id }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
+                logger.info(`<== getContractsByCompany - username:${username}`);
+                loggerCSV.info(`getContractsByCompany,${(new Date() - function_enter_time) / 1000}`)
 
-                logger.info(`<== getAllContractsByCompany - username:${username}`);
-                loggerCSV.info(`getAllContractsByCompany,${(new Date() - function_enter_time) / 1000}`)
-                const { contract } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: contract,
-                    msg: 'Contrato por compañia obtenido correctamente.'
+                    value: body.value,
+                    msg: 'Producto obtenido correctamente.'
                 });
             } else {
-                logger.error(`getAllContractsByCompany : ${body.msg}`);
+                logger.error(`getContractsByCompany- : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -110,14 +104,13 @@ const getAllContractsByCompany = async (req, res = response) => {
         }
 
     } catch (error) {
-        logger.error(`getAllContracts : ${error.message}`);
+        logger.error(`getContractsByCompany : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const createContract = async (req, res = response) => {
@@ -311,5 +304,5 @@ module.exports = {
     updateContract,
     deleteContract,
     getAllContracts,
-    getAllContractsByCompany
+    getContractsByCompany
 }

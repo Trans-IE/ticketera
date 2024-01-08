@@ -20,6 +20,28 @@ const getAllDBContracts = () => {
     return return_promise;
 }
 
+
+const getDBContractsByCompany = (empresa_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from contratos where habilitado = true and empresa_id = ($1);', [empresa_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const createDBContract = (empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin) => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -84,6 +106,7 @@ const updateDBContract = (ejecutivo_id, sla_horas_respuesta, sla_horas_provisori
 
 module.exports = {
     getAllDBContracts,
+    getDBContractsByCompany,
     createDBContract,
     deleteDBContract,
     updateDBContract

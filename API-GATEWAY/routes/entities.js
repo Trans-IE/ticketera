@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
-const { createContract, deleteContract, updateContract, getAllContracts, getAllContractsByCompany } = require('../controllers/contracts');
+const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
 const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
 const { getUserRol } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -782,9 +782,20 @@ router.post(
  *     summary: Obtener todos los contratos por compañía
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los contratos en el sistema. Se requiere autenticación con un token válido.
  *     tags: [Contracts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               empresa_id:
+ *                 type: integer
+ *             required:
+ *               - empresa_id
  *     responses:
  *       200:
- *         description: Lista de contratos por compañia obtenida correctamente.
+ *         description: Lista de contratos por compañía obtenida correctamente.
  *         content:
  *           application/json:
  *             schema:
@@ -808,18 +819,17 @@ router.post(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada.
- *     parameters: []
  *     security:
  *      - x-token: []
  */
 router.post(
-    '/getAllContractsByCompany',
+    '/getContractsByCompany',
     [
-        check('company', 'Company es obligatorio').not().isEmpty(),
+        check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
         validarJWT
     ],
 
-    getAllContractsByCompany
+    getContractsByCompany
 );
 
 /**

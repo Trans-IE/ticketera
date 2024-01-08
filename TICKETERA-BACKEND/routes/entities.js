@@ -5,7 +5,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
-const { getAllContracts, createContract, updateContract, deleteContract } = require('../controllers/contracts');
+const { getAllContracts, createContract, updateContract, deleteContract, getContractsByCompany } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brand');
 
 const router = Router();
@@ -167,6 +167,15 @@ router.post(
     ],
 
     getAllContracts
+);
+
+router.post(
+    '/getContractsByCompany',
+    [
+        check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
+    ],
+
+    getContractsByCompany
 );
 
 router.post(

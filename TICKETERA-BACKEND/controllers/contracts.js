@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getAllDBContracts, createDBContract, updateDBContract, deleteDBContract } = require('../databases/queries_contracts');
+const { getAllDBContracts, createDBContract, updateDBContract, deleteDBContract, getDBContractsByCompany } = require('../databases/queries_contracts');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -26,6 +26,40 @@ const getAllContracts = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`getAllContracts error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de contratos.'
+        });
+    }
+}
+
+const getContractsByCompany = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { empresa_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getContractsByCompany. empresa_id:${empresa_id}`)
+    try {
+
+        getDBContractsByCompany(empresa_id)
+            .then(result => {
+                logger.info(`<== getDBContractsByCompany`);
+                loggerCSV.info(`getDBContractsByCompany, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de contratos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getDBContractsByCompany => getDBContractsByCompany : params=> empresa_id=> ${empresa_id} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getDBContractsByCompany : params=> empresa_id=> ${empresa_id} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
@@ -150,5 +184,6 @@ module.exports = {
     getAllContracts,
     createContract,
     updateContract,
-    deleteContract
+    deleteContract,
+    getContractsByCompany
 }
