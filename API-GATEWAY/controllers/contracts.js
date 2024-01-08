@@ -7,38 +7,30 @@ const { UserRol } = require('../helpers/constants');
 
 const getAllContracts = async (req, res = response) => {
     const { label: username } = req;
-    const { offset, limit } = req.body;
+
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> getAllContracts - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllContracts";
 
     try {
-        logger.info(`getAllContracts offset:${offset} limit:${limit} `)
-
+        logger.info(`==> getAllContracts`)
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
         let setRolUser = new Set(rol.split(',').map(Number));
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { offset, limit }, 'POST');
+            const resp = await fetchSinToken(url, {}, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
-
                 logger.info(`<== getAllContracts - username:${username}`);
                 loggerCSV.info(`getAllContracts,${(new Date() - function_enter_time) / 1000}`)
-                const { contract } = body.value;
+
                 res.status(200).json({
                     ok: true,
-                    value: contract,
+                    value: body.value,
                     msg: 'Contrato obtenido correctamente.'
                 });
             } else {

@@ -27,7 +27,7 @@ const getAllProducts = async (req, res = response) => {
             if (body.ok) {
                 logger.info(`<== getAllProducts - username:${username}`);
                 loggerCSV.info(`getAllProducts,${(new Date() - function_enter_time) / 1000}`)
-                const { product } = body.value;
+
                 res.status(200).json({
                     ok: true,
                     value: body.value,

@@ -1,5 +1,4 @@
 const pooldata = require('./poolpg')
-
 const getAllDBContracts = () => {
     const return_promise = new Promise((resolve, reject) => {
 
