@@ -2,9 +2,9 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
-const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts } = require('../controllers/products');
+const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { createContract, deleteContract, updateContract, getAllContracts, getAllContractsByCompany } = require('../controllers/contracts');
-const { createBrand, deleteBrand, updateBrand, getAllBrands, getProductsByBrand } = require('../controllers/brands');
+const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
 const { getUserRol } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -372,11 +372,11 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               brand:
- *                 type: string
- *                 description: Nombre de la marca de los productos a buscar.
+ *               marca_id:
+ *                 type: integer
+ *                 description: Id de la marca de los productos a buscar.
  *             required:
- *               - brand
+ *               - marca_id
  *     responses:
  *       200:
  *         description: Información de todos los productos por marca obtenida correctamente.
@@ -405,10 +405,11 @@ router.post(
 router.post(
     '/getProductsByBrand',
     [
-        check('brand', 'Debe ingresar una marca').not().isEmpty(),
+        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
 
         validarJWT
     ],
+
     getProductsByBrand
 );
 

@@ -4,7 +4,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
-const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts } = require('../controllers/products');
+const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContracts, createContract, updateContract, deleteContract } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brand');
 
@@ -101,6 +101,17 @@ router.post(
     ],
 
     getProduct
+);
+
+router.post(
+    '/getProductsByBrand',
+    [
+        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+
+        validarCampos
+    ],
+
+    getProductsByBrand
 );
 
 router.post(
