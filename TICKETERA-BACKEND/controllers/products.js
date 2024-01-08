@@ -5,12 +5,6 @@ const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
 const getAllProducts = async (req, res = response) => {
-
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token.
-    const { label } = req;
-    const { id } = req.body;
-
     let function_enter_time = new Date();
     logger.info(`getAllProducts.`)
     try {
@@ -21,16 +15,16 @@ const getAllProducts = async (req, res = response) => {
                 loggerCSV.info(`getAllProducts, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
-                    value: { product: result },
+                    value: result,
                     msg: 'Listado de productos obtenido correctamente.'
                 });
             })
             .catch(error => {
-                logger.error(`getAllDBProducts => getAllDBProducts : params=> id=${id} error=> ${error}`);
+                logger.error(`getAllDBProducts => getAllDBProducts : error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBProducts : params=> id=${id} error=> ${error}`);
+        logger.error(`getAllDBProducts : params=> error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],

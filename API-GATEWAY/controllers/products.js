@@ -25,19 +25,12 @@ const getAllProducts = async (req, res = response) => {
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
-
                 logger.info(`<== getAllProducts - username:${username}`);
                 loggerCSV.info(`getAllProducts,${(new Date() - function_enter_time) / 1000}`)
                 const { product } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: product,
+                    value: body.value,
                     msg: 'Producto obtenido correctamente.'
                 });
             } else {
@@ -63,7 +56,6 @@ const getAllProducts = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const getProduct = async (req, res = response) => {
