@@ -6,35 +6,29 @@ const crypto = require('crypto');
 
 const getAllCompanies = async (req, res = response) => {
 
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token.
-    const { label } = req;
-    //const { } = req.body;
-
     let function_enter_time = new Date();
-    logger.info(`getAllCompanies. username:${label}`)
+    logger.info(`==> getAllCompanies.`)
     try {
-
         getAllDBCompanies()
             .then(result => {
                 logger.info(`<== getAllCompanies`);
                 loggerCSV.info(`getAllCompanies, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
-                    items: result.rows,
-                    msg: 'Listado de empresas obtenido correctamente.'
+                    value: result,
+                    msg: 'Listado de compañias obtenido correctamente.'
                 });
             })
             .catch(error => {
-                logger.error(`getAllCompanies => getAllDBCompanies : params=> username=${label} error=> ${error}`);
+                logger.error(`getAllCompanies => getAllCompanies error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBCompanies : params=> username=${label} error=> ${error}`);
+        logger.error(`getAllCompanies error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de empresas.'
+            msg: 'Error obteniendo listado de marcas.'
         });
     }
 }

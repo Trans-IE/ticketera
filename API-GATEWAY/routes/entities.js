@@ -267,19 +267,17 @@ router.delete(
  *     summary: Obtener listado de todas las compañías
  *     description: Este endpoint permite obtener el listado de todas las compañías. Se requieren credenciales de usuario autenticado.
  *     tags: [Companys]
- *     security:
- *      - x-token: []
  *     responses:
  *       200:
- *         description: Listado de todas las compañias obtenida correctamente.
+ *         description: Listado de todas las compañías obtenido correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 products:
+ *                 companies:
  *                   type: array
- *                   description: Detalles de todos los productos.
+ *                   description: Detalles de todas las compañías.
  *       401:
  *         description: No autorizado (401) por falta de credenciales.
  *         content:
@@ -293,6 +291,8 @@ router.delete(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
  */
 router.post(
     '/getAllCompanies',

@@ -8,7 +8,7 @@ const { UserRol } = require('../helpers/constants');
 
 const getAllCompanies = async (req, res = response) => {
     const { label: username } = req;
-    //const { id } = req.body;
+
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> getAllCompanies - username:${username}`);
@@ -27,20 +27,13 @@ const getAllCompanies = async (req, res = response) => {
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
-
                 logger.info(`<== getAllCompanies - username:${username}`);
                 loggerCSV.info(`getAllCompanies,${(new Date() - function_enter_time) / 1000}`)
-                const { product } = body.value;
+
                 res.status(200).json({
                     ok: true,
-                    value: product,
-                    msg: 'Listado de compañías obtenido correctamente.'
+                    value: body.value,
+                    msg: 'Compañias obtenidas correctamente.'
                 });
             } else {
                 logger.error(`getAllCompanies : ${body.msg}`);

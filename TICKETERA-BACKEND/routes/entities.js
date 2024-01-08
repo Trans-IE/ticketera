@@ -13,9 +13,7 @@ const router = Router();
 router.post(
     '/getAllCompanies',
     [
-        check('label', 'El label es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     getAllCompanies
