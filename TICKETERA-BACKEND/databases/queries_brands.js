@@ -3,7 +3,7 @@ const pooldata = require('./poolpg')
 const getAllDBBrands = () => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from marcas by id asc;', [], (error, results) => {
+        pooldata.getPool.query('select * from marcas order by id asc;', [], (error, results) => {
             if (error) {
                 reject(error.message);
             }

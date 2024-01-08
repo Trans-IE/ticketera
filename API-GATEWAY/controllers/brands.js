@@ -69,14 +69,14 @@ const getProductsByBrand = async (req, res = response) => {
 
 const getAllBrands = async (req, res = response) => {
     const { label: username } = req;
-    const { id } = req.body;
+
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> getAllBrands - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllBrands";
 
     try {
-        logger.info(`getAllBrands id:${id} `)
+        logger.info(`getAllBrands `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -84,23 +84,15 @@ const getAllBrands = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id }, 'POST');
+            const resp = await fetchSinToken(url, {}, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
-
                 logger.info(`<== getAllBrands - username:${username}`);
                 loggerCSV.info(`getAllBrands,${(new Date() - function_enter_time) / 1000}`)
-                const { Brand } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: Brand,
+                    value: body.value,
                     msg: 'Marcas obtenidas correctamente.'
                 });
             } else {
@@ -111,7 +103,7 @@ const getAllBrands = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllBrands`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'

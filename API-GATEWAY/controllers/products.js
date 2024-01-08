@@ -7,7 +7,6 @@ const { UserRol } = require('../helpers/constants');
 
 const getAllProducts = async (req, res = response) => {
     const { label: username } = req;
-    const { id } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> getAllProducts - username:${username}`);

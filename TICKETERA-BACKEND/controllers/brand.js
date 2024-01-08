@@ -6,12 +6,8 @@ const crypto = require('crypto');
 
 const getAllBrands = async (req, res = response) => {
 
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token.
-    const { label } = req;
-
     let function_enter_time = new Date();
-    logger.info(`getAllBrands. username:${label}`)
+    logger.info(`==> getAllBrands.`)
     try {
 
         getAllDBBrands()
@@ -20,16 +16,16 @@ const getAllBrands = async (req, res = response) => {
                 loggerCSV.info(`getAllBrands, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
-                    items: result.rows,
+                    value: result,
                     msg: 'Listado de marcas obtenido correctamente.'
                 });
             })
             .catch(error => {
-                logger.error(`getAllBrands => getAllDBBrands : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+                logger.error(`getAllBrands => getAllDBBrands error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBBrands : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+        logger.error(`getAllDBBrands error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
