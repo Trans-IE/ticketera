@@ -251,7 +251,6 @@ router.delete(
     '/deleteCompany',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
-        check('id', 'el id debe ser numerico').isNumeric(),
 
         validarCampos,
         validarJWT
@@ -571,7 +570,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/deleteProduct:
- *   post:
+ *   delete:
  *     summary: Eliminar un producto
  *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un producto del sistema mediante su ID. Se requiere proporcionar el ID del producto a eliminar. Roles válidos => [Roles permitidos].
  *     tags: [Products]
@@ -627,7 +626,7 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.post(
+router.delete(
     '/deleteProduct',
     [
         check('id', 'El label es obligatorio').not().isEmpty(),
@@ -641,7 +640,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/updateProduct:
- *   post:
+ *   put:
  *     summary: Actualizar información de un producto
  *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de un producto en el sistema mediante su ID. Se requiere proporcionar el ID del producto y los campos a actualizar. Roles válidos => [Roles permitidos].
  *     tags: [Products]
@@ -713,8 +712,7 @@ router.post(
  *     security:
  *      - x-token: []
  */
-
-router.post(
+router.put(
     '/updateProduct',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
@@ -728,6 +726,7 @@ router.post(
 
     updateProduct
 );
+
 
 /**
  * @openapi
@@ -931,7 +930,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/updateContract:
- *   post:
+ *   put:
  *     summary: Actualizar información de un contrato
  *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de un contrato en el sistema mediante su ID. Se requiere proporcionar el ID del contrato y los campos a actualizar. Roles válidos => [Roles permitidos].
  *     tags: [Contracts]
@@ -1003,7 +1002,7 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.post(
+router.put(
     '/updateContract',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
@@ -1029,10 +1028,11 @@ router.post(
     updateContract
 );
 
+
 /**
  * @openapi
  * /api/entities/deleteContract:
- *   post:
+ *   delete:
  *     summary: Eliminar un contrato
  *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato del sistema mediante su ID. Se requiere proporcionar el ID del contrato a eliminar. Roles válidos => [Roles permitidos].
  *     tags: [Contracts]
@@ -1088,11 +1088,10 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.post(
+router.delete(
     '/deleteContract',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
-
         validarCampos,
         validarJWT
     ],
@@ -1220,7 +1219,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/updateBrand:
- *   post:
+ *   put:
  *     summary: Actualizar información de una marca
  *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de una marca en el sistema mediante su ID. Se requiere proporcionar el ID de la marca y el nuevo nombre. Roles válidos => [Roles permitidos].
  *     tags: [Brands]
@@ -1280,7 +1279,7 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.post(
+router.put(
     '/updateBrand',
     [
         check('id', 'El nombre es obligatorio').not().isEmpty(),
@@ -1296,7 +1295,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/deleteBrand:
- *   post:
+ *   delete:
  *     summary: Eliminar una marca
  *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una marca del sistema mediante su ID. Se requiere proporcionar el ID de la marca a eliminar. Roles válidos => [Roles permitidos].
  *     tags: [Brands]
@@ -1352,16 +1351,16 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.post(
+router.delete(
     '/deleteBrand',
     [
         check('id', 'El nombre es obligatorio').not().isEmpty(),
-
         validarCampos,
         validarJWT
     ],
 
     deleteBrand
 );
+
 
 module.exports = router;
