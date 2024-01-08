@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getDBProduct, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct } = require('../databases/queries_products');
+const { getDBProduct, getDBProductByBrand, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct } = require('../databases/queries_products');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -8,7 +8,6 @@ const getAllProducts = async (req, res = response) => {
     let function_enter_time = new Date();
     logger.info(`getAllProducts.`)
     try {
-
         getAllDBProducts()
             .then(result => {
                 logger.info(`<== getAllProducts`);
@@ -60,6 +59,40 @@ const getProduct = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`getDBProduct : params=> id=${id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de productos.'
+        });
+    }
+}
+
+const getProductsByBrand = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { marca_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getProductByBrand. marca_id:${marca_id}`)
+    try {
+
+        getDBProductByBrand(marca_id)
+            .then(result => {
+                logger.info(`<== getDBProductByBrand`);
+                loggerCSV.info(`getDBProductByBrand, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de productos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getDBProductByBrand => getDBProductByBrand : params=> marca_id=> ${marca_id} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getDBProductByBrand : params=> marca_id=> ${marca_id} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
@@ -184,6 +217,7 @@ const deleteProduct = async (req, res = response) => {
 
 module.exports = {
     getProduct,
+    getProductsByBrand,
     getAllProducts,
     createProduct,
     updateProduct,

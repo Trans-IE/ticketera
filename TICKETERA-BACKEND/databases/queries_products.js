@@ -1,6 +1,28 @@
 const pooldata = require('./poolpg')
 
 //Obtener todos los productos
+const getDBProductByBrand = (marca_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from productos where marca_id = ($1)', [marca_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+//Obtener todos los productos
 const getAllDBProducts = () => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -110,6 +132,7 @@ module.exports = {
     getAllDBProducts,
     createDBProduct,
     deleteDBProduct,
-    updateDBProduct
+    updateDBProduct,
+    getDBProductByBrand
 }
 

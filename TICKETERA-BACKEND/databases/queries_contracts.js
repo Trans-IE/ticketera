@@ -1,9 +1,30 @@
 const pooldata = require('./poolpg')
-
 const getAllDBContracts = () => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from contratos where habilitado = true;', [], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+
+const getDBContractsByCompany = (empresa_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from contratos where habilitado = true and empresa_id = ($1);', [empresa_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -85,6 +106,7 @@ const updateDBContract = (ejecutivo_id, sla_horas_respuesta, sla_horas_provisori
 
 module.exports = {
     getAllDBContracts,
+    getDBContractsByCompany,
     createDBContract,
     deleteDBContract,
     updateDBContract
