@@ -12,11 +12,11 @@ export const entitySlice = createSlice(
         initialState: initialState,
         reducers: {
             entitiesClearDataRedux: (state, action) => {
-                state.brands= action.payload;
+                state.brands= [];
             },
 
             brandGetRowsetRedux: ( state, action) => {
-
+                state.brands= action.payload;
             },
             brandCreateRedux: (state, action ) => {
                 state.brands = state.brands.concat(action.payload);
