@@ -9,13 +9,12 @@ const getAllBrands = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
     const { label } = req;
-    const { offset, limit } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getAllBrands. username:${label}  offset:${offset} limit:${limit}`)
+    logger.info(`getAllBrands. username:${label}`)
     try {
 
-        getAllDBBrands(offset, limit)
+        getAllDBBrands()
             .then(result => {
                 logger.info(`<== getAllBrands`);
                 loggerCSV.info(`getAllBrands, ${(new Date() - function_enter_time) / 1000}`)
@@ -83,63 +82,34 @@ const createBrand = async (req, res = response) => {
 
 const updateBrand = async (req, res = response) => {
 
-    const { id } = req.body;
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { nombre, direccion, telefono, mail, habilitado } = req.body;
-    logger.info(`updateBrand. id:${id}  nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}  `)
+    const { label } = req;
+
+    const { id, nombre } = req.body;
+    logger.info(`updateBrand id:${id} nombre:${nombre} `)
+
     try {
-
-        updateDBBrand(id, nombre, direccion, telefono, mail, habilitado)
-            .then(id_result => {
-
-                // let id_result = result.rows[0].f_r2_skill_update; 
-
-                if (id_result > 0) {
-                    // http status 200: elemento actualizado correctamente
-                    // retorno objeto actualizado
-                    let objEmpresa = new Object();
-                    objEmpresa.id = id;
-                    objEmpresa.nombre = nombre;
-                    objEmpresa.direccion = direccion;
-                    objEmpresa.telefono = telefono;
-                    objEmpresa.mail = mail;
-                    objEmpresa.habilitado = habilitado;
-
-                    res.status(200).json({
-                        ok: true,
-                        item: objEmpresa,
-                        msg: `Empresa '${nombre}' fue actualizado correctamente.`
-                    });
-                }
-                else if (id_result == -1) {
-                    // el vdn NO EXISTE: retorno msg "vdn no pudo ser encontrado". retorno HTTP 404 recurso no encontrado.
-                    return res.status(404).json({
-                        ok: false,
-                        msg: `La Empresa id ${id} no pudo ser encontrada en el sistema.`
-                    });
-                }
-                else {
-                    // ocurrio otro error no manejado en sql.
-                    return res.status(401).json({
-                        ok: false,
-                        msg: 'La Empresa no pudo ser actualizada en el sistema.-'
-                    });
-                }
-
+        updateDBBrand(id, nombre)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    item: { product: result },
+                    msg: `Marca '${nombre}' fue actualizada correctamente.`
+                });
             })
             .catch(dataError => {
-                logger.error(`updateBrand => updateDBBrand : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${dataError}`);
+                logger.error(`updateBrand => updateDBProduct : params=> id:${id} nombre:${nombre}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo actualizar la empresa '${nombre}' `
+                    msg: `No se pudo actualizar el producto '${nombre}' `
                 });
             });
 
     } catch (error) {
-        logger.error(`updateBrand : params=> id=${id} nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} habilitado=${habilitado} error=> ${error}`);
+        logger.error(`updateBrand : params=> id:${id} nombre:${nombre} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,

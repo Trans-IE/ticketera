@@ -9,13 +9,13 @@ const getAllCompanies = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
     const { label } = req;
-    const { offset, limit } = req.body;
+    //const { } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getAllCompanies. username:${label}  offset:${offset} limit:${limit}`)
+    logger.info(`getAllCompanies. username:${label}`)
     try {
 
-        getAllDBCompanies(offset, limit)
+        getAllDBCompanies()
             .then(result => {
                 logger.info(`<== getAllCompanies`);
                 loggerCSV.info(`getAllCompanies, ${(new Date() - function_enter_time) / 1000}`)
@@ -26,11 +26,11 @@ const getAllCompanies = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllCompanies => getAllDBCompanies : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+                logger.error(`getAllCompanies => getAllDBCompanies : params=> username=${label} error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBCompanies : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+        logger.error(`getAllDBCompanies : params=> username=${label} error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],

@@ -64,6 +64,67 @@ const getAllContracts = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
+}
+
+const getAllContractsByCompany = async (req, res = response) => {
+    const { label: username } = req;
+    const { company } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> getAllContractsByCompany - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllContractsByCompany";
+
+    try {
+        logger.info(`getAllContractsByCompany company:${company} `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { offset, limit }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== getAllContractsByCompany - username:${username}`);
+                loggerCSV.info(`getAllContractsByCompany,${(new Date() - function_enter_time) / 1000}`)
+                const { contract } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: contract,
+                    msg: 'Contrato por compañia obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getAllContractsByCompany : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getAllContracts : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
 
 }
 
@@ -257,5 +318,6 @@ module.exports = {
     createContract,
     updateContract,
     deleteContract,
-    getAllContracts
+    getAllContracts,
+    getAllContractsByCompany
 }

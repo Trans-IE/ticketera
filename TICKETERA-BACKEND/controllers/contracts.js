@@ -12,10 +12,10 @@ const getAllContracts = async (req, res = response) => {
     const { offset, limit } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getAllContracts. username:${label}  offset:${offset} limit:${limit}`)
+    logger.info(`getAllContracts. username:${label}`)
     try {
 
-        getAllDBContracts(offset, limit)
+        getAllDBContracts()
             .then(result => {
                 logger.info(`<== getAllContracts`);
                 loggerCSV.info(`getAllContracts, ${(new Date() - function_enter_time) / 1000}`)
@@ -26,11 +26,11 @@ const getAllContracts = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllContracts => getAllDBCompanies : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+                logger.error(`getAllContracts => getAllDBCompanies : params=> username=${label} error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllContracts : params=> username=${label} offset=${offset} limit=${limit} error=> ${error}`);
+        logger.error(`getAllContracts : params=> username=${label} error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
@@ -65,7 +65,7 @@ const createContract = async (req, res = response) => {
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo crear el contrato. `
+                    msg: `No se pudo crear el contrato.`
                 });
             });
 
@@ -100,7 +100,7 @@ const updateContract = async (req, res = response) => {
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo actualizar el contrato '${id}'`
+                    msg: `No se pudo actualizar el contrato'${id}'`
                 });
             });
 

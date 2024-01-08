@@ -1,10 +1,10 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { createCompany, updateCompany, deleteCompany } = require('../controllers/companies');
-const { createProduct, deleteProduct, updateProduct, getProduct } = require('../controllers/products');
-const { createContract, deleteContract, updateContract, getAllContracts } = require('../controllers/contracts');
-const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
+const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
+const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts } = require('../controllers/products');
+const { createContract, deleteContract, updateContract, getAllContracts, getAllContractsByCompany } = require('../controllers/contracts');
+const { createBrand, deleteBrand, updateBrand, getAllBrands, getProductsByBrand } = require('../controllers/brands');
 const { getUserRol } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -260,6 +260,47 @@ router.delete(
     deleteCompany
 );
 
+/**
+ * @openapi
+ * /api/entities/getAllCompanies:
+ *   post:
+ *     summary: Obtener listado de todas las compañías
+ *     description: Este endpoint permite obtener el listado de todas las compañías. Se requieren credenciales de usuario autenticado.
+ *     tags: [Companys]
+ *     security:
+ *      - x-token: []
+ *     responses:
+ *       200:
+ *         description: Listado de todas las compañias obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   description: Detalles de todos los productos.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getAllCompanies',
+    [
+        validarJWT
+    ],
+    getAllCompanies
+);
 
 router.post(
     '/getUserRol',
@@ -270,6 +311,105 @@ router.post(
     ],
 
     getUserRol
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllProducts:
+ *   post:
+ *     summary: Obtener información de todos los productos
+ *     description: Este endpoint permite obtener información detallada de todos los productos. Se requieren credenciales de usuario autenticado.
+ *     tags: [Products]
+ *     security:
+ *      - x-token: []
+ *     responses:
+ *       200:
+ *         description: Información de todos los productos obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   description: Detalles de todos los productos.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+
+router.post(
+    '/getAllProducts',
+    [
+        validarJWT
+    ],
+    getAllProducts
+);
+
+/**
+ * @openapi
+ * /api/entities/getProductsByBrand:
+ *   post:
+ *     summary: Obtener información de todos los productos por marca
+ *     description: Este endpoint permite obtener información detallada de todos los productos por marca. Se requieren credenciales de usuario autenticado.
+ *     tags: [Products]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               brand:
+ *                 type: string
+ *                 description: Nombre de la marca de los productos a buscar.
+ *             required:
+ *               - brand
+ *     responses:
+ *       200:
+ *         description: Información de todos los productos por marca obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   description: Detalles de todos los productos por marca.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getProductsByBrand',
+    [
+        check('brand', 'Debe ingresar una marca').not().isEmpty(),
+
+        validarJWT
+    ],
+    getProductsByBrand
 );
 
 /**
@@ -632,6 +772,53 @@ router.post(
     ],
 
     getAllContracts
+);
+
+/**
+ * @openapi
+ * /api/entities/getContractsByCompany:
+ *   post:
+ *     summary: Obtener todos los contratos por compañía
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los contratos en el sistema. Se requiere autenticación con un token válido.
+ *     tags: [Contracts]
+ *     responses:
+ *       200:
+ *         description: Lista de contratos por compañia obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contracts:
+ *                   type: array
+ *                   description: Lista de contratos por compañía.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getAllContractsByCompany',
+    [
+        check('company', 'Company es obligatorio').not().isEmpty(),
+        validarJWT
+    ],
+
+    getAllContractsByCompany
 );
 
 /**
@@ -1163,7 +1350,7 @@ router.post(
         validarJWT
     ],
 
-    createBrand
+    deleteBrand
 );
 
 module.exports = router;

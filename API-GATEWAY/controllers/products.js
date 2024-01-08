@@ -5,6 +5,68 @@ const { fetchConToken, fetchSinToken } = require('../helpers/fetch');
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 
+const getAllProducts = async (req, res = response) => {
+    const { label: username } = req;
+    const { id } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> getAllProducts - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllProducts";
+
+    try {
+        logger.info(`getAllProducts`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, {}, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== getAllProducts - username:${username}`);
+                loggerCSV.info(`getAllProducts,${(new Date() - function_enter_time) / 1000}`)
+                const { product } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: product,
+                    msg: 'Producto obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getAllProducts : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getProduct : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+
+}
+
 const getProduct = async (req, res = response) => {
     const { label: username } = req;
     const { id } = req.body;
@@ -255,6 +317,7 @@ const deleteProduct = async (req, res = response) => {
 
 module.exports = {
     getProduct,
+    getAllProducts,
     createProduct,
     updateProduct,
     deleteProduct

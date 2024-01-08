@@ -1,9 +1,9 @@
 const pooldata = require('./poolpg')
 
-const getAllDBBrands = (offset, limit) => {
+const getAllDBBrands = () => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from marcas by nombre asc;', [offset, limit], (error, results) => {
+        pooldata.getPool.query('select * from marcas by id asc;', [], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -62,6 +62,7 @@ const deleteDBBrand = (id) => {
 
     return return_promise;
 }
+
 
 const updateDBBrand = (id, nombre) => {
     const return_promise = new Promise((resolve, reject) => {

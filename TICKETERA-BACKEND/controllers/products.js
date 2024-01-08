@@ -1,8 +1,43 @@
 const { response } = require('express');
-const { getDBProduct, createDBProduct, updateDBProduct, deleteDBProduct } = require('../databases/queries_products');
+const { getDBProduct, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct } = require('../databases/queries_products');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
+
+const getAllProducts = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { label } = req;
+    const { id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getAllProducts.`)
+    try {
+
+        getAllDBProducts()
+            .then(result => {
+                logger.info(`<== getAllProducts`);
+                loggerCSV.info(`getAllProducts, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: { product: result },
+                    msg: 'Listado de productos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllDBProducts => getAllDBProducts : params=> id=${id} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBProducts : params=> id=${id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de productos.'
+        });
+    }
+}
 
 const getProduct = async (req, res = response) => {
 
@@ -155,6 +190,7 @@ const deleteProduct = async (req, res = response) => {
 
 module.exports = {
     getProduct,
+    getAllProducts,
     createProduct,
     updateProduct,
     deleteProduct

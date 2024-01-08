@@ -1,5 +1,27 @@
 const pooldata = require('./poolpg')
 
+//Obtener todos los productos
+const getAllDBProducts = (id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('SELECT * FROM public.f_ticketera_product_get_product_by_id($1);', [id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const getDBProduct = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -85,9 +107,9 @@ const updateDBProduct = (id, nombre, modelo, habilitado, marca_id) => {
 
 module.exports = {
     getDBProduct,
+    getAllDBProducts,
     createDBProduct,
     deleteDBProduct,
     updateDBProduct
-
 }
 

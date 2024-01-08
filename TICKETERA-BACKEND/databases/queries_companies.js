@@ -1,9 +1,9 @@
 const pooldata = require('./poolpg')
 
-const getAllDBCompanies = (offset, limit) => {
+const getAllDBCompanies = () => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [offset, limit], (error, results) => {
+        pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [], (error, results) => {
             if (error) {
                 reject(error.message);
             }

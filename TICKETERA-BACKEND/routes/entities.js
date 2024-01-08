@@ -2,12 +2,24 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { createCompany, updateCompany, deleteCompany } = require('../controllers/companies');
+const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
-const { getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products');
+const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts } = require('../controllers/products');
 const { getAllContracts, createContract, updateContract, deleteContract } = require('../controllers/contracts');
+const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brand');
 
 const router = Router();
+
+router.post(
+    '/getAllCompanies',
+    [
+        check('label', 'El label es obligatorio').not().isEmpty(),
+
+        validarCampos
+    ],
+
+    getAllCompanies
+);
 
 router.post(
     '/createCompany',
@@ -89,6 +101,14 @@ router.post(
     ],
 
     getProduct
+);
+
+router.post(
+    '/getAllProducts',
+    [
+    ],
+
+    getAllProducts
 );
 
 router.post(
@@ -196,6 +216,48 @@ router.post(
     ],
 
     deleteContract
+);
+
+router.post(
+    '/getAllBrands',
+    [
+    ],
+
+    getAllBrands
+);
+
+router.post(
+    '/createBrand',
+    [
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    createBrand
+);
+
+router.post(
+    '/updateBrand',
+    [
+        check('id', 'El nombre es obligatorio').not().isEmpty(),
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    updateBrand
+);
+
+router.post(
+    '/deleteBrand',
+    [
+        check('id', 'El nombre es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    deleteBrand
 );
 
 module.exports = router;
