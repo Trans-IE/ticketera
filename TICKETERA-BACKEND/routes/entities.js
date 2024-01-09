@@ -6,7 +6,7 @@ const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContracts, createContract, updateContract, deleteContract, getContractsByCompany } = require('../controllers/contracts');
-const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brand');
+const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
 
 const router = Router();
 
@@ -268,8 +268,8 @@ router.put(
     updateBrand
 );
 
-router.post(
-    '/deleteBrand',
+router.delete(
+    '/deleteBrand/:id',
     [
         check('id', 'El nombre es obligatorio').not().isEmpty(),
 

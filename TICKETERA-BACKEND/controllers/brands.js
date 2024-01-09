@@ -126,7 +126,7 @@ const updateBrand = async (req, res = response) => {
 
 const deleteBrand = async (req, res = response) => {
 
-    const { id } = req.body;
+    const id = req.params.id;
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
@@ -137,32 +137,16 @@ const deleteBrand = async (req, res = response) => {
         // DEBE VALIDAR SI EXISTE EL ELEMENTO
 
         deleteDBBrand(id)
-            .then(id_result => {
-
-                // LA FUNCION FINALIZO SU EJECUCION 
-                // let id_result = result.rows[0].f_r2_vdn_delete;
-
-                if (id_result > 0) {
-                    // http status 200: elemento actualizado correctamente
-                    // retorno objeto actualizado
-                    let objBrand = new Object();
-                    objBrand.deleted_id = id;
-
+            .then(result => {
+                if (result == 1) {
                     res.status(200).json({
                         ok: true,
-                        item: objBrand,
+                        item: result,
                         msg: `Marca id: ${id} fue eliminado correctamente`
                     });
                 }
-                else if (id == -1) {
-                    // la empresa NO EXISTE: retorno msg "empresa no pudo ser encontrado". retorno HTTP 404 recurso no encontrado.
-                    return res.status(404).json({
-                        ok: false,
-                        msg: `Marca id: ${id} no pudo ser encontrado en el sistema.`
-                    });
-                }
                 else {
-                    // ocurrio otro error no manejado en sql.
+                    //Ocurrio un error no manejado en sql.
                     return res.status(401).json({
                         ok: false,
                         msg: 'La marca no pudo ser eliminado del sistema.'
@@ -170,12 +154,12 @@ const deleteBrand = async (req, res = response) => {
                 }
             })
             .catch(dataError => {
-                logger.error(`deleteBrand => deleteDBBrand: params=> id=${id} error=> ${dataError}`);
+                logger.error(`deleteBrand => deleteBrand: params=> id=${id} error=> ${dataError}`);
                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo eliminar la marca '${id}' `
+                    msg: `No se pudo eliminar la empresa '${id}' `
                 });
 
             });
@@ -184,7 +168,7 @@ const deleteBrand = async (req, res = response) => {
         res.status(502).json({
             ok: false,
             error: error,
-            msg: `No se pudo eliminar la marca '${id}' `
+            msg: `No se pudo eliminar la empresa '${id}' `
         });
     }
 }

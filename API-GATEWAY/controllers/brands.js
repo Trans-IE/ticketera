@@ -187,13 +187,13 @@ const updateBrand = async (req, res = response) => {
 const deleteBrand = async (req, res = response) => {
 
     const { label: username } = req;
-    const { id } = req.body;
+    const id = req.params.id;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> deleteBrand - username:${username}`);
 
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteBrand`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteBrand/${id}`;
 
     try {
         const rol = await getUserRol(username)
@@ -202,7 +202,7 @@ const deleteBrand = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id }, 'POST');
+            const resp = await fetchSinToken(url, { id }, 'DELETE');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -214,12 +214,12 @@ const deleteBrand = async (req, res = response) => {
                 }
 
                 logger.info(`<== deleteBrand - id:${id}`);
-                loggerCSV.info(`updateBrand,${(new Date() - function_enter_time) / 1000}`)
-                const { Brand } = body.value;
+                loggerCSV.info(`deleteBrand,${(new Date() - function_enter_time) / 1000}`)
+
                 res.status(200).json({
                     ok: true,
-                    value: { Brand },
-                    msg: 'Contrato actualizado correctamente.'
+                    value: body.value,
+                    msg: 'Empresa eliminada correctamente.'
                 });
             } else {
                 logger.error(`deleteBrand : ${body.msg}`);
