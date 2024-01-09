@@ -92,7 +92,7 @@ const updateBrand = async (req, res = response) => {
                 if (result == 1) {
                     res.status(200).json({
                         ok: true,
-                        item: result,
+                        value: result,
                         msg: `La marca '${nombre}' fue actualizado correctamente.`
                     });
                 }
@@ -138,10 +138,10 @@ const deleteBrand = async (req, res = response) => {
 
         deleteDBBrand(id)
             .then(result => {
-                if (result == 1) {
+                if (result === 1) {
                     res.status(200).json({
                         ok: true,
-                        item: result,
+                        value: result,
                         msg: `Marca id: ${id} fue eliminado correctamente`
                     });
                 }
