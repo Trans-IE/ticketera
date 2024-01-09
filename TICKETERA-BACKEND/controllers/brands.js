@@ -9,7 +9,6 @@ const getAllBrands = async (req, res = response) => {
     let function_enter_time = new Date();
     logger.info(`==> getAllBrands.`)
     try {
-
         getAllDBBrands()
             .then(result => {
                 logger.info(`<== getAllBrands`);
@@ -85,7 +84,6 @@ const updateBrand = async (req, res = response) => {
     const { nombre } = req.body;
     logger.info(`updateBrand. id:${id}  nombre:${nombre}`)
     try {
-
         updateDBBrand(id, nombre)
             .then(result => {
                 console.log(`result: ${result}`);
@@ -121,7 +119,6 @@ const updateBrand = async (req, res = response) => {
             msg: 'Hable con el administrador'
         });
     }
-
 }
 
 const deleteBrand = async (req, res = response) => {

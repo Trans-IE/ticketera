@@ -92,6 +92,7 @@ router.post(
         validarCampos,
         validarJWT
     ],
+
     createCompany
 );
 
@@ -298,6 +299,7 @@ router.post(
     [
         validarJWT
     ],
+
     getAllCompanies
 );
 
@@ -352,6 +354,7 @@ router.post(
     [
         validarJWT
     ],
+
     getAllProducts
 );
 
@@ -566,14 +569,20 @@ router.post(
     ],
     createProduct
 );
-
 /**
  * @openapi
- * /api/entities/deleteProduct:
+ * /api/entities/deleteProduct/{id}:
  *   delete:
- *     summary: Eliminar un producto
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un producto del sistema mediante su ID. Se requiere proporcionar el ID del producto a eliminar. Roles válidos => [Roles permitidos].
+ *     summary: Eliminación de un producto en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una marca existente en el sistema. Roles válidos => LocalSM.
  *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del producto que se va a eliminar.
  *     requestBody:
  *       required: true
  *       content:
@@ -581,10 +590,6 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: string
- *                 description: El ID del producto a eliminar.
- *                 example: 12345
  *     responses:
  *       200:
  *         description: Producto eliminado correctamente.
@@ -593,11 +598,11 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje indicando que el producto ha sido eliminado con éxito.
- *       400:
- *         description: Solicitud incorrecta (400) por validaciones.
+ *                 brand:
+ *                   type: object
+ *                   description: Información de la marca actualizada y código único generado.
+ *       201:
+ *         description: Actualización no permitida (201) debido a validaciones.
  *         content:
  *           application/json:
  *             schema:
@@ -605,12 +610,12 @@ router.post(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *       401:
- *         description: No autorizado (401) por falta de credenciales.
+ *                   description: Mensaje con información adicional devuelta.
+ *       501:
+ *         description: Actualización no permitida (501) debido a un error en el servidor.
  *         content:
  *           application/json:
  *             schema:
@@ -618,18 +623,18 @@ router.post(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *     parameters: []
+ *                   description: Mensaje con información adicional devuelta.
  *     security:
  *      - x-token: []
  */
 router.delete(
-    '/deleteProduct',
+    '/deleteProduct/:id',
     [
         check('id', 'El label es obligatorio').not().isEmpty(),
+
         validarCampos,
         validarJWT
     ],
@@ -639,11 +644,18 @@ router.delete(
 
 /**
  * @openapi
- * /api/entities/updateProduct:
+ * /api/entities/updateProduct/{id}:
  *   put:
- *     summary: Actualizar información de un producto
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de un producto en el sistema mediante su ID. Se requiere proporcionar el ID del producto y los campos a actualizar. Roles válidos => [Roles permitidos].
+ *     summary: Actualización de un producto en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un producto existente en el sistema. Roles válidos => LocalSM.
  *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del producto que se va a actualizar.
  *     requestBody:
  *       required: true
  *       content:
@@ -651,26 +663,22 @@ router.delete(
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: string
- *                 description: El ID del producto a actualizar.
- *                 example: 12345
  *               nombre:
  *                 type: string
- *                 description: El nuevo nombre del producto.
- *                 example: NuevoNombre
+ *                 description: El nombre actualizado del producto.
+ *                 example: nuevoProducto1
  *               modelo:
  *                 type: string
- *                 description: El nuevo modelo del producto.
- *                 example: NuevoModelo
+ *                 description: El modelo actualizado del producto.
+ *                 example: modeloNuevo
  *               habilitado:
  *                 type: boolean
- *                 description: Estado de habilitación del producto.
+ *                 description: Indica si el producto está habilitado o no.
  *                 example: true
  *               marca_id:
- *                 type: string
- *                 description: El nuevo ID de la marca asociada al producto.
- *                 example: 2
+ *                 type: integer
+ *                 description: ID de la marca asociada al producto.
+ *                 example: 1
  *     responses:
  *       200:
  *         description: Producto actualizado correctamente.
@@ -679,11 +687,11 @@ router.delete(
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje indicando que el producto ha sido actualizado con éxito.
- *       400:
- *         description: Solicitud incorrecta (400) por validaciones.
+ *                 product:
+ *                   type: object
+ *                   description: Información del producto actualizado y código único generado.
+ *       201:
+ *         description: Actualización no permitida (201) debido a validaciones.
  *         content:
  *           application/json:
  *             schema:
@@ -691,12 +699,12 @@ router.delete(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *       401:
- *         description: No autorizado (401) por falta de credenciales.
+ *                   description: Mensaje con información adicional devuelta.
+ *       501:
+ *         description: Actualización no permitida (501) debido a un error en el servidor.
  *         content:
  *           application/json:
  *             schema:
@@ -704,28 +712,29 @@ router.delete(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *     parameters: []
+ *                   description: Mensaje con información adicional devuelta.
  *     security:
  *      - x-token: []
  */
 router.put(
-    '/updateProduct',
+    '/updateProduct/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('modelo', 'El modelo es obligatorio').not().isEmpty(),
         check('habilitado', 'Habilitado es obligatorio').not().isEmpty(),
         check('marca_id', 'La marca id es obligatorio').not().isEmpty(),
+
         validarCampos,
         validarJWT
     ],
 
     updateProduct
 );
+
 
 
 /**

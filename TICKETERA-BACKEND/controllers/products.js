@@ -142,41 +142,49 @@ const createProduct = async (req, res = response) => {
 
 const updateProduct = async (req, res = response) => {
 
+    const id = req.params.id;
+
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { label } = req;
-
-    const { id, nombre, modelo, habilitado, marca_id } = req.body;
-    logger.info(`updateProduct nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id} `)
-
+    const { nombre, modelo, habilitado, marca_id } = req.body;
+    logger.info(`updateBrand. id:${id} nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id}`)
     try {
+
         updateDBProduct(id, nombre, modelo, habilitado, marca_id)
             .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    item: { product: result },
-                    msg: `Producto '${nombre}' fue actualizado correctamente.`
-                });
+                if (result == 1) {
+                    res.status(200).json({
+                        ok: true,
+                        value: result,
+                        msg: `La marca '${nombre}' fue actualizado correctamente.`
+                    });
+                }
+                else {
+                    return res.status(401).json({
+                        ok: false,
+                        msg: `La marca no pudo ser actualizada en el sistema.-`
+                    });
+                }
+
             })
             .catch(dataError => {
-                logger.error(`updateProduct => updateDBProduct : params=> nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id} error=> ${dataError}`);
+                logger.error(`updateBrand  => updateDBBrand : params=> id=${id} nombre=${nombre}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo actualizar el producto '${nombre}' `
+                    msg: `No se pudo actualizar la marca '${nombre}' `
                 });
             });
 
     } catch (error) {
-        logger.error(`updateProduct : params=> nombre:${nombre} modelo:${modelo} habilitado:${habilitado} marca_id:${marca_id} error=> ${error}`);
+        logger.error(`updateCompany : params=> id=${id} nombre=${nombre} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
             msg: 'Hable con el administrador'
         });
     }
-
 }
 
 const deleteProduct = async (req, res = response) => {
