@@ -117,7 +117,6 @@ const getProduct = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const getProductsByBrand = async (req, res = response) => {
@@ -234,16 +233,16 @@ const createProduct = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const updateProduct = async (req, res = response) => {
     const { label: username } = req;
-    const { id, nombre, modelo, habilitado, marca_id } = req.body;
+    const id = req.params.id;
+    const { nombre, modelo, habilitado, marca_id } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> updateProduct - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateProduct`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateProduct/${id}`;
 
     try {
 
@@ -255,7 +254,7 @@ const updateProduct = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id, nombre, modelo, habilitado, marca_id }, 'POST');
+            const resp = await fetchSinToken(url, { id, nombre, modelo, habilitado, marca_id }, 'PUT');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -268,11 +267,11 @@ const updateProduct = async (req, res = response) => {
 
                 logger.info(`<== updateProduct - username:${username}`);
                 loggerCSV.info(`updateProduct,${(new Date() - function_enter_time) / 1000}`)
-                const { Products } = body.value;
+
                 res.status(200).json({
                     ok: true,
-                    value: { Products },
-                    msg: 'Empresa actualizada correctamente.'
+                    value: body.value,
+                    msg: 'Producto actualizado correctamente.'
                 });
             } else {
                 logger.error(`updateProduct : ${body.msg}`);
@@ -302,13 +301,13 @@ const updateProduct = async (req, res = response) => {
 const deleteProduct = async (req, res = response) => {
 
     const { label: username } = req;
-    const { id } = req.body;
+    const id = req.params.id;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> deleteProducts - username:${username}`);
+    logger.info(`==> deleteProduct - username:${username}`);
 
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteProduct`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteProduct/${id}`;
 
     try {
         const rol = await getUserRol(username)
@@ -317,7 +316,7 @@ const deleteProduct = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id }, 'POST');
+            const resp = await fetchSinToken(url, { id }, 'DELETE');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -329,12 +328,12 @@ const deleteProduct = async (req, res = response) => {
                 }
 
                 logger.info(`<== deleteProduct - id:${id}`);
-                loggerCSV.info(`updateProduct,${(new Date() - function_enter_time) / 1000}`)
-                const { products } = body.value;
+                loggerCSV.info(`deleteProduct,${(new Date() - function_enter_time) / 1000}`)
+
                 res.status(200).json({
                     ok: true,
-                    value: { products },
-                    msg: 'Empresa actualizada correctamente.'
+                    value: body.value,
+                    msg: 'Producto eliminada correctamente.'
                 });
             } else {
                 logger.error(`deleteProduct : ${body.msg}`);
@@ -358,7 +357,6 @@ const deleteProduct = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 module.exports = {

@@ -134,25 +134,28 @@ router.post(
     createProduct
 );
 
-router.post(
-    '/updateProduct',
+router.put(
+    '/updateProduct/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('modelo', 'El modelo es obligatorio').not().isEmpty(),
+        check('habilitado', 'El habilitado es obligatorio').not().isEmpty(),
+        check('marca_id', 'El marca_id es obligatorio').not().isEmpty(),
 
-        validarCampos
+        validarCampos,
+
     ],
 
     updateProduct
 );
 
-router.post(
-    '/deleteProduct',
+router.delete(
+    '/deleteProduct/:id',
     [
-        check('id', 'El id es obligatorio').not().isEmpty(),
+        check('id', 'El label es obligatorio').not().isEmpty(),
 
-        validarCampos
+        validarCampos,
     ],
 
     deleteProduct
@@ -180,19 +183,19 @@ router.post(
     '/createContract',
     [
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_provisorio', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_definitivo', 'El nombre es obligatorio').not().isEmpty(),
-        check('tipo', 'El nombre es obligatorio').not().isEmpty(),
-        check('horas_paquete', 'El nombre es obligatorio').not().isEmpty(),
-        check('notas', 'El nombre es obligatorio').not().isEmpty(),
-        check('habilitado', 'El nombre es obligatorio').not().isEmpty(),
-        check('soporte_onsite', 'El nombre es obligatorio').not().isEmpty(),
-        check('reemplazo_partes', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_fin', 'El nombre es obligatorio').not().isEmpty(),
+        check('empresa_id', 'empresa_id es obligatorio').not().isEmpty(),
+        check('ejecutivo_id', 'ejecutivo_id es obligatorio').not().isEmpty(),
+        check('sla_horas_respuesta', 'sla_horas_respuesta es obligatorio').not().isEmpty(),
+        check('sla_horas_provisorio', 'sla_horas_provisorio es obligatorio').not().isEmpty(),
+        check('sla_horas_definitivo', 'sla_horas_definitivo es obligatorio').not().isEmpty(),
+        check('tipo', 'El tipo es obligatorio').not().isEmpty(),
+        check('horas_paquete', 'horas_paquete es obligatorio').not().isEmpty(),
+        check('notas', 'notas es obligatorio').not().isEmpty(),
+        check('habilitado', 'habilitado es obligatorio').not().isEmpty(),
+        check('soporte_onsite', 'soporte_onsite es obligatorio').not().isEmpty(),
+        check('reemplazo_partes', 'reemplazo_partes es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'fecha_inicio es obligatorio').not().isEmpty(),
+        check('fecha_fin', 'fecha_fin es obligatorio').not().isEmpty(),
 
         validarCampos
     ],
@@ -200,24 +203,24 @@ router.post(
     createContract
 );
 
-router.post(
-    '/updateContract',
+router.put(
+    '/updateContract/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_provisorio', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_definitivo', 'El nombre es obligatorio').not().isEmpty(),
-        check('tipo', 'El nombre es obligatorio').not().isEmpty(),
-        check('horas_paquete', 'El nombre es obligatorio').not().isEmpty(),
-        check('notas', 'El nombre es obligatorio').not().isEmpty(),
-        check('habilitado', 'El nombre es obligatorio').not().isEmpty(),
-        check('soporte_onsite', 'El nombre es obligatorio').not().isEmpty(),
-        check('reemplazo_partes', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_fin', 'El nombre es obligatorio').not().isEmpty(),
+        check('empresa_id', 'empresa_id es obligatorio').not().isEmpty(),
+        check('ejecutivo_id', 'ejecutivo_id es obligatorio').not().isEmpty(),
+        check('sla_horas_respuesta', 'sla_horas_respuesta es obligatorio').not().isEmpty(),
+        check('sla_horas_provisorio', 'sla_horas_provisorio es obligatorio').not().isEmpty(),
+        check('sla_horas_definitivo', 'sla_horas_definitivo es obligatorio').not().isEmpty(),
+        check('tipo', 'tipo es obligatorio').not().isEmpty(),
+        check('horas_paquete', 'horas_paquete es obligatorio').not().isEmpty(),
+        check('notas', 'notas es obligatorio').not().isEmpty(),
+        check('habilitado', 'habilitado es obligatorio').not().isEmpty(),
+        check('soporte_onsite', 'soporte_onsite es obligatorio').not().isEmpty(),
+        check('reemplazo_partes', 'reemplazo_partes es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'fecha_inicio es obligatorio').not().isEmpty(),
+        check('fecha_fin', 'fecha_fin es obligatorio').not().isEmpty(),
 
         validarCampos
     ],
@@ -225,8 +228,8 @@ router.post(
     updateContract
 );
 
-router.post(
-    '/deleteContract',
+router.delete(
+    '/deleteContract/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
