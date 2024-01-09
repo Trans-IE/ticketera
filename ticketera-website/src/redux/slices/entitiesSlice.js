@@ -25,11 +25,13 @@ export const entitySlice = createSlice(
                 state.brands = state.brands.map(
                     e => (e.id === action.payload.id) ? action.payload : e
                 );
+            },
+            brandDeleteRedux: (state, action) => {
+                state.brands.filter(brand => brand.id !== action.payload);
             }
-            
         }
     }
 );
 
-export const { entitiesClearDataRedux, brandGetRowsetRedux, brandCreateRedux, brandUpdateRedux  } = entitySlice.actions;
+export const { entitiesClearDataRedux, brandGetRowsetRedux, brandCreateRedux, brandUpdateRedux, brandDeleteRedux  } = entitySlice.actions;
 export default entitySlice.reducer;
