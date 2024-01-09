@@ -31,5 +31,5 @@ export const entitySlice = createSlice(
     }
 );
 
-export const { entitiesClearDataRedux, brandsGetRowsetRedux } = entitySlice.actions;
+export const { entitiesClearDataRedux, brandGetRowsetRedux, brandCreateRedux, brandUpdateRedux  } = entitySlice.actions;
 export default entitySlice.reducer;
