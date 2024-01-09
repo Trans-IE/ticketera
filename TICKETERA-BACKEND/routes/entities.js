@@ -255,13 +255,14 @@ router.post(
     createBrand
 );
 
-router.post(
-    '/updateBrand',
+router.put(
+    '/updateBrand/:id',
     [
-        check('id', 'El nombre es obligatorio').not().isEmpty(),
+        check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
         validarCampos,
+
     ],
 
     updateBrand

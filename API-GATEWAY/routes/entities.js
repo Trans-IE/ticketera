@@ -1218,11 +1218,18 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/updateBrand:
+ * /api/entities/updateBrand/{id}:
  *   put:
- *     summary: Actualizar información de una marca
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de una marca en el sistema mediante su ID. Se requiere proporcionar el ID de la marca y el nuevo nombre. Roles válidos => [Roles permitidos].
+ *     summary: Actualización de una marca en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar una empresa cliente existente en el sistema. Roles válidos => LocalSM.
  *     tags: [Brands]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la marca que se va a actualizar.
  *     requestBody:
  *       required: true
  *       content:
@@ -1230,14 +1237,10 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: string
- *                 description: El ID de la marca a actualizar.
- *                 example: 12345
  *               nombre:
  *                 type: string
- *                 description: El nuevo nombre de la marca.
- *                 example: NuevoNombre
+ *                 description: El nombre actualizado de la marca.
+ *                 example: nuevaPrueba1
  *     responses:
  *       200:
  *         description: Marca actualizada correctamente.
@@ -1246,11 +1249,11 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje indicando que la marca ha sido actualizada con éxito.
- *       400:
- *         description: Solicitud incorrecta (400) por validaciones.
+ *                 brand:
+ *                   type: object
+ *                   description: Información de la marca actualizada y código único generado.
+ *       201:
+ *         description: Actualización no permitida (201) debido a validaciones.
  *         content:
  *           application/json:
  *             schema:
@@ -1258,12 +1261,12 @@ router.post(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *       401:
- *         description: No autorizado (401) por falta de credenciales.
+ *                   description: Mensaje con información adicional devuelta.
+ *       501:
+ *         description: Actualización no permitida (501) debido a un error en el servidor.
  *         content:
  *           application/json:
  *             schema:
@@ -1271,18 +1274,17 @@ router.post(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
+ *                   description: Mensaje de error en caso de actualización fallida.
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *     parameters: []
+ *                   description: Mensaje con información adicional devuelta.
  *     security:
  *      - x-token: []
  */
 router.put(
-    '/updateBrand',
+    '/updateBrand/:id',
     [
-        check('id', 'El nombre es obligatorio').not().isEmpty(),
+        check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
         validarCampos,
@@ -1291,6 +1293,7 @@ router.put(
 
     updateBrand
 );
+
 
 /**
  * @openapi

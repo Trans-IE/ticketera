@@ -123,16 +123,16 @@ const createBrand = async (req, res = response) => {
 
 const updateBrand = async (req, res = response) => {
     const { label: username } = req;
-    const { id } = req.body;
-    const { nombre, direccion, telefono, mail, habilitado } = req.body;
+    const id = req.params.id;
+    const { nombre } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> updateBrand - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateBrand`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateBrand/${id}`;
 
     try {
 
-        logger.info(`updateBrand id:${id} nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}`)
+        logger.info(`updateBrand id:${id} nombre:${nombre}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -140,7 +140,7 @@ const updateBrand = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id, nombre, direccion, telefono, mail, habilitado }, 'PUT');
+            const resp = await fetchSinToken(url, { id, nombre }, 'PUT');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -153,10 +153,10 @@ const updateBrand = async (req, res = response) => {
 
                 logger.info(`<== updateBrand - username:${username}`);
                 loggerCSV.info(`updateBrand,${(new Date() - function_enter_time) / 1000}`)
-                const { Brand } = body.value;
+
                 res.status(200).json({
                     ok: true,
-                    value: { Brand },
+                    value: body.value,
                     msg: 'Marca actualizada correctamente.'
                 });
             } else {

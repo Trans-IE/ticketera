@@ -24,7 +24,7 @@ const getAllDBBrands = () => {
 const createDBBrand = (nombre) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_brand_create($1)', [nombre], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_brand_create($1)', [nombre], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -46,7 +46,7 @@ const createDBBrand = (nombre) => {
 const deleteDBBrand = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_brand_delete($1)', [id], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_brand_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -66,13 +66,13 @@ const deleteDBBrand = (id) => {
 
 const updateDBBrand = (id, nombre) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_brand_update($1,$2)', [id, nombre], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_brand_update($1,$2)', [id, nombre], (error, results) => {
             if (error) {
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_brand_update);
+                    resolve(results.rows[0].f_ticketera_brand_update);
                 } catch (error) {
                     reject(error.message);
                 }
