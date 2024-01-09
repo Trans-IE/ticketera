@@ -96,7 +96,7 @@ const deleteDBProduct = (id) => {
             }
             else {
                 try {
-                    resolve(results.rows[0]['ok']);
+                    resolve(results.rows[0].f_ticketera_product_delete);
                 } catch (error) {
                     reject(error.message);
                 }

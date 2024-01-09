@@ -150,12 +150,12 @@ router.put(
     updateProduct
 );
 
-router.post(
-    '/deleteProduct',
+router.delete(
+    '/deleteProduct/:id',
     [
-        check('id', 'El id es obligatorio').not().isEmpty(),
+        check('id', 'El label es obligatorio').not().isEmpty(),
 
-        validarCampos
+        validarCampos,
     ],
 
     deleteProduct
