@@ -1,7 +1,7 @@
 import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
 import { getConfigData, getURLFromConfigByName } from '../../helpers/getConfigFunctions';
 import encryptStorage from '../../helpers/storageEncrypter';
-import { entitiesClearDataRedux, brandGetRowsetRedux, brandCreateRedux, brandUpdateRedux } from '../slices/entitiesSlice';
+import { entitiesClearDataRedux, brandGetRowsetRedux, brandCreateRedux, brandUpdateRedux, brandDeleteRedux } from '../slices/entitiesSlice';
 
 
 export const brandGetRowset = () => {
@@ -74,7 +74,7 @@ export const brandDelete = ( brand ) => {
 
             if ( body.ok ) {
             //    dispatch( vdnUpdatedOK( vdn ) );
-                dispatch (brandDelete(brand));
+                dispatch (brandDeleteRedux(brand.id));
                 return body.msg;
             } else {
                 console.log("FALSE BODY ");
