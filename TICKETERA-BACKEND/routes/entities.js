@@ -182,7 +182,6 @@ router.post(
 router.post(
     '/createContract',
     [
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('empresa_id', 'empresa_id es obligatorio').not().isEmpty(),
         check('ejecutivo_id', 'ejecutivo_id es obligatorio').not().isEmpty(),
         check('sla_horas_respuesta', 'sla_horas_respuesta es obligatorio').not().isEmpty(),
@@ -207,7 +206,6 @@ router.put(
     '/updateContract/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('empresa_id', 'empresa_id es obligatorio').not().isEmpty(),
         check('ejecutivo_id', 'ejecutivo_id es obligatorio').not().isEmpty(),
         check('sla_horas_respuesta', 'sla_horas_respuesta es obligatorio').not().isEmpty(),
@@ -219,8 +217,6 @@ router.put(
         check('habilitado', 'habilitado es obligatorio').not().isEmpty(),
         check('soporte_onsite', 'soporte_onsite es obligatorio').not().isEmpty(),
         check('reemplazo_partes', 'reemplazo_partes es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'fecha_inicio es obligatorio').not().isEmpty(),
-        check('fecha_fin', 'fecha_fin es obligatorio').not().isEmpty(),
 
         validarCampos
     ],
@@ -233,7 +229,7 @@ router.delete(
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
-        validarCampos
+        validarCampos,
     ],
 
     deleteContract

@@ -118,7 +118,6 @@ const createBrand = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const updateBrand = async (req, res = response) => {

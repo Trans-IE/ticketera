@@ -574,7 +574,7 @@ router.post(
  * /api/entities/deleteProduct/{id}:
  *   delete:
  *     summary: Eliminación de un producto en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una marca existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un producto existente en el sistema. Roles válidos => LocalSM.
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -854,22 +854,60 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
- *                 type: string
- *                 description: El nombre del contrato.
- *                 example: Contrato1
  *               empresa_id:
  *                 type: string
  *                 description: El ID de la empresa asociada al contrato.
- *                 example: 12345
+ *                 example: 313
  *               ejecutivo_id:
  *                 type: string
  *                 description: El ID del ejecutivo asociado al contrato.
- *                 example: 67890
+ *                 example: 486
  *               sla_horas_respuesta:
  *                 type: integer
  *                 description: El tiempo en horas para la respuesta del contrato.
- *                 example: 24
+ *                 example: 0
+ *               sla_horas_provisorio:
+ *                 type: integer
+ *                 description: El tiempo en horas para el estado provisorio del contrato.
+ *                 example: 0
+ *               sla_horas_definitivo:
+ *                 type: integer
+ *                 description: El tiempo en horas para el estado definitivo del contrato.
+ *                 example: 0
+ *               tipo:
+ *                 type: integer
+ *                 description: Tipo de contrato (ej. 1 para mantenimiento, 2 para soporte).
+ *                 example: 1
+ *               horas_paquete:
+ *                 type: integer
+ *                 description: Número de horas incluidas en el paquete del contrato.
+ *                 example: 2
+ *               notas:
+ *                 type: string
+ *                 description: Notas adicionales o comentarios sobre el contrato.
+ *                 example: Test.
+ *               habilitado:
+ *                 type: boolean
+ *                 description: Indica si el contrato está habilitado o no.
+ *                 example: true
+ *               soporte_onsite:
+ *                 type: boolean
+ *                 description: Indica si el contrato incluye soporte onsite.
+ *                 example: false
+ *               reemplazo_partes:
+ *                 type: boolean
+ *                 description: Indica si el contrato incluye reemplazo de partes.
+ *                 example: false
+ *               fecha_inicio:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de inicio del contrato en formato YYYY-MM-DD.
+ *                 example: 2024-01-10
+ *               fecha_fin:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de fin del contrato en formato YYYY-MM-DD.
+ *                 example: 2025-01-10
  *     responses:
  *       201:
  *         description: Contrato creado correctamente.
@@ -914,7 +952,6 @@ router.post(
 router.post(
     '/createContract',
     [
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
         check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
         check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
@@ -938,11 +975,18 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/updateContract:
+ * /api/entities/updateContract/{id}:
  *   put:
- *     summary: Actualizar información de un contrato
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar la información de un contrato en el sistema mediante su ID. Se requiere proporcionar el ID del contrato y los campos a actualizar. Roles válidos => [Roles permitidos].
+ *     summary: Actualización de un contrato en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un contrato existente en el sistema. Roles válidos => [Roles permitidos].
  *     tags: [Contracts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del contrato que se va a actualizar.
  *     requestBody:
  *       required: true
  *       content:
@@ -950,26 +994,72 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: string
- *                 description: El ID del contrato a actualizar.
- *                 example: 12345
- *               nombre:
- *                 type: string
- *                 description: El nuevo nombre del contrato.
- *                 example: Contrato Actualizado
  *               empresa_id:
  *                 type: string
- *                 description: El nuevo ID de la empresa asociada al contrato.
- *                 example: 67890
+ *                 description: El ID de la empresa asociada al contrato.
+ *                 example: "313"
  *               ejecutivo_id:
  *                 type: string
- *                 description: El nuevo ID del ejecutivo asociado al contrato.
- *                 example: 54321
+ *                 description: El ID del ejecutivo asociado al contrato.
+ *                 example: "486"
  *               sla_horas_respuesta:
  *                 type: integer
- *                 description: El nuevo tiempo en horas para la respuesta del contrato.
- *                 example: 48
+ *                 description: El tiempo en horas para la respuesta del contrato.
+ *                 example: 0
+ *               sla_horas_provisorio:
+ *                 type: integer
+ *                 description: El tiempo en horas para el estado provisorio del contrato.
+ *                 example: 0
+ *               sla_horas_definitivo:
+ *                 type: integer
+ *                 description: El tiempo en horas para el estado definitivo del contrato.
+ *                 example: 0
+ *               tipo:
+ *                 type: integer
+ *                 description: Tipo de contrato (ej. 1 para mantenimiento, 2 para soporte).
+ *                 example: 1
+ *               horas_paquete:
+ *                 type: integer
+ *                 description: Número de horas incluidas en el paquete del contrato.
+ *                 example: 2
+ *               notas:
+ *                 type: string
+ *                 description: Notas adicionales o comentarios sobre el contrato.
+ *                 example: "Test."
+ *               habilitado:
+ *                 type: boolean
+ *                 description: Indica si el contrato está habilitado o no.
+ *                 example: true
+ *               soporte_onsite:
+ *                 type: boolean
+ *                 description: Indica si el contrato incluye soporte onsite.
+ *                 example: false
+ *               reemplazo_partes:
+ *                 type: boolean
+ *                 description: Indica si el contrato incluye reemplazo de partes.
+ *                 example: false
+ *               fecha_inicio:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de inicio del contrato en formato YYYY-MM-DD.
+ *                 example: "2024-01-10"
+ *               fecha_fin:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de fin del contrato en formato YYYY-MM-DD.
+ *                 example: "2025-01-10"
+ *             required:
+ *               - empresa_id
+ *               - ejecutivo_id
+ *               - sla_horas_respuesta
+ *               - sla_horas_provisorio
+ *               - sla_horas_definitivo
+ *               - tipo
+ *               - horas_paquete
+ *               - notas
+ *               - habilitado
+ *               - soporte_onsite
+ *               - reemplazo_partes
  *     responses:
  *       200:
  *         description: Contrato actualizado correctamente.
@@ -978,9 +1068,9 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje indicando que el contrato ha sido actualizado con éxito.
+ *                 contract:
+ *                   type: object
+ *                   description: Información del contrato actualizado y código único generado.
  *       400:
  *         description: Solicitud incorrecta (400) por validaciones.
  *         content:
@@ -1007,15 +1097,13 @@ router.post(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada.
- *     parameters: []
  *     security:
  *      - x-token: []
  */
 router.put(
-    '/updateContract',
+    '/updateContract/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
         check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
         check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
@@ -1027,8 +1115,6 @@ router.put(
         check('habilitado', 'El nombre es obligatorio').not().isEmpty(),
         check('soporte_onsite', 'El nombre es obligatorio').not().isEmpty(),
         check('reemplazo_partes', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_fin', 'El nombre es obligatorio').not().isEmpty(),
 
         validarCampos,
         validarJWT
@@ -1040,22 +1126,18 @@ router.put(
 
 /**
  * @openapi
- * /api/entities/deleteContract:
+ * /api/entities/deleteContract/{id}:
  *   delete:
  *     summary: Eliminar un contrato
  *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato del sistema mediante su ID. Se requiere proporcionar el ID del contrato a eliminar. Roles válidos => [Roles permitidos].
  *     tags: [Contracts]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *                 description: El ID del contrato a eliminar.
- *                 example: 12345
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del contrato que se va a eliminar.
  *     responses:
  *       200:
  *         description: Contrato eliminado correctamente.
@@ -1093,20 +1175,21 @@ router.put(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada.
- *     parameters: []
  *     security:
  *      - x-token: []
  */
 router.delete(
-    '/deleteContract',
+    '/deleteContract/:id',
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
+
         validarCampos,
         validarJWT
     ],
 
     deleteContract
 );
+
 
 /**
  * @openapi

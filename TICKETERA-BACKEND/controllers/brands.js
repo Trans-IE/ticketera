@@ -42,8 +42,6 @@ const createBrand = async (req, res = response) => {
 
     logger.info(`createBrand nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
 
-    const codigoMD5Brand = nombre => crypto.createHash('md5').update(nombre).digest("hex");
-
     try {
 
         createDBBrand(nombre, direccion, telefono, mail)

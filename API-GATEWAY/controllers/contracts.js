@@ -115,14 +115,14 @@ const getContractsByCompany = async (req, res = response) => {
 
 const createContract = async (req, res = response) => {
     const { label: username } = req;
-    const { nombre, direccion, telefono, mail } = req.body;
+    const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> createContract - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createContract";
 
     try {
-        logger.info(`createContract nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+        logger.info(`createContract empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio}  sla_horas_definitivo:${sla_horas_definitivo}  tipo:${tipo}  horas_paquete:${horas_paquete}  notas:${notas}  habilitado:${habilitado}  soporte_onsite:${soporte_onsite}  reemplazo_partes:${reemplazo_partes}  fecha_inicio:${fecha_inicio}  fecha_fin:${fecha_fin}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -130,7 +130,7 @@ const createContract = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { nombre, direccion, telefono, mail }, 'POST');
+            const resp = await fetchSinToken(url, { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -172,21 +172,20 @@ const createContract = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const updateContract = async (req, res = response) => {
     const { label: username } = req;
-    const { id } = req.body;
-    const { nombre, direccion, telefono, mail, habilitado } = req.body;
+    const id = req.params.id;
+    const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> updateContract - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateContract`;
+    logger.info(`updateContract empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio}  sla_horas_definitivo:${sla_horas_definitivo}  tipo:${tipo}  horas_paquete:${horas_paquete}  notas:${notas}  habilitado:${habilitado}  soporte_onsite:${soporte_onsite}  reemplazo_partes:${reemplazo_partes}  fecha_inicio:${fecha_inicio}  fecha_fin:${fecha_fin}`)
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateContract/${id}`;
 
     try {
 
-        logger.info(`updateContract id:${id} nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} habilitado:${habilitado}`)
+        logger.info(`updateContract id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio}  sla_horas_definitivo:${sla_horas_definitivo}  tipo:${tipo}  horas_paquete:${horas_paquete}  notas:${notas}  habilitado:${habilitado}  soporte_onsite:${soporte_onsite}  reemplazo_partes:${reemplazo_partes}  fecha_inicio:${fecha_inicio}  fecha_fin:${fecha_fin}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -194,7 +193,7 @@ const updateContract = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id, nombre, direccion, telefono, mail, habilitado }, 'PUT');
+            const resp = await fetchSinToken(url, { id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin }, 'PUT');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -207,10 +206,10 @@ const updateContract = async (req, res = response) => {
 
                 logger.info(`<== updateContract - username:${username}`);
                 loggerCSV.info(`updateContract,${(new Date() - function_enter_time) / 1000}`)
-                const { Contract } = body.value;
+
                 res.status(200).json({
                     ok: true,
-                    value: { Contract },
+                    value: body.value,
                     msg: 'Contrato actualizado correctamente.'
                 });
             } else {
@@ -241,13 +240,13 @@ const updateContract = async (req, res = response) => {
 const deleteContract = async (req, res = response) => {
 
     const { label: username } = req;
-    const { id } = req.body;
+    const id = req.params.id;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> deleteContract - username:${username}`);
 
-    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteContract`;
+    let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteContract/${id}`;
 
     try {
         const rol = await getUserRol(username)
@@ -256,7 +255,7 @@ const deleteContract = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { id }, 'POST');
+            const resp = await fetchSinToken(url, { id }, 'DELETE');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -268,12 +267,12 @@ const deleteContract = async (req, res = response) => {
                 }
 
                 logger.info(`<== deleteContract - id:${id}`);
-                loggerCSV.info(`updateContract,${(new Date() - function_enter_time) / 1000}`)
-                const { Contract } = body.value;
+                loggerCSV.info(`deleteContract,${(new Date() - function_enter_time) / 1000}`)
+
                 res.status(200).json({
                     ok: true,
-                    value: { Contract },
-                    msg: 'Contrato actualizado correctamente.'
+                    value: body.value,
+                    msg: 'Contrato eliminado correctamente.'
                 });
             } else {
                 logger.error(`deleteContract : ${body.msg}`);

@@ -68,33 +68,80 @@ const getContractsByCompany = async (req, res = response) => {
     }
 }
 
-// CREATE COMPANY
+const updateContract = async (req, res = response) => {
+
+    const id = req.params.id;
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
+    logger.info(`updateContract id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}`)
+
+    try {
+        updateDBContract(id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
+            .then(result => {
+                console.log(`result: ${result}`);
+                if (result === 1) {
+                    res.status(200).json({
+                        ok: true,
+                        value: result,
+                        msg: `El contrato '${id}' fue actualizado correctamente.`
+                    });
+                }
+                else {
+                    return res.status(401).json({
+                        ok: false,
+                        msg: `El contrato no pudo ser actualizada en el sistema.-`
+                    });
+                }
+
+            })
+            .catch(dataError => {
+                logger.error(`updateContract  => updateDBContract : params=> id=${id}`);
+                res.status(501).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo actualizar el contrato '${id}' `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`updateContract : params=> id=${id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 const createContract = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
-    const { label } = req;
+
     const { id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
 
-    logger.info(`createContracts id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}`
-    )
+    logger.info(`createContract id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}`)
 
     try {
 
-        createDBContract(id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
+        createDBContract(empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
             .then(result => {
-                res.status(201).json({
+                res.status(200).json({
                     ok: true,
                     value: { contract: result },
-                    msg: `Contrato ${nombre} creado correctamente con id: ${contract}`
+                    msg: `Contrato ${id} creado correctamente`
                 });
+
             })
             .catch(dataError => {
                 logger.error(`createContract => createDBContract : params=> id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo crear el contrato.`
+                    msg: `No se pudo crear el contrato. `
                 });
             });
 
@@ -108,61 +155,38 @@ const createContract = async (req, res = response) => {
     }
 }
 
-const updateContract = async (req, res = response) => {
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token
-    const { label } = req;
-    const { id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
-    logger.info(`updateContract. id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}  `)
-    try {
-
-        updateDBContract(id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    item: result,
-                    msg: `Contrato '${nombre}' fue actualizado correctamente.`
-                });
-            })
-            .catch(dataError => {
-                logger.error(`updateContract => updateDBContract : params=> id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin} error=> ${dataError}`);
-                res.status(501).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo actualizar el contrato'${id}'`
-                });
-            });
-
-    } catch (error) {
-        logger.error(`updateContract : params=> id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin} error=> ${error}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Hable con el administrador'
-        });
-    }
-
-}
-
 const deleteContract = async (req, res = response) => {
 
-    const { id } = req.body;
+    const id = req.params.id;
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
     logger.info(`deleteContract id:${id}`)
 
     try {
+        // AL ELIMINAR PUEDE QUE SEA NECESARIO CHEQUEAR PRIVILEGIOS DE USUARIO
+        // DEBE VALIDAR SI EXISTE EL ELEMENTO
+
         deleteDBContract(id)
             .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    item: result,
-                    msg: `Contrato id: ${id} fue eliminado correctamente`
-                });
+                if (result === 1) {
+                    res.status(200).json({
+                        ok: true,
+                        value: result,
+                        msg: `El contrato id: ${id} fue eliminado correctamente`
+                    });
+                }
+                else {
+                    //Ocurrio un error no manejado en sql.
+                    return res.status(401).json({
+                        ok: false,
+                        msg: 'El contrato no pudo ser eliminado del sistema.'
+                    });
+                }
             })
             .catch(dataError => {
-                logger.error(`deleteCcontract => deleteDBContract: params=> id=${id} error=> ${dataError}`);
+                logger.error(`deleteContract => deleteContract: params=> id=${id} error=> ${dataError}`);
+                // DESDE CAPA databases recibira un objeto error { code, message, stack }
                 res.status(501).json({
                     ok: false,
                     error: dataError,

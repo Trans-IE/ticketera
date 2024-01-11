@@ -31,7 +31,7 @@ const createDBBrand = (nombre) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_brand_create);
+                    resolve(results.rows[0].f_ticketera_brand_create);
                 } catch (error) {
                     reject(error.message);
                 }
