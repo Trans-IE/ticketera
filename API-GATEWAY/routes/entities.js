@@ -265,7 +265,7 @@ router.delete(
  * /api/entities/getAllCompanies:
  *   post:
  *     summary: Obtener listado de todas las compañías en el sistema
- *     description: Este endpoint permite obtener el listado de todas las compañías en el sistema. Se requieren credenciales de usuario autenticado.
+ *     description: Este endpoint permite obtener el listado de todas las empresas en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Companys]
  *     responses:
  *       200:
