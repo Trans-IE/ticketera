@@ -264,8 +264,8 @@ router.delete(
  * @openapi
  * /api/entities/getAllCompanies:
  *   post:
- *     summary: Obtener listado de todas las compañías
- *     description: Este endpoint permite obtener el listado de todas las compañías. Se requieren credenciales de usuario autenticado.
+ *     summary: Obtener listado de todas las compañías en el sistema
+ *     description: Este endpoint permite obtener el listado de todas las compañías en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Companys]
  *     responses:
  *       200:
@@ -318,8 +318,8 @@ router.post(
  * @openapi
  * /api/entities/getAllProducts:
  *   post:
- *     summary: Obtener información de todos los productos
- *     description: Este endpoint permite obtener información detallada de todos los productos. Se requieren credenciales de usuario autenticado.
+ *     summary: Obtener información de todos los productos en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los productos en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Products]
  *     security:
  *      - x-token: []
@@ -362,8 +362,8 @@ router.post(
  * @openapi
  * /api/entities/getProductsByBrand:
  *   post:
- *     summary: Obtener información de todos los productos por marca
- *     description: Este endpoint permite obtener información detallada de todos los productos por marca. Se requieren credenciales de usuario autenticado.
+ *     summary: Obtener información de todos los productos por marca en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los productos por marca en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Products]
  *     security:
  *      - x-token: []
@@ -419,8 +419,8 @@ router.post(
  * @openapi
  * /api/entities/getProduct:
  *   post:
- *     summary: Obtener información de un producto
- *     description: Este endpoint permite obtener información detallada de un producto mediante su ID. Se requiere un nombre válido y credenciales de usuario autenticado.
+ *     summary: Obtener información de un producto en el sistema
+ *     description: Este endpoint permite obtener información detallada de un producto mediante su ID en el sistema. Se requiere un nombre válido y credenciales de usuario autenticado.
  *     tags: [Products]
  *     requestBody:
  *       required: true
@@ -489,8 +489,8 @@ router.post(
  * @openapi
  * /api/entities/createProduct:
  *   post:
- *     summary: Crear un nuevo producto
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo producto en el sistema. Se requieren varios campos obligatorios para la creación del producto. Roles válidos => [Roles permitidos].
+ *     summary: Crear un nuevo producto en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo producto en el sistema. Se requieren varios campos obligatorios para la creación del producto. Roles válidos => LocalSM.
  *     tags: [Products]
  *     requestBody:
  *       required: true
@@ -741,7 +741,7 @@ router.put(
  * @openapi
  * /api/entities/getAllContracts:
  *   post:
- *     summary: Obtener todos los contratos
+ *     summary: Obtener todos los contratos en el sistema
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los contratos en el sistema. Se requiere autenticación con un token válido.
  *     tags: [Contracts]
  *     responses:
@@ -787,7 +787,7 @@ router.post(
  * @openapi
  * /api/entities/getContractsByCompany:
  *   post:
- *     summary: Obtener todos los contratos por compañía
+ *     summary: Obtener todos los contratos por compañía en el sistema
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los contratos en el sistema. Se requiere autenticación con un token válido.
  *     tags: [Contracts]
  *     requestBody:
@@ -844,8 +844,8 @@ router.post(
  * @openapi
  * /api/entities/createContract:
  *   post:
- *     summary: Crear un nuevo contrato
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo contrato en el sistema. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => [Roles permitidos].
+ *     summary: Crear un nuevo contrato en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo contrato en el sistema. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
  *     tags: [Contracts]
  *     requestBody:
  *       required: true
@@ -978,7 +978,7 @@ router.post(
  * /api/entities/updateContract/{id}:
  *   put:
  *     summary: Actualización de un contrato en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un contrato existente en el sistema. Roles válidos => [Roles permitidos].
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un contrato existente en el sistema. Roles válidos => LocalSM.
  *     tags: [Contracts]
  *     parameters:
  *       - in: path
@@ -1128,8 +1128,8 @@ router.put(
  * @openapi
  * /api/entities/deleteContract/{id}:
  *   delete:
- *     summary: Eliminar un contrato
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato del sistema mediante su ID. Se requiere proporcionar el ID del contrato a eliminar. Roles válidos => [Roles permitidos].
+ *     summary: Eliminar un contrato en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato mediante su ID en el sistema. Se requiere proporcionar el ID del contrato a eliminar. Roles válidos => LocalSM.
  *     tags: [Contracts]
  *     parameters:
  *       - in: path
@@ -1195,8 +1195,8 @@ router.delete(
  * @openapi
  * /api/entities/getAllBrands:
  *   post:
- *     summary: Obtener todas las marcas
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las marcas en el sistema. Se requiere autenticación con un token válido.
+ *     summary: Obtener todas las marcas en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las marcas en el sistema. Roles válidos => LocalSM.
  *     tags: [Brands]
  *     responses:
  *       200:
@@ -1241,8 +1241,8 @@ router.post(
  * @openapi
  * /api/entities/createBrand:
  *   post:
- *     summary: Crear una nueva marca
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva marca en el sistema. Se requiere proporcionar el nombre de la marca. Roles válidos => [Roles permitidos].
+ *     summary: Crear una nueva marca en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva marca en el sistema. Se requiere proporcionar el nombre de la marca. Roles válidos => LocalSM.
  *     tags: [Brands]
  *     requestBody:
  *       required: true

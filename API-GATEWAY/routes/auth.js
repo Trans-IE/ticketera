@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
-const {  loginUser, revalidarToken, } = require('../controllers/auth');
+const { loginUser, revalidarToken, } = require('../controllers/auth');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
  * @openapi
  * /api/auth/login:
  *   post:
- *     summary: Iniciar sesión de usuario
+ *     summary: Iniciar sesión de usuario en el sistema
  *     description: Este endpoint permite a un usuario iniciar sesión proporcionando un nombre de usuario y contraseña válidos. Roles válidos => TODOS.
  *     tags: [Autenticación]
  *     requestBody:
@@ -70,7 +70,7 @@ router.post(
  * @openapi
  * /api/auth/renew:
  *   get:
- *     summary: Renueva el token de sesión del usuario
+ *     summary: Renueva el token de sesión del usuario en el sistema
  *     description: Este endpoint permite a un usuario renovar su token de sesion a partir de su token de sesión a renovar válido. Roles válidos => TODOS.
  *     tags: [Autenticación]
  *     responses:
