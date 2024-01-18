@@ -28,7 +28,7 @@ const getAllCompanies = async (req, res = response) => {
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de marcas.'
+            msg: 'Error obteniendo listado de compañías.'
         });
     }
 }

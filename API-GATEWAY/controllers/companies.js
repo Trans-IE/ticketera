@@ -43,7 +43,7 @@ const getAllCompanies = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllCompanies`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -105,7 +105,7 @@ const createCompany = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion createCompany`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -170,7 +170,7 @@ const updateCompany = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateCompany`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -231,7 +231,7 @@ const deleteCompany = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion deleteCompany`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'

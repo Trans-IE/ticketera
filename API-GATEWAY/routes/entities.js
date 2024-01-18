@@ -5,8 +5,12 @@ const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require
 const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
 const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
+const { getAllPrioritys } = require('../controllers/prioritys');
+const { getAllStates } = require('../controllers/states');
+const { getAllResponsibles } = require('../controllers/responsibles');
 const { getUserRol } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote } = require('../controllers/ticket_actions');
 
 const router = Router();
 
@@ -1460,5 +1464,628 @@ router.delete(
     deleteBrand
 );
 
+/**
+ * @openapi
+ * /api/entities/getAllResponsibles:
+ *   post:
+ *     summary: Obtener todas los responsables en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas los responsables en el sistema. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     responses:
+ *       200:
+ *         description: Lista de responsables obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 responsibles:
+ *                   type: array
+ *                   description: Lista de responsables.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getAllResponsibles',
+    [
+        validarJWT
+    ],
+
+    getAllResponsibles
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllPrioritys:
+ *   post:
+ *     summary: Obtener todas las prioridades en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las prioridades en el sistema. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     responses:
+ *       200:
+ *         description: Lista de prioridades obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 prioritys:
+ *                   type: array
+ *                   description: Lista de prioridades.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getAllPrioritys',
+    [
+        validarJWT
+    ],
+
+    getAllPrioritys
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllStates:
+ *   post:
+ *     summary: Obtener todas los estados en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los estados en el sistema. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     responses:
+ *       200:
+ *         description: Lista de estados obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Lista de estados.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getAllStates',
+    [
+        validarJWT
+    ],
+
+    getAllStates
+);
+
+/**
+ * @openapi
+ * /api/entities/setResponsible:
+ *   post:
+ *     summary: Establecer un nuevo responsable en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo responsable en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               responsable_id:
+ *                 type: integer
+ *                 description: El ID del ejecutivo asociado al contrato.
+ *                 example: 486
+ *     responses:
+ *       201:
+ *         description: Responsable creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información del responsable creado y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setResponsible',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').isInt(),
+        check('usuario_id', 'El usuario_id es obligatorio').isInt(),
+        check('responsable_id', 'El responsable_id es obligatorio').isInt(),
+        validarCampos,
+        validarJWT
+    ],
+    setResponsible
+);
+
+
+/**
+ * @openapi
+ * /api/entities/setPriority:
+ *   post:
+ *     summary: Establecer una nueva prioridad en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva prioridad en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               prioridad:
+ *                 type: integer
+ *                 description: El ID de la prioridad asociada al ticket.
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Prioridad creada correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la prioridad y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setPriority',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('prioridad', 'La prioridad es obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setPriority
+);
+
+
+/**
+ * @openapi
+ * /api/entities/setState:
+ *   post:
+ *     summary: Establecer un nuevo estado en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo estado en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               estado:
+ *                 type: integer
+ *                 description: El ID del estado asociado al ticket.
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información del estado y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setState',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('estado', 'El estado es obligatorio').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+    setState
+);
+
+
+/**
+ * @openapi
+ * /api/entities/setNote:
+ *   post:
+ *     summary: Setea una nueva nota en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva nota en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               notas:
+ *                 type: string
+ *                 description: Nueva nota asociada al ticket.
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la nota y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setNote',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('notas', 'Las notas son obligatorias').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setNote
+);
+
+/**
+ * @openapi
+ * /api/entities/setAutoEvaluation:
+ *   post:
+ *     summary: Setea una nueva autoevaluación en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva autoevaluación en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               auto_evaluacion:
+ *                 type: integer
+ *                 description: Nueva autoevaluacion asociada al ticket.
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la autoevaluación y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setAutoEvaluation',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('auto_evaluacion', 'La autoevaluacion es obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setAutoEvaluation
+);
+
+/**
+ * @openapi
+ * /api/entities/setHours:
+ *   post:
+ *     summary: Setea una nueva hora en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva hora en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               usuario_id:
+ *                 type: integer
+ *                 description: El ID del usuario asociado al ticket.
+ *                 example: 44
+ *               horas:
+ *                 type: string
+ *                 description: Nueva hora asociada al ticket.
+ *                 example: "00:01:00"
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('horas', 'Las horas son obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setHours
+);
 
 module.exports = router;

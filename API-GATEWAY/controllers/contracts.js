@@ -41,7 +41,7 @@ const getAllContracts = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllContracts`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -96,7 +96,7 @@ const getContractsByCompany = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getContractsByCompany`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -157,7 +157,7 @@ const createContract = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion createContract`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -221,7 +221,7 @@ const updateContract = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateContract`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -282,7 +282,7 @@ const deleteContract = async (req, res = response) => {
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion loginRouter`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion deleteContract`)
             res.status(500).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'

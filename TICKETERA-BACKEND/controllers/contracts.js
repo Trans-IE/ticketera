@@ -121,9 +121,9 @@ const createContract = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
+    const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
 
-    logger.info(`createContract id:${id} empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}`)
+    logger.info(`createContract empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio} sla_horas_provisorio:${sla_horas_definitivo} tipo:${tipo} horas_paquete:${horas_paquete} notas:${notas} habilitado:${habilitado} soporte_onsite:${soporte_onsite} reemplazo_partes:${reemplazo_partes} sla_horas_provisorio:${fecha_inicio} fecha_fin:${fecha_fin}`)
 
     try {
 

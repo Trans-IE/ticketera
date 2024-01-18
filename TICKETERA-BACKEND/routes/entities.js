@@ -7,6 +7,10 @@ const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContracts, createContract, updateContract, deleteContract, getContractsByCompany } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
+const { getAllStates } = require('../controllers/states');
+const { getAllPrioritys } = require('../controllers/prioritys');
+const { getAllResponsibles } = require('../controllers/responsibles');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote } = require('../controllers/ticket_actions');
 
 const router = Router();
 
@@ -276,6 +280,100 @@ router.delete(
     ],
 
     deleteBrand
+);
+
+router.post(
+    '/getAllResponsibles',
+    [
+
+    ],
+
+    getAllResponsibles
+);
+
+router.post(
+    '/getAllPrioritys',
+    [
+
+    ],
+
+    getAllPrioritys
+);
+
+router.post(
+    '/getAllStates',
+    [
+
+    ],
+
+    getAllStates
+);
+
+router.post(
+    '/setResponsible',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('responsable_id', 'El responsable_id es obligatorio').not().isEmpty(),
+    ],
+
+    setResponsible
+);
+
+router.post(
+    '/setPriority',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('prioridad', 'La prioridad es obligatoria').not().isEmpty(),
+    ],
+
+    setPriority
+);
+
+router.post(
+    '/setState',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('estado', 'El estado es obligatorio').not().isEmpty(),
+    ],
+
+    setState
+);
+
+router.post(
+    '/setNote',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('notas', 'Las notas son obligatorias').not().isEmpty(),
+    ],
+
+    setNote
+);
+
+router.post(
+    '/setAutoEvaluation',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('auto_evaluacion', 'La autoevaluacion es obligatoria').not().isEmpty(),
+    ],
+
+    setAutoEvaluation
+);
+
+router.post(
+    '/setHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('horas', 'Las horas son obligatoria').not().isEmpty(),
+
+    ],
+
+    setHours
 );
 
 module.exports = router;

@@ -49,7 +49,7 @@ const createBrand = async (req, res = response) => {
                 res.status(200).json({
                     ok: true,
                     value: { brand: result },
-                    msg: `empresa ${nombre} creado correctamente con id: ${result}`
+                    msg: `Marca ${nombre} creado correctamente con id: ${result}`
                 });
 
             })
@@ -110,7 +110,7 @@ const updateBrand = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`updateCompany : params=> id=${id} nombre=${nombre} error=> ${error}`);
+        logger.error(`updateBrand : params=> id=${id} nombre=${nombre} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
