@@ -10,7 +10,7 @@ const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../cont
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllResponsibles } = require('../controllers/responsibles');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote } = require('../controllers/ticket_actions');
 
 const router = Router();
 
@@ -374,6 +374,44 @@ router.post(
     ],
 
     setHours
+);
+
+router.post(
+    '/setFilePath',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('archivo', 'El archivo son obligatoria').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    setFilePath
+);
+
+router.post(
+    '/getTicketActionByTicketId',
+    [
+        check('ticket_id', 'Debe ingresar una marca').not().isEmpty(),
+
+        validarCampos,
+
+    ],
+
+    getTicketActionByTicketId
+);
+
+router.post(
+    '/setHiddenNote',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
+        check('nota', 'La nota oculta es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    setHiddenNote
 );
 
 module.exports = router;

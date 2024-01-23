@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote } = require('../databases/queries_ticket_actions');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -125,12 +125,12 @@ const setHours = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, horas } = req.body;
+    const { ticket_id, usuario_id, horas, fecha_accion_hs } = req.body;
 
-    logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} `)
+    logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs}`)
 
     try {
-        createDBHours(ticket_id, usuario_id, horas)
+        createDBHours(ticket_id, usuario_id, horas, fecha_accion_hs)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -150,6 +150,44 @@ const setHours = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const setFilePath = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { ticket_id, usuario_id, archivo } = req.body;
+
+    logger.info(`setFilePath ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} `)
+
+    try {
+        createDBFilePath(ticket_id, usuario_id, archivo)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    value: { filePath: result },
+                    msg: `Ticket acción ruta de archivo creada correctamente con id: ${result}`
+                });
+
+            })
+            .catch(dataError => {
+                logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} error=> ${dataError}`);
+                res.status(501).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo crear la acción ruta de archivo del ticket. `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -187,7 +225,7 @@ const setNote = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setNote => createDBNote : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${notas} error=> ${error}`);
+        logger.error(`setNote => createDBNote : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} notas:${notas} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -216,7 +254,7 @@ const setAutoEvaluation = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setNota => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} error=> ${dataError}`);
+                logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -234,11 +272,86 @@ const setAutoEvaluation = async (req, res = response) => {
     }
 }
 
+const getTicketActionByTicketId = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id}`)
+    try {
+
+        getDBTicketActionByTicketId(ticket_id)
+            .then(result => {
+                logger.info(`<== getTicketActionByTicketId`);
+                loggerCSV.info(`getTicketActionByTicketId, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de contratos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getTicketActionByTicketId => getDBContractsByCompany : params=> ticket_id=> ${ticket_id} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getDBContractsByCompany : params=> ticket_id=> ${ticket_id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de ticket acciones.'
+        });
+    }
+}
+
+const setHiddenNote = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { ticket_id, usuario_id, nota } = req.body;
+
+    logger.info(`setHiddenNote ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} `)
+
+    try {
+        createDBHiddenNote(ticket_id, usuario_id, nota)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    value: { hiddenNote: result },
+                    msg: `Ticket acción nota oculta creada correctamente con id: ${result}`
+                });
+
+            })
+            .catch(dataError => {
+                logger.error(`setHiddenNote => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} error=> ${dataError}`);
+                res.status(501).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo crear la acción nota oculta del ticket. `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
     setPriority,
     setResponsible,
     setState,
     setHours,
     setNote,
-    setAutoEvaluation
+    setAutoEvaluation,
+    setFilePath,
+    getTicketActionByTicketId,
+    setHiddenNote
 }

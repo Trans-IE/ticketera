@@ -161,7 +161,7 @@ const setResponsible = async (req, res = response) => {
                 res.status(200).json({
                     ok: true,
                     value: { responsible },
-                    msg: 'Prioridad creada correctamente.'
+                    msg: 'Responsable asignado correctamente.'
                 });
             } else {
                 logger.error(`setResponsible : ${body.msg}`);
@@ -312,14 +312,14 @@ const setNote = async (req, res = response) => {
 
 const setHours = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, horas } = req.body;
+    const { ticket_id, usuario_id, horas, fecha_accion_hs } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> setHours - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHours";
 
     try {
-        logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} `)
+        logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -327,7 +327,7 @@ const setHours = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, horas }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, usuario_id, horas, fecha_accion_hs }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -371,11 +371,191 @@ const setHours = async (req, res = response) => {
     }
 }
 
+const setFilePath = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id, usuario_id, archivo } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> setFilePath - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setFilePath";
+
+    try {
+        logger.info(`setFilePath ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { ticket_id, usuario_id, archivo }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== setFilePath - username:${username}`);
+                loggerCSV.info(`setFilePath,${(new Date() - function_enter_time) / 1000}`)
+                const { filePath } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { filePath },
+                    msg: 'Ruta de archivo creada correctamente.'
+                });
+            } else {
+                logger.error(`setFilePath : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setFilePath`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`setFilePath : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const getTicketActionByTicketId = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> getTicketActionByTicketId - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getTicketActionByTicketId";
+
+    try {
+        logger.info(`getTicketActionByTicketId ticket_id:${ticket_id}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { ticket_id }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getTicketActionByTicketId - username:${username}`);
+                loggerCSV.info(`getTicketActionByTicketId,${(new Date() - function_enter_time) / 1000}`)
+
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Listado de ticket acciones obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getTicketActionByTicketId : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getTicketActionByTicketId`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getTicketActionByTicketId : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const setHiddenNote = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id, usuario_id, nota } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM}`;
+    logger.info(`==> setHiddenNote - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHiddenNote";
+
+    try {
+        logger.info(`setHiddenNote ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { ticket_id, usuario_id, nota }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== setHiddenNote - username:${username}`);
+                loggerCSV.info(`setHiddenNote,${(new Date() - function_enter_time) / 1000}`)
+                const { filePath } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { filePath },
+                    msg: 'Nota oculta creada correctamente.'
+                });
+            } else {
+                logger.error(`setHiddenNote : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setHiddenNote`)
+            res.status(500).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`setHiddenNote : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
+    getTicketActionByTicketId,
     setState,
     setPriority,
     setResponsible,
     setAutoEvaluation,
     setNote,
-    setHours
+    setHours,
+    setFilePath,
+    setHiddenNote
 }
