@@ -1,18 +1,18 @@
 const { response } = require('express');
-const { getAllDBCompanies, createDBCompany, updateDBCompany, deleteDBCompany } = require('../databases/queries_companies');
+const { getAllDBCompaniesLocal, getAllDBCompaniesExternal, createDBCompany, updateDBCompany, deleteDBCompany } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
-const getAllCompanies = async (req, res = response) => {
+const getAllCompaniesLocal = async (req, res = response) => {
 
     let function_enter_time = new Date();
-    logger.info(`==> getAllCompanies.`)
+    logger.info(`==> getAllCompaniesLocal.`)
     try {
-        getAllDBCompanies()
+        getAllDBCompaniesLocal()
             .then(result => {
-                logger.info(`<== getAllCompanies`);
-                loggerCSV.info(`getAllCompanies, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getAllCompaniesLocal`);
+                loggerCSV.info(`getAllCompaniesLocal, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     value: result,
@@ -20,7 +20,37 @@ const getAllCompanies = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllCompanies => getAllCompanies error=> ${error}`);
+                logger.error(`getAllCompaniesLocal => getAllCompaniesLocal error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllCompaniesLocal error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de compañías.'
+        });
+    }
+}
+
+const getAllCompaniesExternal = async (req, res = response) => {
+    const { label: username } = req;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getAllCompaniesExternal.`)
+    try {
+        getAllDBCompaniesExternal(username)
+            .then(result => {
+                logger.info(`<== getAllCompaniesExternal`);
+                loggerCSV.info(`getAllCompanieExternals, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de compañias obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllCompaniesExternal => getAllCompaniesExternal error=> ${error}`);
             })
 
     } catch (error) {
@@ -249,7 +279,8 @@ const deleteCompany = async (req, res = response) => {
 }
 
 module.exports = {
-    getAllCompanies,
+    getAllCompaniesLocal,
+    getAllCompaniesExternal,
     createCompany,
     updateCompany,
     deleteCompany

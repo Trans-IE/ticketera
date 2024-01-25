@@ -1,5 +1,6 @@
 const pooldata = require('./poolpg')
-const getAllDBContracts = () => {
+
+const getAllDBContractsLocal = () => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from contratos where habilitado = true;', [], (error, results) => {
@@ -20,8 +21,28 @@ const getAllDBContracts = () => {
     return return_promise;
 }
 
+const getAllDBContractsExternal = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+        console.log('select * from contratos where id = (select empresa_id from usuarios where usuario = ' + username + ' limit 1);');
+        pooldata.getPool.query('select * from contratos where id = (select empresa_id from usuarios where usuario = $1 limit 1);', [username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
 
-const getDBContractsByCompany = (empresa_id) => {
+    });
+
+    return return_promise;
+}
+
+const getDBContractsByCompanyLocal = (empresa_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from contratos where habilitado = true and empresa_id = ($1);', [empresa_id], (error, results) => {
@@ -37,6 +58,26 @@ const getDBContractsByCompany = (empresa_id) => {
             }
         })
 
+    });
+
+    return return_promise;
+}
+
+const getDBContractsByCompanyExternal = (username, empresa_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from f_ticketera_get_contracts_by_company($1, $2);', [username, empresa_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
     });
 
     return return_promise;
@@ -105,8 +146,10 @@ const updateDBContract = (id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla
 }
 
 module.exports = {
-    getAllDBContracts,
-    getDBContractsByCompany,
+    getAllDBContractsLocal,
+    getAllDBContractsExternal,
+    getDBContractsByCompanyLocal,
+    getDBContractsByCompanyExternal,
     createDBContract,
     deleteDBContract,
     updateDBContract

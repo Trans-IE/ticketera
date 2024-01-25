@@ -1,19 +1,19 @@
 const { response } = require('express');
-const { getAllDBContracts, createDBContract, updateDBContract, deleteDBContract, getDBContractsByCompany } = require('../databases/queries_contracts');
+const { getAllDBContractsLocal, getAllDBContractsExternal, createDBContract, updateDBContract, deleteDBContract, getDBContractsByCompanyLocal, getDBContractsByCompanyExternal } = require('../databases/queries_contracts');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
-const getAllContracts = async (req, res = response) => {
+const getAllContractsLocal = async (req, res = response) => {
 
     let function_enter_time = new Date();
-    logger.info(`==> getAllContracts.`)
+    logger.info(`==> getAllContractsLocal.`)
     try {
 
-        getAllDBContracts()
+        getAllDBContractsLocal()
             .then(result => {
-                logger.info(`<== getAllContracts`);
-                loggerCSV.info(`getAllContracts, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getAllContractsLocal`);
+                loggerCSV.info(`getAllContractsLocal, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     value: result,
@@ -21,7 +21,7 @@ const getAllContracts = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllContracts => getAllContracts error=> ${error}`);
+                logger.error(`getAllContracts => getAllDBContractsLocal error=> ${error}`);
             })
 
     } catch (error) {
@@ -34,7 +34,37 @@ const getAllContracts = async (req, res = response) => {
     }
 }
 
-const getContractsByCompany = async (req, res = response) => {
+const getAllContractsExternal = async (req, res = response) => {
+    const { username } = req.body;
+    let function_enter_time = new Date();
+    logger.info(`==> getAllContractsExternal.`)
+    try {
+
+        getAllDBContractsExternal(username)
+            .then(result => {
+                logger.info(`<== getAllContractsExternal`);
+                loggerCSV.info(`getAllContractsExternal, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de contratos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllContractsExternal => getAllDBContractsExternal error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllContractsExternal error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de contratos.'
+        });
+    }
+}
+
+const getContractsByCompanyLocal = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
@@ -44,7 +74,7 @@ const getContractsByCompany = async (req, res = response) => {
     logger.info(`getContractsByCompany. empresa_id:${empresa_id}`)
     try {
 
-        getDBContractsByCompany(empresa_id)
+        getDBContractsByCompanyLocal(empresa_id)
             .then(result => {
                 logger.info(`<== getDBContractsByCompany`);
                 loggerCSV.info(`getDBContractsByCompany, ${(new Date() - function_enter_time) / 1000}`)
@@ -60,6 +90,39 @@ const getContractsByCompany = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`getDBContractsByCompany : params=> empresa_id=> ${empresa_id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de contratos.'
+        });
+    }
+}
+
+const getContractsByCompanyExternal = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { username, empresa_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getContractsByCompanyExternal. username:${username} empresa_id:${empresa_id}`)
+    try {
+        getDBContractsByCompanyExternal(username, empresa_id)
+            .then(result => {
+                logger.info(`<== getContractsByCompanyExternal`);
+                loggerCSV.info(`getContractsByCompanyExternal, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de contratos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getContractsByCompanyExternal => getDBContractsByCompanyExternal : params=> username=>${username} empresa_id=> ${empresa_id} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getContractsByCompanyExternal : params=>username=>${username} empresa_id=> ${empresa_id} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
@@ -205,9 +268,11 @@ const deleteContract = async (req, res = response) => {
 }
 
 module.exports = {
-    getAllContracts,
+    getAllContractsLocal,
+    getAllContractsExternal,
     createContract,
     updateContract,
     deleteContract,
-    getContractsByCompany
+    getContractsByCompanyLocal,
+    getContractsByCompanyExternal
 }

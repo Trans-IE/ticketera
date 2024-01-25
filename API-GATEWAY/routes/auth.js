@@ -62,6 +62,7 @@ router.post(
 
         validarCampos
     ],
+
     loginUser
 );
 

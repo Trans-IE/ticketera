@@ -2,10 +2,10 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
+const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
-const { getAllContracts, createContract, updateContract, deleteContract, getContractsByCompany } = require('../controllers/contracts');
+const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
@@ -15,12 +15,21 @@ const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setN
 const router = Router();
 
 router.post(
-    '/getAllCompanies',
+    '/getAllCompaniesLocal',
     [
-
+        check('username', 'El id es obligatorio').not().isEmpty(),
     ],
 
-    getAllCompanies
+    getAllCompaniesLocal
+);
+
+router.post(
+    '/getAllCompaniesExternal',
+    [
+        check('username', 'El id es obligatorio').not().isEmpty(),
+    ],
+
+    getAllCompaniesExternal
 );
 
 router.post(
@@ -166,21 +175,41 @@ router.delete(
 );
 
 router.post(
-    '/getAllContracts',
+    '/getAllContractsLocal',
     [
-
+        check('username', 'El id es obligatorio').not().isEmpty(),
     ],
 
-    getAllContracts
+    getAllContractsLocal
 );
 
 router.post(
-    '/getContractsByCompany',
+    '/getAllContractsExternal',
     [
+        check('username', 'El id es obligatorio').not().isEmpty(),
+    ],
+
+    getAllContractsExternal
+);
+
+router.post(
+    '/getContractsByCompanyLocal',
+    [
+        check('username', 'El username es obligatorio').not().isEmpty(),
         check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
     ],
 
-    getContractsByCompany
+    getContractsByCompanyLocal
+);
+
+router.post(
+    '/getContractsByCompanyExternal',
+    [
+        check('username', 'El username es obligatorio').not().isEmpty(),
+        check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
+    ],
+
+    getContractsByCompanyExternal
 );
 
 router.post(

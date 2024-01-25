@@ -1,9 +1,30 @@
 const pooldata = require('./poolpg')
 
-const getAllDBCompanies = () => {
+const getAllDBCompaniesLocal = () => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from empresas where habilitado = true order by nombre asc;', [], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+const getAllDBCompaniesExternal = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('SELECT * FROM empresas WHERE id = (SELECT empresa_id FROM usuarios WHERE usuario = $1 LIMIT 1);', [username], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -84,10 +105,10 @@ const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
 }
 
 module.exports = {
-    getAllDBCompanies,
+    getAllDBCompaniesLocal,
+    getAllDBCompaniesExternal,
     createDBCompany,
     deleteDBCompany,
     updateDBCompany
-
 }
 

@@ -10,9 +10,9 @@ const getAllCompanies = async (req, res = response) => {
     const { label: username } = req;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.ClienteADM},${UserRol.ClienteUSR},${UserRol.LocalTAC}}`;
     logger.info(`==> getAllCompanies - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllCompanies";
+    let url = "";
 
     try {
         logger.info(`getAllCompanies`)
@@ -23,7 +23,12 @@ const getAllCompanies = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, {}, 'POST');
+            if (setRolUser.has(UserRol.LocalSM) || setRolUser.has(UserRol.LocalEJ) || setRolUser.has(UserRol.LocalTEC)) {
+                url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllCompaniesLocal";
+            } else {
+                url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllCompaniesExternal";
+            }
+            const resp = await fetchSinToken(url, { username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -65,7 +70,8 @@ const createCompany = async (req, res = response) => {
     const { label: username } = req;
     const { nombre, direccion, telefono, mail } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
     logger.info(`==> createCompany - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createCompany";
 
@@ -128,7 +134,7 @@ const updateCompany = async (req, res = response) => {
     const id = req.params.id;
     const { nombre, direccion, telefono, mail, habilitado } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
     logger.info(`==> updateCompany - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateCompany/${id}`;
 
@@ -192,7 +198,7 @@ const deleteCompany = async (req, res = response) => {
     const id = req.params.id;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
     logger.info(`==> deleteCompany - username:${username}`);
 
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteCompany/${id}`;

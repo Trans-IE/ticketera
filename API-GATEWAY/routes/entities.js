@@ -8,7 +8,7 @@ const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../cont
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllStates } = require('../controllers/states');
 const { getAllResponsibles } = require('../controllers/responsibles');
-const { getUserRol } = require('../helpers/validators');
+const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote } = require('../controllers/ticket_actions');
 
@@ -303,9 +303,9 @@ router.post(
     [
         validarJWT
     ],
-
     getAllCompanies
 );
+
 
 router.post(
     '/getUserRol',
@@ -316,6 +316,17 @@ router.post(
     ],
 
     getUserRol
+);
+
+router.post(
+    '/getCompanyByUser',
+    [
+        check('label', 'El label es obligatorio').not().isEmpty(),
+        validarCampos,
+        validarJWT
+    ],
+
+    getCompanyByUser
 );
 
 /**
@@ -2094,7 +2105,7 @@ router.post(
  *               fecha_accion_hs:
  *                 type: string
  *                 description: Nueva hora real asociada al ticket.
- *                 example: ""2024-01-01 00:00:00"
+ *                 example: "2024-01-01 00:00:00"
  *     responses:
  *       201:
  *         description: Estado creado correctamente.
