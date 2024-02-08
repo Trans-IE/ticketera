@@ -23,8 +23,8 @@ const getAllDBContractsLocal = () => {
 
 const getAllDBContractsExternal = (username) => {
     const return_promise = new Promise((resolve, reject) => {
-        console.log('select * from contratos where id = (select empresa_id from usuarios where usuario = ' + username + ' limit 1);');
-        pooldata.getPool.query('select * from contratos where id = (select empresa_id from usuarios where usuario = $1 limit 1);', [username], (error, results) => {
+
+        pooldata.getPool.query('select * from contratos where empresa_id = (select empresa_id from usuarios where usuario = $1 limit 1);', [username], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -36,7 +36,6 @@ const getAllDBContractsExternal = (username) => {
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -57,7 +56,6 @@ const getDBContractsByCompanyLocal = (empresa_id) => {
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -99,7 +97,6 @@ const createDBContract = (empresa_id, ejecutivo_id, sla_horas_respuesta, sla_hor
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -141,6 +138,26 @@ const updateDBContract = (id, empresa_id, ejecutivo_id, sla_horas_respuesta, sla
         })
     });
 
+    return return_promise;
+}
+
+const getDBContractsIdByCompany = (id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select id from contratos where empresa_id = $1;', [id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
 
     return return_promise;
 }
@@ -150,6 +167,7 @@ module.exports = {
     getAllDBContractsExternal,
     getDBContractsByCompanyLocal,
     getDBContractsByCompanyExternal,
+    getDBContractsIdByCompany,
     createDBContract,
     deleteDBContract,
     updateDBContract

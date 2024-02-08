@@ -9,7 +9,7 @@ const getAllBrands = async (req, res = response) => {
     const { label: username } = req;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getAllBrands - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllBrands";
 
@@ -56,14 +56,13 @@ const getAllBrands = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 const createBrand = async (req, res = response) => {
     const { label: username } = req;
     const { nombre, direccion, telefono, mail } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> createBrand - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createBrand";
 
@@ -125,7 +124,7 @@ const updateBrand = async (req, res = response) => {
     const id = req.params.id;
     const { nombre } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> updateBrand - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateBrand/${id}`;
 
@@ -189,7 +188,7 @@ const deleteBrand = async (req, res = response) => {
     const id = req.params.id;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> deleteBrand - username:${username}`);
 
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteBrand/${id}`;

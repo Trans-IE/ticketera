@@ -1,5 +1,28 @@
 const pooldata = require('./poolpg')
 
+
+
+const getDBCompanyByUser = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select empresa_id from usuarios where usuario = $1;', [username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]['empresa_id']);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const getAllDBCompaniesLocal = () => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -23,20 +46,23 @@ const getAllDBCompaniesLocal = () => {
 
 const getAllDBCompaniesExternal = (username) => {
     const return_promise = new Promise((resolve, reject) => {
+        const query = 'SELECT * FROM empresas WHERE id = (SELECT empresa_id FROM usuarios WHERE usuario = $1 LIMIT 1);';
+        const params = [username];
 
-        pooldata.getPool.query('SELECT * FROM empresas WHERE id = (SELECT empresa_id FROM usuarios WHERE usuario = $1 LIMIT 1);', [username], (error, results) => {
+        console.log('Query:', query);
+        console.log('Parameters:', params);
+
+        pooldata.getPool.query(query, params, (error, results) => {
             if (error) {
                 reject(error.message);
-            }
-            else {
+            } else {
                 try {
                     resolve(results.rows);
                 } catch (error) {
                     reject(error.message);
                 }
             }
-        })
-
+        });
     });
 
     return return_promise;
@@ -104,9 +130,11 @@ const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
     return return_promise;
 }
 
+
 module.exports = {
     getAllDBCompaniesLocal,
     getAllDBCompaniesExternal,
+    getDBCompanyByUser,
     createDBCompany,
     deleteDBCompany,
     updateDBCompany

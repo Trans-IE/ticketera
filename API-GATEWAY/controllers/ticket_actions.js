@@ -7,14 +7,14 @@ const { UserRol } = require('../helpers/constants');
 
 const setState = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, estado } = req.body;
+    const { ticket_id, estado } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> setState - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setState";
 
     try {
-        logger.info(`setState ticket_id:${ticket_id} usuario_id:${usuario_id} estado:${estado}  `)
+        logger.info(`setState ticket_id:${ticket_id} username:${username} estado:${estado}  `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -22,7 +22,7 @@ const setState = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, estado }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, estado, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -68,14 +68,14 @@ const setState = async (req, res = response) => {
 
 const setPriority = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, prioridad } = req.body;
+    const { ticket_id, prioridad } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM}`;
     logger.info(`==> setPriority - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setPriority";
 
     try {
-        logger.info(`setPriority ticket_id:${ticket_id} usuario_id:${usuario_id} prioridad:${prioridad} `)
+        logger.info(`setPriority ticket_id:${ticket_id} prioridad:${prioridad} `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -83,7 +83,7 @@ const setPriority = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, prioridad }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, prioridad, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -129,14 +129,14 @@ const setPriority = async (req, res = response) => {
 
 const setResponsible = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, responsable_id } = req.body;
+    const { ticket_id, responsable_id } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setResponsible - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setResponsible";
 
     try {
-        logger.info(`setResponsible ticket_id:${ticket_id} usuario_id:${usuario_id} responsable_id:${responsable_id} `)
+        logger.info(`setResponsible ticket_id:${ticket_id} responsable_id:${responsable_id} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -144,7 +144,7 @@ const setResponsible = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, responsable_id }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, responsable_id, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -190,14 +190,13 @@ const setResponsible = async (req, res = response) => {
 
 const setAutoEvaluation = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, auto_evaluacion } = req.body;
+    const { ticket_id, auto_evaluacion } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> setAutoEvaluation - username:${username}`);
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setAutoEvaluation";
 
     try {
-        logger.info(`setAutoEvaluation ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} `)
+        logger.info(`setAutoEvaluation ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -205,7 +204,7 @@ const setAutoEvaluation = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, auto_evaluacion }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, auto_evaluacion, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -251,14 +250,14 @@ const setAutoEvaluation = async (req, res = response) => {
 
 const setNote = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, notas } = req.body;
+    const { ticket_id, notas } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> setNota - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setNote";
 
     try {
-        logger.info(`setNota ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${notas} `)
+        logger.info(`setNota ticket_id:${ticket_id} nota:${notas} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -266,7 +265,7 @@ const setNote = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, notas }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, notas, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -312,14 +311,14 @@ const setNote = async (req, res = response) => {
 
 const setHours = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, horas, fecha_accion_hs } = req.body;
+    const { ticket_id, horas, fecha_accion_hs } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
     logger.info(`==> setHours - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHours";
 
     try {
-        logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs}`)
+        logger.info(`setHours ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -327,7 +326,7 @@ const setHours = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, horas, fecha_accion_hs }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, horas, fecha_accion_hs, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -373,14 +372,14 @@ const setHours = async (req, res = response) => {
 
 const setFilePath = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, archivo } = req.body;
+    const { ticket_id, archivo } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
-    logger.info(`==> setFilePath - username:${username}`);
+
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setFilePath";
 
     try {
-        logger.info(`setFilePath ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} `)
+        logger.info(`setFilePath ticket_id:${ticket_id} archivo:${archivo} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -388,7 +387,7 @@ const setFilePath = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, archivo }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, archivo, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -437,12 +436,12 @@ const getTicketActionByTicketId = async (req, res = response) => {
     const { ticket_id } = req.body;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getTicketActionByTicketId - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getTicketActionByTicketId";
 
     try {
-        logger.info(`getTicketActionByTicketId ticket_id:${ticket_id}`)
+        logger.info(`getTicketActionByTicketId ticket_id:${ticket_id} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -450,7 +449,7 @@ const getTicketActionByTicketId = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -489,14 +488,14 @@ const getTicketActionByTicketId = async (req, res = response) => {
 
 const setHiddenNote = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, usuario_id, nota } = req.body;
+    const { ticket_id, nota } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setHiddenNote - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHiddenNote";
 
     try {
-        logger.info(`setHiddenNote ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} `)
+        logger.info(`setHiddenNote ticket_id:${ticket_id} nota:${nota} username:${username}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -504,7 +503,7 @@ const setHiddenNote = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, usuario_id, nota }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, nota, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {

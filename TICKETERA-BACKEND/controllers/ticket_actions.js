@@ -9,13 +9,13 @@ const setResponsible = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, responsable_id } = req.body;
+    const { ticket_id, responsable_id, username } = req.body;
 
-    logger.info(`setResponsible ticket_id:${ticket_id} usuario_id:${usuario_id} responsable_id:${responsable_id} `)
+    logger.info(`setResponsible ticket_id:${ticket_id} responsable_id:${responsable_id} username:${username}`)
 
     try {
 
-        createDBResponsible(ticket_id, usuario_id, responsable_id)
+        createDBResponsible(ticket_id, responsable_id, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -25,7 +25,7 @@ const setResponsible = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setResponsible => createDBResponsible : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} responsable_id:${responsable_id} error=> ${dataError}`);
+                logger.error(`setResponsible => createDBResponsible : params=> ticket_id:${ticket_id} responsable_id:${responsable_id} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -34,7 +34,7 @@ const setResponsible = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setResponsible => createDBResponsible : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} responsable_id:${responsable_id} error=> ${error}`);
+        logger.error(`setResponsible => createDBResponsible : params=> ticket_id:${ticket_id} responsable_id:${responsable_id} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -48,13 +48,13 @@ const setPriority = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, prioridad } = req.body;
+    const { ticket_id, prioridad, username } = req.body;
 
-    logger.info(`setResponsible ticket_id:${ticket_id} usuario_id:${usuario_id} prioridad:${prioridad} `)
+    logger.info(`setResponsible ticket_id:${ticket_id} prioridad:${prioridad} username:${username}`)
 
     try {
 
-        createDBPriority(ticket_id, usuario_id, prioridad)
+        createDBPriority(ticket_id, prioridad, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -64,7 +64,7 @@ const setPriority = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setPriority => createDBPriority : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} prioridad:${prioridad} error=> ${dataError}`);
+                logger.error(`setPriority => createDBPriority : params=> ticket_id:${ticket_id} prioridad:${prioridad} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -73,7 +73,7 @@ const setPriority = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setPriority => createDBPriority : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} prioridad:${prioridad} error=> ${error}`);
+        logger.error(`setPriority => createDBPriority : params=> ticket_id:${ticket_id} prioridad:${prioridad} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -87,12 +87,12 @@ const setState = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, estado } = req.body;
+    const { ticket_id, estado, username } = req.body;
 
-    logger.info(`setState ticket_id:${ticket_id} usuario_id:${usuario_id} estado:${estado} `)
+    logger.info(`setState ticket_id:${ticket_id} estado:${estado} username:${username}`)
 
     try {
-        createDBState(ticket_id, usuario_id, estado)
+        createDBState(ticket_id, estado, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -102,7 +102,7 @@ const setState = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setState => createDBState : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} estado:${estado} error=> ${dataError}`);
+                logger.error(`setState => createDBState : params=> ticket_id:${ticket_id} estado:${estado} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -111,7 +111,7 @@ const setState = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setState => createDBState : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} estado:${estado} error=> ${error}`);
+        logger.error(`setState => createDBState : params=> ticket_id:${ticket_id} estado:${estado} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -125,12 +125,12 @@ const setHours = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, horas, fecha_accion_hs } = req.body;
+    const { ticket_id, horas, fecha_accion_hs, username } = req.body;
 
-    logger.info(`setHours ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs}`)
+    logger.info(`setHours ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username} `)
 
     try {
-        createDBHours(ticket_id, usuario_id, horas, fecha_accion_hs)
+        createDBHours(ticket_id, horas, fecha_accion_hs, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -140,7 +140,7 @@ const setHours = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} error=> ${dataError}`);
+                logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -149,7 +149,7 @@ const setHours = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} horas:${horas} error=> ${error}`);
+        logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -163,12 +163,12 @@ const setFilePath = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, archivo } = req.body;
+    const { ticket_id, archivo, username } = req.body;
 
-    logger.info(`setFilePath ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} `)
+    logger.info(`setFilePath ticket_id:${ticket_id} archivo:${archivo} username:${username}`)
 
     try {
-        createDBFilePath(ticket_id, usuario_id, archivo)
+        createDBFilePath(ticket_id, archivo, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -178,7 +178,7 @@ const setFilePath = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} error=> ${dataError}`);
+                logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -187,7 +187,7 @@ const setFilePath = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} archivo:${archivo} error=> ${error}`);
+        logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -201,22 +201,33 @@ const setNote = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, notas } = req.body;
+    const { ticket_id, notas, username } = req.body;
 
-    logger.info(`setNote ticket_id:${ticket_id} usuario_id:${usuario_id} notas:${notas} `)
+    let function_enter_time = new Date();
+    logger.info(`setNote ticket_id:${ticket_id} notas:${notas} username:${username} `)
 
     try {
-        createDBNote(ticket_id, usuario_id, notas)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { note: result },
-                    msg: `Ticket acción nota creada correctamente con id: ${result}`
-                });
 
+        createDBNote(ticket_id, notas, username)
+            .then(objresult => {
+                logger.info(`<== createDBNote`);
+                loggerCSV.info(`createDBNote, ${(new Date() - function_enter_time) / 1000}`)
+                if (objresult.result == -1) {
+                    res.status(401).json({
+                        ok: false,
+                        value: objresult.rows,
+                        msg: objresult.error_message
+                    });
+                } else {
+                    res.status(200).json({
+                        ok: true,
+                        value: objresult.rows,
+                        msg: 'Nota insertada correctamente.'
+                    });
+                }
             })
             .catch(dataError => {
-                logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} notas:${notas} error=> ${dataError}`);
+                logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -225,7 +236,7 @@ const setNote = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setNote => createDBNote : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} notas:${notas} error=> ${error}`);
+        logger.error(`setNote => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -239,12 +250,12 @@ const setAutoEvaluation = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, auto_evaluacion } = req.body;
+    const { ticket_id, auto_evaluacion, username } = req.body;
 
-    logger.info(`setAutoEvaluation ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} `)
+    logger.info(`setAutoEvaluation ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username}`)
 
     try {
-        createDBAutoEvaluation(ticket_id, usuario_id, auto_evaluacion)
+        createDBAutoEvaluation(ticket_id, auto_evaluacion, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -254,7 +265,7 @@ const setAutoEvaluation = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} error=> ${dataError}`);
+                logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -263,7 +274,7 @@ const setAutoEvaluation = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} auto_evaluacion:${auto_evaluacion} error=> ${error}`);
+        logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -276,32 +287,39 @@ const getTicketActionByTicketId = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
-    const { ticket_id } = req.body;
+    const { ticket_id, username } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id}`)
+    logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id} username:${username}`)
     try {
-
-        getDBTicketActionByTicketId(ticket_id)
-            .then(result => {
+        getDBTicketActionByTicketId(ticket_id, username)
+            .then(objresult => {
                 logger.info(`<== getTicketActionByTicketId`);
                 loggerCSV.info(`getTicketActionByTicketId, ${(new Date() - function_enter_time) / 1000}`)
-                res.status(200).json({
-                    ok: true,
-                    value: result,
-                    msg: 'Listado de contratos obtenido correctamente.'
-                });
+                if (objresult.result == -1) {
+                    res.status(401).json({
+                        ok: false,
+                        value: objresult.rows,
+                        msg: objresult.error_message
+                    });
+                } else {
+                    res.status(200).json({
+                        ok: true,
+                        value: objresult.rows,
+                        msg: 'Listado de acciones obtenido correctamente.'
+                    });
+                }
             })
             .catch(error => {
-                logger.error(`getTicketActionByTicketId => getDBContractsByCompany : params=> ticket_id=> ${ticket_id} error=> ${error}`);
+                logger.error(`getTicketActionByTicketId => getDBTicketActionByTicketId : params=> ticket_id=> ${ticket_id} error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getDBContractsByCompany : params=> ticket_id=> ${ticket_id} error=> ${error}`);
+        logger.error(`getDBTicketActionByTicketId : params=> ticket_id=> ${ticket_id} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
-            msg: 'Error obteniendo listado de ticket acciones.'
+            msg: 'Error obteniendo listado de acciones.'
         });
     }
 }
@@ -311,12 +329,12 @@ const setHiddenNote = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { ticket_id, usuario_id, nota } = req.body;
+    const { ticket_id, nota, username } = req.body;
 
-    logger.info(`setHiddenNote ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} `)
+    logger.info(`setHiddenNote ticket_id:${ticket_id} nota:${nota} username:${username}`)
 
     try {
-        createDBHiddenNote(ticket_id, usuario_id, nota)
+        createDBHiddenNote(ticket_id, nota, username)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -326,7 +344,7 @@ const setHiddenNote = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`setHiddenNote => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} error=> ${dataError}`);
+                logger.error(`setHiddenNote => createDBAutoEvaluation : params=> ticket_id:${ticket_id} nota:${nota} username:${username} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -335,7 +353,7 @@ const setHiddenNote = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} usuario_id:${usuario_id} nota:${nota} error=> ${error}`);
+        logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} nota:${nota} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,

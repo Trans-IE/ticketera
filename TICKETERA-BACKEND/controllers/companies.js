@@ -34,7 +34,7 @@ const getAllCompaniesLocal = async (req, res = response) => {
 }
 
 const getAllCompaniesExternal = async (req, res = response) => {
-    const { label: username } = req;
+    const { username } = req.body;
 
     let function_enter_time = new Date();
     logger.info(`==> getAllCompaniesExternal.`)

@@ -8,7 +8,7 @@ const { UserRol } = require('../helpers/constants');
 const getAllProducts = async (req, res = response) => {
     const { label: username } = req;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getAllProducts - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllProducts";
 
@@ -62,7 +62,7 @@ const getProduct = async (req, res = response) => {
     const { label: username } = req;
     const { id } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getProduct - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProduct";
 
@@ -124,7 +124,7 @@ const getProductsByBrand = async (req, res = response) => {
     const { marca_id } = req.body;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getProductsByBrand - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProductsByBrand";
 
@@ -178,7 +178,7 @@ const createProduct = async (req, res = response) => {
     const { label: username } = req;
     const { nombre, modelo, habilitado, marca_id } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> createProduct - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createProduct";
 
@@ -240,7 +240,7 @@ const updateProduct = async (req, res = response) => {
     const id = req.params.id;
     const { nombre, modelo, habilitado, marca_id } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> updateProduct - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateProduct/${id}`;
 
@@ -304,7 +304,7 @@ const deleteProduct = async (req, res = response) => {
     const id = req.params.id;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> deleteProduct - username:${username}`);
 
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteProduct/${id}`;

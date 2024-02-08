@@ -69,7 +69,7 @@ const getContractsByCompany = async (req, res = response) => {
     let function_enter_time = new Date();
     let url = "";
 
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.ClienteADM},${UserRol.ClienteUSR},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.ClienteADM},${UserRol.ClienteUSR},${UserRol.LocalTAC}`;
     logger.info(`==> getContractsByCompany - username:${username} empresa_id:${empresa_id}`);
 
     try {
@@ -128,7 +128,7 @@ const createContract = async (req, res = response) => {
     const { label: username } = req;
     const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> createContract - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createContract";
 
@@ -190,7 +190,7 @@ const updateContract = async (req, res = response) => {
     const id = req.params.id;
     const { empresa_id, ejecutivo_id, sla_horas_respuesta, sla_horas_provisorio, sla_horas_definitivo, tipo, horas_paquete, notas, habilitado, soporte_onsite, reemplazo_partes, fecha_inicio, fecha_fin } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`updateContract empresa_id:${empresa_id} ejecutivo_id:${ejecutivo_id} sla_horas_respuesta:${sla_horas_respuesta} sla_horas_provisorio:${sla_horas_provisorio}  sla_horas_definitivo:${sla_horas_definitivo}  tipo:${tipo}  horas_paquete:${horas_paquete}  notas:${notas}  habilitado:${habilitado}  soporte_onsite:${soporte_onsite}  reemplazo_partes:${reemplazo_partes}  fecha_inicio:${fecha_inicio}  fecha_fin:${fecha_fin}`)
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateContract/${id}`;
 
@@ -254,7 +254,7 @@ const deleteContract = async (req, res = response) => {
     const id = req.params.id;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> deleteContract - username:${username}`);
 
     let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteContract/${id}`;

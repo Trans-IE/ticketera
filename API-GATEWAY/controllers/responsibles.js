@@ -9,7 +9,7 @@ const getAllResponsibles = async (req, res = response) => {
     const { label: username } = req;
 
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getAllResponsibles - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllResponsibles";
 
@@ -22,7 +22,7 @@ const getAllResponsibles = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, {}, 'POST');
+            const resp = await fetchSinToken(url, { username, rol }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {

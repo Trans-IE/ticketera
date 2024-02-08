@@ -149,12 +149,12 @@ const deleteBrand = async (req, res = response) => {
                 }
             })
             .catch(dataError => {
-                logger.error(`deleteBrand => deleteBrand: params=> id=${id} error=> ${dataError}`);
+                logger.error(`deleteBrand => deleteDBBrand: params=> id=${id} error=> ${dataError}`);
                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo eliminar la empresa '${id}' `
+                    msg: `No se pudo eliminar la marca '${id}' `
                 });
 
             });
@@ -163,10 +163,78 @@ const deleteBrand = async (req, res = response) => {
         res.status(502).json({
             ok: false,
             error: error,
-            msg: `No se pudo eliminar la empresa '${id}' `
+            msg: `No se pudo eliminar la marca '${id}' `
         });
     }
 }
+
+//==> Otra posibilidad de hacer la llamada más reducida:
+
+// const deleteBrandTest = async (req, res = response) => {
+
+//     const id = req.params.id;
+
+//     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+//     // alli identifica estos datos desencriptando el hash x-token
+//     logger.info(`deleteBrand id:${id}`)
+
+//     try {
+//         // AL ELIMINAR PUEDE QUE SEA NECESARIO CHEQUEAR PRIVILEGIOS DE USUARIO
+//         // DEBE VALIDAR SI EXISTE EL ELEMENTO
+//         const id = await deleteDBBrand(id)
+
+//         if (result === 1) {
+//             res.status(200).json({
+//                 ok: true,
+//                 value: result,
+//                 msg: `Marca id: ${id} fue eliminado correctamente`
+//             });
+//         }
+//         else {
+//             //Ocurrio un error no manejado en sql.
+//             return res.status(401).json({
+//                 ok: false,
+//                 msg: 'La marca no pudo ser eliminado del sistema.'
+//             });
+//         }
+
+
+//         /* deleteDBBrand(id)
+//             .then(result => {
+//                 if (result === 1) {
+//                     res.status(200).json({
+//                         ok: true,
+//                         value: result,
+//                         msg: `Marca id: ${id} fue eliminado correctamente`
+//                     });
+//                 }
+//                 else {
+//                     //Ocurrio un error no manejado en sql.
+//                     return res.status(401).json({
+//                         ok: false,
+//                         msg: 'La marca no pudo ser eliminado del sistema.'
+//                     });
+//                 }
+//             })
+//             .catch(dataError => {
+//                 logger.error(`deleteBrand => deleteDBBrand: params=> id=${id} error=> ${dataError}`);
+//                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
+//                 res.status(501).json({
+//                     ok: false,
+//                     error: dataError,
+//                     msg: `No se pudo eliminar la marca '${id}' `
+//                 });
+
+//             }); */
+//     } catch (error) {
+//         logger.error(`deleteBrand: params=> id=${id} error=> ${error}`);
+//         res.status(502).json({
+//             ok: false,
+//             error: error,
+//             msg: `No se pudo eliminar la marca '${id}' `
+//         });
+//     }
+// }
 
 module.exports = {
     getAllBrands,

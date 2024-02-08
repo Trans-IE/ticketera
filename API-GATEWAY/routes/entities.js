@@ -11,6 +11,7 @@ const { getAllResponsibles } = require('../controllers/responsibles');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote } = require('../controllers/ticket_actions');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
 
 const router = Router();
 
@@ -1663,7 +1664,7 @@ router.post(
 router.post(
     '/getTicketActionByTicketId',
     [
-        check('ticket_id', 'Debe ingresar una marca').not().isEmpty(),
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
         validarJWT
     ],
@@ -1689,10 +1690,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               responsable_id:
  *                 type: integer
  *                 description: El ID del ejecutivo asociado al contrato.
@@ -1742,8 +1739,8 @@ router.post(
     '/setResponsible',
     [
         check('ticket_id', 'El ticket_id es obligatorio').isInt(),
-        check('usuario_id', 'El usuario_id es obligatorio').isInt(),
         check('responsable_id', 'El responsable_id es obligatorio').isInt(),
+
         validarCampos,
         validarJWT
     ],
@@ -1769,10 +1766,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               prioridad:
  *                 type: integer
  *                 description: El ID de la prioridad asociada al ticket.
@@ -1822,7 +1815,6 @@ router.post(
     '/setPriority',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('prioridad', 'La prioridad es obligatoria').not().isEmpty(),
 
         validarCampos,
@@ -1851,10 +1843,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               estado:
  *                 type: integer
  *                 description: El ID del estado asociado al ticket.
@@ -1904,7 +1892,6 @@ router.post(
     '/setState',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('estado', 'El estado es obligatorio').not().isEmpty(),
 
         validarCampos,
@@ -1932,10 +1919,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               notas:
  *                 type: string
  *                 description: Nueva nota asociada al ticket.
@@ -1985,7 +1968,6 @@ router.post(
     '/setNote',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('notas', 'Las notas son obligatorias').not().isEmpty(),
 
         validarCampos,
@@ -2013,10 +1995,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               auto_evaluacion:
  *                 type: integer
  *                 description: Nueva autoevaluacion asociada al ticket.
@@ -2066,7 +2044,6 @@ router.post(
     '/setAutoEvaluation',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('auto_evaluacion', 'La autoevaluacion es obligatoria').not().isEmpty(),
 
         validarCampos,
@@ -2094,10 +2071,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               horas:
  *                 type: string
  *                 description: Nueva hora asociada al ticket.
@@ -2151,7 +2124,6 @@ router.post(
     '/setHours',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('horas', 'Las horas son obligatoria').not().isEmpty(),
         check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
 
@@ -2180,10 +2152,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               archivo:
  *                 type: string
  *                 description: Ruta del archivo.
@@ -2233,7 +2201,6 @@ router.post(
     '/setFilePath',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('archivo', 'Las horas son obligatoria').not().isEmpty(),
 
         validarCampos,
@@ -2261,10 +2228,6 @@ router.post(
  *                 type: integer
  *                 description: El ID del ticket
  *                 example: 8290
- *               usuario_id:
- *                 type: integer
- *                 description: El ID del usuario asociado al ticket.
- *                 example: 44
  *               nota:
  *                 type: string
  *                 description: Nota oculta.
@@ -2314,7 +2277,6 @@ router.post(
     '/setHiddenNote',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('usuario_id', 'El id es obligatorio').not().isEmpty(),
         check('nota', 'La nota oculta es obligatorio').not().isEmpty(),
 
         validarCampos,
@@ -2322,6 +2284,452 @@ router.post(
     ],
 
     setHiddenNote
+);
+
+/**
+ * @openapi
+ * /api/entities/updateTicket:
+ *   put:
+ *     summary: Actualización de un ticket en el sistema.
+ *     description: >
+ *       Este endpoint permite a un usuario con credenciales válidas actualizar un nuevo ticket en el sistema. Roles válidos => LocalSM.
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               empresaId:
+ *                 type: integer
+ *                 description: ID de la empresa asociada al ticket.
+ *                 example: 28013
+ *               tipoFalla:
+ *                 type: integer
+ *                 description: Tipo de falla del ticket.
+ *                 example: 1
+ *               cliente:
+ *                 type: string
+ *                 description: ID del cliente asociado al ticket.
+ *                 example: "Test"
+ *               partner:
+ *                 type: string
+ *                 description: ID del partner asociado al ticket.
+ *                 example: "1"
+ *               rma:
+ *                 type: string
+ *                 description: ID del RMA asociado al ticket.
+ *                 example: "Test"
+ *               bug:
+ *                 type: string
+ *                 description: ID del bug asociado al ticket.
+ *                 example: "Test"
+ *               comment:
+ *                 type: string
+ *                 description: Comentario asociado al ticket.
+ *                 example: "Test"
+ *               nroSerie:
+ *                 type: string
+ *                 description: Número de serie asociado al ticket.
+ *                 example: "SN123"
+ *               nodo:
+ *                 type: string
+ *                 description: Información sobre el nodo asociado al ticket.
+ *                 example: "123"
+ *               titulo:
+ *                 type: string
+ *                 description: Título del ticket.
+ *                 example: "Problema con el producto - actualizado"
+ *               causaRaiz:
+ *                 type: string
+ *                 description: Causa raíz del problema asociado al ticket.
+ *                 example: "Test"
+ *               preventa:
+ *                 type: integer
+ *                 description: ID de la preventa asociada al ticket.
+ *                 example: 0
+ *               vendedor:
+ *                 type: integer
+ *                 description: ID del vendedor asociado al ticket.
+ *                 example: 0
+ *               producto:
+ *                 type: integer
+ *                 description: ID del producto asociado al ticket.
+ *                 example: 258
+ *               esProjecto:
+ *                 type: string
+ *                 description: Indica si el ticket está asociado a un proyecto.
+ *                 example: '0'
+ *               proyecton:
+ *                 type: integer
+ *                 description: ID del proyecto asociado al ticket.
+ *                 example: -1
+ *               array_user_id_notif:
+ *                 type: string
+ *                 description: Array para notificaciones.
+ *                 example: "2108;2316;test@test.com"
+ *     responses:
+ *       201:
+ *         description: Ticket creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ticket:
+ *                   type: object
+ *                   description: Información del nuevo ticket creado y código único generado.
+ *       400:
+ *         description: Error de validación al intentar crear el ticket.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de validación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *       500:
+ *         description: Error interno del servidor al intentar crear el ticket.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de fallo interno.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *       - x-token: []
+ */
+router.put(
+    '/updateTicket',
+    [
+        check('empresaId', 'La empresaId no puede estar vacío').notEmpty(),
+        check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
+        check('cliente', 'El cliente no puede estar vacío').notEmpty(),
+        check('partner', 'El partner no puede estar vacío').notEmpty(),
+        check('rma', 'El rma no puede estar vacío').notEmpty(),
+        check('bug', 'La bug no puede estar vacía').notEmpty(),
+        check('comment', 'El comment no puede estar vacío').notEmpty(),
+        check('nroSerie', 'El nroSerie no puede estar vacío').notEmpty(),
+        check('nodo', 'El nodo no puede estar vacío').notEmpty(),
+        check('titulo', 'El titulo no puede estar vacío').notEmpty(),
+        check('causaRaiz', 'El causaRaiz no puede estar vacío').notEmpty(),
+        check('preventa', 'El preventa no puede estar vacío').notEmpty(),
+        check('vendedor', 'El vendedor no puede estar vacío').notEmpty(),
+        check('producto', 'El producto no puede estar vacío').notEmpty(),
+        check('esProjecto', 'El isproject no puede estar vacío').notEmpty(),
+        check('proyecton', 'El proyecton no puede estar vacío').notEmpty(),
+        check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    updateTicket
+);
+
+/**
+ * @openapi
+ * /api/entities/createTicket:
+ *   post:
+ *     summary: Creación de un nuevo ticket en el sistema.
+ *     description: >
+ *       Este endpoint permite a un usuario con credenciales válidas crear un nuevo ticket en el sistema. Roles válidos => LocalSM.
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               empresaId:
+ *                 type: integer
+ *                 description: ID de la empresa asociada al ticket.
+ *                 example: 3
+ *               contratoId:
+ *                 type: integer
+ *                 description: ID del contrato asociado al ticket.
+ *                 example: -1
+ *               productoId:
+ *                 type: integer
+ *                 description: ID del producto asociado al ticket.
+ *                 example: 258
+ *               tipoFalla:
+ *                 type: integer
+ *                 description: Tipo de falla del ticket.
+ *                 example: 1
+ *               description:
+ *                 type: string
+ *                 description: Descripción detallada del ticket.
+ *                 example: Descripción detallada del problema.
+ *               title:
+ *                 type: string
+ *                 description: Título del ticket.
+ *                 example: "Problema con el producto"
+ *               nroSerie:
+ *                 type: string
+ *                 description: Número de serie asociado al ticket.
+ *                 example: "SN123"
+ *               nodo:
+ *                 type: string
+ *                 description: Información sobre el nodo asociado al ticket.
+ *                 example: "123"
+ *               esProyecto:
+ *                 type: integer
+ *                 description: Indica si el ticket está asociado a un proyecto.
+ *                 example: 0
+ *               padreId:
+ *                 type: integer
+ *                 description: ID del ticket padre.
+ *                 example: 123
+ *               preventaId:
+ *                 type: integer
+ *                 description: ID de la preventa asociada al ticket.
+ *                 example: 456
+ *               vendedorId:
+ *                 type: integer
+ *                 description: ID del vendedor asociado al ticket.
+ *                 example: 789
+ *               tkEnPartner:
+ *                 type: integer
+ *                 description: ID del ticket asociado al partner.
+ *                 example: 987
+ *               array_user_id_notif:
+ *                 type: string
+ *                 description: Array para notificaciones.
+ *                 example: "2108;test@test.com;2316"
+ *     responses:
+ *       201:
+ *         description: Ticket creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ticket:
+ *                   type: object
+ *                   description: Información del nuevo ticket creado y código único generado.
+ *       400:
+ *         description: Error de validación al intentar crear el ticket.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de validación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *       500:
+ *         description: Error interno del servidor al intentar crear el ticket.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de fallo interno.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *       - x-token: []
+ */
+router.post(
+    '/createTicket',
+    [
+        check('empresaId', 'La empresaId no puede estar vacío').notEmpty(),
+        check('contratoId', 'El contratoId no puede estar vacío').notEmpty(),
+        check('productoId', 'El productoId no puede estar vacío').notEmpty(),
+        check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
+        check('title', 'El title no puede estar vacío').notEmpty(),
+        check('description', 'La description no puede estar vacía').notEmpty(),
+        check('nroSerie', 'El nroSerie no puede estar vacío').notEmpty(),
+        check('nodo', 'El nodo no puede estar vacío').notEmpty(),
+        check('esProyecto', 'El esProyecto no puede estar vacío').notEmpty(),
+        check('padreId', 'El padreId no puede estar vacío').notEmpty(),
+        check('preventaId', 'El preventaId no puede estar vacío').notEmpty(),
+        check('vendedorId', 'El vendedorId no puede estar vacío').notEmpty(),
+        check('tkEnPartner', 'El tkEnPartner no puede estar vacío').notEmpty(),
+        check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    createTicket
+);
+
+/**
+ * @openapi
+ * /api/entities/deleteTicket/{id}:
+ *   delete:
+ *     summary: Elimina un ticket en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una empresa cliente del sistema. Roles válidos => LocalSM.
+ *     tags: [Tickets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: false
+ *         schema:
+ *           type: int
+ *         description: ID del ticket que se va a eliminar.
+ *     responses:
+ *       201:
+ *         description: Ticket eliminado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 company:
+ *                   type: object
+ *                   description: Información del ticket eliminado
+ *       200:
+ *         description: Eliminación no permitida (200) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de eliminación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       501:
+ *         description: Eliminación no permitida (501) debido a un error en el servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de eliminación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     security:
+ *      - x-token: []
+ */
+router.delete(
+    '/deleteTicket/:id',
+    [
+        check('id', 'El label es obligatorio').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    deleteTicket
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllTicketsByFilter:
+ *   post:
+ *     summary: Obtener todos los tickets en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema. Roles válidos => LocalSM.
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               pCadenaSearch:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: "ESTADO:0;TPOESTADO:0;"
+ *               offset:
+ *                 type: integer
+ *                 description: Valor de desplazamiento para la paginación de resultados.
+ *                 example: 0
+ *               estadoId:
+ *                 type: integer
+ *                 description: Identificador del estado del ticket.
+ *                 example: 0
+ *               prioridadId:
+ *                 type: integer
+ *                 description: Identificador de la prioridad del ticket.
+ *                 example: -1
+ *               tipoId:
+ *                 type: integer
+ *                 description: Identificador del tipo de ticket.
+ *                 example: -1
+ *               tipoTicket:
+ *                 type: integer
+ *                 description: Tipo de ticket.
+ *                 example: -1
+ *               orderBy:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *               orderByType:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *     responses:
+ *       200:
+ *         description: Lista de tickets obtenida correctamente.
+ *         content:
+  *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de eliminación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *       - x-token: []
+ */
+router.post(
+    '/getAllTicketsByFilter',
+    [
+        check('pCadenaSearch', 'El label es obligatorio').not().isEmpty(),
+        check('offset', 'El label es obligatorio').not().isEmpty(),
+        check('estadoId', 'El label es obligatorio').not().isEmpty(),
+        check('prioridadId', 'El label es obligatorio').not().isEmpty(),
+        check('tipoId', 'El label es obligatorio').not().isEmpty(),
+        check('tipoTicket', 'El label es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getAllTicketsByFilter
 );
 
 module.exports = router;

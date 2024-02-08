@@ -1,15 +1,16 @@
 const { response } = require('express');
-const { getAllDBResponsibles, createDBResponsible } = require('../databases/queries_responsibles');
+const { getAllDBResponsibles } = require('../databases/queries_responsibles');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
 const getAllResponsibles = async (req, res = response) => {
+    const { username, rol } = req.body;
 
     let function_enter_time = new Date();
     logger.info(`==> getAllResponsibles.`)
     try {
-        getAllDBResponsibles()
+        getAllDBResponsibles(username, rol)
             .then(result => {
                 logger.info(`<== getAllResponsibles`);
                 loggerCSV.info(`getAllResponsibles, ${(new Date() - function_enter_time) / 1000}`)

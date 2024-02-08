@@ -123,7 +123,6 @@ const updateDBProduct = (id, nombre, modelo, habilitado, marca_id) => {
         })
     });
 
-
     return return_promise;
 }
 

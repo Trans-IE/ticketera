@@ -35,7 +35,7 @@ const getDBUserByLogin = (username, password, check_password) => {
 
 const createDBUser = (usuario, password, apellido, nombre, telefono, mail, codigo) => {
     const return_promise = new Promise((resolve, reject) => {
-        
+
         pooldata.getPool.query('select * from public.f_usuarios_create($1,$2,$3,$4,$5,$6,$7)', [usuario, password, apellido, nombre, telefono, mail, codigo], (error, results) => {
             if (error) {
 
@@ -74,9 +74,53 @@ const getDBUserRolByUsername = (label) => {
     return return_promise;
 }
 
+const getDBUserIdByUser = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select id from usuarios where usuario = $1;', [username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]['id']);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+const getDBTypeUserByUser = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select tipo from usuarios where usuario = $1;', [username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]['tipo']);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 
 module.exports = {
-    getDBUserByLogin, 
+    getDBUserByLogin,
     createDBUser,
-    getDBUserRolByUsername
+    getDBUserRolByUsername,
+    getDBUserIdByUser,
+    getDBTypeUserByUser
 }
