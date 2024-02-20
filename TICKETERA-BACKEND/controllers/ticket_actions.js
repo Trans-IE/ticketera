@@ -26,7 +26,7 @@ const setResponsible = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setResponsible => createDBResponsible : params=> ticket_id:${ticket_id} responsable_id:${responsable_id} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción responsable del ticket. `
@@ -65,7 +65,7 @@ const setPriority = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setPriority => createDBPriority : params=> ticket_id:${ticket_id} prioridad:${prioridad} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción prioridad del ticket. `
@@ -103,7 +103,7 @@ const setState = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setState => createDBState : params=> ticket_id:${ticket_id} estado:${estado} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción estado del ticket. `
@@ -141,7 +141,7 @@ const setHours = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción horas del ticket. `
@@ -179,7 +179,7 @@ const setFilePath = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción ruta de archivo del ticket. `
@@ -228,7 +228,7 @@ const setNote = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción nota del ticket. `
@@ -266,7 +266,7 @@ const setAutoEvaluation = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción auto-evaluación del ticket. `
@@ -345,7 +345,7 @@ const setHiddenNote = async (req, res = response) => {
             })
             .catch(dataError => {
                 logger.error(`setHiddenNote => createDBAutoEvaluation : params=> ticket_id:${ticket_id} nota:${nota} username:${username} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear la acción nota oculta del ticket. `

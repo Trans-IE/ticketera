@@ -50,7 +50,7 @@ const setState = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setState`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -111,7 +111,7 @@ const setPriority = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setPriority`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -172,7 +172,7 @@ const setResponsible = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setPriority`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -232,7 +232,7 @@ const setAutoEvaluation = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setAutoEvaluation`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -293,7 +293,7 @@ const setNote = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setNota`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -354,7 +354,7 @@ const setHours = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setHours`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -415,7 +415,7 @@ const setFilePath = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setFilePath`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -470,7 +470,7 @@ const getTicketActionByTicketId = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getTicketActionByTicketId`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -531,7 +531,7 @@ const setHiddenNote = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setHiddenNote`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

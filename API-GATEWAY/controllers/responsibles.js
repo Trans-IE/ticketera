@@ -42,7 +42,7 @@ const getAllResponsibles = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllResponsibles`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

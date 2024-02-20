@@ -10,8 +10,10 @@ const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../cont
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllResponsibles } = require('../controllers/responsibles');
+const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
+const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
 
@@ -552,5 +554,53 @@ router.post(
 
     getAllTicketsByFilter
 );
+
+router.post(
+    '/getSummarizeHoursByTechnician',
+    [
+        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
+        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+    ],
+
+    getSummarizeHoursByTechnician
+);
+
+router.post(
+    '/getHourDetailByTechnician',
+    [
+        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
+        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+        check('proyecto', 'La fecha es obligatorio').not().isEmpty(),
+    ],
+
+    getHourDetailByTechnician
+);
+
+router.post(
+    '/createHoliday',
+    [
+        check('fecha', 'La fecha es obligatorio').not().isEmpty(),
+        check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+
+    ],
+
+    createHoliday
+);
+
+router.delete(
+    '/deleteHoliday/:fecha',
+    [
+        check('fecha', 'El label es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    deleteHoliday
+);
+
 
 module.exports = router;

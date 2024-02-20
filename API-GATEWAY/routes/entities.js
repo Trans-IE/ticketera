@@ -7,6 +7,8 @@ const { createContract, deleteContract, updateContract, getAllContracts, getCont
 const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllStates } = require('../controllers/states');
+const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
+const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getAllResponsibles } = require('../controllers/responsibles');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -20,7 +22,7 @@ const router = Router();
  * /api/entities/createCompany:
  *   post:
  *     summary: Alta de nueva empresa en el sistema
- *     description: Este endpoint permite a un usuario  con credenciales validas dar de alta una nueva empresa cliente al sistema. . Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario  con credenciales validas dar de alta una nueva empresa cliente al sistema.
  *     tags: [Companys]
  *     requestBody:
  *       required: true
@@ -106,7 +108,7 @@ router.post(
  * /api/entities/updateCompany/{id}:
  *   put:
  *     summary: Actualización de una empresa en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar una empresa cliente existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar una empresa cliente existente en el sistema.
  *     tags: [Companys]
  *     parameters:
  *       - in: path
@@ -204,7 +206,7 @@ router.put(
  * /api/entities/deleteCompany/{id}:
  *   delete:
  *     summary: Elimina una empresa en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una empresa cliente del sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una empresa cliente del sistema
  *     tags: [Companys]
  *     parameters:
  *       - in: path
@@ -506,7 +508,7 @@ router.post(
  * /api/entities/createProduct:
  *   post:
  *     summary: Crear un nuevo producto en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo producto en el sistema. Se requieren varios campos obligatorios para la creación del producto. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo producto en el sistema. Se requieren varios campos obligatorios para la creación del producto.
  *     tags: [Products]
  *     requestBody:
  *       required: true
@@ -590,7 +592,7 @@ router.post(
  * /api/entities/deleteProduct/{id}:
  *   delete:
  *     summary: Eliminación de un producto en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un producto existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un producto existente en el sistema.
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -663,7 +665,7 @@ router.delete(
  * /api/entities/updateProduct/{id}:
  *   put:
  *     summary: Actualización de un producto en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un producto existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un producto existente en el sistema.
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -861,7 +863,7 @@ router.post(
  * /api/entities/createContract:
  *   post:
  *     summary: Crear un nuevo contrato en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo contrato en el sistema. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo contrato en el sistema. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Contracts]
  *     requestBody:
  *       required: true
@@ -994,7 +996,7 @@ router.post(
  * /api/entities/updateContract/{id}:
  *   put:
  *     summary: Actualización de un contrato en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un contrato existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar un contrato existente en el sistema.
  *     tags: [Contracts]
  *     parameters:
  *       - in: path
@@ -1145,7 +1147,7 @@ router.put(
  * /api/entities/deleteContract/{id}:
  *   delete:
  *     summary: Eliminar un contrato en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato mediante su ID en el sistema. Se requiere proporcionar el ID del contrato a eliminar. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un contrato mediante su ID en el sistema. Se requiere proporcionar el ID del contrato a eliminar.
  *     tags: [Contracts]
  *     parameters:
  *       - in: path
@@ -1212,7 +1214,7 @@ router.delete(
  * /api/entities/getAllBrands:
  *   post:
  *     summary: Obtener todas las marcas en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las marcas en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las marcas en el sistema.
  *     tags: [Brands]
  *     responses:
  *       200:
@@ -1258,7 +1260,7 @@ router.post(
  * /api/entities/createBrand:
  *   post:
  *     summary: Crear una nueva marca en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva marca en el sistema. Se requiere proporcionar el nombre de la marca. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva marca en el sistema. Se requiere proporcionar el nombre de la marca.
  *     tags: [Brands]
  *     requestBody:
  *       required: true
@@ -1329,7 +1331,7 @@ router.post(
  * /api/entities/updateBrand/{id}:
  *   put:
  *     summary: Actualización de una marca en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas actualizar una marca existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas actualizar una marca existente en el sistema.
  *     tags: [Brands]
  *     parameters:
  *       - in: path
@@ -1408,7 +1410,7 @@ router.put(
  * /api/entities/deleteBrand/{id}:
  *   delete:
  *     summary: Eliminación de una marca en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una marca existente en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una marca existente en el sistema.
  *     tags: [Brands]
  *     parameters:
  *       - in: path
@@ -1481,7 +1483,7 @@ router.delete(
  * /api/entities/getAllResponsibles:
  *   post:
  *     summary: Obtener todos los responsables en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas los responsables en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas los responsables en el sistema.
  *     tags: [Ticket Actions]
  *     responses:
  *       200:
@@ -1527,7 +1529,7 @@ router.post(
  * /api/entities/getAllPrioritys:
  *   post:
  *     summary: Obtener todas las prioridades en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las prioridades en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las prioridades en el sistema.
  *     tags: [Ticket Actions]
  *     responses:
  *       200:
@@ -1573,7 +1575,7 @@ router.post(
  * /api/entities/getAllStates:
  *   post:
  *     summary: Obtener todos los estados en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los estados en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los estados en el sistema.
  *     tags: [Ticket Actions]
  *     responses:
  *       200:
@@ -1677,7 +1679,7 @@ router.post(
  * /api/entities/setResponsible:
  *   post:
  *     summary: Establecer un nuevo responsable en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo responsable en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo responsable en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -1753,7 +1755,7 @@ router.post(
  * /api/entities/setPriority:
  *   post:
  *     summary: Establecer una nueva prioridad en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva prioridad en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva prioridad en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -1830,7 +1832,7 @@ router.post(
  * /api/entities/setState:
  *   post:
  *     summary: Establecer un nuevo estado en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo estado en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear un nuevo estado en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -1906,7 +1908,7 @@ router.post(
  * /api/entities/setNote:
  *   post:
  *     summary: Setea una nueva nota en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva nota en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva nota en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -1982,7 +1984,7 @@ router.post(
  * /api/entities/setAutoEvaluation:
  *   post:
  *     summary: Setea una nueva autoevaluación en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva autoevaluación en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva autoevaluación en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -2058,7 +2060,7 @@ router.post(
  * /api/entities/setHours:
  *   post:
  *     summary: Setea las horas trabajadas en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -2139,7 +2141,7 @@ router.post(
  * /api/entities/setFilePath:
  *   post:
  *     summary: Setea una nueva ruta de archivo en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva ruta de archivo en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva ruta de archivo en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -2215,7 +2217,7 @@ router.post(
  * /api/entities/setHiddenNote:
  *   post:
  *     summary: Setear una nueva nota oculta en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nota oculta en el ticket. Se requieren varios campos obligatorios para la creación del contrato. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas crear una nota oculta en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       required: true
@@ -2292,7 +2294,7 @@ router.post(
  *   put:
  *     summary: Actualización de un ticket en el sistema.
  *     description: >
- *       Este endpoint permite a un usuario con credenciales válidas actualizar un nuevo ticket en el sistema. Roles válidos => LocalSM.
+ *       Este endpoint permite a un usuario con credenciales válidas actualizar un nuevo ticket en el sistema. .
  *     tags: [Tickets]
  *     requestBody:
  *       required: true
@@ -2444,7 +2446,7 @@ router.put(
  *   post:
  *     summary: Creación de un nuevo ticket en el sistema.
  *     description: >
- *       Este endpoint permite a un usuario con credenciales válidas crear un nuevo ticket en el sistema. Roles válidos => LocalSM.
+ *       Este endpoint permite a un usuario con credenciales válidas crear un nuevo ticket en el sistema. .
  *     tags: [Tickets]
  *     requestBody:
  *       required: true
@@ -2580,7 +2582,7 @@ router.post(
  * /api/entities/deleteTicket/{id}:
  *   delete:
  *     summary: Elimina un ticket en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una empresa cliente del sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar una empresa cliente del sistema.
  *     tags: [Tickets]
  *     parameters:
  *       - in: path
@@ -2646,7 +2648,7 @@ router.delete(
  * /api/entities/getAllTicketsByFilter:
  *   post:
  *     summary: Obtener todos los tickets en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema. Roles válidos => LocalSM.
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema.
  *     tags: [Tickets]
  *     requestBody:
  *       required: true
@@ -2730,6 +2732,465 @@ router.post(
     ],
 
     getAllTicketsByFilter
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllTicketsByFilter:
+ *   post:
+ *     summary: Obtener todos los tickets en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema.
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               pCadenaSearch:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: "ESTADO:0;TPOESTADO:0;"
+ *               offset:
+ *                 type: integer
+ *                 description: Valor de desplazamiento para la paginación de resultados.
+ *                 example: 0
+ *               estadoId:
+ *                 type: integer
+ *                 description: Identificador del estado del ticket.
+ *                 example: 0
+ *               prioridadId:
+ *                 type: integer
+ *                 description: Identificador de la prioridad del ticket.
+ *                 example: -1
+ *               tipoId:
+ *                 type: integer
+ *                 description: Identificador del tipo de ticket.
+ *                 example: -1
+ *               tipoTicket:
+ *                 type: integer
+ *                 description: Tipo de ticket.
+ *                 example: -1
+ *               orderBy:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *               orderByType:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *     responses:
+ *       200:
+ *         description: Lista de tickets obtenida correctamente.
+ *         content:
+  *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de eliminación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *       - x-token: []
+ */
+router.post(
+    '/getAllTicketsByFilter',
+    [
+        check('pCadenaSearch', 'El label es obligatorio').not().isEmpty(),
+        check('offset', 'El label es obligatorio').not().isEmpty(),
+        check('estadoId', 'El label es obligatorio').not().isEmpty(),
+        check('prioridadId', 'El label es obligatorio').not().isEmpty(),
+        check('tipoId', 'El label es obligatorio').not().isEmpty(),
+        check('tipoTicket', 'El label es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getAllTicketsByFilter
+);
+
+/**
+ * @openapi
+ * /api/entities/getSummarizeHoursByTechnician:
+ *   post:
+ *     summary: Obtener reporte de horas por técnico
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener un reporte de horas resumido por técnico en el sistema.
+ *     tags: [Reports]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fechaIni:
+ *                 type: string
+ *                 description: Fecha de inicio (obligatorio).
+ *                 example: "2024-02-16"
+ *               fechaFin:
+ *                 type: string
+ *                 description: Fecha de fin (obligatorio).
+ *                 example: "2024-02-16"
+ *               idUsuario:
+ *                 type: string
+ *                 description: ID de usuario (obligatorio).
+ *                 example: "-1"
+ *               idEmpresa:
+ *                 type: string
+ *                 description: ID de empresa (obligatorio).
+ *                 example: "-1"
+ *     responses:
+ *       200:
+ *         description: Reporte obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Reporte de horas por técnico.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getSummarizeHoursByTechnician',
+    [
+        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
+        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getSummarizeHoursByTechnician
+);
+
+/**
+ * @openapi
+ * /api/entities/getHourDetailByTechnician:
+ *   post:
+ *     summary: Obtener reporte detallado de horas por técnico
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener un reporte detallado de horas por técnico en el sistema.
+ *     tags: [Reports]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fechaIni:
+ *                 type: string
+ *                 description: Fecha de inicio (obligatorio).
+ *                 example: "2024-02-16"
+ *               fechaFin:
+ *                 type: string
+ *                 description: Fecha de fin (obligatorio).
+ *                 example: "2024-02-16"
+ *               idUsuario:
+ *                 type: string
+ *                 description: ID de usuario (obligatorio).
+ *                 example: "-1"
+ *               idEmpresa:
+ *                 type: string
+ *                 description: ID de empresa (obligatorio).
+ *                 example: "-1"
+ *               proyecto:
+ *                 type: integer
+ *                 description: Proyecto (obligatorio).
+ *                 example: 0
+ *     responses:
+ *       200:
+ *         description: Reporte detallado de horas por técnico obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Lista de estados.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getHourDetailByTechnician',
+    [
+        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
+        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+        check('proyecto', 'La fecha es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getHourDetailByTechnician
+);
+
+/**
+ * @openapi
+ * /api/entities/createHoliday:
+ *   post:
+ *     summary: Establecer un feriado en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas establecer un nuevo feriado en el sistema.
+ *     tags: [Holidays]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fecha:
+ *                 type: string
+ *                 description: Fecha del feriado (obligatorio).
+ *                 example: "2024-02-16"
+ *               descripcion:
+ *                 type: string
+ *                 description: Descripción del feriado (obligatorio).
+ *                 example: "Test feriado"
+ *     responses:
+ *       200:
+ *         description: Feriado establecido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Establecimiento de feriado.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/createHoliday',
+    [
+        check('fecha', 'La fecha es obligatorio').not().isEmpty(),
+        check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    createHoliday
+);
+
+/**
+ * @openapi
+ * /api/entities/deleteHoliday/{fecha}:
+ *   delete:
+ *     summary: Eliminación de un feriado en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas eliminar un feriado existente en el sistema.
+ *     tags: [Holidays]
+ *     parameters:
+ *       - in: path
+ *         name: fecha
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Fecha del feriado que se va a eliminar.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *     responses:
+ *       200:
+ *         description: Producto eliminado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 brand:
+ *                   type: object
+ *                   description: Información de la marca actualizada y código único generado.
+ *       201:
+ *         description: Actualización no permitida (201) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de actualización fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       501:
+ *         description: Actualización no permitida (501) debido a un error en el servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de actualización fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     security:
+ *      - x-token: []
+ */
+router.delete(
+    '/deleteHoliday/:fecha',
+    [
+        check('fecha', 'El label es obligatorio').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    deleteHoliday
+);
+
+/**
+ * @openapi
+ * /api/entities/setExtraHours:
+ *   post:
+ *     summary: Setea las horas extras trabajadas en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas extras trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               horas:
+ *                 type: string
+ *                 description: Nueva hora asociada al ticket.
+ *                 example: "00:01:00"
+ *               fecha_accion_hs:
+ *                 type: string
+ *                 description: Nueva hora real asociada al ticket.
+ *                 example: "2024-01-01 00:00:00"
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setExtraHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('horas', 'Las horas son obligatoria').not().isEmpty(),
+        check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setHours
 );
 
 module.exports = router;

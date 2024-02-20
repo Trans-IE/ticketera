@@ -44,7 +44,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllTicketsByFilter`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -129,7 +129,7 @@ const createTicket = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setState`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -193,7 +193,7 @@ const updateTicket = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion UpdateTicket`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -254,7 +254,7 @@ const deleteTicket = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion deleteProduct`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

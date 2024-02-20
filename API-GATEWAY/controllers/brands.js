@@ -42,7 +42,7 @@ const getAllBrands = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllBrands`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -103,7 +103,7 @@ const createBrand = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion createBrand`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -167,7 +167,7 @@ const updateBrand = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateBrand`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -228,7 +228,7 @@ const deleteBrand = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion deleteBrand`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

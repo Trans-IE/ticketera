@@ -22,7 +22,7 @@ const getAllStates = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { username, username }, 'POST');
+            const resp = await fetchSinToken(url, { username }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -42,7 +42,7 @@ const getAllStates = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllStates`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

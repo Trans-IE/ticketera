@@ -42,7 +42,7 @@ const getAllProducts = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllProducts`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -103,7 +103,7 @@ const getProduct = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getProduct`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -158,7 +158,7 @@ const getProductsByBrand = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getProductsByBrand`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -204,10 +204,10 @@ const createProduct = async (req, res = response) => {
 
                 logger.info(`<== createProduct - username:${username}`);
                 loggerCSV.info(`createProduct,${(new Date() - function_enter_time) / 1000}`)
-                const { products } = body.value;
+                const { product } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { products },
+                    value: { product },
                     msg: 'Producto creado correctamente.'
                 });
             } else {
@@ -219,7 +219,7 @@ const createProduct = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion createProduct`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -283,7 +283,7 @@ const updateProduct = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateProduct`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });
@@ -344,7 +344,7 @@ const deleteProduct = async (req, res = response) => {
             }
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion deleteProduct`)
-            res.status(500).json({
+            res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
             });

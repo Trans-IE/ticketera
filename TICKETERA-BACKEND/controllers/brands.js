@@ -151,7 +151,7 @@ const deleteBrand = async (req, res = response) => {
             .catch(dataError => {
                 logger.error(`deleteBrand => deleteDBBrand: params=> id=${id} error=> ${dataError}`);
                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo eliminar la marca '${id}' `

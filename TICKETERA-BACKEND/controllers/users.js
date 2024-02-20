@@ -285,7 +285,7 @@ const createUser = async (req, res = response) => {
             .catch(dataError => {
                 // nombre, direccion, telefono, mail, codigoMD5user
                 logger.error(`createuser => createDBuser : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${dataError}`);
-                res.status(501).json({
+                res.status(401).json({
                     ok: false,
                     error: dataError,
                     msg: `No se pudo crear el empresa. `
@@ -319,7 +319,7 @@ const getUserRol = async (req, res = response) => {
             })
             .catch(error => {
                 logger.error(`getDBUserRolByUsername : ${error}`);
-                res.status(500).json({
+                res.status(401).json({
                     ok: false,
                     value: false,
                     msg: 'Error. Por favor hable con un administrador'

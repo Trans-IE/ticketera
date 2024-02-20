@@ -217,7 +217,7 @@ const deleteProduct = async (req, res = response) => {
                 }
             })
             .catch(dataError => {
-                logger.error(`deleteProduct => deleteProduct: params=> id=${id} error=> ${dataError}`);
+                logger.error(`deleteProduct => deleteDBProduct: params=> id=${id} error=> ${dataError}`);
                 // DESDE CAPA databases recibira un objeto error { code, message, stack }
                 res.status(501).json({
                     ok: false,
@@ -231,7 +231,7 @@ const deleteProduct = async (req, res = response) => {
         res.status(502).json({
             ok: false,
             error: error,
-            msg: `No se pudo eliminar la empresa '${id}' `
+            msg: `No se pudo eliminar el producto '${id}' `
         });
     }
 }
