@@ -9,10 +9,9 @@ const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllStates } = require('../controllers/states');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { getAllResponsibles } = require('../controllers/responsibles');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
 
 const router = Router();
@@ -1480,7 +1479,7 @@ router.delete(
 
 /**
  * @openapi
- * /api/entities/getAllResponsibles:
+ * /api/entities/getAllUsersByCompany:
  *   post:
  *     summary: Obtener todos los responsables en el sistema
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas los responsables en el sistema.
@@ -1516,12 +1515,12 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/getAllResponsibles',
+    '/getAllUsersByCompany',
     [
         validarJWT
     ],
 
-    getAllResponsibles
+    getAllUsersByCompany
 );
 
 /**
@@ -3114,7 +3113,7 @@ router.delete(
 
 /**
  * @openapi
- * /api/entities/setExtraHours:
+ * /api/entities/setHours:
  *   post:
  *     summary: Setea las horas extras trabajadas en el ticket
  *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas extras trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
@@ -3180,7 +3179,7 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/setExtraHours',
+    '/setHours',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('horas', 'Las horas son obligatoria').not().isEmpty(),
@@ -3191,6 +3190,107 @@ router.post(
     ],
 
     setHours
+);
+
+/**
+ * @openapi
+ * /api/entities/setExtraHours:
+ *   post:
+ *     summary: Setea las horas extras trabajadas en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas extras trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               fecha_inicio:
+ *                 type: string
+ *                 description: Fecha de inicio de las horas extras.
+ *                 example: "2024-01-01 00:00:00"
+ *               fecha_fin:
+ *                 type: string
+ *                 description: Fecha de finalización de las horas extras.
+ *                 example: "2024-01-01 01:00:00"
+ *               porcentaje:
+ *                 type: integer
+ *                 description: Porcentaje de horas extras trabajadas.
+ *                 example: 50
+ *               detalle:
+ *                 type: string
+ *                 description: Detalles adicionales de las horas extras.
+ *                 example: "Trabajo adicional en la implementación de nuevas funcionalidades."
+ *               estado:
+ *                 type: string
+ *                 description: Estado de las horas extras (aprobadas, pendientes, rechazadas, etc.).
+ *                 example: "aprobadas"
+ *               id:
+ *                 type: integer
+ *                 description: ID del usuario responsable de registrar las horas extras.
+ *                 example: 123
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setExtraHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'Las horas son obligatoria').not().isEmpty(),
+        check('fecha_fin', 'El username es obligatorio').not().isEmpty(),
+        check('porcentaje', 'El username es obligatorio').not().isEmpty(),
+        check('detalle', 'El username es obligatorio').not().isEmpty(),
+        check('estado', 'El username es obligatorio').not().isEmpty(),
+        check('id', 'El username es obligatorio').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setExtraHours
 );
 
 module.exports = router;

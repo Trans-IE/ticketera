@@ -84,18 +84,6 @@ const deleteDBTicket = (id) => {
 
 const getAllDBTicketsByFilter = (pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType) => {
     const return_promise = new Promise((resolve, reject) => {
-        // Imprimir los valores antes de ejecutar la consulta
-        console.log('Parámetros para la consulta SQL:');
-        console.log('pCadenaSearch:', pCadenaSearch);
-        console.log('tipoUsuario:', tipoUsuario);
-        console.log('userId:', userId);
-        console.log('offset:', offset);
-        console.log('estadoId:', estadoId);
-        console.log('prioridadId:', prioridadId);
-        console.log('tipoId:', tipoId);
-        console.log('tipoTicket:', tipoTicket);
-        console.log('orderBy:', orderBy);
-        console.log('orderByType:', orderByType);
         pooldata.getPool.query('select * from f_search_getticketsdataset_v1($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);', [pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType], (error, results) => {
             if (error) {
                 reject(error.message);

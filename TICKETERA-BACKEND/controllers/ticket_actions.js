@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsersByCompany } = require('../databases/queries_ticket_actions');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -150,6 +150,47 @@ const setHours = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const setExtraHours = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, username, id } = req.body;
+
+    logger.info(`setExtraHours ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} username:${username} id:${id}`)
+
+    try {
+
+        const userId = await getDBUserIdByUser(username);
+
+        createDBExtraHours(ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, userId, id)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    value: { extraHours: result },
+                    msg: `Se setearon las horas extras correctamente`
+                });
+
+            })
+            .catch(dataError => {
+                logger.error(`setExtraHours => createDBExtraHours : params=> ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} user_id:${user_id} id:${id} error=> ${dataError}`);
+                res.status(401).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo crear una hora extra. `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`setExtraHours => createDBHours : params=> ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} user_id:${user_id} id:${id} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -362,6 +403,36 @@ const setHiddenNote = async (req, res = response) => {
     }
 }
 
+const getAllUsersByCompany = async (req, res = response) => {
+    const { username, rol } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getAllUsersByCompany.`)
+    try {
+        getAllDBUsersByCompany(username, rol)
+            .then(result => {
+                logger.info(`<== getAllUsersByCompany`);
+                loggerCSV.info(`getAllUsersByCompany, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de responsables obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllUsersByCompany => getAllDBUsersByCompany error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBResponsibles error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de responsables.'
+        });
+    }
+}
+
 module.exports = {
     setPriority,
     setResponsible,
@@ -371,5 +442,7 @@ module.exports = {
     setAutoEvaluation,
     setFilePath,
     getTicketActionByTicketId,
-    setHiddenNote
+    getAllUsersByCompany,
+    setHiddenNote,
+    setExtraHours
 }

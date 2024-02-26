@@ -370,6 +370,67 @@ const setHours = async (req, res = response) => {
     }
 }
 
+const setExtraHours = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, id } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
+    logger.info(`==> setHours - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHours";
+
+    try {
+        logger.info(`setHours ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} id:${id}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, username, id }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== setHours - username:${username}`);
+                loggerCSV.info(`setHours,${(new Date() - function_enter_time) / 1000}`)
+                const { hours } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { hours },
+                    msg: 'Hora creada correctamente.'
+                });
+            } else {
+                logger.error(`setHours : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setHours`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`setHours : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const setFilePath = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, archivo } = req.body;
@@ -547,7 +608,61 @@ const setHiddenNote = async (req, res = response) => {
     }
 }
 
+const getAllUsersByCompany = async (req, res = response) => {
+    const { label: username } = req;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> getAllUsersByCompany - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllUsersByCompany";
+
+    try {
+        logger.info(`getAllUsersByCompany `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { username, rol }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getAllUsersByCompany - username:${username}`);
+                loggerCSV.info(`getAllUsersByCompany,${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Responsables obtenidas correctamente.'
+                });
+            } else {
+                logger.error(`getAllUsersByCompany : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllUsersByCompany`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getAllUsersByCompany : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
+    getAllUsersByCompany,
     getTicketActionByTicketId,
     setState,
     setPriority,
@@ -556,5 +671,6 @@ module.exports = {
     setNote,
     setHours,
     setFilePath,
-    setHiddenNote
+    setHiddenNote,
+    setExtraHours
 }

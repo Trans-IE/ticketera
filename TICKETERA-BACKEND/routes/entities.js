@@ -2,16 +2,15 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal, getCompanyByUser } = require('../controllers/companies');
+const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
-const { getAllResponsibles } = require('../controllers/responsibles');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -315,13 +314,13 @@ router.delete(
 );
 
 router.post(
-    '/getAllResponsibles',
+    '/getAllUsersByCompany',
     [
         check('username', 'El rol es obligatorio').not().isEmpty(),
         check('rol', 'El rol es obligatorio').not().isEmpty(),
     ],
 
-    getAllResponsibles
+    getAllUsersByCompany
 );
 
 router.post(
@@ -342,7 +341,6 @@ router.post(
     getAllStates
 );
 
-//TODO: Verificar
 router.post(
     '/setResponsible',
     [
@@ -354,7 +352,6 @@ router.post(
     setResponsible
 );
 
-//TODO: Verificar
 router.post(
     '/setPriority',
     [
@@ -366,7 +363,6 @@ router.post(
     setPriority
 );
 
-//TODO: Verificar
 router.post(
     '/setState',
     [
@@ -378,7 +374,6 @@ router.post(
     setState
 );
 
-//TODO: Verificar
 router.post(
     '/setNote',
     [
@@ -390,7 +385,6 @@ router.post(
     setNote
 );
 
-//TODO: Verificar
 router.post(
     '/setAutoEvaluation',
     [
@@ -402,7 +396,6 @@ router.post(
     setAutoEvaluation
 );
 
-//TODO: Verificar
 router.post(
     '/setHours',
     [
@@ -415,7 +408,22 @@ router.post(
     setHours
 );
 
-//TODO: Verificar
+router.post(
+    '/setExtraHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'Las horas son obligatoria').not().isEmpty(),
+        check('fecha_fin', 'El username es obligatorio').not().isEmpty(),
+        check('porcentaje', 'El username es obligatorio').not().isEmpty(),
+        check('detalle', 'El username es obligatorio').not().isEmpty(),
+        check('estado', 'El username es obligatorio').not().isEmpty(),
+        check('user_id', 'El username es obligatorio').not().isEmpty(),
+        check('id', 'El username es obligatorio').not().isEmpty(),
+    ],
+
+    setExtraHours
+);
+
 router.post(
     '/setFilePath',
     [
@@ -443,7 +451,6 @@ router.post(
     getTicketActionByTicketId
 );
 
-//TODO: Modificar
 router.post(
     '/setHiddenNote',
     [

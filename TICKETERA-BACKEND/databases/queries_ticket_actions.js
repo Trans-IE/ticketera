@@ -118,6 +118,28 @@ const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
     return return_promise;
 }
 
+const createDBExtraHours = (ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from f_ticket_horas_extras($1, $2, $3, $4, $5, $6, $7, $8)', [ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id], (error, results) => {
+            if (error) {
+
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0].f_ticket_horas_extras);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const createDBFilePath = (ticket_id, archivo, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -215,6 +237,27 @@ const createDBHiddenNote = (ticket_id, nota, username) => {
     return return_promise;
 }
 
+const getAllDBUsersByCompany = (username, rol) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users($1, $2);", [rol, username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     createDBResponsible,
     createDBNote,
@@ -224,5 +267,7 @@ module.exports = {
     createDBState,
     createDBFilePath,
     createDBHiddenNote,
-    getDBTicketActionByTicketId
+    getDBTicketActionByTicketId,
+    createDBExtraHours,
+    getAllDBUsersByCompany
 }
