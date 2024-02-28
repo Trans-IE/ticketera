@@ -10,7 +10,7 @@ const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../cont
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsersByCompany } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -437,7 +437,6 @@ router.post(
     setFilePath
 );
 
-//TODO: Verificar
 router.post(
     '/getTicketActionByTicketId',
     [
@@ -550,13 +549,14 @@ router.delete(
 router.post(
     '/getAllTicketsByFilter',
     [
-        check('pCadenaSearch', 'El label es obligatorio').not().isEmpty(),
-        check('username', 'El label es obligatorio').not().isEmpty(),
-        check('offset', 'El label es obligatorio').not().isEmpty(),
-        check('estadoId', 'El label es obligatorio').not().isEmpty(),
-        check('prioridadId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoTicket', 'El label es obligatorio').not().isEmpty(),
+        check('pCadenaSearch', 'pCadenaSearch es obligatorio').not().isEmpty(),
+        check('username', 'El username es obligatorio').not().isEmpty(),
+        check('offset', 'El offset es obligatorio').not().isEmpty(),
+        check('estadoId', 'El estadoId es obligatorio').not().isEmpty(),
+        check('prioridadId', 'El prioridadId es obligatorio').not().isEmpty(),
+        check('tipoId', 'El tipoId es obligatorio').not().isEmpty(),
+        check('tipoTicket', 'El tipoTicket es obligatorio').not().isEmpty(),
+        check('limit', 'El limit es obligatorio').not().isEmpty(),
     ],
 
     getAllTicketsByFilter
@@ -607,6 +607,19 @@ router.delete(
     ],
 
     deleteHoliday
+);
+
+router.post(
+    '/getTicketDetail',
+    [
+        check('username', 'Debe ingresar un username').not().isEmpty(),
+        check('ticket_id', 'Debe ingresar un rol').not().isEmpty(),
+
+        validarCampos,
+
+    ],
+
+    getTicketDetail
 );
 
 

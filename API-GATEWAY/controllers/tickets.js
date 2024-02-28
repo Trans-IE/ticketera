@@ -8,7 +8,7 @@ const { UserRol } = require('../helpers/constants');
 const getAllTicketsByFilter = async (req, res = response) => {
     const { label: username } = req;
 
-    const { pCadenaSearch, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType } = req.body;
+    const { pCadenaSearch, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
@@ -24,7 +24,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType }, 'POST');
+            const resp = await fetchSinToken(url, { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {

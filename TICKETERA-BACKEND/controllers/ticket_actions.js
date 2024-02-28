@@ -1,8 +1,9 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsersByCompany } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsersByCompany, getDBTicketDetail } = require('../databases/queries_ticket_actions');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
+const { getDBUserIdByUser } = require('../databases/queries_users');
 
 const setResponsible = async (req, res = response) => {
 
@@ -416,7 +417,7 @@ const getAllUsersByCompany = async (req, res = response) => {
                 res.status(200).json({
                     ok: true,
                     value: result,
-                    msg: 'Listado de responsables obtenido correctamente.'
+                    msg: 'Listado de usuarios obtenido correctamente.'
                 });
             })
             .catch(error => {
@@ -424,11 +425,44 @@ const getAllUsersByCompany = async (req, res = response) => {
             })
 
     } catch (error) {
-        logger.error(`getAllDBResponsibles error=> ${error}`);
+        logger.error(`getAllDBUsersByCompany error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de responsables.'
+            msg: 'Error obteniendo listado de usuarios.'
+        });
+    }
+}
+
+const getTicketDetail = async (req, res = response) => {
+    const { username, ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getTicketDetail.`)
+    try {
+
+        const userId = await getDBUserIdByUser(username);
+
+        getDBTicketDetail(userId, ticket_id)
+            .then(result => {
+                logger.info(`<== getTicketDetail`);
+                loggerCSV.info(`getTicketDetail, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de detalles del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`function_enter_time => getDBTicketDetail error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`function_enter_time error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de detalles del ticket.'
         });
     }
 }
@@ -444,5 +478,6 @@ module.exports = {
     getTicketActionByTicketId,
     getAllUsersByCompany,
     setHiddenNote,
-    setExtraHours
+    setExtraHours,
+    getTicketDetail
 }

@@ -205,7 +205,7 @@ const deleteTicket = async (req, res = response) => {
 
 const getAllTicketsByFilter = async (req, res = response) => {
 
-    const { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType } = req.body;
+    const { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
 
     let function_enter_time = new Date();
 
@@ -214,9 +214,9 @@ const getAllTicketsByFilter = async (req, res = response) => {
         const userId = await getDBUserIdByUser(username);
         const tipoUsuario = await getDBTypeUserByUser(username);
 
-        logger.info(`createTicketClient pCadenaSearch:${pCadenaSearch} username:${username} offset:${offset} estadoId:${estadoId} prioridadId:${prioridadId} tipoId:${tipoId} tipoTicket:${tipoTicket} orderBy:${orderBy} orderByType:${orderByType} userId:${userId} tipoUsuario:${tipoUsuario}`);
+        logger.info(`getAllTicketsByFilter pCadenaSearch:${pCadenaSearch} username:${username} offset:${offset} estadoId:${estadoId} prioridadId:${prioridadId} tipoId:${tipoId} tipoTicket:${tipoTicket} orderBy:${orderBy} orderByType:${orderByType} userId:${userId} tipoUsuario:${tipoUsuario} limit:${limit}`);
 
-        getAllDBTicketsByFilter(pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType)
+        getAllDBTicketsByFilter(pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit)
             .then(result => {
                 logger.info(`<== getAllTicketsByFilter`);
                 loggerCSV.info(`getAllTicketsByFilter, ${(new Date() - function_enter_time) / 1000}`)

@@ -258,6 +258,28 @@ const getAllDBUsersByCompany = (username, rol) => {
     return return_promise;
 }
 
+const getDBTicketDetail = (ticket_id, userId) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query("SELECT * FROM public.f_get_ticket($1, $2);", [userId, ticket_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+
 module.exports = {
     createDBResponsible,
     createDBNote,
@@ -269,5 +291,6 @@ module.exports = {
     createDBHiddenNote,
     getDBTicketActionByTicketId,
     createDBExtraHours,
-    getAllDBUsersByCompany
+    getAllDBUsersByCompany,
+    getDBTicketDetail
 }

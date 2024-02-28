@@ -11,7 +11,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
 
 const router = Router();
@@ -2688,6 +2688,10 @@ router.delete(
  *                 type: string
  *                 description: Tipo de ticket.
  *                 example: ""
+ *               limit:
+ *                 type: integer
+ *                 description: Tipo de ticket.
+ *                 example: 10
  *     responses:
  *       200:
  *         description: Lista de tickets obtenida correctamente.
@@ -2720,12 +2724,13 @@ router.delete(
 router.post(
     '/getAllTicketsByFilter',
     [
-        check('pCadenaSearch', 'El label es obligatorio').not().isEmpty(),
-        check('offset', 'El label es obligatorio').not().isEmpty(),
-        check('estadoId', 'El label es obligatorio').not().isEmpty(),
-        check('prioridadId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoTicket', 'El label es obligatorio').not().isEmpty(),
+        check('pCadenaSearch', 'pCadenaSearch es obligatorio').not().isEmpty(),
+        check('offset', 'El offset es obligatorio').not().isEmpty(),
+        check('estadoId', 'El estadoId es obligatorio').not().isEmpty(),
+        check('prioridadId', 'La prioridadId es obligatorio').not().isEmpty(),
+        check('tipoId', 'El tipoId es obligatorio').not().isEmpty(),
+        check('tipoTicket', 'El tipoTicket es obligatorio').not().isEmpty(),
+        check('limit', 'El limit es obligatorio').not().isEmpty(),
 
         validarJWT
     ],
@@ -3291,6 +3296,61 @@ router.post(
     ],
 
     setExtraHours
+);
+
+/**
+ * @openapi
+ * /api/entities/getTicketDetail:
+ *   post:
+ *     summary: Obtener listado de todos los detalles del ticket en el sistema
+ *     description: Este endpoint permite obtener el listado de todas las empresas en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: ID del ticket para el que se desean obtener los detalles. Este campo es obligatorio.
+ *     responses:
+ *       200:
+ *         description: Listado de todos los detalles del ticket obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 details:
+ *                   type: array
+ *                   description: Detalles del ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getTicketDetail',
+    [
+        check('ticket_id', 'Debe ingresar un rol').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    getTicketDetail
 );
 
 module.exports = router;

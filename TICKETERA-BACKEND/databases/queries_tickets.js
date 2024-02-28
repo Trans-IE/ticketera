@@ -82,9 +82,9 @@ const deleteDBTicket = (id) => {
     return return_promise;
 }
 
-const getAllDBTicketsByFilter = (pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType) => {
+const getAllDBTicketsByFilter = (pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from f_search_getticketsdataset_v1($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);', [pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType], (error, results) => {
+        pooldata.getPool.query('select * from f_search_getticketsdataset_v2($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);', [pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit], (error, results) => {
             if (error) {
                 reject(error.message);
             }
