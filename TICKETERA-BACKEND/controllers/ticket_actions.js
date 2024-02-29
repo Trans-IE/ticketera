@@ -443,7 +443,7 @@ const getTicketDetail = async (req, res = response) => {
 
         const userId = await getDBUserIdByUser(username);
 
-        getDBTicketDetail(userId, ticket_id)
+        getDBTicketDetail(ticket_id, userId)
             .then(result => {
                 logger.info(`<== getTicketDetail`);
                 loggerCSV.info(`getTicketDetail, ${(new Date() - function_enter_time) / 1000}`)

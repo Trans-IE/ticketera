@@ -261,12 +261,13 @@ const getAllDBUsersByCompany = (username, rol) => {
 const getDBTicketDetail = (ticket_id, userId) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query("SELECT * FROM public.f_get_ticket($1, $2);", [userId, ticket_id], (error, results) => {
+        pooldata.getPool.query("SELECT * FROM public.f_get_ticket_v1($1, $2);", [ticket_id, userId], (error, results) => {
             if (error) {
                 reject(error.message);
             }
             else {
                 try {
+                    console.log(ticket_id, userId);
                     resolve(results.rows);
                 } catch (error) {
                     reject(error.message);
