@@ -2,9 +2,9 @@ import React from 'react';
 import { Button } from '@mui/material';
 
 
-export const ButtonTrans = ({ variant, children, marginLeft }) => {
+export const ButtonTrans = ({ variant, children, marginLeft, onClick = {} }) => {
 
     return (
-        <Button variant={variant} style={{ borderRadius: '20px', marginLeft: marginLeft ? '5px' : 0 }}> {children} </Button>
+        <Button variant={variant} onClick={onClick} style={{ borderRadius: '20px', marginLeft: marginLeft ? '5px' : 0 }}> {children} </Button>
     )
 }

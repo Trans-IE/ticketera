@@ -1,8 +1,6 @@
-import { Button, IconButton } from '@mui/material';
-import React, { useState } from 'react';
+import { Button, IconButton, MenuItem, Select } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
-import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
-import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import './TicketDetail.scss'
 import TextareaAutosize from 'react-textarea-autosize';
 import SendIcon from '@mui/icons-material/Send';
@@ -15,75 +13,141 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/styles';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import { toast } from "sonner";
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getAllPriorities, getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages } from '../../redux/actions/ticketActions';
+import { ticketType } from '../../helpers/constants';
+import { NotesMessage } from '../messages/NotesMessage';
+import { UpdatedMessage } from '../messages/UpdatedMessage';
 
-
-export const TicketDetail = () => {
+export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
-    const [responsible, setResponsible] = useState('')
-    const messages = [
-        {
-            messageType: 1,
-            type: 'Nota oculta',
-            author: 'Dragone, Gustavo',
-            date: '14/12/2023 17:26',
-            body: 'Estimados;  el interno qué debe apuntar es 7082, en el DDI externo.'
-        },
-        {
-            messageType: 2,
-            type: 'Nota',
-            author: 'Dragone, Gustavo',
-            date: '14/12/2023 17:26',
-            body: ' Se configuró el DDE 4709-8033 para ser enrutado a la extensión 7082 (árbol de preatención, enlace con España). Previamente fue necesario realizar el relevamiento de configuraciones para obtener la lista de DDEs libres y los detalles de los ruteos posibles. Las pruebas realizadas dieron resultados positivos. De todos modos, se aguarda confirmación para dar por finalizada la tarea.'
-        },
-        {
-            messageType: 3,
-            type: 'Accion',
-            author: 'Noguera, Alejandro',
-            date: '14/12/2023 17:26',
-            body: 'Actualizado por cliente'
-        },
-        {
-            messageType: 2,
-            type: 'Nota',
-            author: 'Noguera, Alejandro',
-            date: '14/12/2023 17:26',
-            body: 'La numeración 70XX de España corresponde al 3470XX dentro del CM y los 70XX sin el prefijo apuntan hacia el CM 5.2.1 del Call Center.'
-        },
-        {
-            messageType: 3,
-            type: 'Accion',
-            author: 'Noguera, Alejandro',
-            date: '14/12/2023 17:26',
-            body: 'Actualizado por cliente'
-        },
-        {
-            messageType: 2,
-            type: 'Nota',
-            author: 'Noguera, Alejandro',
-            date: '14/12/2023 17:26',
-            body: 'La numeración 70XX de España corresponde al 3470XX dentro del CM y los 70XX sin el prefijo apuntan hacia el CM 5.2.1 del Call Center.'
-        },
-    ]
+    const dispatch = useDispatch()
+    const { ticketsGridDataList } = useSelector((state) => state.ticket, shallowEqual);
+    const [messages, setMessages] = useState([])
+    const [selectedTicket, setSelectedTicket] = useState({})
+    const [ticketDetail, setTicketDetail] = useState({})
 
+    const [ticketStates, setTicketStates] = useState([])
+    const [responsibles, setResponsibles] = useState([])
+    const [priorities, setPriorities] = useState([])
 
-    const messageColor = (messageType) => {
-        let icon = <SpeakerNotesIcon style={{ color: 'white' }} />
+    const [selectedPriority, setSelectedPriority] = useState(0)
+    const [selectedResponsible, setSelectedResponsible] = useState(0)
+    const [selectedState, setSelectedState] = useState(0)
 
-        if (messageType === 1) {
-            icon = <SpeakerNotesOffIcon style={{ color: 'red' }} />
-        }
-        else if (messageType === 2) {
-            icon = <SpeakerNotesIcon style={{ color: theme.palette.primary.main }} />
-        }
+    useEffect(() => {
+        const currentTicket = ticketsGridDataList.find(obj => obj.id === ticketID);
+        console.log('CURRENT', currentTicket)
+        setSelectedTicket(currentTicket ? currentTicket : {})
+        setSelectedPriority(currentTicket.prioridad)
+        setSelectedState(currentTicket.estadoid)
+        setSelectedResponsible(currentTicket.responsable_id)
 
-        console.log(messageType)
+        dispatch(getTicketDetail(ticketID)).then(res => {
+            if (res.ok) {
+                setTicketDetail(res.value[0])
+            }
+        })
 
-        return icon;
+        dispatch(getAllTicketStates()).then(res => {
+            if (res.ok) {
+                setTicketStates(res.value)
+            }
+        })
+
+        dispatch(getAllUsersByCompany()).then(res => {
+            if (res.ok) {
+                res.value.sort(compareByName)
+                setResponsibles(res.value)
+            }
+        })
+
+        dispatch(getAllPriorities()).then(res => {
+            if (res.ok) {
+                setPriorities(res.value)
+            }
+        })
+
+        dispatch(getTicketMessages(ticketID)).then(res => {
+            if (res.ok) {
+                res.value.sort(compareByDate)
+                setMessages(res.value)
+            }
+        })
+    }, [])
+
+    const findStateByID = (id) => {
+        const state = ticketStates.find(obj => obj.id === id);
+        return state.estado
     }
+
+    const findPriorityByID = (id) => {
+        console.log('ID', id)
+        const priority = priorities.find(obj => obj.id === id);
+        return priority.prioridad
+    }
+
+    const setPriority = (priority) => {
+        let color = 'black';
+
+        switch (priority) {
+            case 1:
+                color = 'red'
+                break;
+            case 2:
+                color = 'orange'
+                break;
+            case 3:
+                color = 'green'
+                break;
+            case 4:
+                color = theme.palette.trans.main
+                break;
+        }
+
+        return (
+            <CircleIcon style={{ color: color }} sx={{ fontSize: 12 }} />
+        );
+    }
+
+    function compareByName(a, b) {
+        const nameA = a.nombre_completo.toUpperCase();
+        const nameB = b.nombre_completo.toUpperCase();
+
+        if (nameA > nameB) {
+            return -1;
+        }
+        if (nameA < nameB) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function compareByDate(a, b) {
+        const dateA = convertToDate(a.fecha);
+        const dateB = convertToDate(b.fecha);
+
+        if (dateA > dateB) {
+            return -1;
+        }
+        if (dateA < dateB) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function convertToDate(dateString) {
+        return new Date(dateString);
+    }
+
 
     const copyToClipboard = (data) => {
         navigator.clipboard.writeText(data)
         toast.success('Copiado al portapapeles')
+    }
+
+    const changePriority = (e) => {
+        setSelectedPriority(e.target.value)
     }
 
     return (
@@ -94,22 +158,30 @@ export const TicketDetail = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Info */}
                     <div>
-                        <ButtonTrans variant="text" style={{ borderRadius: '20px' }} >Ticket N°: 19279</ButtonTrans>
+                        <ButtonTrans variant="text" style={{ borderRadius: '20px' }} >{`Ticket N°: ${ticketDetail.t_id}`}</ButtonTrans>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
-                        <Button variant="text" style={{ borderRadius: '20px' }} >Producto: Reporting</Button>
+                        <Button variant="text" style={{ borderRadius: '20px' }} >{`Producto: ${ticketDetail.t_producto}`}</Button>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
-                        <Button variant="text" style={{ borderRadius: '20px' }} >Creador: Palacio, Sergio</Button>
+                        <Button variant="text" style={{ borderRadius: '20px' }} >{`Creador: ${ticketDetail.t_creador}`}</Button>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
-                        <Button variant="text" style={{ borderRadius: '20px' }} >Empresa: PROSEGUR</Button>
+                        <Button variant="text" style={{ borderRadius: '20px' }} >{`Empresa: ${ticketDetail.t_empresa}`}</Button>
                         <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
                         <Button variant="text" color="error" style={{ borderRadius: '20px' }} >Contrato: Vencido</Button>
                     </div>
                     {/* Botones */}
-                    <div>
-                        <ButtonTrans variant="contained">Agregar Horas</ButtonTrans>
-                        <ButtonTrans variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
-                        <ButtonTrans variant="contained" marginLeft>Editar Ticket</ButtonTrans>
-                        <ButtonTrans variant="contained" marginLeft>Soporte</ButtonTrans>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div>
+                            <ButtonTrans variant="contained">Agregar Horas</ButtonTrans>
+                        </div>
+                        <div>
+                            <ButtonTrans variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
+                        </div>
+                        <div>
+                            <ButtonTrans variant="contained" marginLeft>Editar Ticket</ButtonTrans>
+                        </div>
+                        <div>
+                            <ButtonTrans variant="contained" marginLeft>Soporte</ButtonTrans>
+                        </div>
                     </div>
                 </div>
 
@@ -126,36 +198,34 @@ export const TicketDetail = () => {
                             }}>
 
                                 {messages.map((message) => {
-                                    if (message.messageType === 3) {
+                                    if (message.tipo_accion === ticketType.StateChange ||
+                                        message.tipo_accion === ticketType.PriorityChange ||
+                                        message.tipo_accion === ticketType.Hours ||
+                                        message.tipo_accion === ticketType.Asigned) {
+                                        let extra = '';
+                                        switch (message.tipo_accion) {
+                                            case ticketType.StateChange:
+                                                extra = findStateByID(message.estado);
+                                                break;
+                                            case ticketType.PriorityChange:
+                                                extra = findPriorityByID(message.prioridad);
+                                                break;
+                                        }
                                         return (
-                                            <div style={{ backgroundColor: theme.palette.background.light, borderRadius: '15px', margin: '15px', padding: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                                                <div> </div>
-                                                <div style={{ minHeight: '30px', textAlign: 'center' }}>
-                                                    <b>{message.author}</b> cambio el estado a <b>{message.body}</b>
-                                                </div>
-                                                <div>{message.date}
-                                                </div>
-
-                                            </div>
+                                            <UpdatedMessage message={message} extra={extra} />
+                                        )
+                                    }
+                                    else if (message.tipo_accion === ticketType.Note ||
+                                        message.tipo_accion === ticketType.SecretNote ||
+                                        message.tipo_accion === ticketType.Creation
+                                    ) {
+                                        return (
+                                            <NotesMessage message={message} />
                                         )
                                     }
                                     else {
-                                        return (
-                                            <div style={{ backgroundColor: theme.palette.background.dark, borderRadius: '25px', border: '1px solid', borderColor: theme.palette.background.border, margin: '15px' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 15px 15px 15px', borderRadius: '25px 25px 0 0' }}>
-                                                    <div style={{ paddingRight: '25px', display: 'flex', fontSize: '16px' }}>
-                                                        {messageColor(message.messageType)}
-                                                        <div style={{ marginLeft: '5px' }}>{message.type} de <b>{message.author}</b></div>
-                                                    </div>
-                                                    <div style={{ color: '#bbb' }}>{message.date}</div>
-                                                </div>
-                                                <div style={{ padding: '25px', borderRadius: '0 0 25px 25px' }}>
-                                                    {message.body}
-                                                </div>
-                                            </div>
-                                        )
+                                        // console.log('message', message)
                                     }
-
                                 })}
                                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                     <div style={{ marginBottom: '15px', backgroundColor: theme.palette.background.border, borderRadius: '25px', padding: '5px 15px', marginTop: '15px' }}>Inicio de ticket</div>
@@ -185,30 +255,56 @@ export const TicketDetail = () => {
                         {/* Datos */}
                         <div>
                             <h3 style={{ minHeight: '40px', paddingBottom: '10px' }}>
-                                Requemiento - DDI EXTERNO y enrutarlo por la troncal SIP Internacional
+                                {ticketDetail.t_titulo}
                             </h3>
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                                <div style={{ width: '150px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: '#bbb' }}>
                                     Prioridad:
                                 </div>
-                                <div className='selectState' style={{ display: 'flex', alignItems: 'center' }}>
-                                    Media  <CircleIcon style={{ color: 'yellow', marginLeft: '5px' }} fontSize='small' />
+                                <div >
+                                    <Select variant='standard' onChange={(e) => { changePriority(e) }} value={selectedPriority}>
+                                        {priorities.map((priority) => {
+                                            return (
+                                                <MenuItem value={priority.id} >
+                                                    <div>
+                                                        {setPriority(priority.id)}  {priority.prioridad}
+                                                    </div>
+                                                </MenuItem>
+                                            )
+                                        })}
+                                    </Select>
                                 </div>
                             </div >
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                                <div style={{ width: '150px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: '#bbb' }}>
                                     Responsable:
                                 </div>
-                                <div className='selectState'>
-                                    Siciliano, Juan Pablo
+                                <div >
+                                    <Select variant='standard' onChange={(e) => { setSelectedResponsible(e.target.value) }} value={selectedResponsible}>
+                                        {responsibles.map((responsible) => {
+                                            return (
+                                                <MenuItem value={responsible.id} >
+                                                    {responsible.nombre_completo}
+                                                </MenuItem>
+                                            )
+                                        })}
+                                    </Select>
                                 </div>
                             </div>
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', marginBottom: '10px', alignItems: 'center' }}>
-                                <div style={{ width: '150px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: '#bbb' }}>
                                     Estado:
                                 </div>
-                                <div className='selectState'>
-                                    Pendiente de Trans
+                                <div>
+                                    <Select variant='standard' onChange={(e) => { setSelectedState(e.target.value) }} value={selectedState}>
+                                        {ticketStates.map((state) => {
+                                            return (
+                                                <MenuItem value={state.id} >
+                                                    {state.estado}
+                                                </MenuItem>
+                                            )
+                                        })}
+                                    </Select>
                                 </div>
 
                             </div>
@@ -216,10 +312,9 @@ export const TicketDetail = () => {
                                 <span style={{ paddingRight: '20px', color: '#bbb' }}>
                                     Descripcion:
                                 </span>
-                                <span>
-                                    Estimados;   Requerimos  un DDI  exteno  que no este uso.  Y  enrutarlo a  por la troncal SIP que hay actualmente hacia 4444. (Que esta en España)
-                                    Aguardo comentarios.
-                                </span>
+                                <div style={{ overflow: 'auto', maxHeight: '30vh' }}>
+                                    {ticketDetail.t_descripcion}
+                                </div>
 
                             </div>
                         </div>
@@ -228,39 +323,35 @@ export const TicketDetail = () => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid', borderColor: theme.palette.background.border, borderRadius: '25px' }}>
                             <div style={{ padding: '10px', margin: '2px', width: '50%' }}>
                                 <div className='contactInfo'>
-                                    <BusinessIcon fontSize='small' style={{ marginRight: '5px' }} />  PROSEGUR:
+                                    <BusinessIcon fontSize='small' style={{ marginRight: '5px' }} />
+                                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {ticketDetail.t_empresa}: </div>
                                 </div>
                                 <div className='contactInfo'>
                                     <LocalPhoneIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>3533-8895/3533-8892</div>
-
-                                </div>
-                                <div className='contactInfo'>
-                                    <PlaceIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>Peru 553, CABA</div>
-
+                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_telefono}</div>
                                 </div>
                                 <div className='contactInfo'>
                                     <MailIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>soporte@prosegur.com</div>
+                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_mail}</div>
+                                </div>
+                                <div className='contactInfo'>
+                                    <PlaceIcon fontSize='small' style={{ marginRight: '5px' }} />
+                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_direccion}</div>
                                 </div>
                             </div>
                             <div style={{ padding: '10px', margin: '2px', width: '50%' }}>
                                 <div className='contactInfo'>
-                                    <PersonIcon fontSize='small' style={{ marginRight: '5px' }} /> Noguera, Alejandro:
+                                    <PersonIcon fontSize='small' style={{ marginRight: '5px' }} /> {ticketDetail.t_creador}:
                                 </div>
                                 <div className='contactInfo'>
                                     <LocalPhoneIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>11-5726-2888</div>
+                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_creador_telefono}</div>
                                 </div>
-                                <div className='contactInfo'>
-                                    <PlaceIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>Peru 553, CABA</div>
-                                </div>
+
                                 <div className='contactInfo'>
                                     <MailIcon fontSize='small' style={{ marginRight: '5px' }} />
                                     <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>
-                                        alejandro.noguera@ext.prosegur.com
+                                        {ticketDetail.t_creador_mail}
                                     </div>
                                 </div>
                             </div>

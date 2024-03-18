@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
@@ -16,7 +16,7 @@ moment.locale("es");
 
 import { esES } from '@mui/material/locale';
 
-
+import '../styles.css';
 
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 
@@ -25,7 +25,6 @@ import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/
 // 1 - Gama de colores globales de la aplicacion
 // 2 - Fuentes de textos
 
-//TESTETSTETSESTESTESTET
 const lightTheme = createTheme({
   typography: {
     fontFamily: [
@@ -235,10 +234,41 @@ const darkTheme = createTheme({
 
 });
 
-//hola
-import '../styles.css';
 
-const divRoot = document.getElementById('root');
-const root = createRoot(divRoot);
+export const ThemeContext = createContext();
 
-root.render(<ErrorBoundary ><StyledEngineProvider injectFirst ><ThemeProvider theme={darkTheme}><TicketeraWebsite /></ThemeProvider></StyledEngineProvider></ErrorBoundary>);
+const ThemeProviderWrapper = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+      <ThemeProvider theme={theme}>
+        {children}
+      </ThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
+
+const App = () => {
+
+  return (
+    <ErrorBoundary>
+      <StyledEngineProvider injectFirst>
+        <ThemeProviderWrapper>
+          <TicketeraWebsite />
+        </ThemeProviderWrapper>
+      </StyledEngineProvider>
+    </ErrorBoundary>
+  );
+};
+
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
+
+root.render(<App />);

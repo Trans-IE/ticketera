@@ -143,7 +143,7 @@ si esta autenticado debo hacer lo siguiente:
   return (
     <ThemeProvider theme={LoginTheme}>
       <div style={{ display: 'flex', height: '100%', alignItems: 'center', width: '100vw' }}>
-        <div style={{ height: '100vh', width: '60%', backgroundColor: theme.palette.background.light, transform: 'skew(-12deg)', paddingLeft: '100px', marginLeft: '-100px', marginRight: '100px' }}>
+        <div style={{ height: '100vh', width: '60%', backgroundColor: theme.palette.background.main, transform: 'skew(-12deg)', paddingLeft: '100px', marginLeft: '-100px', marginRight: '100px' }}>
         </div>
         <div
         style={{marginRight: '50px'}}

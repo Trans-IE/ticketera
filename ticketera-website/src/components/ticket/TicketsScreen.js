@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Tooltip } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
+import { getTickets } from '../../redux/actions/ticketActions';
+import { getShortDateString } from '../../helpers/dateHelper';
+import { ButtonTrans } from '../ui/ButtonTrans';
+import "./TicketsScreen.scss"
+import TicketFilterDrawer from './TicketFilterDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,7 +113,6 @@ const drawerWidth = 330;
 
 export const TicketsScreen = () => {
   const theme = useTheme();
-  const classes = useStyles();
 
   const dispatch = useDispatch();
   const { config } = useSelector((state) => state.auth, shallowEqual);
@@ -117,6 +121,9 @@ export const TicketsScreen = () => {
   const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
   const [rowsPerPageTickets, setRowsPerPageTickets] = useState(10);
   const [actualOffsetTickets, setActualOffsetTickets] = useState(0);
+  const [hasMorePages, setHasMorePages] = useState(true)
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const [resetPaginationGrid, setResetPaginationGrid] = useState(false);
   const [agentList, setAgentList] = useState([]);
@@ -126,12 +133,12 @@ export const TicketsScreen = () => {
   const columnsData = [
     { id: 'priority', label: '', cellWidth: 0, visible: true },
     { id: 'id', label: 'ID', cellWidth: 0, visible: true },
-    { id: 'title', label: 'Titulo', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'titulo', label: 'Titulo', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
     { id: 'empresa', label: 'Empresa', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
-    { id: 'tipofalla', label: 'Tipo de falla', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
+    { id: 'tipo_falla', label: 'Tipo de falla', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
     { id: 'responsable', label: 'Responsable', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
     { id: 'estado', label: 'Estado', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
-    { id: 'creado', label: 'Creado', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' }
+    { id: 'fecha_creacion', label: 'Creado', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' }
     /*     { id: 'cerrado', label: 'Cerrado', minWidth: 100 },
         { id: 'tktrans', label: 'T.Trans', minWidth: 50 },
         { id: 'tkcliente', label: 'T.Cliente', minWidth: 50 } */
@@ -143,20 +150,20 @@ export const TicketsScreen = () => {
 
     switch (priority) {
       case 1:
-        color = 'green'
-        text = 'Prioridad baja'
+        color = 'red'
+        text = 'Prioridad muy alta'
         break;
       case 2:
-        color = 'yellow'
-        text = 'Prioridad media'
-        break;
-      case 3:
         color = 'orange'
         text = 'Prioridad alta'
         break;
+      case 3:
+        color = 'green'
+        text = 'Prioridad media'
+        break;
       case 4:
-        color = 'red'
-        text = 'Prioridad muy alta'
+        color = theme.palette.trans.main
+        text = 'Prioridad baja'
         break;
     }
 
@@ -169,160 +176,50 @@ export const TicketsScreen = () => {
 
 
   useEffect(() => {
-    setResetPaginationTickets(true);
-    setActualOffsetTickets(0);
-
-    setAgentList([
-      {
-        priority: setPriority(1),
-        id: 28179,
-        title: 'No entran mensajes a LinkedIn',
-        empresa: 'Swiss Medical Group',
-        tipofalla: 'Falla',
-        responsable: '',
-        estado: 'Pendiente de Asignacion',
-        creado: '14/12'
-      },
-      {
-        priority: setPriority(4),
-        id: 28178,
-        title: 'Supervivencia por caida de enlaces...',
-        empresa: 'Sancor Seguros',
-        tipofalla: 'Configuracion',
-        responsable: 'Salvia, Pablo',
-        estado: 'Re-Abierto',
-        creado: '14/12'
-
-      },
-      {
-        priority: setPriority(3),
-        id: 28177,
-        title: 'Quitar regla de grabacion de pantalla a los agentes en el archivo',
-        empresa: 'CITYTECH S.A.',
-        tipofalla: 'Configuracion',
-        responsable: 'Siciliano, Juan Pablo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(2),
-        id: 28176,
-        title: 'MFA Microsoft Authenticator',
-        empresa: 'KPMG',
-        priority: setPriority(1),
-        id: 28179,
-        title: 'No entran mensajes a LinkedIn',
-        empresa: 'Swiss Medical Group',
-        tipofalla: 'Falla',
-        responsable: '',
-        estado: 'Pendiente de Asignacion',
-        creado: '14/12'
-      },
-      {
-        priority: setPriority(4),
-        id: 28178,
-        title: 'Supervivencia por caida de enlaces...',
-        empresa: 'Sancor Seguros',
-        tipofalla: 'Configuracion',
-        responsable: 'Salvia, Pablo',
-        estado: 'Re-Abierto',
-        creado: '14/12'
-
-      },
-      {
-        priority: setPriority(3),
-        id: 28177,
-        title: 'Quitar regla de grabacion de pantalla a los agentes en el archivo',
-        empresa: 'CITYTECH S.A.',
-        tipofalla: 'Configuracion',
-        responsable: 'Siciliano, Juan Pablo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(2),
-        id: 28176,
-        title: 'MFA Microsoft Authenticator',
-        empresa: 'KPMG',
-        tipofalla: 'Consulta',
-        responsable: 'Flores, William',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(4),
-        id: 28175,
-        title: 'Certificado SSL Administracion Web',
-        empresa: 'KPMG',
-        tipofalla: 'Configuracion',
-        responsable: 'Guerra, Mauro',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(3),
-        id: 28174,
-        title: 'Upgrade de Avaya',
-        empresa: 'YMK S.A',
-        tipofalla: 'Actualizacion',
-        responsable: 'Aravena, Gustavo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(1),
-        id: 28173,
-        title: 'CERTIFICADOS EXPRESSWAY',
-        empresa: 'Experta',
-        tipofalla: 'Reparacion',
-        responsable: 'Gonzalez, Diego',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(4),
-        id: 28175,
-        title: 'Certificado SSL Administracion Web',
-        empresa: 'KPMG',
-        tipofalla: 'Configuracion',
-        responsable: 'Guerra, Mauro',
-        estado: 'Abierto',
-        creado: '01/12/2023'
-      },
-      {
-        priority: setPriority(3),
-        id: 28174,
-        title: 'Upgrade de Avaya',
-        empresa: 'YMK S.A',
-        tipofalla: 'Actualizacion',
-        responsable: 'Aravena, Gustavo',
-        estado: 'Abierto',
-        creado: '01/12/2023'
+    dispatch(getTickets(actualOffsetTickets)).then((res) => {
+      setAgentList(formatTicketsArray(res.value))
+      if (res.value.length < 10) {
+        setHasMorePages(false)
       }
-    ])
+    })
+  }, [actualOffsetTickets])
 
-    return () => {
+  const formatTicketsArray = (tickets) => {
+    let formattedArray = [];
 
-    }
-  }, [])
+    tickets.forEach(ticket => {
+      let formattedTicket = {
+        id: ticket.id,
+        estado: ticket.estado,
+        tipo_falla: ticket.tipo_falla,
+        titulo: ticket.titulo,
+        empresa: ticket.empresa,
+        priority: setPriority(ticket.prioridad),
+        fecha_creacion: getShortDateString(ticket.fecha_creacion)
+      }
+      formattedArray.push(formattedTicket)
+    });
 
+    return formattedArray
+  }
 
   const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
     setResetPaginationTickets(false);
     setActualOffsetTickets(newpage_offset)
   };
 
+
   const GridSelectionOnClickHandleSelect = (item) => {
     // obtengo el item seleccionado
-  //  console.log(item)
-  //  alert(`Entrar al ticket N: ${item.id}`);
+    //  console.log(item)
+    //  alert(`Entrar al ticket N: ${item.id}`);
 
     let tabNew = new Object();
     // definir constantes con tipos asociados a la operacion_ 
     // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
     tabNew.type = 0;
-    tabNew.title =`Ticket ${item.id}`;
-    tabNew.id = 0;
+    tabNew.title = `Ticket ${item.id}`;
+    tabNew.id = item.id;
     tabNew.index = arrayTabs.length + 1;
 
     dispatch(arrayTabsAddNew(tabNew));
@@ -335,52 +232,55 @@ export const TicketsScreen = () => {
   }
 
 
-  const editTicket = (ticket) => {
-
-  }
-
-
   return (
+    <div>
+      <div style={{
+        width: '95vw', height: '100%', margin: ' 0 auto', padding: '25px'
+      }}>
+        <div style={{ marginBottom: '15px' }}>
+          <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
+        </div>
+        {
+          agentList.length > 0 && (
+            <GridViewBigData
+              columns={columnsData}
+              data={agentList}
+              customButtonNumber={0}
+              customButtonTooltip={[]}
+              customButtonIcon={[]}
+              handleCustomButton={[]}
+              customButtonEnable={[false]}
+              initRowsPerPage={rowsPerPageTickets}
+              handleGridChangePage={handleGridChangePageTickets}
+              resetPagination={resetPaginationTickets}
+              gridDataHasMorePages={hasMorePages}
+              showColumnSelector={false}
+              gridSelectionOnClick={GridSelectionOnClickHandleSelect}
+              detailcolumns={[]}
+              oneExpandOnly={false}
+              specialButtonStyle={{ backgroundColor: "#b5b3b3", color: 'black' }}
+              handleOnExpand={(item, expand) => {
 
-    <div style={{
-      width: '95vw', height: '100%', margin: ' 0 auto', padding: '25px'
-    }}>
-      {
-        agentList.length > 0 && (
-          <GridViewBigData
-            columns={columnsData}
-            data={agentList}
-            customButtonNumber={0}
-            customButtonTooltip={[]}
-            customButtonIcon={[]}
-            handleCustomButton={[]}
-            customButtonEnable={[false]}
-            initRowsPerPage={rowsPerPageTickets}
-            handleGridChangePage={handleGridChangePageTickets}
-            resetPagination={resetPaginationTickets}
-            gridDataHasMorePages={true}
-            showColumnSelector={false}
-            gridSelectionOnClick={GridSelectionOnClickHandleSelect}
-            detailcolumns={[]}
-            oneExpandOnly={false}
-            specialButtonStyle={{ backgroundColor: "#b5b3b3", color: 'black' }}
-            handleOnExpand={(item, expand) => {
+              }}
+              canReorderColumns={true}
+              customButtonNumberDetail={0}
+              customButtonEnableDetail={[]}
+              customButtonTooltipDetail={[]}
+              customButtonIconDetail={[]}
+              handleCustomButtonDetail={[]}
 
-            }}
-            canReorderColumns={true}
-            customButtonNumberDetail={0}
-            customButtonEnableDetail={[]}
-            customButtonTooltipDetail={[]}
-            customButtonIconDetail={[]}
-            handleCustomButtonDetail={[]}
-
-            subDataActionHeaderStyle={{ backgroundColor: grey[400], color: 'black', zIndex: 1 }}
-            subDataActionRowsStyle={{ backgroundColor: grey[50] }}
-            subDataActionColumnShowLeft={true}
-            maxHeight={'calc(100vh - 135px)'}
-          />
-        )
-      }
+              subDataActionHeaderStyle={{ backgroundColor: grey[400], color: 'black', zIndex: 1 }}
+              subDataActionRowsStyle={{ backgroundColor: grey[50] }}
+              subDataActionColumnShowLeft={true}
+              maxHeight={'calc(100vh - 135px)'}
+            />
+          )
+        }
+      </div>
+      <div className={`overlay ${isDrawerOpen ? 'show' : ''}`} onClick={() => { setIsDrawerOpen(!isDrawerOpen) }}></div>
+      <div className={`drawer ${isDrawerOpen ? 'open' : ''}`}>
+        <TicketFilterDrawer />
+      </div>
     </div>
   )
 }

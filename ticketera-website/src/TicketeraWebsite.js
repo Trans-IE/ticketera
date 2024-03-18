@@ -21,10 +21,9 @@ const TicketeraWebsite = () => {
     <Provider store={store}>
       <BrowserRouter>
         <AppRouter />
-
       </BrowserRouter>
-{/*     <TicketsScreen /> */}
-{/*       <MainScreen /> */}
+      {/*     <TicketsScreen /> */}
+      {/*       <MainScreen /> */}
       <Toaster richColors closeButton />
     </Provider>
   );
