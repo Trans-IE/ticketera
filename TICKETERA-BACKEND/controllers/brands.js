@@ -168,7 +168,7 @@ const deleteBrand = async (req, res = response) => {
     }
 }
 
-//==> Otra posibilidad de hacer la llamada más reducida:
+//TODO: //==> Otra posibilidad de hacer la llamada más reducida:
 
 // const deleteBrandTest = async (req, res = response) => {
 

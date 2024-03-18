@@ -12,7 +12,7 @@ const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 
 const router = Router();
 
@@ -2732,6 +2732,36 @@ router.post(
         check('tipoTicket', 'El tipoTicket es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
 
+        /*
+        //TODO: Estos son los nuevos parámtros: (agregar a la documentación del endpoint la nueva disposición de parámetros)
+
+        check('titulo, 'El titulo es obligatorio').not().isEmpty(),
+        check('causaRaiz, 'El causaRaiz es obligatorio').not().isEmpty(),
+        check('ticketPartner, 'El ticketPartner es obligatorio').not().isEmpty(),
+        check('empresaId, 'La empresaId es obligatorio').not().isEmpty(),
+        check('productoId, 'El productoId es obligatorio').not().isEmpty(),
+        check('responsableId, 'El responsableId es obligatorio').not().isEmpty(),
+        check('numeroId, 'El numeroId es obligatorio').not().isEmpty(),
+        check('prioridad, 'El prioridad es obligatorio').not().isEmpty(),
+        check('estado, 'El estado es obligatorio').not().isEmpty(),
+        check('tipoEstado, 'El tipoEstado es obligatorio').not().isEmpty(),
+        check('tipoFalla, 'El tipoFalla es obligatorio').not().isEmpty(),
+        check('tktip, 'El tktip es obligatorio').not().isEmpty(),
+        check('dateFrom, 'El dateFrom es obligatorio').not().isEmpty(),
+        check('dateTo, 'El dateTo es obligatorio').not().isEmpty(),
+        check('tksinac, 'El tksinac es obligatorio').not().isEmpty(),
+        check('tipoUsuario, 'El tipoUsuario es obligatorio').not().isEmpty(),
+        check('usuarioId, 'El usuarioId es obligatorio').not().isEmpty(),
+        check('offset, 'El offset es obligatorio').not().isEmpty(),
+        check('estadoid, 'El estadoid es obligatorio').not().isEmpty(),
+        check('prioridadid, 'La prioridadid es obligatorio').not().isEmpty(),
+        check('tipoid, 'El tipoid es obligatorio').not().isEmpty(),
+        check('tipoticket, 'El tipoticket es obligatorio').not().isEmpty(),
+        check('orderBy, 'El orderBy es obligatorio').not().isEmpty(),
+        check('orderByType, 'El orderByType es obligatorio').not().isEmpty(),
+        check('limit 'El limit es obligatorio').not().isEmpty(),
+        */
+
         validarJWT
     ],
 
@@ -3352,5 +3382,144 @@ router.post(
 
     getTicketDetail
 );
+
+/**
+ * @openapi
+ * /api/entities/getFailTypes:
+ *   post:
+ *     summary: Obtener todos las fallas en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las fallas en el sistema.
+ *     tags: [Tickets]
+ *     responses:
+ *       200:
+ *         description: Lista de fallas obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Lista de fallas.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getFailTypes',
+    [
+        validarJWT
+    ],
+
+    getFailTypes
+);
+
+/**
+ * @openapi
+ * /api/entities/getTicketTypes:
+ *   post:
+ *     summary: Obtener todos los tipos en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de tipos en el sistema.
+ *     tags: [Tickets]
+ *     responses:
+ *       200:
+ *         description: Lista de tipos obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ticketTypes:
+ *                   type: array
+ *                   description: Lista de tipos.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getTicketTypes',
+    [
+        validarJWT
+    ],
+
+    getTicketTypes
+);
+
+/**
+ * @openapi
+ * /api/entities/getFailTypes:
+ *   post:
+ *     summary: Obtener todos los tipos en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de tipos en el sistema.
+ *     tags: [Tickets]
+ *     responses:
+ *       200:
+ *         description: Lista de tipos obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 fileTypes:
+ *                   type: array
+ *                   description: Lista de tipos.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getFailTypes',
+    [
+        validarJWT
+    ],
+
+    getFailTypes
+);
+
 
 module.exports = router;

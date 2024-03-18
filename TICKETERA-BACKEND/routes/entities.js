@@ -11,7 +11,7 @@ const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
-const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter } = require('../controllers/tickets');
+const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
@@ -557,6 +557,37 @@ router.post(
         check('tipoId', 'El tipoId es obligatorio').not().isEmpty(),
         check('tipoTicket', 'El tipoTicket es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
+
+        /*
+        TODO: Estos son los nuevos parámtros:
+
+        check('titulo, 'El titulo es obligatorio').not().isEmpty(),
+        check('causaRaiz, 'El causaRaiz es obligatorio').not().isEmpty(),
+        check('ticketPartner, 'El ticketPartner es obligatorio').not().isEmpty(),
+        check('empresaId, 'La empresaId es obligatorio').not().isEmpty(),
+        check('productoId, 'El productoId es obligatorio').not().isEmpty(),
+        check('responsableId, 'El responsableId es obligatorio').not().isEmpty(),
+        check('numeroId, 'El numeroId es obligatorio').not().isEmpty(),
+        check('prioridad, 'El prioridad es obligatorio').not().isEmpty(),
+        check('estado, 'El estado es obligatorio').not().isEmpty(),
+        check('tipoEstado, 'El tipoEstado es obligatorio').not().isEmpty(),
+        check('tipoFalla, 'El tipoFalla es obligatorio').not().isEmpty(),
+        check('tktip, 'El tktip es obligatorio').not().isEmpty(),
+        check('dateFrom, 'El dateFrom es obligatorio').not().isEmpty(),
+        check('dateTo, 'El dateTo es obligatorio').not().isEmpty(),
+        check('tksinac, 'El tksinac es obligatorio').not().isEmpty(),
+        check('tipoUsuario, 'El tipoUsuario es obligatorio').not().isEmpty(),
+        check('usuarioId, 'El usuarioId es obligatorio').not().isEmpty(),
+        check('username', 'El username es obligatorio').not().isEmpty(),
+        check('offset, 'El offset es obligatorio').not().isEmpty(),
+        check('estadoid, 'El estadoid es obligatorio').not().isEmpty(),
+        check('prioridadid, 'La prioridadid es obligatorio').not().isEmpty(),
+        check('tipoid, 'El tipoid es obligatorio').not().isEmpty(),
+        check('tipoticket, 'El tipoticket es obligatorio').not().isEmpty(),
+        check('orderBy, 'El orderBy es obligatorio').not().isEmpty(),
+        check('orderByType, 'El orderByType es obligatorio').not().isEmpty(),
+        check('limit 'El limit es obligatorio').not().isEmpty(),
+        */
     ],
 
     getAllTicketsByFilter
@@ -620,6 +651,24 @@ router.post(
     ],
 
     getTicketDetail
+);
+
+router.post(
+    '/getTicketTypes',
+    [
+
+    ],
+
+    getTicketTypes
+);
+
+router.post(
+    '/getFailTypes',
+    [
+
+    ],
+
+    getFailTypes
 );
 
 

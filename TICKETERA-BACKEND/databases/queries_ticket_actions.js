@@ -177,7 +177,6 @@ const createDBState = (ticket_id, estado, username) => {
                 }
             }
         })
-
     });
 
     return return_promise;

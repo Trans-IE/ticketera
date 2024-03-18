@@ -56,7 +56,6 @@ const getAllStates = async (req, res = response) => {
             msg: 'Por favor hable con el administrador'
         });
     }
-
 }
 
 module.exports = {

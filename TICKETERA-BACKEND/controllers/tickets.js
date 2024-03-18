@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, } = require('../databases/queries_tickets');
+const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes } = require('../databases/queries_tickets');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
@@ -205,6 +205,9 @@ const deleteTicket = async (req, res = response) => {
 
 const getAllTicketsByFilter = async (req, res = response) => {
 
+    //TODO: Instancia de los nuevos parámetros de endpoint
+    //const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit } = req.body;
+
     const { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
 
     let function_enter_time = new Date();
@@ -214,8 +217,11 @@ const getAllTicketsByFilter = async (req, res = response) => {
         const userId = await getDBUserIdByUser(username);
         const tipoUsuario = await getDBTypeUserByUser(username);
 
+        //TODO: Agregar logueos de variables
         logger.info(`getAllTicketsByFilter pCadenaSearch:${pCadenaSearch} username:${username} offset:${offset} estadoId:${estadoId} prioridadId:${prioridadId} tipoId:${tipoId} tipoTicket:${tipoTicket} orderBy:${orderBy} orderByType:${orderByType} userId:${userId} tipoUsuario:${tipoUsuario} limit:${limit}`);
 
+        //TODO: Llamada a método de consulta
+        //getAllDBTicketsByFilter(titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit)
         getAllDBTicketsByFilter(pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit)
             .then(result => {
                 logger.info(`<== getAllTicketsByFilter`);
@@ -240,10 +246,70 @@ const getAllTicketsByFilter = async (req, res = response) => {
     }
 }
 
+const getFailTypes = async (req, res = response) => {
+
+    let function_enter_time = new Date();
+    logger.info(`==> getFailTypes.`)
+    try {
+        getAllDBFailTypes()
+            .then(result => {
+                logger.info(`<== getFailTypes`);
+                loggerCSV.info(`getFailTypes, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de fallas obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllFailTypes => getAllDBFailTypes error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBFailTypes error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de fallas.'
+        });
+    }
+}
+
+const getTicketTypes = async (req, res = response) => {
+
+    let function_enter_time = new Date();
+    logger.info(`==> getTicketTypes.`)
+    try {
+        getAllDBTicketTypes()
+            .then(result => {
+                logger.info(`<== getTicketTypes`);
+                loggerCSV.info(`getTicketTypes, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de tipos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getTicketTypes => getAllDBTicketTypes error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBTicketTypes error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de tipos.'
+        });
+    }
+}
+
 module.exports = {
     getAllTicketsByFilter,
     updateTicketTrans,
     createTicketTrans,
     createTicketClient,
-    deleteTicket
+    deleteTicket,
+    getFailTypes,
+    getTicketTypes
 }
