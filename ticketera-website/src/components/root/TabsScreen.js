@@ -18,7 +18,7 @@ import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 export const TabsScreen = () => {
 
   const theme = useTheme();
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState(1);
   const dispatch = useDispatch();
   const { config } = useSelector((state) => state.auth, shallowEqual);
   const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
@@ -29,15 +29,10 @@ export const TabsScreen = () => {
   };
 
   const handleClickTab = (objTab) => {
-
-
-
     dispatch(editTicketTabShownChange(parseInt(value)));
-
   }
 
   const handleCreateNewTicket = () => {
-
 
     let tabNew = new Object();
     // definir constantes con tipos asociados a la operacion_ 
@@ -48,8 +43,6 @@ export const TabsScreen = () => {
     tabNew.index = arrayTabs.length + 1;
 
     dispatch(arrayTabsAddNew(tabNew));
-
-
   }
 
 
@@ -93,7 +86,7 @@ export const TabsScreen = () => {
                 arrayTabs.map((objTab, i) => {
                   //  console.log(columns[colIdx])
                   return (
-                    <StyledTab key={i} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
+                    <StyledTab key={objTab.index} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
                   );
                 })
 
@@ -105,10 +98,13 @@ export const TabsScreen = () => {
         </Box>
         {
           arrayTabs.map((objTab, i) => {
+            console.log('objTab', objTab)
             return (
-              <TabPanel index={i} value={i} style={{ display: (editTicketTabShown === -1) ? 'none' : 'block' }}>
-                <TabItem />
-              </TabPanel>
+              editTicketTabShown === -1 ?
+                <></> :
+                <TabPanel key={objTab.index} index={i} value={i} style={{ padding: 0, display: (editTicketTabShown === -1) ? 'none' : 'block' }}>
+                  <TabItem ticketID={objTab.id} />
+                </TabPanel>
             );
           })
         }

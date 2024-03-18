@@ -30,6 +30,24 @@ const messageTypes = {
     quick_reply: 7
 }
 
+const ticketType = {
+    Creation: 1,
+    Edition: 2,
+    Asigned: 3,
+    PriorityChange: 4,
+    StateChange: 5,
+    Note: 6,
+    SecretNote: 7,
+    Attatchment: 8,
+    AutoEvaluation: 9,
+    OnSiteSupport: 10,
+    Hours: 11,
+    TechnicalNote: 12,
+    UserNote: 13,
+    Email: 14,
+    SeenByUser: 15
+}
+
 const messageDirection = {
     Incomming: 0,
     Outgoing: 1
@@ -125,4 +143,4 @@ const CategoriesColor = {
 
 const TReportingVersion = "3.0.0";
 
-module.exports = { CategoriesColor,  messageTypes, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TReportingVersion, GupshupErrorCodes, MIMETypes, UserRol, userMenuOptions };
+module.exports = { CategoriesColor, messageTypes, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TReportingVersion, GupshupErrorCodes, MIMETypes, UserRol, userMenuOptions, ticketType };

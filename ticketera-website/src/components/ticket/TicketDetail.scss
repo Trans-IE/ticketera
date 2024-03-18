@@ -40,9 +40,20 @@ $black: #000;
 }
 
 .selectState {
+    appearance: none;
+    /* safari */
+    -webkit-appearance: none;
     padding: 5px;
     overflow: hidden;
-    text-overflow: ellipsis,
+    text-overflow: ellipsis;
+    background-color: transparent;
+    border: none;
+    white-space: nowrap;
+}
+
+.optionState {
+    color: 'black';
+    background-color: 'black';
 }
 
 .selectState:hover {

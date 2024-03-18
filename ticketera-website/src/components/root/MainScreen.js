@@ -21,6 +21,7 @@ import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import Swal from 'sweetalert2';
 import { useTheme } from '@mui/styles';
 import { logoutUser } from '../../redux/actions/userActions';
+import { NewTicketScreen } from '../ticket/NewTicketScreen';
 
 const drawerWidth = 240;
 
@@ -100,8 +101,8 @@ export const MainScreen = () => {
 
   }
 
-  const userMenuOnClick = ( type, value ) => {
-    
+  const userMenuOnClick = (type, value) => {
+
     Swal.fire({
       title: "¿Cerrar sesión?",
       text: "¿Esta seguro que desea cerrar la sesión?",
@@ -113,10 +114,10 @@ export const MainScreen = () => {
       color: theme.palette.text.primary,
       confirmButtonColor: theme.palette.primary.main
     }).then((result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         console.log("LOGOUT DE USUARIOS");
         //toast.success('¡Sesión cerrada exitosamente!')
-        dispatch( logoutUser() );
+        dispatch(logoutUser());
         navigate('/');
       }
     })
@@ -142,27 +143,27 @@ export const MainScreen = () => {
         <List component="nav" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
           <div>
             {
-              
-              <MainMenu onClick={mainMenuOnClick} optionSelected={uiMainMenuShown} />
+
+              <MainMenu onClick={() => { }} optionSelected={uiMainMenuShown} />
             }
             <Divider style={{ margin: '8px' }} />
             {SecondaryMenu}
           </div>
           <div>
-            {<UserMenu onClick={ userMenuOnClick } />}
+            {<UserMenu onClick={userMenuOnClick} />}
           </div>
         </List>
       </Drawer>
 
-      <Grid xs={12} style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+      <Grid style={{ position: 'relative', height: '100vh', width: 'calc(100% - 32pxs)' }}>
         {/* Contenedor para los componentes */}
 
 
-        <Grid xs={12} sx={{ position: 'absolute', top: 0, left: 10, zIndex: (editTicketTabShown === -1)? 1: 2, padding: '10px' }}>
+        <Grid sx={{ position: 'absolute', top: 0, left: 10, zIndex: (editTicketTabShown === -1) ? 1 : 2, padding: '10px' }}>
           <TabsScreen />
         </Grid>
 
-        <Grid xs={12} sx={{ position: 'absolute', top: 40, left: 10, zIndex: (editTicketTabShown === -1)? 2: 1, display: (editTicketTabShown !== -1) ? 'none' : 'block', padding: '10px' }}>
+        <Grid sx={{ position: 'absolute', top: 40, left: 10, zIndex: (editTicketTabShown === -1) ? 2 : 1, display: (editTicketTabShown !== -1) ? 'none' : 'block', padding: '10px' }}>
           <TicketsScreen />
         </Grid>
       </Grid>

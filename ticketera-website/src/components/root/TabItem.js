@@ -3,16 +3,16 @@ import { Grid, Paper } from '@mui/material';
 import { ChatConversation } from '../chat/ChatConversation';
 import { TicketDetail } from '../ticket/TicketDetail';
 
-export const TabItem = () => {
+export const TabItem = ({ ticketID }) => {
     return (
         <Grid
             container
             direction="row"
-            justify="center" 
+            justify="center"
             justifyContent={"center"}
-            sx={{ flexGrow: 1, width: '100%', }} 
+            sx={{ flexGrow: 1, width: '100%', }}
         >
-           <TicketDetail />
+            <TicketDetail ticketID={ticketID} />
         </Grid>
     )
 }

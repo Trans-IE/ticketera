@@ -241,7 +241,7 @@ const GridViewBigDataRow = React.memo(
             value = value === null || typeof value === "undefined" ? "" : value;
 
             return (
-              <CustomTableCellFormatter column={columns[colIdx]} value={value} customColors={dataitem.customColors ? dataitem.customColors : []} />
+              <CustomTableCellFormatter key={i} column={columns[colIdx]} value={value} customColors={dataitem.customColors ? dataitem.customColors : []} />
             );
 
           })}
@@ -288,7 +288,7 @@ export const GridViewBigData = ({
   resetPagination,
   initRowsPerPage = 50,
   gridDataHasMorePages,
-  gridSelectionOnClick = () => {},
+  gridSelectionOnClick = () => { },
   handleColSelectorOnChange,
   customButtonNumber = 0,
   customButtonIcon,
@@ -389,7 +389,7 @@ export const GridViewBigData = ({
               )}
 
               {order.map((colIdx, i) => {
-              //  console.log(columns[colIdx])
+                //  console.log(columns[colIdx])
                 return (
                   columns[colIdx]?.visible === true && (
                     <TableCell
