@@ -12,7 +12,7 @@ const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, getAllTicketsByFilterV2 } = require('../controllers/tickets');
 
 const router = Router();
 
@@ -2766,6 +2766,174 @@ router.post(
     ],
 
     getAllTicketsByFilter
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllTicketsByFilterV2:
+ *   post:
+ *     summary: Obtener todos los tickets en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema.
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               causaRaiz:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               ticketPartner:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               empresaId:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: "210"
+ *               productoId:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               responsableId:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               numeroId:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               prioridad:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               estado:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               tipoEstado:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               tipoFalla:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               tktip:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               dateFrom:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               dateTo:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               tksinac:
+ *                 type: string
+ *                 description: Cadena de búsqueda para filtrar los tickets.
+ *                 example: ""
+ *               offset:
+ *                 type: integer
+ *                 description: Valor de desplazamiento para la paginación de resultados.
+ *                 example: 0
+ *               estadoId:
+ *                 type: integer
+ *                 description: Identificador del estado del ticket.
+ *                 example: 0
+ *               prioridadId:
+ *                 type: integer
+ *                 description: Identificador de la prioridad del ticket.
+ *                 example: -1
+ *               tipoId:
+ *                 type: integer
+ *                 description: Identificador del tipo de ticket.
+ *                 example: -1
+ *               tipoTicket:
+ *                 type: integer
+ *                 description: Tipo de ticket.
+ *                 example: -1
+ *               orderBy:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *               orderByType:
+ *                 type: string
+ *                 description: Tipo de ticket.
+ *                 example: ""
+ *               limit:
+ *                 type: integer
+ *                 description: Tipo de ticket.
+ *                 example: 15
+ *     responses:
+ *       200:
+ *         description: Lista de tickets obtenida correctamente.
+ *         content:
+  *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de eliminación fallida.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *       - x-token: []
+ */
+router.post(
+    '/getAllTicketsByFilterV2',
+    [
+        check('titulo', 'El titulo es obligatorio').not().isEmpty(),
+        check('causaRaiz', 'El causaRaiz es obligatorio').not().isEmpty(),
+        check('ticketPartner', 'El ticketPartner es obligatorio').not().isEmpty(),
+        check('empresaId', 'La empresaId es obligatorio').not().isEmpty(),
+        check('productoId', 'El productoId es obligatorio').not().isEmpty(),
+        check('responsableId', 'El responsableId es obligatorio').not().isEmpty(),
+        check('numeroId', 'El numeroId es obligatorio').not().isEmpty(),
+        check('prioridad', 'El prioridad es obligatorio').not().isEmpty(),
+        check('estado', 'El estado es obligatorio').not().isEmpty(),
+        check('tipoEstado', 'El tipoEstado es obligatorio').not().isEmpty(),
+        check('tipoFalla', 'El tipoFalla es obligatorio').not().isEmpty(),
+        check('tktip', 'El tktip es obligatorio').not().isEmpty(),
+        check('dateFrom', 'El dateFrom es obligatorio').not().isEmpty(),
+        check('dateTo', 'El dateTo es obligatorio').not().isEmpty(),
+        check('tksinac', 'El tksinac es obligatorio').not().isEmpty(),
+        check('offset', 'El offset es obligatorio').not().isEmpty(),
+        check('estadoId', 'El estadoid es obligatorio').not().isEmpty(),
+        check('prioridadId', 'La prioridadid es obligatorio').not().isEmpty(),
+        check('tipoId', 'El tipoid es obligatorio').not().isEmpty(),
+        check('tipoTicket', 'El tipoticket es obligatorio').not().isEmpty(),
+        check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
+        check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
+        check('limit', 'El limit es obligatorio').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getAllTicketsByFilterV2
 );
 
 /**
