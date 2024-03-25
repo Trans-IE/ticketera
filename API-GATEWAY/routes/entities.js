@@ -2797,7 +2797,7 @@ router.post(
  *               empresaId:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "210"
+ *                 example: "3"
  *               productoId:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2805,7 +2805,7 @@ router.post(
  *               responsableId:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: "2108"
  *               numeroId:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2813,11 +2813,11 @@ router.post(
  *               prioridad:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: "3"
  *               estado:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 1
+ *                 example: 0
  *               tipoFalla:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2837,7 +2837,7 @@ router.post(
  *               tipoTicket:
  *                 type: integer
  *                 description: Tipo de ticket.
- *                 example: -1
+ *                 example: 0
  *               tksinac:
  *                 type: string
  *                 description: Identificador del tipo de ticket.
