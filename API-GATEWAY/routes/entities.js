@@ -2815,21 +2815,13 @@ router.post(
  *                 description: Cadena de búsqueda para filtrar los tickets.
  *                 example: ""
  *               estado:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
- *               tipoEstado:
- *                 type: string
- *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: 1
  *               tipoFalla:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
- *               tktip:
- *                 type: string
- *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: 1
  *               dateFrom:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2838,30 +2830,18 @@ router.post(
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
  *                 example: ""
- *               tksinac:
- *                 type: string
- *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
  *               offset:
  *                 type: integer
  *                 description: Valor de desplazamiento para la paginación de resultados.
  *                 example: 0
- *               estadoId:
- *                 type: integer
- *                 description: Identificador del estado del ticket.
- *                 example: 0
- *               prioridadId:
- *                 type: integer
- *                 description: Identificador de la prioridad del ticket.
- *                 example: -1
- *               tipoId:
- *                 type: integer
- *                 description: Identificador del tipo de ticket.
- *                 example: -1
  *               tipoTicket:
  *                 type: integer
  *                 description: Tipo de ticket.
  *                 example: -1
+ *               tksinac:
+ *                 type: string
+ *                 description: Identificador del tipo de ticket.
+ *                 example: ""
  *               orderBy:
  *                 type: string
  *                 description: Tipo de ticket.
@@ -2915,17 +2895,12 @@ router.post(
         check('numeroId', 'El numeroId es obligatorio').not().isEmpty(),
         check('prioridad', 'El prioridad es obligatorio').not().isEmpty(),
         check('estado', 'El estado es obligatorio').not().isEmpty(),
-        check('tipoEstado', 'El tipoEstado es obligatorio').not().isEmpty(),
         check('tipoFalla', 'El tipoFalla es obligatorio').not().isEmpty(),
-        check('tktip', 'El tktip es obligatorio').not().isEmpty(),
         check('dateFrom', 'El dateFrom es obligatorio').not().isEmpty(),
         check('dateTo', 'El dateTo es obligatorio').not().isEmpty(),
-        check('tksinac', 'El tksinac es obligatorio').not().isEmpty(),
         check('offset', 'El offset es obligatorio').not().isEmpty(),
-        check('estadoId', 'El estadoid es obligatorio').not().isEmpty(),
-        check('prioridadId', 'La prioridadid es obligatorio').not().isEmpty(),
-        check('tipoId', 'El tipoid es obligatorio').not().isEmpty(),
         check('tipoTicket', 'El tipoticket es obligatorio').not().isEmpty(),
+        check('tksinac', 'El tksinac es obligatorio').not().isEmpty(),
         check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),

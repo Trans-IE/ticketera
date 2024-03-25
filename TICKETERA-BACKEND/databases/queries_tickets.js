@@ -105,9 +105,9 @@ const getAllDBTicketsByFilter = (pCadenaSearch, tipoUsuario, userId, offset, est
     return return_promise;
 }
 
-const getAllDBTicketsByFilterV2 = (p_titulo, p_causa_raiz, p_ticket_partner, p_empresa_id, p_producto_id, p_responsable_id, p_numero_id, p_prioridad, p_estado, p_tipo_estado, p_tipo_falla, p_tktip, p_dateFrom, p_dateTo, p_tksinac, p_tipo_usuario, p_usuario_id, p_offset, p_estadoid, p_prioridadid, p_tipoid, p_tipoticket, p_order_by, p_order_by_type, p_limit) => {
+const getAllDBTicketsByFilterV2 = (titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from f_search_getticketsdataset_v3($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25);', [p_titulo, p_causa_raiz, p_ticket_partner, p_empresa_id, p_producto_id, p_responsable_id, p_numero_id, p_prioridad, p_estado, p_tipo_estado, p_tipo_falla, p_tktip, p_dateFrom, p_dateTo, p_tksinac, p_tipo_usuario, p_usuario_id, p_offset, p_estadoid, p_prioridadid, p_tipoid, p_tipoticket, p_order_by, p_order_by_type, p_limit], (error, results) => {
+        pooldata.getPool.query('select * from f_search_getticketsdataset_v4($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20);', [titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit], (error, results) => {
             if (error) {
                 reject(error.message);
             }

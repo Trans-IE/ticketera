@@ -116,11 +116,33 @@ const getDBTypeUserByUser = (username) => {
     return return_promise;
 }
 
+const getDBCompanyByUser = (username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select empresa_id from usuarios where usuario = $1;', [username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0]['empresa_id']);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 
 module.exports = {
     getDBUserByLogin,
     createDBUser,
     getDBUserRolByUsername,
     getDBUserIdByUser,
-    getDBTypeUserByUser
+    getDBTypeUserByUser,
+    getDBCompanyByUser
 }

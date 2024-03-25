@@ -249,9 +249,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
 const getAllTicketsByFilterV2 = async (req, res = response) => {
 
     //TODO: Instancia de los nuevos parámetros de endpoint
-    const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
-
-    //const { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
+    const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
 
     let function_enter_time = new Date();
 
@@ -260,12 +258,14 @@ const getAllTicketsByFilterV2 = async (req, res = response) => {
         const usuarioId = await getDBUserIdByUser(username);
         const tipoUsuario = await getDBTypeUserByUser(username);
 
-        //TODO: Agregar logueos de variables
-        //logger.info(`getAllTicketsByFilter pCadenaSearch:${pCadenaSearch} username:${username} offset:${offset} estadoId:${estadoId} prioridadId:${prioridadId} tipoId:${tipoId} tipoTicket:${tipoTicket} orderBy:${orderBy} orderByType:${orderByType} userId:${userId} tipoUsuario:${tipoUsuario} limit:${limit}`);
+        //Si no es un tipo de usuario Trans forzar id de la empresa que viene por username del x-token de la consulta en el api-gateway
+        if (tipoUsuario == 2 && empresaId != 3) {
+            empresaId = await getDBCompanyByUser(username);
+        }
 
-        //TODO: Llamada a método de consulta
+        logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} offset:${offset} tipoTicket:${tipoTicket} tksinac:${tksinac} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
 
-        getAllDBTicketsByFilterV2(titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit)
+        getAllDBTicketsByFilterV2(titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit)
             .then(result => {
                 logger.info(`<== getAllTicketsByFilterV2`);
                 loggerCSV.info(`getAllTicketsByFilterV2, ${(new Date() - function_enter_time) / 1000}`)
