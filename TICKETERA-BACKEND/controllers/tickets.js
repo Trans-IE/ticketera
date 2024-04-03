@@ -266,7 +266,7 @@ const getAllTicketsByFilterV2 = async (req, res = response) => {
             empresaIdAux = empresaId;
         }
 
-        logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} offset:${offset} tipoTicket:${tipoTicket} tksinac:${tksinac} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
+        logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} prioridad:${prioridad} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} offset:${offset} tipoTicket:${tipoTicket} tksinac:${tksinac} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
 
         getAllDBTicketsByFilterV2(titulo, causaRaiz, ticketPartner, empresaIdAux, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit)
             .then(result => {

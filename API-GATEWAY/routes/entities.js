@@ -2795,29 +2795,29 @@ router.post(
  *                 description: Cadena de búsqueda para filtrar los tickets.
  *                 example: ""
  *               empresaId:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "3"
+ *                 example: 3
  *               productoId:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: -1
  *               responsableId:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "2108"
+ *                 example: 2108
  *               numeroId:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: ""
+ *                 example: -1
  *               prioridad:
- *                 type: string
+ *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "3"
+ *                 example: 3
  *               estado:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 0
+ *                 example: -1
  *               tipoFalla:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2833,11 +2833,11 @@ router.post(
  *               offset:
  *                 type: integer
  *                 description: Valor de desplazamiento para la paginación de resultados.
- *                 example: 0
+ *                 example: -1
  *               tipoTicket:
  *                 type: integer
  *                 description: Tipo de ticket.
- *                 example: 0
+ *                 example: -1
  *               tksinac:
  *                 type: string
  *                 description: Identificador del tipo de ticket.

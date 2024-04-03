@@ -107,7 +107,7 @@ const getAllDBTicketsByFilter = (pCadenaSearch, tipoUsuario, userId, offset, est
 
 const getAllDBTicketsByFilterV2 = (titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from f_search_getticketsdataset_v4($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20);', [titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit], (error, results) => {
+        pooldata.getPool.query('select * from f_search_getticketsdataset_v5($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20);', [titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit], (error, results) => {
             if (error) {
                 reject(error.message);
             }
