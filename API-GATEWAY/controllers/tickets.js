@@ -7,11 +7,9 @@ const { UserRol } = require('../helpers/constants');
 
 const getAllTicketsByFilter = async (req, res = response) => {
     //TODO: Nuevos parámetros de endpoint
-    //const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit } = req.body;
+    const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
 
     const { label: username } = req;
-
-    const { pCadenaSearch, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
@@ -27,9 +25,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            //TODO: Nuevos parámetros para llamar al backend
-            //const resp = await fetchSinToken(url, { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit }, 'POST');
-            const resp = await fetchSinToken(url, { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit }, 'POST');
+            const resp = await fetchSinToken(url, { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
@@ -42,62 +38,6 @@ const getAllTicketsByFilter = async (req, res = response) => {
                 });
             } else {
                 logger.error(`getAllTicketsByFilter : ${body.msg}`);
-                res.status(200).json({
-                    ok: false,
-                    msg: body.msg
-                });
-            }
-        } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllTicketsByFilter`)
-            res.status(401).json({
-                ok: false,
-                msg: 'No se poseen permisos suficientes para realizar la acción'
-            });
-        }
-
-    } catch (error) {
-        logger.error(`getAllTicketsByFilter : ${error.message}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
-}
-
-const getAllTicketsByFilterV2 = async (req, res = response) => {
-    //TODO: Nuevos parámetros de endpoint
-    const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
-
-    const { label: username } = req;
-
-    let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
-    logger.info(`==> getAllTicketsByFilterV2 - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAllTicketsByFilterV2";
-
-    try {
-        logger.info(`getAllTicketsByFilterV2 `)
-
-        const rol = await getUserRol(username);
-        let arrRolExclusive = rolExclusive.split(',').map(Number);
-        let setRolUser = new Set(rol.split(',').map(Number));
-        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
-
-        if (resultado) {
-            const resp = await fetchSinToken(url, { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit }, 'POST');
-            console.log(resp);
-            const body = await resp.json();
-            if (body.ok) {
-                logger.info(`<== getAllTicketsByFilterV2 - username:${username}`);
-                loggerCSV.info(`getAllTicketsByFilterV2,${(new Date() - function_enter_time) / 1000}`)
-                res.status(200).json({
-                    ok: true,
-                    value: body.value,
-                    msg: 'Tickets obtenidos correctamente.'
-                });
-            } else {
-                logger.error(`getAllTicketsByFilterV2 : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
@@ -442,6 +382,5 @@ module.exports = {
     createTicket,
     deleteTicket,
     getFailTypes,
-    getTicketTypes,
-    getAllTicketsByFilterV2
+    getTicketTypes
 }

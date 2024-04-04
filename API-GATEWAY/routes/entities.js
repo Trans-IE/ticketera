@@ -12,7 +12,7 @@ const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, getAllTicketsByFilterV2 } = require('../controllers/tickets');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 
 const router = Router();
 
@@ -2656,132 +2656,6 @@ router.delete(
  *           schema:
  *             type: object
  *             properties:
- *               pCadenaSearch:
- *                 type: string
- *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "ESTADO:0;TPOESTADO:0;"
- *               offset:
- *                 type: integer
- *                 description: Valor de desplazamiento para la paginación de resultados.
- *                 example: 0
- *               estadoId:
- *                 type: integer
- *                 description: Identificador del estado del ticket.
- *                 example: 0
- *               prioridadId:
- *                 type: integer
- *                 description: Identificador de la prioridad del ticket.
- *                 example: -1
- *               tipoId:
- *                 type: integer
- *                 description: Identificador del tipo de ticket.
- *                 example: -1
- *               tipoTicket:
- *                 type: integer
- *                 description: Tipo de ticket.
- *                 example: -1
- *               orderBy:
- *                 type: string
- *                 description: Tipo de ticket.
- *                 example: ""
- *               orderByType:
- *                 type: string
- *                 description: Tipo de ticket.
- *                 example: ""
- *               limit:
- *                 type: integer
- *                 description: Tipo de ticket.
- *                 example: 10
- *     responses:
- *       200:
- *         description: Lista de tickets obtenida correctamente.
- *         content:
-  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de eliminación fallida.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional devuelta.
- *       401:
- *         description: No autorizado (401) por falta de credenciales.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *     security:
- *       - x-token: []
- */
-router.post(
-    '/getAllTicketsByFilter',
-    [
-        check('pCadenaSearch', 'pCadenaSearch es obligatorio').not().isEmpty(),
-        check('offset', 'El offset es obligatorio').not().isEmpty(),
-        check('estadoId', 'El estadoId es obligatorio').not().isEmpty(),
-        check('prioridadId', 'La prioridadId es obligatorio').not().isEmpty(),
-        check('tipoId', 'El tipoId es obligatorio').not().isEmpty(),
-        check('tipoTicket', 'El tipoTicket es obligatorio').not().isEmpty(),
-        check('limit', 'El limit es obligatorio').not().isEmpty(),
-
-        /*
-        //TODO: Estos son los nuevos parámtros: (agregar a la documentación del endpoint la nueva disposición de parámetros)
-
-        check('titulo, 'El titulo es obligatorio').not().isEmpty(),
-        check('causaRaiz, 'El causaRaiz es obligatorio').not().isEmpty(),
-        check('ticketPartner, 'El ticketPartner es obligatorio').not().isEmpty(),
-        check('empresaId, 'La empresaId es obligatorio').not().isEmpty(),
-        check('productoId, 'El productoId es obligatorio').not().isEmpty(),
-        check('responsableId, 'El responsableId es obligatorio').not().isEmpty(),
-        check('numeroId, 'El numeroId es obligatorio').not().isEmpty(),
-        check('prioridad, 'El prioridad es obligatorio').not().isEmpty(),
-        check('estado, 'El estado es obligatorio').not().isEmpty(),
-        check('tipoEstado, 'El tipoEstado es obligatorio').not().isEmpty(),
-        check('tipoFalla, 'El tipoFalla es obligatorio').not().isEmpty(),
-        check('tktip, 'El tktip es obligatorio').not().isEmpty(),
-        check('dateFrom, 'El dateFrom es obligatorio').not().isEmpty(),
-        check('dateTo, 'El dateTo es obligatorio').not().isEmpty(),
-        check('tksinac, 'El tksinac es obligatorio').not().isEmpty(),
-        check('tipoUsuario, 'El tipoUsuario es obligatorio').not().isEmpty(),
-        check('usuarioId, 'El usuarioId es obligatorio').not().isEmpty(),
-        check('offset, 'El offset es obligatorio').not().isEmpty(),
-        check('estadoid, 'El estadoid es obligatorio').not().isEmpty(),
-        check('prioridadid, 'La prioridadid es obligatorio').not().isEmpty(),
-        check('tipoid, 'El tipoid es obligatorio').not().isEmpty(),
-        check('tipoticket, 'El tipoticket es obligatorio').not().isEmpty(),
-        check('orderBy, 'El orderBy es obligatorio').not().isEmpty(),
-        check('orderByType, 'El orderByType es obligatorio').not().isEmpty(),
-        check('limit 'El limit es obligatorio').not().isEmpty(),
-        */
-
-        validarJWT
-    ],
-
-    getAllTicketsByFilter
-);
-
-/**
- * @openapi
- * /api/entities/getAllTicketsByFilterV2:
- *   post:
- *     summary: Obtener todos los tickets en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema.
- *     tags: [Tickets]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
  *               titulo:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2797,7 +2671,7 @@ router.post(
  *               empresaId:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 3
+ *                 example: -1
  *               productoId:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2805,7 +2679,7 @@ router.post(
  *               responsableId:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 2108
+ *                 example: -1
  *               numeroId:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2813,7 +2687,7 @@ router.post(
  *               prioridad:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 3
+ *                 example: -1
  *               estado:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2821,7 +2695,7 @@ router.post(
  *               tipoFalla:
  *                 type: integer
  *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: 1
+ *                 example: -1
  *               dateFrom:
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
@@ -2833,7 +2707,7 @@ router.post(
  *               offset:
  *                 type: integer
  *                 description: Valor de desplazamiento para la paginación de resultados.
- *                 example: -1
+ *                 example: 0
  *               tipoTicket:
  *                 type: integer
  *                 description: Tipo de ticket.
@@ -2884,7 +2758,7 @@ router.post(
  *       - x-token: []
  */
 router.post(
-    '/getAllTicketsByFilterV2',
+    '/getAllTicketsByFilter',
     [
         check('titulo', 'El titulo es obligatorio').not().isEmpty(),
         check('causaRaiz', 'El causaRaiz es obligatorio').not().isEmpty(),
@@ -2904,97 +2778,6 @@ router.post(
         check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
-
-        validarJWT
-    ],
-
-    getAllTicketsByFilterV2
-);
-
-/**
- * @openapi
- * /api/entities/getAllTicketsByFilter:
- *   post:
- *     summary: Obtener todos los tickets en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los tickets en el sistema.
- *     tags: [Tickets]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               pCadenaSearch:
- *                 type: string
- *                 description: Cadena de búsqueda para filtrar los tickets.
- *                 example: "ESTADO:0;TPOESTADO:0;"
- *               offset:
- *                 type: integer
- *                 description: Valor de desplazamiento para la paginación de resultados.
- *                 example: 0
- *               estadoId:
- *                 type: integer
- *                 description: Identificador del estado del ticket.
- *                 example: 0
- *               prioridadId:
- *                 type: integer
- *                 description: Identificador de la prioridad del ticket.
- *                 example: -1
- *               tipoId:
- *                 type: integer
- *                 description: Identificador del tipo de ticket.
- *                 example: -1
- *               tipoTicket:
- *                 type: integer
- *                 description: Tipo de ticket.
- *                 example: -1
- *               orderBy:
- *                 type: string
- *                 description: Tipo de ticket.
- *                 example: ""
- *               orderByType:
- *                 type: string
- *                 description: Tipo de ticket.
- *                 example: ""
- *     responses:
- *       200:
- *         description: Lista de tickets obtenida correctamente.
- *         content:
-  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de eliminación fallida.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional devuelta.
- *       401:
- *         description: No autorizado (401) por falta de credenciales.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional retornada.
- *     security:
- *       - x-token: []
- */
-router.post(
-    '/getAllTicketsByFilter',
-    [
-        check('pCadenaSearch', 'El label es obligatorio').not().isEmpty(),
-        check('offset', 'El label es obligatorio').not().isEmpty(),
-        check('estadoId', 'El label es obligatorio').not().isEmpty(),
-        check('prioridadId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoId', 'El label es obligatorio').not().isEmpty(),
-        check('tipoTicket', 'El label es obligatorio').not().isEmpty(),
 
         validarJWT
     ],

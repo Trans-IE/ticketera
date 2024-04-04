@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes, getAllDBTicketsByFilterV2 } = require('../databases/queries_tickets');
+const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes } = require('../databases/queries_tickets');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
@@ -206,55 +206,12 @@ const deleteTicket = async (req, res = response) => {
 const getAllTicketsByFilter = async (req, res = response) => {
 
     //TODO: Instancia de los nuevos parámetros de endpoint
-    //const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit } = req.body;
-
-    const { pCadenaSearch, username, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit } = req.body;
-
-    let function_enter_time = new Date();
-
-    logger.info(`==> getAllTicketsByFilter.`)
-    try {
-        const userId = await getDBUserIdByUser(username);
-        const tipoUsuario = await getDBTypeUserByUser(username);
-
-        //TODO: Agregar logueos de variables
-        logger.info(`getAllTicketsByFilter pCadenaSearch:${pCadenaSearch} username:${username} offset:${offset} estadoId:${estadoId} prioridadId:${prioridadId} tipoId:${tipoId} tipoTicket:${tipoTicket} orderBy:${orderBy} orderByType:${orderByType} userId:${userId} tipoUsuario:${tipoUsuario} limit:${limit}`);
-
-        //TODO: Llamada a método de consulta
-        //getAllDBTicketsByFilter(titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoEstado, tipoFalla, tktip, dateFrom, dateTo, tksinac, tipoUsuario, usuarioId, offset, estadoid, prioridadid, tipoid, tipoticket, orderBy, orderByType, limit)
-        getAllDBTicketsByFilter(pCadenaSearch, tipoUsuario, userId, offset, estadoId, prioridadId, tipoId, tipoTicket, orderBy, orderByType, limit)
-            .then(result => {
-                logger.info(`<== getAllTicketsByFilter`);
-                loggerCSV.info(`getAllTicketsByFilter, ${(new Date() - function_enter_time) / 1000}`)
-                res.status(200).json({
-                    ok: true,
-                    value: result,
-                    msg: 'Listado de tickets obtenido correctamente.'
-                });
-            })
-            .catch(error => {
-                logger.error(`getAllTicketsByFilter => getAllDBTicketsByFilter error=> ${error}`);
-            })
-
-    } catch (error) {
-        logger.error(`getAllTicketsByFilter error=> ${error}`);
-        res.status(500).json({
-            ok: false,
-            items: [],
-            msg: 'Error obteniendo listado de tickets.'
-        });
-    }
-}
-
-const getAllTicketsByFilterV2 = async (req, res = response) => {
-
-    //TODO: Instancia de los nuevos parámetros de endpoint
     const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
-    console.log("EmpresaID Test: " + empresaId);
-
     let function_enter_time = new Date();
     let empresaIdAux;
-    logger.info(`==> getAllTicketsByFilterV2.`)
+
+    logger.info(`==> getAllTicketsByFilter.`)
+
     try {
         const usuarioId = await getDBUserIdByUser(username);
         const tipoUsuario = await getDBTypeUserByUser(username);
@@ -268,10 +225,10 @@ const getAllTicketsByFilterV2 = async (req, res = response) => {
 
         logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} prioridad:${prioridad} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} offset:${offset} tipoTicket:${tipoTicket} tksinac:${tksinac} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
 
-        getAllDBTicketsByFilterV2(titulo, causaRaiz, ticketPartner, empresaIdAux, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit)
+        getAllDBTicketsByFilter(titulo, causaRaiz, ticketPartner, empresaIdAux, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit)
             .then(result => {
-                logger.info(`<== getAllTicketsByFilterV2`);
-                loggerCSV.info(`getAllTicketsByFilterV2, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getAllTicketsByFilter`);
+                loggerCSV.info(`getAllTicketsByFilter, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     value: result,
@@ -279,7 +236,7 @@ const getAllTicketsByFilterV2 = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllTicketsByFilterV2 => getAllDBTicketsByFilterV2 error=> ${error}`);
+                logger.error(`getAllTicketsByFilter => getAllDBTicketsByFilter error=> ${error}`);
             })
 
     } catch (error) {
@@ -357,6 +314,5 @@ module.exports = {
     createTicketClient,
     deleteTicket,
     getFailTypes,
-    getTicketTypes,
-    getAllTicketsByFilterV2
+    getTicketTypes
 }
