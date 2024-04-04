@@ -2704,18 +2704,14 @@ router.delete(
  *                 type: string
  *                 description: Cadena de búsqueda para filtrar los tickets.
  *                 example: ""
- *               offset:
- *                 type: integer
- *                 description: Valor de desplazamiento para la paginación de resultados.
- *                 example: 0
  *               tipoTicket:
  *                 type: integer
  *                 description: Tipo de ticket.
  *                 example: -1
- *               tksinac:
- *                 type: string
- *                 description: Identificador del tipo de ticket.
- *                 example: ""
+ *               offset:
+ *                 type: integer
+ *                 description: Valor de desplazamiento para la paginación de resultados.
+ *                 example: 0
  *               orderBy:
  *                 type: string
  *                 description: Tipo de ticket.
@@ -2772,9 +2768,8 @@ router.post(
         check('tipoFalla', 'El tipoFalla es obligatorio').not().isEmpty(),
         check('dateFrom', 'El dateFrom es obligatorio').not().isEmpty(),
         check('dateTo', 'El dateTo es obligatorio').not().isEmpty(),
-        check('offset', 'El offset es obligatorio').not().isEmpty(),
         check('tipoTicket', 'El tipoticket es obligatorio').not().isEmpty(),
-        check('tksinac', 'El tksinac es obligatorio').not().isEmpty(),
+        check('offset', 'El offset es obligatorio').not().isEmpty(),
         check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),

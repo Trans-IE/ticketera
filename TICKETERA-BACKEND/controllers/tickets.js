@@ -206,7 +206,7 @@ const deleteTicket = async (req, res = response) => {
 const getAllTicketsByFilter = async (req, res = response) => {
 
     //TODO: Instancia de los nuevos parámetros de endpoint
-    const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
+    const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoTicket, offset, orderBy, orderByType, limit } = req.body;
     let function_enter_time = new Date();
     let empresaIdAux;
 
@@ -223,9 +223,9 @@ const getAllTicketsByFilter = async (req, res = response) => {
             empresaIdAux = empresaId;
         }
 
-        logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} prioridad:${prioridad} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} offset:${offset} tipoTicket:${tipoTicket} tksinac:${tksinac} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
+        logger.info(`getAllTicketsByFilter username:${username} titulo:${titulo} causaRaiz:${causaRaiz} ticketPartner:${ticketPartner} empresaId:${empresaId} productoId:${productoId} responsableId:${responsableId} numeroId:${numeroId} prioridad:${prioridad} estado:${estado} tipoFalla:${tipoFalla} dateFrom:${dateFrom} dateTo:${dateTo} tipoTicket:${tipoTicket} offset:${offset} orderBy:${orderBy} orderByType:${orderByType} limit:${limit}`);
 
-        getAllDBTicketsByFilter(titulo, causaRaiz, ticketPartner, empresaIdAux, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, offset, tipoTicket, tksinac, orderBy, orderByType, limit)
+        getAllDBTicketsByFilter(titulo, causaRaiz, ticketPartner, empresaIdAux, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoUsuario, usuarioId, tipoTicket, offset, orderBy, orderByType, limit)
             .then(result => {
                 logger.info(`<== getAllTicketsByFilter`);
                 loggerCSV.info(`getAllTicketsByFilter, ${(new Date() - function_enter_time) / 1000}`)

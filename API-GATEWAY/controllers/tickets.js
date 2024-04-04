@@ -7,7 +7,7 @@ const { UserRol } = require('../helpers/constants');
 
 const getAllTicketsByFilter = async (req, res = response) => {
     //TODO: Nuevos parámetros de endpoint
-    const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit } = req.body;
+    const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoTicket, offset, orderBy, orderByType, limit } = req.body;
 
     const { label: username } = req;
 
@@ -25,7 +25,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, offset, tipoTicket, tksinac, orderBy, orderByType, limit }, 'POST');
+            const resp = await fetchSinToken(url, { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoTicket, offset, orderBy, orderByType, limit }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
