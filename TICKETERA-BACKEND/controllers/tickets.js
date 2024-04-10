@@ -217,7 +217,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
         const tipoUsuario = await getDBTypeUserByUser(username);
 
         //Si no es un tipo de usuario Trans forzar id de la empresa que viene por username del x-token de la consulta en el api-gateway
-        if (tipoUsuario == 2 && empresaId == 3) {
+        if (tipoUsuario == 2) {
             empresaIdAux = await getDBCompanyByUser(username);
         } else {
             empresaIdAux = empresaId;

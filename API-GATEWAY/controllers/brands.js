@@ -60,14 +60,14 @@ const getAllBrands = async (req, res = response) => {
 
 const createBrand = async (req, res = response) => {
     const { label: username } = req;
-    const { nombre, direccion, telefono, mail } = req.body;
+    const { id, nombre } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> createBrand - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/createBrand";
 
     try {
-        logger.info(`createBrand nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+        logger.info(`createBrand id:${id} nombre:${nombre} `)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -75,7 +75,7 @@ const createBrand = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { nombre, direccion, telefono, mail }, 'POST');
+            const resp = await fetchSinToken(url, { id, nombre }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {

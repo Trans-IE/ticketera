@@ -1268,6 +1268,10 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: El id de la marca.
+ *                 example: 100
  *               nombre:
  *                 type: string
  *                 description: El nombre de la marca.
@@ -1316,6 +1320,7 @@ router.post(
 router.post(
     '/createBrand',
     [
+        check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
         validarCampos,

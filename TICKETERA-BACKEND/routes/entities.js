@@ -281,6 +281,7 @@ router.post(
 router.post(
     '/createBrand',
     [
+        check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
         validarCampos,

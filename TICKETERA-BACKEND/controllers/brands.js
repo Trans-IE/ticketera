@@ -38,13 +38,13 @@ const createBrand = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { nombre, direccion, telefono, mail } = req.body;
+    const { id, nombre } = req.body;
 
-    logger.info(`createBrand nombre:${nombre} direccion:${direccion} telefono:${telefono} mail:${mail} `)
+    logger.info(`createBrand id:${id} nombre:${nombre} `)
 
     try {
 
-        createDBBrand(nombre, direccion, telefono, mail)
+        createDBBrand(id, nombre)
             .then(result => {
                 res.status(200).json({
                     ok: true,
@@ -54,16 +54,16 @@ const createBrand = async (req, res = response) => {
 
             })
             .catch(dataError => {
-                logger.error(`createBrand => createDBBrand : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${dataError}`);
+                logger.error(`createBrand => createDBBrand : params=> id=${id} nombre=${nombre}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
-                    msg: `No se pudo crear el empresa. `
+                    msg: `No se pudo crear el marca. `
                 });
             });
 
     } catch (error) {
-        logger.error(`createBrand => createDBBrand : params=> nombre=${nombre} direccion=${direccion} telefono=${telefono} mail=${mail} error=> ${error}`);
+        logger.error(`createBrand => createDBBrand : params=> id=${id} nombre=${nombre} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -80,7 +80,7 @@ const updateBrand = async (req, res = response) => {
     // alli identifica estos datos desencriptando el hash x-token
 
     const { nombre } = req.body;
-    logger.info(`updateBrand. id:${id}  nombre:${nombre}`)
+    logger.info(`updateBrand. id:${id} nombre:${nombre}`)
     try {
         updateDBBrand(id, nombre)
             .then(result => {

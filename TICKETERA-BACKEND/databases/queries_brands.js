@@ -21,10 +21,10 @@ const getAllDBBrands = () => {
     return return_promise;
 }
 
-const createDBBrand = (nombre) => {
+const createDBBrand = (id, nombre) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_brand_create($1)', [nombre], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticketera_brand_create($1, $2)', [id, nombre], (error, results) => {
             if (error) {
 
                 reject(error.message);

@@ -6,7 +6,7 @@ const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 
 const getAllTicketsByFilter = async (req, res = response) => {
-    //TODO: Nuevos parámetros de endpoint
+
     const { titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoTicket, offset, orderBy, orderByType, limit } = req.body;
 
     const { label: username } = req;
