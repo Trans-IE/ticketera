@@ -11,7 +11,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 
 const router = Router();
@@ -1484,7 +1484,7 @@ router.delete(
 
 /**
  * @openapi
- * /api/entities/getAllUsersByCompany:
+ * /api/entities/getAllUsers:
  *   post:
  *     summary: Obtener todos los responsables en el sistema
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas los responsables en el sistema.
@@ -1520,13 +1520,77 @@ router.delete(
  *      - x-token: []
  */
 router.post(
+    '/getAllUsers',
+    [
+        validarJWT
+    ],
+
+    getAllUsers
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllUsersByCompany:
+ *   post:
+ *     summary: Obtener todos los usuarios por empresa
+ *     description: Este endpoint permite obtener todos los usuarios por empresa. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               empresaId:
+ *                 type: integer
+ *                 description: Id de la empresa.
+ *                 example: 15
+ *               includemyself:
+ *                 type: integer
+ *                 description: Id de inclución.
+ *                 example: 1
+ *             required:
+ *               - empresaId
+ *               - includemyself
+ *     responses:
+ *       200:
+ *         description: Obtención de todos los usuarios por empresa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 users:
+ *                   type: array
+ *                   description: Obtención de todos los usuarios por empresa.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
     '/getAllUsersByCompany',
     [
+        check('empresaId', 'Debe ingresar empresaId').not().isEmpty(),
+        check('includemyself', 'Debe ingresar includemyself').not().isEmpty(),
         validarJWT
     ],
 
     getAllUsersByCompany
 );
+
 
 /**
  * @openapi

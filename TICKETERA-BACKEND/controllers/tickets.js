@@ -205,7 +205,6 @@ const deleteTicket = async (req, res = response) => {
 
 const getAllTicketsByFilter = async (req, res = response) => {
 
-    //TODO: Instancia de los nuevos parámetros de endpoint
     const { username, titulo, causaRaiz, ticketPartner, empresaId, productoId, responsableId, numeroId, prioridad, estado, tipoFalla, dateFrom, dateTo, tipoTicket, offset, orderBy, orderByType, limit } = req.body;
     let function_enter_time = new Date();
     let empresaIdAux;

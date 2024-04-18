@@ -236,10 +236,31 @@ const createDBHiddenNote = (ticket_id, nota, username) => {
     return return_promise;
 }
 
-const getAllDBUsersByCompany = (username, rol) => {
+const getAllDBUsers = (username, rol) => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users($1, $2);", [rol, username], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+const getAllDBUsersByCompany = (username, tipoUsuario, empresaId, includemyself) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users_by_company($1, $2, $3, $4);", [username, tipoUsuario, empresaId, includemyself], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -291,6 +312,7 @@ module.exports = {
     createDBHiddenNote,
     getDBTicketActionByTicketId,
     createDBExtraHours,
+    getAllDBUsers,
     getAllDBUsersByCompany,
     getDBTicketDetail
 }

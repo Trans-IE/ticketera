@@ -10,7 +10,7 @@ const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../cont
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsersByCompany, getTicketDetail } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -315,10 +315,21 @@ router.delete(
 );
 
 router.post(
-    '/getAllUsersByCompany',
+    '/getAllUsers',
     [
         check('username', 'El rol es obligatorio').not().isEmpty(),
         check('rol', 'El rol es obligatorio').not().isEmpty(),
+    ],
+
+    getAllUsers
+);
+
+router.post(
+    '/getAllUsersByCompany',
+    [
+        check('username', 'El username es obligatorio').not().isEmpty(),
+        check('empresaId', 'Debe ingresar empresaId').not().isEmpty(),
+        check('includemyself', 'Debe ingresar includemyself').not().isEmpty(),
     ],
 
     getAllUsersByCompany

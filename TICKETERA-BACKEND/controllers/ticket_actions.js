@@ -1,9 +1,10 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsersByCompany, getDBTicketDetail } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail } = require('../databases/queries_ticket_actions');
+const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
+const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
-const { getDBUserIdByUser } = require('../databases/queries_users');
 
 const setResponsible = async (req, res = response) => {
 
@@ -404,13 +405,54 @@ const setHiddenNote = async (req, res = response) => {
     }
 }
 
-const getAllUsersByCompany = async (req, res = response) => {
+const getAllUsers = async (req, res = response) => {
     const { username, rol } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getAllUsers.`)
+    try {
+        getAllDBUsers(username, rol)
+            .then(result => {
+                logger.info(`<== getAllUsers`);
+                loggerCSV.info(`getAllUsers, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de usuarios obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllUsers => getAllDBUsers error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllUsers error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de usuarios.'
+        });
+    }
+}
+
+const getAllUsersByCompany = async (req, res = response) => {
+    const { username, empresaId, includemyself } = req.body;
+
+    let empresaIdAux;
+
+    const tipoUsuario = await getDBTypeUserByUser(username);
+
+    if (tipoUsuario == 2) {
+        empresaIdAux = await getDBCompanyByUser(username);
+        includemyself = 0;
+    } else {
+        empresaIdAux = empresaId;
+    }
 
     let function_enter_time = new Date();
     logger.info(`==> getAllUsersByCompany.`)
     try {
-        getAllDBUsersByCompany(username, rol)
+        getAllDBUsersByCompany(username, tipoUsuario, empresaId, includemyself)
             .then(result => {
                 logger.info(`<== getAllUsersByCompany`);
                 loggerCSV.info(`getAllUsersByCompany, ${(new Date() - function_enter_time) / 1000}`)
@@ -425,7 +467,7 @@ const getAllUsersByCompany = async (req, res = response) => {
             })
 
     } catch (error) {
-        logger.error(`getAllDBUsersByCompany error=> ${error}`);
+        logger.error(`getAllUsers error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
@@ -476,6 +518,7 @@ module.exports = {
     setAutoEvaluation,
     setFilePath,
     getTicketActionByTicketId,
+    getAllUsers,
     getAllUsersByCompany,
     setHiddenNote,
     setExtraHours,
