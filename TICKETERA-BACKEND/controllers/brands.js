@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getAllDBBrands, createDBBrand, updateDBBrand, deleteDBBrand } = require('../databases/queries_brands');
+const { getAllDBBrands, createDBBrand, updateDBBrand, deleteDBBrand, getDBBrandsByCompany } = require('../databases/queries_brands');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -168,6 +168,39 @@ const deleteBrand = async (req, res = response) => {
     }
 }
 
+const getBrandsByCompany = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { username, company } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getBrandsByCompany. username:${username} company:${company}`)
+    try {
+        getDBBrandsByCompany(username, company)
+            .then(result => {
+                logger.info(`<== getBrandsByCompany`);
+                loggerCSV.info(`getBrandsByCompany, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de marcas obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getBrandsByCompany => getDBBrandsByCompany error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getDBTicketActionByTicketId : params=> ticket_id=> ${ticket_id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de acciones.'
+        });
+    }
+}
+
 //TODO: //==> Otra posibilidad de hacer la llamada más reducida:
 
 // const deleteBrandTest = async (req, res = response) => {
@@ -240,5 +273,6 @@ module.exports = {
     getAllBrands,
     createBrand,
     updateBrand,
-    deleteBrand
+    deleteBrand,
+    getBrandsByCompany
 }

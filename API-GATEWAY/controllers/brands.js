@@ -243,9 +243,65 @@ const deleteBrand = async (req, res = response) => {
     }
 }
 
+const getBrandsByCompany = async (req, res = response) => {
+    const { label: username } = req;
+    const { company } = req.body;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> getBrandsByCompany - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getBrandsByCompany";
+
+    try {
+        logger.info(`getBrandsByCompany company:${company}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { username, company }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getBrandsByCompany - username:${username}`);
+                loggerCSV.info(`getBrandsByCompany,${(new Date() - function_enter_time) / 1000}`)
+
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Listado de marcas obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getBrandsByCompany : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getBrandsByCompany`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getBrandsByCompany : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
     createBrand,
     updateBrand,
     deleteBrand,
-    getAllBrands
+    getAllBrands,
+    getBrandsByCompany
 }

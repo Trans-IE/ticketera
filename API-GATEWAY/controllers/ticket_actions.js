@@ -547,6 +547,7 @@ const getTicketActionByTicketId = async (req, res = response) => {
     }
 }
 
+
 const setHiddenNote = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, nota } = req.body;

@@ -4,7 +4,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
-const { createBrand, deleteBrand, updateBrand, getAllBrands } = require('../controllers/brands');
+const { createBrand, deleteBrand, updateBrand, getAllBrands, getBrandsByCompany } = require('../controllers/brands');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllStates } = require('../controllers/states');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
@@ -13,7 +13,7 @@ const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
-
+const { getProjectByCompany } = require('../controllers/projects');
 const router = Router();
 
 /**
@@ -1741,6 +1741,123 @@ router.post(
 
     getTicketActionByTicketId
 );
+
+/**
+ * @openapi
+ * /api/entities/getProjectByCompany:
+ *   post:
+ *     summary: Obtener información de todos los proyectos por compañía en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los proyectos por compañía en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Projects]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               company:
+ *                 type: integer
+ *                 description: Id de la companía.
+ *                 example: 3
+ *             required:
+ *               - company
+ *     responses:
+ *       200:
+ *         description: Información de todas las acciones de un ticket por id de ticket obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 projects:
+ *                   type: array
+ *                   description: Detalles de todas las acciones por ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getProjectByCompany',
+    [
+        check('company', 'Debe ingresar un company').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getProjectByCompany
+);
+
+/**
+ * @openapi
+ * /api/entities/getBrandsByCompany:
+ *   post:
+ *     summary: Obtener información de todas las marcas por compañía en el sistema
+ *     description: Este endpoint permite obtener información detallada de todas las marcas por compañía en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Brands]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               company:
+ *                 type: integer
+ *                 description: Id de la compañía.
+ *                 example: 3
+ *             required:
+ *               - company
+ *     responses:
+ *       200:
+ *         description: Información de todas las acciones de un ticket por id de ticket obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 brands:
+ *                   type: array
+ *                   description: Detalles de todas las acciones por ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getBrandsByCompany',
+    [
+        check('company', 'Debe ingresar un company').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getBrandsByCompany
+);
+
 
 /**
  * @openapi

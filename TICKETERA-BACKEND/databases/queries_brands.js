@@ -84,11 +84,32 @@ const updateDBBrand = (id, nombre) => {
     return return_promise;
 }
 
+const getDBBrandsByCompany = (username, company) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from public.f_ticketera_get_brands_by_company($1, $2);', [username, company], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     getAllDBBrands,
     createDBBrand,
     deleteDBBrand,
-    updateDBBrand
-
+    updateDBBrand,
+    getDBBrandsByCompany
 }
 

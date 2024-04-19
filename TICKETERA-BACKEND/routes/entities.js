@@ -6,9 +6,10 @@ const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAl
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
-const { getAllBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
+const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany } = require('../controllers/brands');
 const { getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
+const { getProjectsByCompany } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
@@ -661,6 +662,26 @@ router.post(
     ],
 
     getFailTypes
+);
+
+router.post(
+    '/getBrandsByCompany',
+    [
+        check('username', 'Debe ingresar un username').not().isEmpty(),
+        check('company', 'Debe ingresar un company').not().isEmpty(),
+    ],
+
+    getBrandsByCompany
+);
+
+router.post(
+    '/getProjectByCompany',
+    [
+        check('username', 'Debe ingresar un username').not().isEmpty(),
+        check('company', 'Debe ingresar un company').not().isEmpty(),
+    ],
+
+    getProjectsByCompany
 );
 
 
