@@ -2667,11 +2667,11 @@ router.put(
  *               nroSerie:
  *                 type: string
  *                 description: Número de serie asociado al ticket.
- *                 example: "SN123"
+ *                 example: ""
  *               nodo:
  *                 type: string
  *                 description: Información sobre el nodo asociado al ticket.
- *                 example: "123"
+ *                 example: ""
  *               esProyecto:
  *                 type: integer
  *                 description: Indica si el ticket está asociado a un proyecto.
@@ -2679,19 +2679,19 @@ router.put(
  *               padreId:
  *                 type: integer
  *                 description: ID del ticket padre.
- *                 example: 123
+ *                 example: 0
  *               preventaId:
  *                 type: integer
  *                 description: ID de la preventa asociada al ticket.
- *                 example: 456
+ *                 example: 0
  *               vendedorId:
  *                 type: integer
  *                 description: ID del vendedor asociado al ticket.
- *                 example: 789
+ *                 example: 0
  *               tkEnPartner:
- *                 type: integer
+ *                 type: string
  *                 description: ID del ticket asociado al partner.
- *                 example: 987
+ *                 example: ""
  *               array_user_id_notif:
  *                 type: string
  *                 description: Array para notificaciones.
@@ -2746,14 +2746,10 @@ router.post(
         check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
         check('title', 'El title no puede estar vacío').notEmpty(),
         check('description', 'La description no puede estar vacía').notEmpty(),
-        check('nroSerie', 'El nroSerie no puede estar vacío').notEmpty(),
-        check('nodo', 'El nodo no puede estar vacío').notEmpty(),
         check('esProyecto', 'El esProyecto no puede estar vacío').notEmpty(),
         check('padreId', 'El padreId no puede estar vacío').notEmpty(),
         check('preventaId', 'El preventaId no puede estar vacío').notEmpty(),
         check('vendedorId', 'El vendedorId no puede estar vacío').notEmpty(),
-        check('tkEnPartner', 'El tkEnPartner no puede estar vacío').notEmpty(),
-        check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
 
         validarCampos,
         validarJWT
