@@ -97,7 +97,8 @@ const lightTheme = createTheme({
       main: '#eee',
       light: '#ddd',
       border: '#ccc ',
-      background: '#dadada'
+      background: '#dadada',
+      reddishBackground: '#ffdcdc'
     },
     primary: {
       light: '#000000',
@@ -115,7 +116,8 @@ const lightTheme = createTheme({
     },
     text: {
       primary: "#333",
-      secondary: "#fff"
+      secondary: "#fff",
+      tertiary: "#555"
 
     },
     mode: 'light',
@@ -196,7 +198,8 @@ const darkTheme = createTheme({
       main: '#222325',
       light: '#313235',
       border: '#333',
-      background: '#1C1D1F'
+      background: '#1C1D1F',
+      reddishBackground: '#322325'
     },
     primary: {
       // #335c7b azul marino mas claro  
@@ -225,7 +228,8 @@ const darkTheme = createTheme({
       // textPrimary: negro #000000
       primary: "#ddd",
       // textSecondary: azul claro #3DADD9
-      secondary: "#fff"
+      secondary: "#fff",
+      tertiary: "#bbb"
 
     },
     mode: 'dark',

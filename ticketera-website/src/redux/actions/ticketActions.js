@@ -3,23 +3,34 @@ import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
 import { getConfigData, getURLFromConfigByName } from '../../helpers/getConfigFunctions';
 import { ticketGridDataLoadedRedux } from '../slices/ticketSlice';
 
-export const getTickets = (offset) => {
+
+
+export const getTicketsByFilter = (offset, filters) => {
 
     return async (dispatch, getState) => {
-
+        console.log('FILTROS', filters)
         try {
             const { config } = getState().auth;
             let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllTicketsByFilter");
             const resp = await fetchConToken(url, {
-                "pCadenaSearch": "ESTADO:0;TPOESTADO:0;",
+                "titulo": filters.title,
+                "causaRaiz": filters.cause,
+                "ticketPartner": "",
+                "empresaId": filters.company === '' ? 3 : filters.company,
+                "productoId": filters.product === '' ? -1 : filters.product,
+                "responsableId": filters.responsible === '' ? -1 : filters.responsible,
+                "numeroId": filters.number ? filters.number : -1,
+                "prioridad": filters.priority === '' ? -1 : filters.priority,
+                "estado": filters.state === '' ? -1 : filters.state,
+                "tipoFalla": filters.failType === '' ? -1 : filters.failType,
+                "dateFrom": "",
+                "dateTo": "",
+                "tksinac": "",
                 "offset": offset,
-                "estadoId": "0",
-                "prioridadId": "-1",
-                "tipoId": "-1",
-                "tipoTicket": "-1",
+                "tipoTicket": filters.type === '' ? -1 : filters.type,
                 "orderBy": "",
                 "orderByType": "",
-                "limit": "10"
+                "limit": 25
 
             }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
@@ -40,7 +51,47 @@ export const getTickets = (offset) => {
 
     }
 }
-7
+
+export const createNewTicket = (ticket) => {
+
+    return async (dispatch, getState) => {
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/createTicket");
+            const resp = await fetchConToken(url, {
+                "empresaId": ticket.companyId,
+                "contratoId": ticket.contractId,
+                "productoId": ticket.productId,
+                "tipoFalla": ticket.typeId,
+                "description": ticket.description,
+                "title": ticket.title,
+                "nroSerie": ticket.serialNumber ? ticket.serialNumber : "",
+                "nodo": ticket.node ? ticket.node : "",
+                "esProyecto": ticket.isProyect ? 1 : 0,
+                "padreId": ticket.asociatedProyectId ? ticket.asociatedProyectId : 0,
+                "preventaId": ticket.presaleId ? ticket.presaleId : 0,
+                "vendedorId": ticket.vendorId ? ticket.vendedorId : 0,
+                "tkEnPartner": ticket.partnerTicket ? ticket.partnerTicket : "",
+                "array_user_id_notif": ""
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
 export const getTicketDetail = (ticketId) => {
 
     return async (dispatch, getState) => {
@@ -149,13 +200,14 @@ export const getAllUsersByCompany = () => {
     }
 }
 
-export const getAllPriorities = () => {
+
+export const getAllFailTypes = () => {
 
     return async (dispatch, getState) => {
 
         try {
             const { config } = getState().auth;
-            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllPrioritys");
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getFailTypes");
             const resp = await fetchConToken(url, {}, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();
@@ -175,13 +227,13 @@ export const getAllPriorities = () => {
     }
 }
 
-export const getAllCompanies = () => {
+export const getAllTicketTypes = () => {
 
     return async (dispatch, getState) => {
 
         try {
             const { config } = getState().auth;
-            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllCompanies");
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getTicketTypes");
             const resp = await fetchConToken(url, {}, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();

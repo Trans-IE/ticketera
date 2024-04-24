@@ -26,13 +26,13 @@ export const DashboardRoutes = () => {
     // ADMINISTRADOR 
     return (
       <Routes>
-       {/*  <Route path="tickets" element={<MainScreen />} /> */}
+        {/*  <Route path="tickets" element={<MainScreen />} /> */}
 
 
         <Route path="/tickets">
-            <Route index element={<MainScreen />} />
-            <Route path=":id" element={ <TicketDetail /> } />
-   
+          <Route index element={<MainScreen />} />
+          <Route path=":id" element={<TicketDetail />} />
+
         </Route>
 
         {/* <Route path="tickets/:id" element={ <TicketDetail /> } />
@@ -45,6 +45,12 @@ export const DashboardRoutes = () => {
   } else {
     return (
       <Routes>
+        <Route path="/" element={<Navigate to="/tickets" />} />
+        <Route path="/tickets">
+          <Route index element={<MainScreen />} />
+          <Route path=":id" element={<TicketDetail />} />
+
+        </Route>
         <Route path="error" element={<InvalidSession />} />
         <Route path="/" element={<Navigate to="/error" />} />
       </Routes>

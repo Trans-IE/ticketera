@@ -286,7 +286,7 @@ export const GridViewBigData = ({
   data,
   handleGridChangePage,
   resetPagination,
-  initRowsPerPage = 50,
+  initRowsPerPage = 25,
   gridDataHasMorePages,
   gridSelectionOnClick = () => { },
   handleColSelectorOnChange,
@@ -314,6 +314,7 @@ export const GridViewBigData = ({
 
   const { height, width } = useWindowDimensions();
   const propsStyles = { maxHeight: maxHeight || (height * 82) / 100 };
+  const classes = useStyles(propsStyles);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(initRowsPerPage);
@@ -365,10 +366,12 @@ export const GridViewBigData = ({
 
   return (
     <>
-      <TableContainer style={{ borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border }}>
+      <TableContainer className={classes.tcontainer} style={{ borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border }}>
         <Table
+          stickyHeader
           aria-label="listado de GridViewBigData"
-          sx={{ minWidth: 650 }}
+          sx={{ minWidth: 650, backgroundColor: theme.palette.background.dark }}
+          style={{ backgroundColor: theme.palette.background.dark }}
         >
           <TableHead style={{ backgroundColor: theme.palette.background.dark }} >
             <TableRow>
@@ -441,7 +444,7 @@ export const GridViewBigData = ({
       <PaginationTheme
         nextIconButtonProps={{ disabled: !gridDataHasMorePages }}
         // backIconButtonProps={{ disabled: true }}
-        colSpan={10}
+        colSpan={25}
         labelRowsPerPage={""}
         rowsPerPageOptions={[]}
         component="div"

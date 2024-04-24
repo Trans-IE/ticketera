@@ -41,7 +41,7 @@ export const UpdatedMessage = ({ message, extra }) => {
     return (
         <div key={message.id}
             style={{
-                backgroundColor: message.tipo_accion === ticketType.Hours ? theme.palette.background.main : theme.palette.background.light,
+                backgroundColor: message.tipo_accion === ticketType.Hours ? theme.palette.background.reddishBackground : theme.palette.background.light,
                 border: message.tipo_accion === ticketType.Hours ? '1px solid' : 'none',
                 borderColor: theme.palette.background.border,
                 borderRadius: '15px',

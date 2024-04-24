@@ -14,10 +14,12 @@ import { useTheme } from '@mui/styles';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import { toast } from "sonner";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllPriorities, getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages } from '../../redux/actions/ticketActions';
+import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages } from '../../redux/actions/ticketActions';
 import { ticketType } from '../../helpers/constants';
 import { NotesMessage } from '../messages/NotesMessage';
 import { UpdatedMessage } from '../messages/UpdatedMessage';
+import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
+import { getAllResponsibles } from '../../redux/actions/responsibleActions';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
@@ -36,16 +38,18 @@ export const TicketDetail = ({ ticketID }) => {
     const [selectedState, setSelectedState] = useState(0)
 
     useEffect(() => {
-        const currentTicket = ticketsGridDataList.find(obj => obj.id === ticketID);
-        console.log('CURRENT', currentTicket)
-        setSelectedTicket(currentTicket ? currentTicket : {})
-        setSelectedPriority(currentTicket.prioridad)
-        setSelectedState(currentTicket.estadoid)
-        setSelectedResponsible(currentTicket.responsable_id)
+
+
 
         dispatch(getTicketDetail(ticketID)).then(res => {
             if (res.ok) {
                 setTicketDetail(res.value[0])
+                console.log(res.value[0])
+
+                setSelectedTicket(res.value[0].t_id)
+                setSelectedPriority(res.value[0].t_prioridadid)
+                setSelectedState(res.value[0].t_estado)
+                setSelectedResponsible(res.value[0].t_responsable_id)
             }
         })
 
@@ -55,14 +59,14 @@ export const TicketDetail = ({ ticketID }) => {
             }
         })
 
-        dispatch(getAllUsersByCompany()).then(res => {
+        dispatch(getAllResponsibles()).then(res => {
             if (res.ok) {
                 res.value.sort(compareByName)
                 setResponsibles(res.value)
             }
         })
 
-        dispatch(getAllPriorities()).then(res => {
+        dispatch(getAllTicketPriorities()).then(res => {
             if (res.ok) {
                 setPriorities(res.value)
             }
@@ -258,7 +262,7 @@ export const TicketDetail = ({ ticketID }) => {
                                 {ticketDetail.t_titulo}
                             </h3>
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                                <div style={{ width: '100px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Prioridad:
                                 </div>
                                 <div >
@@ -276,7 +280,7 @@ export const TicketDetail = ({ ticketID }) => {
                                 </div>
                             </div >
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                                <div style={{ width: '100px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Responsable:
                                 </div>
                                 <div >
@@ -292,7 +296,7 @@ export const TicketDetail = ({ ticketID }) => {
                                 </div>
                             </div>
                             <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', marginBottom: '10px', alignItems: 'center' }}>
-                                <div style={{ width: '100px', color: '#bbb' }}>
+                                <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Estado:
                                 </div>
                                 <div>
@@ -309,7 +313,7 @@ export const TicketDetail = ({ ticketID }) => {
 
                             </div>
                             <div style={{ minHeight: '40px', paddingBottom: '10px', }}>
-                                <span style={{ paddingRight: '20px', color: '#bbb' }}>
+                                <span style={{ paddingRight: '20px', color: theme.palette.text.tertiary }}>
                                     Descripcion:
                                 </span>
                                 <div style={{ overflow: 'auto', maxHeight: '30vh' }}>

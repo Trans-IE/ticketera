@@ -7,6 +7,13 @@ import ReduxThunk from 'redux-thunk';
 import userSlice from "./slices/userSlice";
 import userInterfaceSlice from "./slices/userInterfaceSlice";
 import ticketSlice from "./slices/ticketSlice";
+import prioritySlice from "./slices/prioritySlice";
+import stateSlice from "./slices/stateSlice";
+import responsibleSlice from "./slices/responsibleSlice";
+import companySlice from "./slices/companySlice";
+import productSlice from "./slices/productSlice";
+import failTypeSlice from "./slices/failTypeSlice";
+import contractSlice from "./slices/contractSlice";
 
 const loggerMiddleware = createLogger();
 const devTools = ReactIsInDevelopmentMode() ? composeWithDevTools(applyMiddleware(ReduxThunk, loggerMiddleware)) : null;
@@ -18,7 +25,13 @@ export const store = configureStore(
       auth: userSlice,
       ui: userInterfaceSlice,
       ticket: ticketSlice,
-      
+      priority: prioritySlice,
+      state: stateSlice,
+      responsible: responsibleSlice,
+      company: companySlice,
+      product: productSlice,
+      failType: failTypeSlice,
+      contract: contractSlice,
     },
     devTools: devTools
   }
