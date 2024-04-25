@@ -9,7 +9,7 @@ const setState = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, estado } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setState - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setState";
 
@@ -70,7 +70,7 @@ const setPriority = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, prioridad } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setPriority - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setPriority";
 
@@ -313,7 +313,7 @@ const setHours = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, horas, fecha_accion_hs } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setHours - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHours";
 
@@ -374,7 +374,7 @@ const setExtraHours = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, id } = req.body;
     let function_enter_time = new Date();
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setHours - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHours";
 
@@ -436,7 +436,7 @@ const setFilePath = async (req, res = response) => {
     const { ticket_id, archivo } = req.body;
     let function_enter_time = new Date();
 
-    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ}`;
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setFilePath";
 
     try {
