@@ -9,10 +9,15 @@ import { getAllBrands, getBrandsByCompany, getProductsByBrand } from "../../redu
 import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
 import { getProjectsByCompany } from "../../redux/actions/projectActions";
 import { createNewTicket } from "../../redux/actions/ticketActions";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
+import { styled } from '@mui/material/styles';
+import { arrayTabsClose, editTicketTabShownChange } from "../../redux/actions/userInterfaceActions";
 
 export const NewTicketScreen = () => {
     const theme = useTheme();
     const dispatch = useDispatch()
+    const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
     const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
     const { companiesDataList } = useSelector(state => state.company, shallowEqual);
@@ -23,31 +28,40 @@ export const NewTicketScreen = () => {
     const [creatorDataList, setCreatorDataList] = useState([])
     const [projectsDataList, setProjectsDataList] = useState([])
 
-    const [empresa, setEmpresa] = useState()
-    const [contract, setContract] = useState()
-    const [responsible, setResponsible] = useState()
-    const [type, setType] = useState()
-    const [product, setProduct] = useState()
-    const [brand, setBrand] = useState()
-    const [creator, setCreator] = useState()
+    const [empresa, setEmpresa] = useState('')
+    const [contract, setContract] = useState('')
+    const [responsible, setResponsible] = useState('')
+    const [type, setType] = useState('')
+    const [product, setProduct] = useState('')
+    const [brand, setBrand] = useState('')
+    const [creator, setCreator] = useState('')
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
     const [node, setNode] = useState('')
     const [serialNumber, setSerialNumber] = useState('')
-    const [isProyect, setIsProyect] = useState(false)
+    const [isProject, setisProject] = useState(false)
     const [project, setProject] = useState('')
     const [partnerTicket, setPartnerTicket] = useState()
-    const [noContract, setNoContract] = useState(false)
+    const [vendor, setVendor] = useState()
+    const [preSale, setPreSale] = useState()
+
+    const StyledTextField = styled((props) => <TextField {...props} />)(
+        ({ theme }) => ({
+            '& label': {
+                paddingLeft: '14px',
+                color: theme.palette.text.primary
+            },
+            margin: '10px 0'
+        }),
+    );
 
     useEffect(() => {
+        console.log(arrayTabs)
         if (companiesDataList.length === 1) {
             setEmpresa(companiesDataList[0].id)
 
             dispatch(getResponsiblesByCompany(companiesDataList[0].id, 1)).then(res => {
-                if (res.ok) {
-                    console.log(res)
-                    setCreatorDataList(res.value)
-                }
+                setCreatorDataList(res)
             })
         }
 
@@ -76,10 +90,7 @@ export const NewTicketScreen = () => {
             })
 
             dispatch(getResponsiblesByCompany(empresa, 1)).then(res => {
-                if (res.ok) {
-                    console.log(res)
-                    setCreatorDataList(res.value)
-                }
+                setCreatorDataList(res)
             })
 
             dispatch(getProjectsByCompany(empresa)).then(res => {
@@ -131,14 +142,22 @@ export const NewTicketScreen = () => {
             title: title,
             node: node,
             serialNumber: serialNumber,
-            isProyect: isProyect,
+            isProject: isProject,
             creator: creator,
-            responsible: responsible
+            responsible: responsible,
+            presaleId: isProject ? preSale : 0,
+            vendorId: isProject ? vendor : 0
         }
         dispatch(createNewTicket(ticket)).then(res => {
-            console.log(res)
+            console.log('RES', res)
+            toast.success('Ticket creado con éxito')
+            goToTicketList()
         })
-        console.log('TICKET', ticket)
+    }
+
+    const goToTicketList = () => {
+        dispatch(arrayTabsClose(0))
+        dispatch(editTicketTabShownChange(-1));
     }
 
     return (
@@ -151,31 +170,27 @@ export const NewTicketScreen = () => {
                     </div>
 
                     <Grid container spacing={4}>
-                        <Grid item spacing={2} xs={6}>
+                        <Grid item xs={6}>
                             <Grid container spacing={2}>
-                                <Grid item spacing={2} xs={6}>
+                                <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel id="demo-simple-select-label">Empresa</InputLabel>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Empresa</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={empresa}
                                             label="Empresa"
                                             variant="standard"
                                             onChange={(e) => { setEmpresa(e.target.value) }}
                                         >
                                             {companiesDataList.map((company) => (
-                                                <MenuItem value={company.id}>{company.nombre}</MenuItem>
+                                                <MenuItem key={company.id} value={company.id}>{company.nombre}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item spacing={2} xs={6}>
+                                <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel id="demo-simple-select-label" disabled={contractDataList.length === 0 && noContract}>Contrato</InputLabel>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={contractDataList.length === 0}>Contrato</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={contract}
                                             variant="standard"
                                             label="Contrato"
@@ -184,7 +199,7 @@ export const NewTicketScreen = () => {
                                         >
                                             <MenuItem value={-1}>Sin Contrato</MenuItem>
                                             {contractDataList?.map((contract) => (
-                                                <MenuItem value={contract.id}>{contract.ejecutivo_id}</MenuItem>
+                                                <MenuItem key={contract.id} value={contract.id}>{contract.id}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -192,10 +207,8 @@ export const NewTicketScreen = () => {
                             </Grid>
 
                             <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel id="demo-simple-select-label" disabled={creatorDataList.length === 0}>Creador</InputLabel>
+                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={creatorDataList.length === 0}>Creador</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
                                     value={creator}
                                     label="Creador"
                                     variant="standard"
@@ -203,18 +216,16 @@ export const NewTicketScreen = () => {
                                     onChange={(e) => { setCreator(e.target.value) }}
                                 >
                                     {creatorDataList?.map((creator) => (
-                                        <MenuItem value={creator.id}>{creator.nombre_completo}</MenuItem>
+                                        <MenuItem key={creator.id} value={creator.id}>{creator.nombre_completo}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
-                            <TextField fullWidth label="Numero de serie" variant="standard" style={{ margin: '10px 0' }} value={serialNumber} onChange={e => setSerialNumber(e.target.value)} />
+                            <StyledTextField fullWidth label="Numero de serie" variant="standard" value={serialNumber} onChange={e => setSerialNumber(e.target.value)} />
                             <Grid container spacing={2}>
                                 <Grid item xs={8}>
                                     <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel id="demo-simple-select-label">Proyecto asociado</InputLabel>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Proyecto asociado</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={empresa}
                                             variant="standard"
                                             label="Proyecto asociado"
@@ -222,26 +233,24 @@ export const NewTicketScreen = () => {
                                         >
                                             <MenuItem value={10}>Ninguno</MenuItem>
                                             {projectsDataList?.map((project) => (
-                                                <MenuItem value={project.id}>{project.nombre}</MenuItem>
+                                                <MenuItem key={project.id} value={project.id}>{project.nombre}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <FormControlLabel control={<Checkbox checked={isProyect} onChange={() => { setIsProyect(!isProyect) }} />} label="Proyecto" style={{ margin: '10px 0' }} />
+                                    <FormControlLabel control={<Checkbox checked={isProject} onChange={() => { setisProject(!isProject) }} />} label="Proyecto" style={{ margin: '10px 0' }} />
                                 </Grid>
                             </Grid>
-                            <TextField fullWidth label="Ticket en partner" variant="standard" style={{ margin: '10px 0' }} />
+                            <StyledTextField fullWidth label="Ticket en partner" variant="standard" value={partnerTicket} onChange={e => setPartnerTicket(e.target.value)} />
 
                         </Grid>
                         <Grid item xs={6}>
                             <Grid container spacing={2}>
-                                <Grid item xs={6} spacing={2}>
+                                <Grid item xs={6} >
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel id="demo-simple-select-label" disabled={brandsDataList.length === 0}>Marca</InputLabel>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={brandsDataList.length === 0}>Marca</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={brand}
                                             label="Marca"
                                             variant="standard"
@@ -249,17 +258,15 @@ export const NewTicketScreen = () => {
                                             onChange={(e) => { setBrand(e.target.value) }}
                                         >
                                             {brandsDataList.map(brand => (
-                                                <MenuItem value={brand.id}>{brand.nombre}</MenuItem>
+                                                <MenuItem key={brand.id} value={brand.id}>{brand.nombre}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel id="demo-simple-select-label" disabled={productsDataList.length === 0}>Producto</InputLabel>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={productsDataList.length === 0}>Producto</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={product}
                                             label="Producto"
                                             variant="standard"
@@ -267,7 +274,7 @@ export const NewTicketScreen = () => {
                                             disabled={productsDataList.length === 0}
                                         >
                                             {productsDataList.map(product => (
-                                                <MenuItem value={product.id}>{product.nombre}</MenuItem>
+                                                <MenuItem key={product.id} value={product.id}>{product.nombre}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -277,48 +284,82 @@ export const NewTicketScreen = () => {
 
 
                             <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Tipo</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
                                     value={type}
                                     variant="standard"
                                     label="Tipo"
                                     onChange={(e) => { setType(e.target.value) }}
                                 >
                                     {failTypesDataList.map(type => (
-                                        <MenuItem value={type.id}>{type.descripcion}</MenuItem>
+                                        <MenuItem key={type.id} value={type.id}>{type.descripcion}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
-                            <TextField fullWidth label="Nodo" variant="standard" value={node} onChange={e => setNode(e.target.value)} style={{ margin: '10px 0' }} />
+                            <StyledTextField fullWidth label="Nodo" variant="standard" value={node} onChange={e => setNode(e.target.value)} />
 
                             <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel id="demo-simple-select-label">Responsable</InputLabel>
+                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Responsable</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
                                     value={responsible}
                                     variant="standard"
                                     label="Responsable"
                                     onChange={(e) => { setResponsible(e.target.value) }}
                                 >
                                     {responsiblesDataList.map(responsible => (
-                                        <MenuItem value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                        <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
 
                         </Grid>
                     </Grid>
-                    <div style={{ margin: '40px 0' }}>
-                        <TextField variant="standard" required fullWidth label="Titulo" style={{ marginBottom: '20px' }} value={title} onChange={e => setTitle(e.target.value)} />
-                        <TextField variant="standard" required fullWidth multiline minRows={2} maxRows={6} label="Descripcion" value={description} onChange={e => { setDescription(e.target.value) }} />
+                    {
+                        isProject ?
+                            <Grid container spacing={2}>
+                                <Grid item xs={6} >
+                                    <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Preventa</InputLabel>
+                                        <Select
+                                            value={preSale}
+                                            label="Preventa"
+                                            variant="standard"
+                                            onChange={(e) => { setPreSale(e.target.value) }}
+                                        >
+                                            {responsiblesDataList.map(responsible => (
+                                                <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Vendedor</InputLabel>
+                                        <Select
+                                            value={vendor}
+                                            label="Vendedor"
+                                            variant="standard"
+                                            onChange={(e) => { setVendor(e.target.value) }}
+                                        >
+                                            {responsiblesDataList.map(responsible => (
+                                                <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+
+                            </Grid>
+                            : <></>
+                    }
+
+                    <div style={{ margin: '20px 0' }}>
+                        <StyledTextField variant="standard" required fullWidth label="Titulo" style={{ marginBottom: '20px' }} value={title} onChange={e => setTitle(e.target.value)} />
+                        <TextField variant="standard" style={{ margin: '10px 0' }} InputLabelProps={{ style: { paddingLeft: '14px', color: theme.palette.text.primary } }} required fullWidth multiline minRows={2} maxRows={6} label="Descripcion" value={description} onChange={e => { setDescription(e.target.value) }} />
                     </div>
                 </div>
 
                 <div style={{ alignSelf: 'flex-end' }}>
-                    <ButtonTrans variant='contained'>Cancelar</ButtonTrans>
+                    <ButtonTrans variant='contained' onClick={goToTicketList}>Cancelar</ButtonTrans>
                     <ButtonTrans variant='contained' disabled={isFormInvalid()} type="submit" marginLeft onClick={handleCreateNewTicket}>Aceptar</ButtonTrans>
                 </div>
             </form>

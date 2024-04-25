@@ -10,10 +10,12 @@ import { TabItem } from './TabItem';
 import { useTheme } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
-import { editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
+import { arrayTabsClose, editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
 import { NewTicketScreen } from '../ticket/NewTicketScreen';
 import { object } from 'prop-types';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const TabsScreen = () => {
 
@@ -42,7 +44,13 @@ export const TabsScreen = () => {
     tabNew.id = 0;
     tabNew.index = arrayTabs.length + 1;
 
-    dispatch(arrayTabsAddNew(tabNew));
+    dispatch(arrayTabsAddNew(tabNew))
+  }
+
+  const handleCloseTab = (e, index) => {
+    console.log('Cerrando...')
+    e.stopPropagation();
+    dispatch(arrayTabsClose(index))
   }
 
 
@@ -76,33 +84,37 @@ export const TabsScreen = () => {
 
   return (
     <Box sx={{ width: '95vw' }}>
-      <TabContext value={value}>
+      <TabContext value={value.toString()}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Stack direction="row"   >
             <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example">
-
               {
-
                 arrayTabs.map((objTab, i) => {
-                  //  console.log(columns[colIdx])
                   return (
-                    <StyledTab key={objTab.index} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
+                    // <StyledTab key={objTab.index} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
+                    <StyledTab key={objTab.index} index={i} value={i} onClick={() => { handleClickTab(objTab) }} label={
+                      <span style={{ display: 'flex', alignItems: 'center' }}>
+                        {objTab.title}
+                        <IconButton sx={{ margin: 0, padding: 0, marginLeft: '10px' }} component="span" onClick={(e) => { handleCloseTab(e, objTab.index) }}>
+                          <CloseIcon sx={{ fontSize: 18, color: 'gray' }} />
+                        </IconButton>
+                      </span>
+                    } />
+
                   );
                 })
 
               }
-
             </Tabs>
             <StyledIconTab value={0} icon={<AddCircleIcon color="primary" />} onClick={handleCreateNewTicket} />
           </Stack>
         </Box>
         {
           arrayTabs.map((objTab, i) => {
-            console.log('objTab', objTab)
             return (
               editTicketTabShown === -1 ?
-                <></> :
-                <TabPanel key={objTab.index} index={i} value={i} style={{ padding: 0, display: (editTicketTabShown === -1) ? 'none' : 'block' }}>
+                <div key={objTab.index}></div> :
+                <TabPanel key={objTab.index} index={i} value={i.toString()} style={{ padding: 0, display: (editTicketTabShown === -1) ? 'none' : 'block' }}>
                   <TabItem ticketID={objTab.id} />
                 </TabPanel>
             );

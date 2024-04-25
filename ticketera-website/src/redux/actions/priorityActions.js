@@ -30,3 +30,32 @@ export const getAllTicketPriorities = () => {
 
     }
 }
+
+export const setTicketPriority = (ticketId, priority) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setPriority");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "prioridad": priority
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.ok
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}

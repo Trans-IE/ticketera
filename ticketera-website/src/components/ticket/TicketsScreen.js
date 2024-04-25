@@ -201,6 +201,9 @@ export const TicketsScreen = () => {
       if (res.value.length < 25) {
         setHasMorePages(false)
       }
+      else {
+        setHasMorePages(true)
+      }
     })
   }, [actualOffsetTickets, filters, responsiblesDataList])
 

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    
+
     // mantiene el indice del tab de edicion actualimente en foco
     editTicketTabShown: -1,
     uiMainMenuShown: 1,
@@ -31,13 +31,20 @@ export const userInterfaceSlice = createSlice(
                 state.editTicketTabShown = -1;
             },
 
-            arrayTabsAddNewRedux: ( state, action ) => {
+            arrayTabsAddNewRedux: (state, action) => {
 
                 //    const { newTab } = action.payload;
-                    state.arrayTabs = state.arrayTabs.concat( action.payload);
+                state.arrayTabs = state.arrayTabs.concat(action.payload);
             },
-    
-            editTicketTabsCountRemoveRedux: ( state, action ) => {
+
+            arrayTabsDeleteRedux: (state, action) => {
+
+                //    const { newTab } = action.payload;
+                const indexToDelete = state.arrayTabs.findIndex(item => item.id === action.payload)
+                state.arrayTabs.splice(indexToDelete, 1);
+            },
+
+            editTicketTabsCountRemoveRedux: (state, action) => {
                 //    state.arrayTabs -= 1;
             }
 
@@ -45,5 +52,5 @@ export const userInterfaceSlice = createSlice(
     }
 );
 
-export const { editTicketTabShownChangeRedux, mainMenuShownChangeRedux, arrayTabsAddNewRedux, editTicketTabsCountRemoveRedux } = userInterfaceSlice.actions;
+export const { editTicketTabShownChangeRedux, mainMenuShownChangeRedux, arrayTabsAddNewRedux, editTicketTabsCountRemoveRedux, arrayTabsDeleteRedux } = userInterfaceSlice.actions;
 export default userInterfaceSlice.reducer;

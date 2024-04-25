@@ -18,7 +18,7 @@ import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMes
 import { ticketType } from '../../helpers/constants';
 import { NotesMessage } from '../messages/NotesMessage';
 import { UpdatedMessage } from '../messages/UpdatedMessage';
-import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
+import { getAllTicketPriorities, setTicketPriority } from '../../redux/actions/priorityActions';
 import { getAllResponsibles } from '../../redux/actions/responsibleActions';
 
 export const TicketDetail = ({ ticketID }) => {
@@ -33,13 +33,11 @@ export const TicketDetail = ({ ticketID }) => {
     const [responsibles, setResponsibles] = useState([])
     const [priorities, setPriorities] = useState([])
 
-    const [selectedPriority, setSelectedPriority] = useState(0)
-    const [selectedResponsible, setSelectedResponsible] = useState(0)
-    const [selectedState, setSelectedState] = useState(0)
+    const [selectedPriority, setSelectedPriority] = useState('')
+    const [selectedResponsible, setSelectedResponsible] = useState('')
+    const [selectedState, setSelectedState] = useState('')
 
     useEffect(() => {
-
-
 
         dispatch(getTicketDetail(ticketID)).then(res => {
             if (res.ok) {
@@ -60,10 +58,7 @@ export const TicketDetail = ({ ticketID }) => {
         })
 
         dispatch(getAllResponsibles()).then(res => {
-            if (res.ok) {
-                res.value.sort(compareByName)
-                setResponsibles(res.value)
-            }
+            setResponsibles(res)
         })
 
         dispatch(getAllTicketPriorities()).then(res => {
@@ -114,19 +109,6 @@ export const TicketDetail = ({ ticketID }) => {
         );
     }
 
-    function compareByName(a, b) {
-        const nameA = a.nombre_completo.toUpperCase();
-        const nameB = b.nombre_completo.toUpperCase();
-
-        if (nameA > nameB) {
-            return -1;
-        }
-        if (nameA < nameB) {
-            return 1;
-        }
-        return 0;
-    }
-
     function compareByDate(a, b) {
         const dateA = convertToDate(a.fecha);
         const dateB = convertToDate(b.fecha);
@@ -151,11 +133,24 @@ export const TicketDetail = ({ ticketID }) => {
     }
 
     const changePriority = (e) => {
-        setSelectedPriority(e.target.value)
+        dispatch(setTicketPriority(ticketDetail.t_id, e.target.value)).then(res => {
+            if (res) {
+                toast.success('Prioridad editada exitosamente')
+                setSelectedPriority(e.target.value)
+            }
+        })
+    }
+
+    const changeResponsible = (e) => {
+        setSelectedResponsible(e.target.value)
+    }
+
+    const changeState = (e) => {
+        setSelectedState(e.target.value)
     }
 
     return (
-        <div style={{ maxWidth: '1600px', height: '100vh', margin: ' 0 auto', padding: '25px 25px 25px 25px', backgroundColor: theme.palette.background.background }} >
+        <div style={{ maxWidth: '2000px', height: '100vh', margin: ' 0 auto', padding: '25px 25px 25px 25px', backgroundColor: theme.palette.background.background }} >
             <div>
 
                 {/* Header */}
@@ -216,7 +211,7 @@ export const TicketDetail = ({ ticketID }) => {
                                                 break;
                                         }
                                         return (
-                                            <UpdatedMessage message={message} extra={extra} />
+                                            <UpdatedMessage key={message.action_id} message={message} extra={extra} />
                                         )
                                     }
                                     else if (message.tipo_accion === ticketType.Note ||
@@ -224,7 +219,7 @@ export const TicketDetail = ({ ticketID }) => {
                                         message.tipo_accion === ticketType.Creation
                                     ) {
                                         return (
-                                            <NotesMessage message={message} />
+                                            <NotesMessage key={message.action_id} message={message} />
                                         )
                                     }
                                     else {
@@ -269,7 +264,7 @@ export const TicketDetail = ({ ticketID }) => {
                                     <Select variant='standard' onChange={(e) => { changePriority(e) }} value={selectedPriority}>
                                         {priorities.map((priority) => {
                                             return (
-                                                <MenuItem value={priority.id} >
+                                                <MenuItem key={priority.id} value={priority.id} >
                                                     <div>
                                                         {setPriority(priority.id)}  {priority.prioridad}
                                                     </div>
@@ -284,10 +279,10 @@ export const TicketDetail = ({ ticketID }) => {
                                     Responsable:
                                 </div>
                                 <div >
-                                    <Select variant='standard' onChange={(e) => { setSelectedResponsible(e.target.value) }} value={selectedResponsible}>
+                                    <Select fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
                                         {responsibles.map((responsible) => {
                                             return (
-                                                <MenuItem value={responsible.id} >
+                                                <MenuItem key={responsible.id} value={responsible.id} >
                                                     {responsible.nombre_completo}
                                                 </MenuItem>
                                             )
@@ -300,10 +295,10 @@ export const TicketDetail = ({ ticketID }) => {
                                     Estado:
                                 </div>
                                 <div>
-                                    <Select variant='standard' onChange={(e) => { setSelectedState(e.target.value) }} value={selectedState}>
+                                    <Select variant='standard' onChange={(e) => { changeState(e) }} value={selectedState}>
                                         {ticketStates.map((state) => {
                                             return (
-                                                <MenuItem value={state.id} >
+                                                <MenuItem key={state.id} value={state.id} >
                                                     {state.estado}
                                                 </MenuItem>
                                             )
@@ -324,7 +319,7 @@ export const TicketDetail = ({ ticketID }) => {
                         </div>
 
                         {/* Contacto */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid', borderColor: theme.palette.background.border, borderRadius: '25px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid', borderColor: theme.palette.background.border, borderRadius: '15px' }}>
                             <div style={{ padding: '10px', margin: '2px', width: '50%' }}>
                                 <div className='contactInfo'>
                                     <BusinessIcon fontSize='small' style={{ marginRight: '5px' }} />
