@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
+import { Button, Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
-import { getTickets } from '../../redux/actions/ticketActions';
+import { getTickets, getTicketsByFilter } from '../../redux/actions/ticketActions';
 import { getShortDateString } from '../../helpers/dateHelper';
 import { ButtonTrans } from '../ui/ButtonTrans';
-import "./TicketsScreen.scss"
 import TicketFilterDrawer from './TicketFilterDrawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -115,6 +114,15 @@ export const TicketsScreen = () => {
   const theme = useTheme();
 
   const dispatch = useDispatch();
+  const { prioritiesDataList } = useSelector(state => state.priority, shallowEqual);
+  const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
+  const { companiesDataList } = useSelector(state => state.company, shallowEqual);
+  const { statesDataList } = useSelector(state => state.state, shallowEqual);
+  const { productsDataList } = useSelector(state => state.product, shallowEqual);
+  const { failTypesDataList } = useSelector(state => state.failType, shallowEqual);
+
+
+
   const { config } = useSelector((state) => state.auth, shallowEqual);
   const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
@@ -122,6 +130,18 @@ export const TicketsScreen = () => {
   const [rowsPerPageTickets, setRowsPerPageTickets] = useState(10);
   const [actualOffsetTickets, setActualOffsetTickets] = useState(0);
   const [hasMorePages, setHasMorePages] = useState(true)
+  const [filters, setFilters] = useState({
+    title: "",
+    number: "",
+    type: "",
+    company: "",
+    responsible: "",
+    product: "",
+    priority: "",
+    failType: "",
+    state: "",
+    cause: ""
+  })
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -176,15 +196,17 @@ export const TicketsScreen = () => {
 
 
   useEffect(() => {
-    dispatch(getTickets(actualOffsetTickets)).then((res) => {
+    dispatch(getTicketsByFilter(actualOffsetTickets, filters)).then((res) => {
       setAgentList(formatTicketsArray(res.value))
-      if (res.value.length < 10) {
+      if (res.value.length < 25) {
         setHasMorePages(false)
       }
     })
-  }, [actualOffsetTickets])
+  }, [actualOffsetTickets, filters, responsiblesDataList])
+
 
   const formatTicketsArray = (tickets) => {
+    let responsiblesList = responsiblesDataList
     let formattedArray = [];
 
     tickets.forEach(ticket => {
@@ -195,12 +217,18 @@ export const TicketsScreen = () => {
         titulo: ticket.titulo,
         empresa: ticket.empresa,
         priority: setPriority(ticket.prioridad),
-        fecha_creacion: getShortDateString(ticket.fecha_creacion)
+        fecha_creacion: getShortDateString(ticket.fecha_creacion),
+        responsable: getResponsibleName(ticket.responsable_id)
       }
       formattedArray.push(formattedTicket)
     });
 
     return formattedArray
+  }
+
+  const getResponsibleName = (id) => {
+    let responsible = responsiblesDataList.find(obj => obj.id === id)
+    return responsible?.nombre_completo
   }
 
   const handleGridChangePageTickets = (newpage_limit, newpage_offset) => {
@@ -231,14 +259,71 @@ export const TicketsScreen = () => {
     setResetPaginationGrid(false);
   }
 
+  const handleFilterButton = (filters) => {
+    setIsDrawerOpen(false)
+    setFilters(filters)
+  }
+
+  const filterChip = (name, value) => {
+    let text = '';
+    console.log('name', name)
+    console.log('value', value)
+    switch (name) {
+      case 'type':
+        text = `Tipo: `
+        break;
+      case 'company':
+        text = `Empresa: ${companiesDataList.find(obj => obj.id === value).nombre}`
+        break;
+      case 'responsible':
+        text = `Responsable: ${responsiblesDataList.find(obj => obj.id === value).nombre_completo}`
+        break;
+      case 'product':
+        text = `Producto: ${productsDataList.find(obj => obj.id === value).nombre}`
+        break;
+      case 'priority':
+        text = `Prioridad: ${prioritiesDataList.find(obj => obj.id === value).prioridad}`
+        break;
+      case 'failType':
+        text = `Tipo de falla: ${failTypesDataList.find(obj => obj.id === value).descripcion}`
+        break;
+      case 'state':
+        text = `Estado: ${statesDataList.find(obj => obj.id === value).estado}`
+        break;
+      case 'number':
+        text = `Numero: ${value}`
+        break;
+      case 'title':
+        text = `Titulo: ${value}`
+        break;
+      case 'cause':
+        text = `Causa raiz: ${value}`
+        break;
+    }
+
+    return text
+  }
+
+  const deleteFilter = (filter) => {
+    let tempFilters = { ...filters }
+    tempFilters[filter] = "";
+    setFilters(tempFilters)
+  }
 
   return (
     <div>
       <div style={{
-        width: '95vw', height: '100%', margin: ' 0 auto', padding: '25px'
+        width: '95vw', margin: ' 0 auto', padding: '25px', scroll: 'auto'
       }}>
-        <div style={{ marginBottom: '15px' }}>
+        <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
           <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
+          {Object.entries(filters).map(([key, value], index) => {
+            if (value && value !== -1 && value !== '') {
+              return (
+                <Chip key={key} label={filterChip(key, value)} variant='outlined' sx={{ marginLeft: '5px' }} onDelete={() => { deleteFilter(key) }} />
+              )
+            }
+          })}
         </div>
         {
           agentList.length > 0 && (
@@ -278,8 +363,8 @@ export const TicketsScreen = () => {
         }
       </div>
       <div className={`overlay ${isDrawerOpen ? 'show' : ''}`} onClick={() => { setIsDrawerOpen(!isDrawerOpen) }}></div>
-      <div className={`drawer ${isDrawerOpen ? 'open' : ''}`}>
-        <TicketFilterDrawer />
+      <div className={`drawer ${isDrawerOpen ? 'open' : ''}`} style={{ backgroundColor: theme.palette.background.main }}>
+        <TicketFilterDrawer filter={handleFilterButton} handleCancelFilter={() => { setIsDrawerOpen(false) }} />
       </div>
     </div>
   )
