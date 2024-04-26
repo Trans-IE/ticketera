@@ -64,3 +64,31 @@ export const getResponsiblesByCompany = (companyId, includeSelf) => {
 
     }
 }
+
+export const setTicketResponsible = (ticketId, responsible) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setResponsible");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "responsable_id": responsible
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.ok
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}

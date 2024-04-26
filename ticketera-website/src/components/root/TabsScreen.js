@@ -36,9 +36,12 @@ export const TabsScreen = () => {
   useEffect(() => {
 
     console.log('uiMainMenuShown tab', uiMainMenuShown);
-    if (arrayTabs?.length > 0 && uiMainMenuShown === -1) {
+    if (arrayTabs?.length > 0 /* && uiMainMenuShown === -1 */) {
       console.log(arrayTabs.length);
       handleChange(null, arrayTabs.length - 1)
+    }
+    else {
+      dispatch(mainMenuShownChange(1))
     }
   }, [arrayTabs?.length])
 
@@ -111,7 +114,7 @@ export const TabsScreen = () => {
       <TabContext value={value.toString()}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Stack direction="row"   >
-            <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example">
+            <Tabs value={editTicketTabShown} onChange={handleChange} aria-label="lab API tabs example">
               {
                 arrayTabs.map((objTab, i) => {
                   return (

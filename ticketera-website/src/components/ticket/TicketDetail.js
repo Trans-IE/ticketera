@@ -14,12 +14,13 @@ import { useTheme } from '@mui/styles';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import { toast } from "sonner";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages } from '../../redux/actions/ticketActions';
+import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages, sendNewNote } from '../../redux/actions/ticketActions';
 import { ticketType } from '../../helpers/constants';
 import { NotesMessage } from '../messages/NotesMessage';
 import { UpdatedMessage } from '../messages/UpdatedMessage';
 import { getAllTicketPriorities, setTicketPriority } from '../../redux/actions/priorityActions';
-import { getAllResponsibles } from '../../redux/actions/responsibleActions';
+import { getAllResponsibles, setTicketResponsible } from '../../redux/actions/responsibleActions';
+import { setTicketState } from '../../redux/actions/stateActions';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
@@ -32,6 +33,9 @@ export const TicketDetail = ({ ticketID }) => {
     const [ticketStates, setTicketStates] = useState([])
     const [responsibles, setResponsibles] = useState([])
     const [priorities, setPriorities] = useState([])
+
+    const [noteText, setNoteText] = useState('')
+    const [tempDependencyNewNote, setTempDependencyNewNote] = useState(false)
 
     const [selectedPriority, setSelectedPriority] = useState('')
     const [selectedResponsible, setSelectedResponsible] = useState('')
@@ -73,7 +77,7 @@ export const TicketDetail = ({ ticketID }) => {
                 setMessages(res.value)
             }
         })
-    }, [])
+    }, [selectedState, selectedPriority, selectedResponsible, tempDependencyNewNote])
 
     const findStateByID = (id) => {
         const state = ticketStates.find(obj => obj.id === id);
@@ -142,11 +146,33 @@ export const TicketDetail = ({ ticketID }) => {
     }
 
     const changeResponsible = (e) => {
-        setSelectedResponsible(e.target.value)
+        dispatch(setTicketResponsible(ticketDetail.t_id, e.target.value)).then(res => {
+            console.log(res)
+            if (res) {
+                toast.success('Responsable cambiado exitosamente')
+                setSelectedResponsible(e.target.value)
+            }
+        })
     }
 
     const changeState = (e) => {
-        setSelectedState(e.target.value)
+        dispatch(setTicketState(ticketDetail.t_id, e.target.value)).then(res => {
+            console.log(res)
+            if (res) {
+                toast.success('Estado editado exitosamente')
+                setSelectedState(e.target.value)
+            }
+        })
+    }
+
+    const handleSendNote = () => {
+        if (noteText !== '') {
+            dispatch(sendNewNote(ticketDetail.t_id, noteText)).then(res => {
+                toast.success(res)
+                setNoteText('')
+                setTempDependencyNewNote(!tempDependencyNewNote)
+            })
+        }
     }
 
     return (
@@ -235,8 +261,8 @@ export const TicketDetail = ({ ticketID }) => {
                         {/* Input bar */}
                         <div className="input_msg" style={{ marginTop: '10px' }}>
                             <form className="input">
-                                <TextareaAutosize placeholder="Agrega una nueva nota..." autoFocus style={{ backgroundColor: theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
-                                <IconButton aria-label="delete" size="large" color="primary">
+                                <TextareaAutosize value={noteText} onChange={(e) => { setNoteText(e.target.value) }} placeholder="Agrega una nueva nota..." autoFocus style={{ backgroundColor: theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
+                                <IconButton disabled={noteText === ''} onClick={handleSendNote} aria-label="delete" size="large" color="primary">
                                     <SendIcon />
                                 </IconButton>
                                 <IconButton aria-label="delete" size="large" color="primary">
@@ -327,15 +353,25 @@ export const TicketDetail = ({ ticketID }) => {
                                 </div>
                                 <div className='contactInfo'>
                                     <LocalPhoneIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_telefono}</div>
+                                    {ticketDetail.t_empresa_telefono ?
+                                        <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_telefono}</div>
+                                        :
+                                        <></>
+                                    }
                                 </div>
                                 <div className='contactInfo'>
                                     <MailIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_mail}</div>
+                                    {ticketDetail.t_empresa_mail ?
+                                        <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_mail}</div>
+                                        :
+                                        <></>}
                                 </div>
                                 <div className='contactInfo'>
                                     <PlaceIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_direccion}</div>
+                                    {ticketDetail.t_empresa_direccion ?
+                                        <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_empresa_direccion}</div>
+                                        :
+                                        <></>}
                                 </div>
                             </div>
                             <div style={{ padding: '10px', margin: '2px', width: '50%' }}>
@@ -344,14 +380,19 @@ export const TicketDetail = ({ ticketID }) => {
                                 </div>
                                 <div className='contactInfo'>
                                     <LocalPhoneIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_creador_telefono}</div>
+                                    {ticketDetail.t_creador_telefono ?
+                                        <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_creador_telefono}</div>
+                                        :
+                                        <></>
+                                    }
                                 </div>
 
                                 <div className='contactInfo'>
                                     <MailIcon fontSize='small' style={{ marginRight: '5px' }} />
-                                    <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>
-                                        {ticketDetail.t_creador_mail}
-                                    </div>
+                                    {ticketDetail.t_creador_mail ?
+                                        <div className='selectState' onClick={(e) => copyToClipboard(e.target.outerText)}>{ticketDetail.t_creador_mail} </div>
+                                        :
+                                        <></>}
                                 </div>
                             </div>
                         </div>

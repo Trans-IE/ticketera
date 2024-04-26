@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 import { userMenuOptions } from '../../helpers/constants';
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
+import { editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { ThemeContext } from '../..';
 
 export const MainMenu = ({ onClick, optionSelected }) => {
@@ -38,7 +38,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
   }
 
   const goToTicketList = () => {
-    dispatch(editTicketTabShownChange(-1));
+    dispatch(mainMenuShownChange(1))
   }
 
 

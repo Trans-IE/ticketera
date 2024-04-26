@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
@@ -19,6 +19,7 @@ import { esES } from '@mui/material/locale';
 import '../styles.css';
 
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import encryptStorage from './helpers/storageEncrypter';
 
 // Defino variables globales de estilo 
 //
@@ -242,13 +243,32 @@ const darkTheme = createTheme({
 export const ThemeContext = createContext();
 
 const ThemeProviderWrapper = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState('dark');
+
+  useEffect(() => {
+    // Retrieve theme variable from local storage
+    var theme = encryptStorage.getItem("theme");
+
+    // Check if theme variable exists in local storage
+    if (theme === null) {
+      // If theme variable doesn't exist, set default theme
+      theme = "dark"; // Set default theme here
+      encryptStorage.setItem("theme", theme);
+    }
+    else {
+      setIsDarkMode(theme === 'dark' ? 'dark' : 'light')
+    }
+
+  }, [])
+
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+    let changeTheme = isDarkMode === 'dark' ? 'light' : 'dark';
+    setIsDarkMode(changeTheme);
+    encryptStorage.setItem("theme", changeTheme);
   };
 
-  const theme = isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode === 'dark' ? darkTheme : lightTheme;
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
