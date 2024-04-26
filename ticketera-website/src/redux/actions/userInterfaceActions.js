@@ -11,6 +11,7 @@ export const editTicketTabShownChange = (index) => {
 
 export const mainMenuShownChange = (index) => {
   return (dispatch, getState) => {
+
     dispatch(mainMenuShownChangeRedux({ menuShown: index }));
   };
 };
@@ -29,6 +30,6 @@ export const arrayTabsAddNew = (tabNew) => {
 
 export const arrayTabsClose = (index) => {
   return (dispatch, getState) => {
-    dispatch(arrayTabsDeleteRedux(index))
+    dispatch(arrayTabsDeleteRedux({ index }))
   }
 }

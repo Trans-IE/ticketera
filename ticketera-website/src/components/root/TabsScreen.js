@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -6,11 +6,13 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import Stack from '@mui/material/Stack';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AdjustIcon from '@mui/icons-material/Adjust';
+
 import { TabItem } from './TabItem';
 import { useTheme } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
-import { arrayTabsClose, editTicketTabShownChange } from '../../redux/actions/userInterfaceActions';
+import { arrayTabsClose, editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { NewTicketScreen } from '../ticket/NewTicketScreen';
 import { object } from 'prop-types';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
@@ -20,35 +22,57 @@ import CloseIcon from '@mui/icons-material/Close';
 export const TabsScreen = () => {
 
   const theme = useTheme();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(-1);
   const dispatch = useDispatch();
   const { config } = useSelector((state) => state.auth, shallowEqual);
-  const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
+  const { editTicketTabShown, arrayTabs, uiMainMenuShown } = useSelector((state) => state.ui, shallowEqual);
 
   const handleChange = (event, newValue) => {
+    console.log('llamo al handlechage con value ', newValue);
     dispatch(editTicketTabShownChange(parseInt(newValue)));
     setValue(newValue);
   };
 
-  const handleClickTab = (objTab) => {
-    dispatch(editTicketTabShownChange(parseInt(value)));
+  useEffect(() => {
+
+    console.log('uiMainMenuShown tab', uiMainMenuShown);
+    if (arrayTabs?.length > 0 && uiMainMenuShown === -1) {
+      console.log(arrayTabs.length);
+      handleChange(null, arrayTabs.length - 1)
+    }
+  }, [arrayTabs?.length])
+
+
+
+  const newTicketProcess = () => {
+    try {
+      let tabNew = new Object();
+      // definir constantes con tipos asociados a la operacion_ 
+      // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
+      tabNew.type = 0;
+      tabNew.title = "Nuevo Ticket";
+      tabNew.id = 0;
+      tabNew.index = arrayTabs.length;
+
+
+      console.log(`create new ticket `);
+      dispatch(arrayTabsAddNew(tabNew))
+
+      return tabNew;
+
+    } catch (error) {
+      return null;
+    }
+
   }
 
   const handleCreateNewTicket = () => {
 
-    let tabNew = new Object();
-    // definir constantes con tipos asociados a la operacion_ 
-    // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
-    tabNew.type = 0;
-    tabNew.title = "Nuevo Ticket";
-    tabNew.id = 0;
-    tabNew.index = arrayTabs.length + 1;
-
-    dispatch(arrayTabsAddNew(tabNew))
+    const tab = newTicketProcess();
   }
 
   const handleCloseTab = (e, index) => {
-    console.log('Cerrando...')
+    console.log('Cerrando...', index)
     e.stopPropagation();
     dispatch(arrayTabsClose(index))
   }
@@ -92,7 +116,7 @@ export const TabsScreen = () => {
                 arrayTabs.map((objTab, i) => {
                   return (
                     // <StyledTab key={objTab.index} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
-                    <StyledTab key={objTab.index} index={i} value={i} onClick={() => { handleClickTab(objTab) }} label={
+                    <StyledTab key={objTab.index} index={i} value={i} label={
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         {objTab.title}
                         <IconButton sx={{ margin: 0, padding: 0, marginLeft: '10px' }} component="span" onClick={(e) => { handleCloseTab(e, objTab.index) }}>
@@ -107,6 +131,7 @@ export const TabsScreen = () => {
               }
             </Tabs>
             <StyledIconTab value={0} icon={<AddCircleIcon color="primary" />} onClick={handleCreateNewTicket} />
+
           </Stack>
         </Box>
         {

@@ -21,7 +21,7 @@ import { ThemeContext } from '../..';
 
 export const MainMenu = ({ onClick, optionSelected }) => {
   const dispatch = useDispatch();
-
+  console.log('optionSelected', optionSelected);
   const onClickMenu = (option) => {
 
     switch (option) {

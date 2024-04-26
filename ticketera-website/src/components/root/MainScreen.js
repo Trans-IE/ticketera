@@ -95,6 +95,7 @@ export const MainScreen = () => {
 
   const mainMenuOnClick = (type, value) => {
 
+    console.log("mainMenuShownChange main", value);
     dispatch(mainMenuShownChange(parseInt(value)));
 
     //  setTicketsListVisible(!ticketsListVisible);
@@ -144,7 +145,7 @@ export const MainScreen = () => {
           <div>
             {
 
-              <MainMenu onClick={() => { }} optionSelected={uiMainMenuShown} />
+              <MainMenu onClick={mainMenuOnClick} optionSelected={uiMainMenuShown} />
             }
             <Divider style={{ margin: '8px' }} />
             {SecondaryMenu}

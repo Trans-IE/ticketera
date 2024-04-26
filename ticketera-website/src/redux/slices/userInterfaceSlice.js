@@ -26,6 +26,7 @@ export const userInterfaceSlice = createSlice(
 
             mainMenuShownChangeRedux: (state, action) => {
                 const { menuShown } = action.payload;
+
                 state.uiMainMenuShown = menuShown;
                 // al aplicar foco en menu, deshabilito opcion seleccionada en tab
                 state.editTicketTabShown = -1;
@@ -39,8 +40,8 @@ export const userInterfaceSlice = createSlice(
 
             arrayTabsDeleteRedux: (state, action) => {
 
-                //    const { newTab } = action.payload;
-                const indexToDelete = state.arrayTabs.findIndex(item => item.id === action.payload)
+                const { index } = action.payload;
+                const indexToDelete = state.arrayTabs.findIndex(item => item.index === index)
                 state.arrayTabs.splice(indexToDelete, 1);
             },
 
