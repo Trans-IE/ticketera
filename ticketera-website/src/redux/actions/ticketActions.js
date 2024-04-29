@@ -280,3 +280,31 @@ export const sendNewNote = (ticketId, note) => {
 
     }
 }
+
+export const sendNewHiddenNote = (ticketId, note) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setHiddenNote");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "nota": note
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}

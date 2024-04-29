@@ -1,4 +1,4 @@
-import { Button, IconButton, MenuItem, Select } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, IconButton, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
 import './TicketDetail.scss'
@@ -14,7 +14,7 @@ import { useTheme } from '@mui/styles';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import { toast } from "sonner";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages, sendNewNote } from '../../redux/actions/ticketActions';
+import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages, sendNewHiddenNote, sendNewNote } from '../../redux/actions/ticketActions';
 import { ticketType } from '../../helpers/constants';
 import { NotesMessage } from '../messages/NotesMessage';
 import { UpdatedMessage } from '../messages/UpdatedMessage';
@@ -34,6 +34,7 @@ export const TicketDetail = ({ ticketID }) => {
     const [responsibles, setResponsibles] = useState([])
     const [priorities, setPriorities] = useState([])
 
+    const [isNoteHidden, setIsNoteHidden] = useState(false)
     const [noteText, setNoteText] = useState('')
     const [tempDependencyNewNote, setTempDependencyNewNote] = useState(false)
 
@@ -85,7 +86,6 @@ export const TicketDetail = ({ ticketID }) => {
     }
 
     const findPriorityByID = (id) => {
-        console.log('ID', id)
         const priority = priorities.find(obj => obj.id === id);
         return priority.prioridad
     }
@@ -167,11 +167,20 @@ export const TicketDetail = ({ ticketID }) => {
 
     const handleSendNote = () => {
         if (noteText !== '') {
-            dispatch(sendNewNote(ticketDetail.t_id, noteText)).then(res => {
-                toast.success(res)
-                setNoteText('')
-                setTempDependencyNewNote(!tempDependencyNewNote)
-            })
+            if (isNoteHidden) {
+                dispatch(sendNewHiddenNote(ticketDetail.t_id, noteText)).then(res => {
+                    toast.success(res)
+                    setNoteText('')
+                    setTempDependencyNewNote(!tempDependencyNewNote)
+                })
+            }
+            else {
+                dispatch(sendNewNote(ticketDetail.t_id, noteText)).then(res => {
+                    toast.success(res)
+                    setNoteText('')
+                    setTempDependencyNewNote(!tempDependencyNewNote)
+                })
+            }
         }
     }
 
@@ -261,7 +270,8 @@ export const TicketDetail = ({ ticketID }) => {
                         {/* Input bar */}
                         <div className="input_msg" style={{ marginTop: '10px' }}>
                             <form className="input">
-                                <TextareaAutosize value={noteText} onChange={(e) => { setNoteText(e.target.value) }} placeholder="Agrega una nueva nota..." autoFocus style={{ backgroundColor: theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
+                                <FormControlLabel control={<Checkbox checked={isNoteHidden} onChange={() => { setIsNoteHidden(!isNoteHidden) }} />} labelPlacement="top" label="Oculta" />
+                                <TextareaAutosize value={noteText} onChange={(e) => { setNoteText(e.target.value) }} placeholder={isNoteHidden ? "Agrega una nueva nota oculta..." : "Agrega una nueva nota..."} autoFocus style={{ backgroundColor: isNoteHidden ? theme.palette.background.reddishBackground : theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
                                 <IconButton disabled={noteText === ''} onClick={handleSendNote} aria-label="delete" size="large" color="primary">
                                     <SendIcon />
                                 </IconButton>
