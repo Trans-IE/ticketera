@@ -1,26 +1,35 @@
-import { arrayTabsAddNewRedux, editTicketTabShownChangeRedux, mainMenuShownChangeRedux } from "../slices/userInterfaceSlice";
+import { arrayTabsAddNewRedux, arrayTabsDeleteRedux, editTicketTabShownChangeRedux, mainMenuShownChangeRedux } from "../slices/userInterfaceSlice";
 
 export const editTicketTabShownChange = (index) => {
-  return  (dispatch, getState) => {
+  return (dispatch, getState) => {
 
     const { user } = getState().auth;
 
-     dispatch(editTicketTabShownChangeRedux({ tabShown: index }));
+    dispatch(editTicketTabShownChangeRedux({ tabShown: index }));
   };
 };
 
 export const mainMenuShownChange = (index) => {
   return (dispatch, getState) => {
+
     dispatch(mainMenuShownChangeRedux({ menuShown: index }));
   };
 };
 
-export const arrayTabsAddNew = ( tabNew ) => {
+export const arrayTabsAddNew = (tabNew) => {
   return (dispatch, getState) => {
+    const { arrayTabs } = getState().ui
 
-    // suscribir al usuario al socket si es un tab de ticket con id existente
-
-    dispatch(arrayTabsAddNewRedux(tabNew));
+    //Verificar que la tab no exista
+    if (arrayTabs.findIndex(item => item.id === tabNew.id) === -1) {
+      dispatch(arrayTabsAddNewRedux(tabNew));
+    }
+    return true;
   };
 }
 
+export const arrayTabsClose = (index) => {
+  return (dispatch, getState) => {
+    dispatch(arrayTabsDeleteRedux({ index }))
+  }
+}

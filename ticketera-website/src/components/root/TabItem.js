@@ -5,6 +5,7 @@ import { TicketDetail } from '../ticket/TicketDetail';
 import { NewTicketScreen } from '../ticket/NewTicketScreen';
 
 export const TabItem = ({ ticketID }) => {
+    console.log('ticket id a mostrar ', ticketID);
     return (
         <Grid
             container

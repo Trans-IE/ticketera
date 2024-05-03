@@ -201,6 +201,9 @@ export const TicketsScreen = () => {
       if (res.value.length < 25) {
         setHasMorePages(false)
       }
+      else {
+        setHasMorePages(true)
+      }
     })
   }, [actualOffsetTickets, filters, responsiblesDataList])
 
@@ -248,7 +251,7 @@ export const TicketsScreen = () => {
     tabNew.type = 0;
     tabNew.title = `Ticket ${item.id}`;
     tabNew.id = item.id;
-    tabNew.index = arrayTabs.length + 1;
+    tabNew.index = arrayTabs.length;
 
     dispatch(arrayTabsAddNew(tabNew));
 

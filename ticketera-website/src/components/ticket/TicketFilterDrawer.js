@@ -73,10 +73,7 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
         })
 
         dispatch(getAllResponsibles()).then(res => {
-            if (res.ok) {
-                // res.value.sort(compareByName)
-                setResponsiblesList(res.value)
-            }
+            setResponsiblesList(res)
         })
     }, [])
 
@@ -109,20 +106,6 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
 
         console.log('TOY', filters)
         filter(filters)
-    }
-
-
-    function compareByName(a, b) {
-        const nameA = a.nombre_completo.toUpperCase();
-        const nameB = b.nombre_completo.toUpperCase();
-
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
     }
 
     return (

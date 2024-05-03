@@ -16,7 +16,7 @@ export const getTicketsByFilter = (offset, filters) => {
                 "titulo": filters.title,
                 "causaRaiz": filters.cause,
                 "ticketPartner": "",
-                "empresaId": filters.company === '' ? 3 : filters.company,
+                "empresaId": filters.company === '' ? -1 : filters.company,
                 "productoId": filters.product === '' ? -1 : filters.product,
                 "responsableId": filters.responsible === '' ? -1 : filters.responsible,
                 "numeroId": filters.number ? filters.number : -1,
@@ -67,7 +67,7 @@ export const createNewTicket = (ticket) => {
                 "title": ticket.title,
                 "nroSerie": ticket.serialNumber ? ticket.serialNumber : "",
                 "nodo": ticket.node ? ticket.node : "",
-                "esProyecto": ticket.isProyect ? 1 : 0,
+                "esProyecto": ticket.isProject ? 1 : 0,
                 "padreId": ticket.asociatedProyectId ? ticket.asociatedProyectId : 0,
                 "preventaId": ticket.presaleId ? ticket.presaleId : 0,
                 "vendedorId": ticket.vendorId ? ticket.vendedorId : 0,
@@ -239,6 +239,62 @@ export const getAllTicketTypes = () => {
             const body = await resp.json();
             if (body.ok) {
                 return body
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const sendNewNote = (ticketId, note) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setNote");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "notas": note
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const sendNewHiddenNote = (ticketId, note) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setHiddenNote");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "nota": note
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
             }
             else {
                 Swal.fire('Error', body.msg, 'error');
