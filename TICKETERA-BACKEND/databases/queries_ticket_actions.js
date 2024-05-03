@@ -239,7 +239,7 @@ const createDBHiddenNote = (ticket_id, nota, username) => {
 const getAllDBUsers = (username, rol) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users($1, $2);", [rol, username], (error, results) => {
+        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users_v1($1, $2);", [rol, username], (error, results) => {
             if (error) {
                 reject(error.message);
             }
