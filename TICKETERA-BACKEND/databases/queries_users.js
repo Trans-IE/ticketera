@@ -2,7 +2,7 @@ const pooldata = require('./poolpg')
 
 const getDBUserByLogin = (username, password, check_password) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_login($1,$2,$3)', [username, password, check_password], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_login($1,$2,$3)', [username, password, check_password], (error, results) => {
             if (error) {
                 let errorData = new Object();
                 errorData.code = error.code;
@@ -56,7 +56,7 @@ const createDBUser = (usuario, password, apellido, nombre, telefono, mail, codig
 
 const getDBUserRolByUsername = (label) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_ticketera_user_get_rol_by_username($1)', [label], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_user_get_rol_by_username($1)', [label], (error, results) => {
             if (error) {
                 reject(error.message);
             }

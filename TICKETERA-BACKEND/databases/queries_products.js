@@ -47,7 +47,7 @@ const getAllDBProducts = () => {
 const getDBProduct = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('SELECT * FROM public.f_ticketera_product_get_product_by_id($1);', [id], (error, results) => {
+        pooldata.getPool.query('SELECT * FROM tickets.f_ticketera_product_get_product_by_id($1);', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -68,7 +68,7 @@ const getDBProduct = (id) => {
 const createDBProduct = (nombre, modelo, habilitado, marca_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_product_create($1,$2,$3,$4)', [nombre, modelo, habilitado, marca_id], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_product_create($1,$2,$3,$4)', [nombre, modelo, habilitado, marca_id], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -90,7 +90,7 @@ const createDBProduct = (nombre, modelo, habilitado, marca_id) => {
 const deleteDBProduct = (id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_product_delete($1)', [id], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_product_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -109,7 +109,7 @@ const deleteDBProduct = (id) => {
 
 const updateDBProduct = (id, nombre, modelo, habilitado, marca_id) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_ticketera_product_update($1,$2,$3,$4,$5)', [id, nombre, modelo, habilitado, marca_id], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_product_update($1,$2,$3,$4,$5)', [id, nombre, modelo, habilitado, marca_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
