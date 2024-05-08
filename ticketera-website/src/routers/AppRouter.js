@@ -24,23 +24,27 @@ export const AppRouter = () => {
     useEffect(() => {
 
         dispatch(loadConfigData()).then((data) => {
-           // console.log("CARGO LA DATA CONFIG: ", data);
+            // console.log("CARGO LA DATA CONFIG: ", data);
 
             dispatch(startChecking()).then(result => {
+
+                if (!result && location.pathname !== '/login') {
+                    location.assign('/login')
+                }
                 console.log("START CHECKING OK ");
-/*                 if (result !== true) {
-                   
-                    
-                } */
+                /*                 if (result !== true) {
+                                   
+                                    
+                                } */
 
             })
         })
             .catch((error) => {
-                
+
             });
 
         return () => {
-            encryptStorage.clear();
+            //  encryptStorage.clear();
         }
     }, [])
 
@@ -56,28 +60,28 @@ export const AppRouter = () => {
 
     return (
         /*         <SocketProvider> */
-        
-            <Routes>
-                {
-                    user === null &&
-                    <Route path="/*" element={
-                        <PublicRoute>
-                            <LoginRoutes />
-                        </PublicRoute>
-                    }
-                    />
 
+        <Routes>
+            {
+                user === null &&
+                <Route path="/*" element={
+                    <PublicRoute>
+                        <LoginRoutes />
+                    </PublicRoute>
                 }
-                {user !== null && <Route path="/*" element={
-                    <PrivateRoute>
-                     <DashboardRoutes />
-                    </PrivateRoute>
-                } />}
-                
+                />
+
+            }
+            {user !== null && <Route path="/*" element={
+                <PrivateRoute>
+                    <DashboardRoutes />
+                </PrivateRoute>
+            } />}
 
 
-            </Routes>
-/*         </BrowserRouter> */
+
+        </Routes>
+        /*         </BrowserRouter> */
         /*         </SocketProvider> */
     )
 }

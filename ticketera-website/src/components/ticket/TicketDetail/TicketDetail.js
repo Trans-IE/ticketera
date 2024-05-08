@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, IconButton, MenuItem, Select } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, IconButton, MenuItem, Modal, Select, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
 import './TicketDetail.scss'
@@ -11,23 +11,22 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import BusinessIcon from '@mui/icons-material/Business';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/styles';
-import { ButtonTrans } from '../ui/ButtonTrans';
+import { ButtonTrans } from '../../ui/ButtonTrans';
 import { toast } from "sonner";
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllTicketStates, getAllUsersByCompany, getTicketDetail, getTicketMessages, sendNewHiddenNote, sendNewNote } from '../../redux/actions/ticketActions';
-import { ticketType } from '../../helpers/constants';
-import { NotesMessage } from '../messages/NotesMessage';
-import { UpdatedMessage } from '../messages/UpdatedMessage';
-import { getAllTicketPriorities, setTicketPriority } from '../../redux/actions/priorityActions';
-import { getAllResponsibles, setTicketResponsible } from '../../redux/actions/responsibleActions';
-import { setTicketState } from '../../redux/actions/stateActions';
+import { useDispatch } from 'react-redux';
+import { getAllTicketStates, getTicketDetail, getTicketMessages, sendNewHiddenNote, sendNewNote } from '../../../redux/actions/ticketActions';
+import { ticketType } from '../../../helpers/constants';
+import { NotesMessage } from '../../messages/NotesMessage';
+import { UpdatedMessage } from '../../messages/UpdatedMessage';
+import { getAllTicketPriorities, setTicketPriority } from '../../../redux/actions/priorityActions';
+import { getAllResponsibles, setTicketResponsible } from '../../../redux/actions/responsibleActions';
+import { setTicketState } from '../../../redux/actions/stateActions';
+import WorkingHoursModal from '../WorkingHoursModal/WorkingHoursModal';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
     const dispatch = useDispatch()
-    const { ticketsGridDataList } = useSelector((state) => state.ticket, shallowEqual);
     const [messages, setMessages] = useState([])
-    const [selectedTicket, setSelectedTicket] = useState({})
     const [ticketDetail, setTicketDetail] = useState({})
 
     const [ticketStates, setTicketStates] = useState([])
@@ -42,6 +41,8 @@ export const TicketDetail = ({ ticketID }) => {
     const [selectedResponsible, setSelectedResponsible] = useState('')
     const [selectedState, setSelectedState] = useState('')
 
+    const [isWorkingHoursModalOpen, setIsWorkingHoursModalOpen] = useState(false)
+
     useEffect(() => {
 
         dispatch(getTicketDetail(ticketID)).then(res => {
@@ -49,7 +50,6 @@ export const TicketDetail = ({ ticketID }) => {
                 setTicketDetail(res.value[0])
                 console.log(res.value[0])
 
-                setSelectedTicket(res.value[0].t_id)
                 setSelectedPriority(res.value[0].t_prioridadid)
                 setSelectedState(res.value[0].t_estado)
                 setSelectedResponsible(res.value[0].t_responsable_id)
@@ -184,6 +184,10 @@ export const TicketDetail = ({ ticketID }) => {
         }
     }
 
+    const handleUpload = (e) => {
+        console.log('archivos', e.target.files)
+    };
+
     return (
         <div style={{ maxWidth: '2000px', height: '100vh', margin: ' 0 auto', padding: '25px 25px 25px 25px', backgroundColor: theme.palette.background.background }} >
             <div>
@@ -205,8 +209,12 @@ export const TicketDetail = ({ ticketID }) => {
                     {/* Botones */}
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div>
-                            <ButtonTrans variant="contained">Agregar Horas</ButtonTrans>
+                            <ButtonTrans variant="contained" onClick={() => setIsWorkingHoursModalOpen(true)}>Agregar Horas</ButtonTrans>
                         </div>
+                        <Modal open={isWorkingHoursModalOpen}
+                            onClose={() => { setIsWorkingHoursModalOpen(false) }}>
+                            <WorkingHoursModal />
+                        </Modal>
                         <div>
                             <ButtonTrans variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
                         </div>
@@ -272,12 +280,26 @@ export const TicketDetail = ({ ticketID }) => {
                             <form className="input">
                                 <FormControlLabel control={<Checkbox checked={isNoteHidden} onChange={() => { setIsNoteHidden(!isNoteHidden) }} />} labelPlacement="top" label="Oculta" />
                                 <TextareaAutosize value={noteText} onChange={(e) => { setNoteText(e.target.value) }} placeholder={isNoteHidden ? "Agrega una nueva nota oculta..." : "Agrega una nueva nota..."} autoFocus style={{ backgroundColor: isNoteHidden ? theme.palette.background.reddishBackground : theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
-                                <IconButton disabled={noteText === ''} onClick={handleSendNote} aria-label="delete" size="large" color="primary">
-                                    <SendIcon />
-                                </IconButton>
-                                <IconButton aria-label="delete" size="large" color="primary">
-                                    <AttachFileIcon />
-                                </IconButton>
+                                <Tooltip title='Enviar'>
+                                    <IconButton disabled={noteText === ''} onClick={handleSendNote} aria-label="delete" size="large" color="primary">
+                                        <SendIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title='Cargar archivos'>
+                                    <label htmlFor="file-upload">
+                                        <IconButton aria-label="upload files" size="large" color="primary" component="span">
+                                            <AttachFileIcon />
+                                        </IconButton>
+                                    </label>
+                                    <input
+                                        id="file-upload"
+                                        type="file"
+                                        accept=".pdf,.doc,.docx" // You can specify the file types you want to accept
+                                        style={{ display: "none" }}
+                                        onChange={handleUpload}
+                                        multiple
+                                    />
+                                </Tooltip>
                             </form>
                         </div>
 

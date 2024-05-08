@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Button, Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
+import { Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
-import { getTickets, getTicketsByFilter } from '../../redux/actions/ticketActions';
+import { getTicketsByFilter } from '../../redux/actions/ticketActions';
 import { getShortDateString } from '../../helpers/dateHelper';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import TicketFilterDrawer from './TicketFilterDrawer';
@@ -318,16 +318,35 @@ export const TicketsScreen = () => {
       <div style={{
         width: '95vw', margin: ' 0 auto', padding: '25px', scroll: 'auto'
       }}>
-        <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
-          <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
-          {Object.entries(filters).map(([key, value], index) => {
-            if (value && value !== -1 && value !== '') {
-              return (
-                <Chip key={key} label={filterChip(key, value)} variant='outlined' sx={{ marginLeft: '5px' }} onDelete={() => { deleteFilter(key) }} />
-              )
-            }
-          })}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
+            <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
+            {Object.entries(filters).map(([key, value], index) => {
+              if (value && value !== -1 && value !== '') {
+                return (
+                  <Chip key={key} label={filterChip(key, value)} variant='outlined' sx={{ marginLeft: '5px' }} onDelete={() => { deleteFilter(key) }} />
+                )
+              }
+            })}
+          </div>
+          <div style={{ width: '150px' }}>
+            <FormControl fullWidth size="small" style={{ paddingBottom: '20px', minWidth: '100px' }}>
+              <InputLabel style={{ color: theme.palette.text.primary }}>Ordenar por</InputLabel>
+              <Select
+                sx={{ borderRadius: '20px' }}
+                value={1}
+                label="Ordenar por"
+                onChange={() => { }}
+              >
+                <MenuItem key={1} value={2}>Mas nuevos</MenuItem>
+                <MenuItem key={1} value={1}>Mas antiguos</MenuItem>
+                <MenuItem key={1} value={3}>Titulo</MenuItem>
+                <MenuItem key={1} value={4}>ID</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </div>
+
         {
           agentList.length > 0 && (
             <GridViewBigData

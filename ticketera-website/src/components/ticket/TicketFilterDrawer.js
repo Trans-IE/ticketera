@@ -4,12 +4,12 @@ import { ButtonTrans } from '../ui/ButtonTrans'
 import { useDispatch } from 'react-redux';
 import { getAllTicketTypes } from '../../redux/actions/ticketActions';
 import './TicketFilterDrawer.scss'
-import { useTheme } from '@mui/styles';
+import { styled, useTheme } from '@mui/styles';
 import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
 import { getAllResponsibles } from '../../redux/actions/responsibleActions';
 import { getAllCompanies } from '../../redux/actions/companyActions';
 import { getAllTicketStates } from '../../redux/actions/stateActions';
-import { getAllProducts } from '../../redux/actions/productActions';
+import { getAllBrands, getAllProducts, getProductsByBrand } from '../../redux/actions/productActions';
 import { getAllFailTypes } from '../../redux/actions/failTypeActions';
 
 export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
@@ -27,6 +27,9 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
     const [selectedCompany, setSelectedCompany] = useState("")
     const [selectedResponsible, setSelectedResponsible] = useState("")
 
+    const [brandsList, setBrandsList] = useState([])
+    const [selectedBrand, setSelectedBrand] = useState("")
+
     const [productList, setProductList] = useState([]);
     const [typeList, setTypeList] = useState([]);
     const [failTypeList, setFailTypeList] = useState([]);
@@ -37,45 +40,45 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
 
     useEffect(() => {
         dispatch(getAllTicketStates()).then(res => {
-            if (res.ok) {
-                setStateList(res.value)
-            }
+            setStateList(res.value)
         })
 
         dispatch(getAllTicketPriorities()).then(res => {
-            if (res.ok) {
-                setPriorityList(res.value)
-            }
+            setPriorityList(res.value)
         })
 
         dispatch(getAllCompanies()).then(res => {
-            if (res.ok) {
-                setCompaniesList(res.value)
-            }
-        })
-
-        dispatch(getAllProducts()).then(res => {
-            if (res.ok) {
-                setProductList(res.value)
-            }
+            setCompaniesList(res.value)
         })
 
         dispatch(getAllTicketTypes()).then(res => {
-            if (res.ok) {
-                setTypeList(res.value)
-            }
+            setTypeList(res.value)
+        })
+
+        dispatch(getAllBrands()).then(res => {
+            setBrandsList(res.value)
         })
 
         dispatch(getAllFailTypes()).then(res => {
-            if (res.ok) {
-                setFailTypeList(res.value)
-            }
+            setFailTypeList(res.value)
         })
 
         dispatch(getAllResponsibles()).then(res => {
             setResponsiblesList(res)
         })
     }, [])
+
+    useEffect(() => {
+        if (selectedBrand) {
+            dispatch(getProductsByBrand(selectedBrand)).then(res => {
+                setProductList(res.value)
+            })
+        }
+        else {
+            setProductList([])
+        }
+    }, [selectedBrand])
+
 
     const resetFilters = () => {
         setSelectedCompany("")
@@ -89,6 +92,15 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
         setCause("")
         setNumber(undefined)
     }
+
+    const StyledTextField = styled((props) => <TextField {...props} />)(
+        ({ theme }) => ({
+            '& label': {
+                color: theme.palette.text.primary
+            },
+        }),
+    );
+
 
     const handleFilter = () => {
         let filters = {
@@ -112,9 +124,9 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
         <div style={{ height: '100%', margin: ' 0 auto', scroll: 'auto' }}>
             <div style={{ height: '100%', overflow: 'auto', padding: '25px' }}>
                 <h2>Filtros</h2>
-                <TextField label="Titulo" value={title} onChange={e => setTitle(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
-                <TextField label="Numero" value={number === undefined ? '' : number} onChange={e => setNumber(e.target.value)} type="number" style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
-                <TextField label="Causa raiz" value={cause} onChange={e => setCause(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
+                <StyledTextField label="Titulo" value={title} onChange={e => setTitle(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
+                <StyledTextField label="Numero" value={number === undefined ? '' : number} onChange={e => setNumber(e.target.value)} type="number" style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
+                <StyledTextField label="Causa raiz" value={cause} onChange={e => setCause(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
                 <FormControl fullWidth style={{ paddingBottom: '20px' }}>
                     <InputLabel style={{ color: theme.palette.text.primary }}>Estado</InputLabel>
                     <Select
@@ -185,20 +197,33 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
                         })}
                     </Select>
                 </FormControl>
-                <FormControl fullWidth style={{ paddingBottom: '20px' }}>
-                    <InputLabel style={{ color: theme.palette.text.primary }}>Producto</InputLabel>
-                    <Select
-                        value={selectedProduct}
-                        label="Producto"
-                        onChange={(e) => { setSelectedProduct(e.target.value) }}
-                    >
-                        {productList.map((product) => {
-                            return (
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <FormControl fullWidth style={{ paddingBottom: '20px' }}>
+                        <InputLabel style={{ color: theme.palette.text.primary }}>Marca</InputLabel>
+                        <Select
+                            value={selectedBrand}
+                            label="Marca"
+                            onChange={(e) => { setSelectedBrand(e.target.value) }}
+                        >
+                            {brandsList.map((brand) => (
+                                <MenuItem key={brand.id} value={brand.id}>{brand.nombre}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth style={{ paddingBottom: '20px' }}>
+                        <InputLabel disabled={productList.length === 0}>Producto</InputLabel>
+                        <Select
+                            value={selectedProduct}
+                            label="Producto"
+                            onChange={(e) => { setSelectedProduct(e.target.value) }}
+                            disabled={productList.length === 0}
+                        >
+                            {productList.map((product) => (
                                 <MenuItem key={product.id} value={product.id}>{product.nombre}</MenuItem>
-                            )
-                        })}
-                    </Select>
-                </FormControl>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
                 <FormControl fullWidth style={{ paddingBottom: '20px' }}>
                     <InputLabel style={{ color: theme.palette.text.primary }}>Responsable</InputLabel>
                     <Select

@@ -37,19 +37,33 @@ export const MainMenu = ({ onClick, optionSelected }) => {
 
   }
 
+
+  const goToDashboard = () => {
+    dispatch(mainMenuShownChange(0))
+  }
+
   const goToTicketList = () => {
     dispatch(mainMenuShownChange(1))
   }
 
+  const goToReports = () => {
+    dispatch(mainMenuShownChange(2))
+  }
+
+  const goToAdmin = () => {
+    dispatch(mainMenuShownChange(3))
+  }
 
   return (
     <React.Fragment>
       <Tooltip title="Dashboard" arrow placement='right'>
-        <ListItemButton>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-        </ListItemButton>
+        <Link to="/dashboard" onClick={() => { goToDashboard() }}>
+          <ListItemButton selected={(optionSelected === 0) ? true : false} onClick={() => onClickMenu(0)}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
       </Tooltip>
 
       <Tooltip title="Tickets" arrow placement='right'>
@@ -63,19 +77,23 @@ export const MainMenu = ({ onClick, optionSelected }) => {
       </Tooltip>
 
       <Tooltip title="Reportes" arrow placement='right'>
-        <ListItemButton selected={(optionSelected === 2) ? true : false} onClick={() => onClickMenu(2)}>
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-        </ListItemButton>
+        <Link to="/reports" onClick={() => goToReports()}>
+          <ListItemButton selected={(optionSelected === 2) ? true : false} onClick={() => onClickMenu(2)}>
+            <ListItemIcon>
+              <BarChartIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
       </ Tooltip>
 
       <Tooltip title="Administracion" arrow placement='right'>
-        <ListItemButton selected={(optionSelected === 3) ? true : false} onClick={() => onClickMenu(3)}>
-          <ListItemIcon>
-            <SettingsOutlinedIcon />
-          </ListItemIcon>
-        </ListItemButton>
+        <Link to="/administration" onClick={() => { goToAdmin() }}>
+          <ListItemButton selected={(optionSelected === 3) ? true : false} onClick={() => onClickMenu(3)}>
+            <ListItemIcon>
+              <SettingsOutlinedIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
       </Tooltip>
 
     </React.Fragment>

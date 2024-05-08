@@ -7,7 +7,10 @@ import { makeStyles } from '@mui/styles';
 import { UserRol } from '../helpers/constants';
 import { InvalidSession } from '../components/auth/InvalidSession';
 import { TabsScreen } from '../components/root/TabsScreen';
-import { TicketDetail } from '../components/ticket/TicketDetail';
+import Dashboard from '../components/dashboard/dashboard/Dashboard';
+import Admin from '../components/admin/Admin';
+import Reports from '../components/reports/Reports';
+import { TicketDetail } from '../components/ticket/TicketDetail/TicketDetail';
 
 export const DashboardRoutes = () => {
 
@@ -34,6 +37,9 @@ export const DashboardRoutes = () => {
           <Route path=":id" element={<TicketDetail />} />
 
         </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/administration" element={<Admin />} />
+        <Route path="/reports" element={<Reports />} />
 
         {/* <Route path="tickets/:id" element={ <TicketDetail /> } />
  */}
@@ -49,8 +55,12 @@ export const DashboardRoutes = () => {
         <Route path="/tickets">
           <Route index element={<MainScreen />} />
           <Route path=":id" element={<TicketDetail />} />
-
         </Route>
+
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/administration" element={<Admin />} />
+        <Route path="/reports" element={<Reports />} />
+
         <Route path="error" element={<InvalidSession />} />
         <Route path="/" element={<Navigate to="/error" />} />
       </Routes>
