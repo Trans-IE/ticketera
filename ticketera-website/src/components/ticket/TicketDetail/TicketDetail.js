@@ -211,9 +211,14 @@ export const TicketDetail = ({ ticketID }) => {
                         <div>
                             <ButtonTrans variant="contained" onClick={() => setIsWorkingHoursModalOpen(true)}>Agregar Horas</ButtonTrans>
                         </div>
-                        <Modal open={isWorkingHoursModalOpen}
-                            onClose={() => { setIsWorkingHoursModalOpen(false) }}>
-                            <WorkingHoursModal />
+                        <Modal
+                            BackdropProps={{
+                                onClick: (event) => event.stopPropagation(), // Prevent closing on backdrop click
+                            }}
+                            open={isWorkingHoursModalOpen}
+                            onClose={() => { setIsWorkingHoursModalOpen(false) }}
+                        >
+                            <WorkingHoursModal closeModal={() => setIsWorkingHoursModalOpen(false)} />
                         </Modal>
                         <div>
                             <ButtonTrans variant="contained" marginLeft>Cargar Archivos</ButtonTrans>

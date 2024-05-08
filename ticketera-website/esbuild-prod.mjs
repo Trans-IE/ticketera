@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { copy } from 'esbuild-plugin-copy';
+import { sassPlugin } from 'esbuild-sass-plugin';
 
 await build({
     entryPoints: ['src/index.js'],
@@ -15,7 +16,6 @@ await build({
     },
     loader: {
         '.js': 'jsx',
-        '.scss': 'text',
         '.woff': 'dataurl',
         '.woff2': 'dataurl',
         '.ttf': 'dataurl',
@@ -23,6 +23,7 @@ await build({
         '.svg': 'dataurl',
     },
     plugins: [
+        sassPlugin(),
         copy({
             resolveFrom: 'cwd',
             assets: {
