@@ -260,7 +260,7 @@ const getAllDBUsers = (username, rol) => {
 const getAllDBUsersByCompany = (username, tipoUsuario, empresaId, includemyself) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users_by_company($1, $2, $3, $4);", [username, tipoUsuario, empresaId, includemyself], (error, results) => {
+        pooldata.getPool.query("SELECT * FROM tickets.f_ticketera_get_users_by_company($1, $2, $3, $4);", [username, tipoUsuario, empresaId, includemyself], (error, results) => {
             if (error) {
                 reject(error.message);
             }
