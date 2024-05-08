@@ -3,7 +3,7 @@ const pooldata = require('./poolpg')
 const createDBResponsible = (ticket_id, responsable_id, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_responsible($1, $2, $3)', [ticket_id, responsable_id, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_responsible($1, $2, $3)', [ticket_id, responsable_id, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -25,7 +25,7 @@ const createDBResponsible = (ticket_id, responsable_id, username) => {
 const createDBNote = (ticket_id, notas, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_note($1, $2, $3)', [ticket_id, notas, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_note($1, $2, $3)', [ticket_id, notas, username], (error, results) => {
             let objreturn = new Object();
 
             if (error) {
@@ -56,7 +56,7 @@ const createDBNote = (ticket_id, notas, username) => {
 const createDBAutoEvaluation = (ticket_id, auto_evaluacion, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_autoevaluation($1, $2, $3)', [ticket_id, auto_evaluacion, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_autoevaluation($1, $2, $3)', [ticket_id, auto_evaluacion, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -78,7 +78,7 @@ const createDBAutoEvaluation = (ticket_id, auto_evaluacion, username) => {
 const createDBPriority = (ticket_id, prioridad, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_priority($1, $2, $3)', [ticket_id, prioridad, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_priority($1, $2, $3)', [ticket_id, prioridad, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -99,7 +99,7 @@ const createDBPriority = (ticket_id, prioridad, username) => {
 const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_hours($1, $2, $3, $4)', [ticket_id, horas, fecha_accion_hs, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_hours($1, $2, $3, $4)', [ticket_id, horas, fecha_accion_hs, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -121,7 +121,7 @@ const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
 const createDBExtraHours = (ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from f_ticket_horas_extras($1, $2, $3, $4, $5, $6, $7, $8)', [ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticket_horas_extras($1, $2, $3, $4, $5, $6, $7, $8)', [ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -143,7 +143,7 @@ const createDBExtraHours = (ticket_id, fecha_inicio, fecha_fin, porcentaje, deta
 const createDBFilePath = (ticket_id, archivo, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_filePath($1, $2, $3)', [ticket_id, archivo, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_filePath($1, $2, $3)', [ticket_id, archivo, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -164,7 +164,7 @@ const createDBFilePath = (ticket_id, archivo, username) => {
 const createDBState = (ticket_id, estado, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_state($1, $2, $3)', [ticket_id, estado, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_state($1, $2, $3)', [ticket_id, estado, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -185,7 +185,7 @@ const createDBState = (ticket_id, estado, username) => {
 const getDBTicketActionByTicketId = (ticket_id, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_get_by_ticketId($1, $2)', [ticket_id, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_get_by_ticketId($1, $2)', [ticket_id, username], (error, results) => {
 
             let objreturn = new Object();
 
@@ -217,7 +217,7 @@ const getDBTicketActionByTicketId = (ticket_id, username) => {
 const createDBHiddenNote = (ticket_id, nota, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_ticket_action_create_hidden_note($1, $2, $3)', [ticket_id, nota, username], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_hidden_note($1, $2, $3)', [ticket_id, nota, username], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -239,7 +239,7 @@ const createDBHiddenNote = (ticket_id, nota, username) => {
 const getAllDBUsers = (username, rol) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query("SELECT * FROM public.f_ticketera_get_users_v1($1, $2);", [rol, username], (error, results) => {
+        pooldata.getPool.query("SELECT * FROM tickets.f_ticketera_get_users($1, $2);", [rol, username], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -281,7 +281,7 @@ const getAllDBUsersByCompany = (username, tipoUsuario, empresaId, includemyself)
 const getDBTicketDetail = (ticket_id, userId) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query("SELECT * FROM public.f_get_ticket_v1($1, $2);", [ticket_id, userId], (error, results) => {
+        pooldata.getPool.query("SELECT * FROM tickets.f_get_ticket($1, $2);", [ticket_id, userId], (error, results) => {
             if (error) {
                 reject(error.message);
             }

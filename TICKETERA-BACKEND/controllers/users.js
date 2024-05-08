@@ -209,7 +209,7 @@ const getUserByLogin = async (req, res = response) => {
         }
 
     } catch (error) {
-        logger.error(`getAgentByLogin : ${error.toString()}`);
+        logger.error(`getAgentByLogin : ${JSON.stringify(error)}`);
         res.status(500).json({
             ok: false,
             value: { user: null },

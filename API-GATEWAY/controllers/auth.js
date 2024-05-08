@@ -9,10 +9,11 @@ const loginUser = async (req, res = response) => {
     logger.info(`==> loginUser - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/getUserByLogin";
     try {
-        
-        const resp = await fetchSinToken(url, { username, password,check_password:true }, 'POST');
-        logger.info(`==> loginUser body :${resp}`);
+
+        const resp = await fetchSinToken(url, { username, password, check_password: true }, 'POST');
+
         const body = await resp.json();
+        logger.info(`==> loginUser body :${JSON.stringify(resp)}`);
         if (body.ok) {
             if (!body.value) {
                 return res.status(400).json({
@@ -23,7 +24,7 @@ const loginUser = async (req, res = response) => {
             //let label = body.value.username;
             //const token = await generarJWT(label, body.value.id_user);
 
-            const {user} = body.value;
+            const { user } = body.value;
             const token = await generarJWT(user.usuario);
 
             logger.info(`<== loginUser - username:${username}`);
@@ -41,34 +42,34 @@ const loginUser = async (req, res = response) => {
                 msg: body.msg
             });
         }
-        
+
         //Respuesta hardcodeada para un login (Sergio)
-/* 
-        const body = {
-            value: 
-                {
-                "id": 1,
-                "tipo": 1,
-                "estado": 2,
-                "usuario": "spalacio",
-                "apellido": "Sergio",
-                "nombres": "Palacio",
-                "telefono": "",
-                "mail": "spalacio@trans.com.ar",
-                "empresa_id": 3,
-                "roles": [1,2]
-            }
-        };
-
-        const user = body.value;
-        const token = await generarJWT(user.usuario);
-
-        res.status(200).json({
-            ok: true,
-            value: { user, token }, //Objeto usuario con user
-            msg: 'Usuario logueado correctamente.'
-        });
- */
+        /* 
+                const body = {
+                    value: 
+                        {
+                        "id": 1,
+                        "tipo": 1,
+                        "estado": 2,
+                        "usuario": "spalacio",
+                        "apellido": "Sergio",
+                        "nombres": "Palacio",
+                        "telefono": "",
+                        "mail": "spalacio@trans.com.ar",
+                        "empresa_id": 3,
+                        "roles": [1,2]
+                    }
+                };
+        
+                const user = body.value;
+                const token = await generarJWT(user.usuario);
+        
+                res.status(200).json({
+                    ok: true,
+                    value: { user, token }, //Objeto usuario con user
+                    msg: 'Usuario logueado correctamente.'
+                });
+         */
 
     } catch (error) {
         logger.error(`loginUser : ${error.message}`);
@@ -102,7 +103,7 @@ const revalidarToken = async (req, res = response) => {
             const { user } = body.value;
             res.status(200).json({
                 ok: true,
-                value: { user , token },
+                value: { user, token },
                 msg: 'Token revalidado correctamente.'
             });
 

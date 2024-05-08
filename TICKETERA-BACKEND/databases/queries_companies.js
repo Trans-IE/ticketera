@@ -71,7 +71,7 @@ const getAllDBCompaniesExternal = (username) => {
 const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_create($1,$2,$3,$4,$5)', [nombre, direccion, telefono, mail, codigo], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_empresas_create($1,$2,$3,$4,$5)', [nombre, direccion, telefono, mail, codigo], (error, results) => {
             if (error) {
 
                 reject(error.message);
@@ -92,8 +92,8 @@ const createDBCompany = (nombre, direccion, telefono, mail, codigo) => {
 
 const deleteDBCompany = (id) => {
     const return_promise = new Promise((resolve, reject) => {
-
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_delete($1)', [id], (error, results) => {
+        tickets
+        pooldata.getPool.query('select * from tickets.f_ticketera_empresas_delete($1)', [id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -112,7 +112,7 @@ const deleteDBCompany = (id) => {
 
 const updateDBCompany = (id, nombre, direccion, telefono, mail, habilitado) => {
     const return_promise = new Promise((resolve, reject) => {
-        pooldata.getPool.query('select * from public.f_ticketera_empresas_update($1,$2,$3,$4,$5,$6)', [id, nombre, direccion, telefono, mail, habilitado], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_empresas_update($1,$2,$3,$4,$5,$6)', [id, nombre, direccion, telefono, mail, habilitado], (error, results) => {
             if (error) {
                 reject(error.message);
             }

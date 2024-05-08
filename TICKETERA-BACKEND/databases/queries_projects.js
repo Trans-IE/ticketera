@@ -4,7 +4,7 @@ const pooldata = require('./poolpg')
 const getDBProjectsByCompany = (username, company) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticketera_get_projects_by_company($1, $2)', [username, company], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_projects_by_company($1, $2)', [username, company], (error, results) => {
             if (error) {
                 reject(error.message);
             }
