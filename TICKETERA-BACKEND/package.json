@@ -4,8 +4,8 @@
   "description": "BACKEND PARA TICKETERA V3",
   "main": "index.js",
   "scripts": {
-    "dw": "node --watch index.js",
-    "start": "node index.js"
+    "dw": "node --watch --env-file=.env index.js",
+    "start": "node --env-file=.env index.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +13,6 @@
     "pg": "^8.11.5",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "https": "^1.0.0",
