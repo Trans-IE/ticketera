@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dw": "node --watch index.js",
     "start": "node index.js"
   },
   "keywords": [],
@@ -12,22 +12,22 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^8.6.0",
-    "express": "^4.18.2",
-    "express-validator": "^6.15.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "form-data": "4.0.0",
     "http": "0.0.1-security",
     "https": "^1.0.0",
     "javascript-obfuscator": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
-    "moment": "^2.29.4",
-    "multer": "^1.4.5-lts.1",
-    "node-fetch": "2.7.0",
-    "node-windows": "^1.0.0-beta.8",
+    "moment": "^2.30.1",
+    "multer": "1.4.5-lts.1",
+    "node-fetch": "3.3.2",
+    "node-windows": "1.0.0-beta.8",
     "path": "^0.12.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "winston": "^3.11.0",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

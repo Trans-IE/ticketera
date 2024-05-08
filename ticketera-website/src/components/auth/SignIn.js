@@ -146,7 +146,7 @@ si esta autenticado debo hacer lo siguiente:
         <div style={{ height: '100vh', width: '60%', backgroundColor: theme.palette.background.main, transform: 'skew(-12deg)', paddingLeft: '100px', marginLeft: '-100px', marginRight: '100px' }}>
         </div>
         <div
-        style={{marginRight: '50px'}}
+          style={{ marginRight: '50px' }}
           component="main"
           maxWidth="sm"
         >

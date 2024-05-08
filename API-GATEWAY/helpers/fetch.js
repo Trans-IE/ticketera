@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fetchSinToken = (url, data, method = "GET") => {
   if (method === "GET") {
     if (data === undefined) {
