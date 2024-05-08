@@ -1,13 +1,11 @@
 [
     {
         "name": "api_gateway_host",
-        "value": "http://localhost:5101/api",
-        "description": "0: azure 1 ad+local 2: soloLocal 3: Auth0 "
+        "value": "http://localhost:5101/api"
     },
     {
         "name": "socket_host",
-        "value": "http://localhost:5002",
-        "description": "0: azure 1 ad+local 2: soloLocal 3: Auth0 "
+        "value": "ws://localhost:5102"
     },
     {
         "name": "AuthenticationMode",

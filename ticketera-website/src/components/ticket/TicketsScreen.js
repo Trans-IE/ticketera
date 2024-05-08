@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
@@ -10,6 +10,7 @@ import { getTicketsByFilter } from '../../redux/actions/ticketActions';
 import { getShortDateString } from '../../helpers/dateHelper';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import TicketFilterDrawer from './TicketFilterDrawer';
+import { SocketContext } from '../../context/SocketContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,6 +164,21 @@ export const TicketsScreen = () => {
         { id: 'tktrans', label: 'T.Trans', minWidth: 50 },
         { id: 'tkcliente', label: 'T.Cliente', minWidth: 50 } */
   ]
+
+  const { online, socket } = useContext(SocketContext);
+
+
+  useEffect(() => {
+    if (online) {
+      console.log('socket en tickets conectado');
+    } else {
+      console.log('socket en tickets desconectado');
+    }
+
+
+  }
+    , [online])
+
 
   const setPriority = (priority) => {
     let color = 'black';
