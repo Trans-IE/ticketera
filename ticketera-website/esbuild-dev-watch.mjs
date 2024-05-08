@@ -1,5 +1,6 @@
 import { context } from 'esbuild';
 import { copy } from 'esbuild-plugin-copy';
+import { sassPlugin } from 'esbuild-sass-plugin';
 
 const ctx = await context({
     entryPoints: ['src/index.js'],
@@ -15,7 +16,6 @@ const ctx = await context({
     },
     loader: {
         '.js': 'jsx',
-        '.scss': 'text',
         '.woff': 'dataurl',
         '.woff2': 'dataurl',
         '.ttf': 'dataurl',
@@ -23,6 +23,7 @@ const ctx = await context({
         '.svg': 'dataurl',
     },
     plugins: [
+        sassPlugin(),
         copy({
             resolveFrom: 'cwd',
             assets: {
