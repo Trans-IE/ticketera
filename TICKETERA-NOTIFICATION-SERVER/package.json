@@ -4,6 +4,7 @@
   "description": "socket para servicios ticketera",
   "main": "index.js",
   "scripts": {
+    "bprod": "node --env-file=.env esbuild-prod.mjs",
     "dw": "node --watch --env-file=.env index.js",
     "start": "node --env-file=.env index.js"
   },
@@ -21,5 +22,9 @@
     "uuid": "^9.0.1",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.1",
+    "esbuild-plugin-copy": "^2.1.1"
   }
 }
