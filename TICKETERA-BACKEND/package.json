@@ -4,6 +4,7 @@
   "description": "BACKEND PARA TICKETERA V3",
   "main": "index.js",
   "scripts": {
+    "bprod": "node --env-file=.env esbuild-prod.mjs",
     "dw": "node --watch --env-file=.env index.js",
     "start": "node --env-file=.env index.js"
   },
@@ -24,5 +25,9 @@
     "winston": "^3.13.0",
     "multer": "1.4.5-lts.1",
     "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.1",
+    "esbuild-plugin-copy": "^2.1.1"
   }
 }

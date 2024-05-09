@@ -8,6 +8,7 @@ const ctx = await context({
     minify: false,
     sourcemap: false,
     splitting: false,
+    platform: 'browser',
     target: ['chrome60', 'firefox57', 'safari12', 'edge79'],
     outdir: 'dist',
     format: 'iife',

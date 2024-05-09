@@ -1,0 +1,30 @@
+{
+  "name": "ticketera_notification_server",
+  "version": "1.0.0",
+  "description": "socket para servicios ticketera",
+  "main": "index.js",
+  "scripts": {
+    "bprod": "node --env-file=.env esbuild-prod.mjs",
+    "dw": "node --watch --env-file=.env index.js",
+    "start": "node --env-file=.env index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "https": "^1.0.0",
+    "is-stream": "^4.0.1",
+    "javascript-obfuscator": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-windows": "1.0.0-beta.8",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.1",
+    "esbuild-plugin-copy": "^2.1.1"
+  }
+}

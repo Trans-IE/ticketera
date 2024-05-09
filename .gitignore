@@ -1,8 +1,15 @@
 *.svn*
 ticketera-website/node_modules
 ticketera-website/dist/*
-!ticketera-website/dist/.gitkeep 
+
 API-GATEWAY/logs/*
 !API-GATEWAY/logs/.gitkeep
+API-GATEWAY/dist/*
+
 TICKETERA-BACKEND/logs/*
 !TICKETERA-BACKEND/logs/.gitkeep
+TICKETERA-BACKEND/dist/*
+
+TICKETERA-NOTIFICATION-SERVER/logs/*
+!TICKETERA-NOTIFICATION-SERVER/logs/.gitkeep
+TICKETERA-NOTIFICATION-SERVER/dist/*
