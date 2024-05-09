@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "bprod": "node --env-file=.env esbuild-prod.mjs",
     "dw": "node --watch --env-file=.env index.js",
     "start": "node --env-file=.env index.js"
   },
@@ -28,5 +29,9 @@
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.1",
+    "esbuild-plugin-copy": "^2.1.1"
   }
 }
