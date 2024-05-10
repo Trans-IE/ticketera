@@ -436,7 +436,7 @@ const getAllUsers = async (req, res = response) => {
 }
 
 const getAllUsersByCompany = async (req, res = response) => {
-    const { username, empresaId, includemyself } = req.body;
+    let { username, empresaId, includemyself } = req.body;
 
     let empresaIdAux;
 
