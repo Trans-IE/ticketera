@@ -1,18 +1,19 @@
 const { response } = require('express');
-const { getAllDBStates, createDBState } = require('../databases/queries_states');
+const { getAllDBStatesByTicketId, createDBState } = require('../databases/queries_states');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
 
-const getAllStates = async (req, res = response) => {
+const getAllStatesByTicketId = async (req, res = response) => {
+    const { ticket_id } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`==> getAllStates.`)
+    logger.info(`==> getAllStatesByTicketId.`)
     try {
-        getAllDBStates()
+        getAllDBStatesByTicketId(ticket_id)
             .then(result => {
-                logger.info(`<== getAllStates`);
-                loggerCSV.info(`getAllStates, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getAllStatesByTicketId`);
+                loggerCSV.info(`getAllStatesByTicketId, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     value: result,
@@ -20,11 +21,11 @@ const getAllStates = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getAllStates => getAllDBStates error=> ${error}`);
+                logger.error(`getAllStatesByTicketId => getAllDBStatesByTicketId error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getAllDBStates error=> ${error}`);
+        logger.error(`getAllStatesByTicketId error=> ${error}`);
         res.status(500).json({
             ok: false,
             items: [],
@@ -34,5 +35,5 @@ const getAllStates = async (req, res = response) => {
 }
 
 module.exports = {
-    getAllStates
+    getAllStatesByTicketId
 }

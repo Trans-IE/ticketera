@@ -1,9 +1,9 @@
 const pooldata = require('./poolpg')
 
-const getAllDBStates = () => {
+const getAllDBStatesByTicketId = (ticket_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('SELECT * FROM public.estados_ticket;', [], (error, results) => {
+        pooldata.getPool.query('SELECT * FROM tickets.f_ticketera_get_estados($1);', [ticket_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -22,7 +22,7 @@ const getAllDBStates = () => {
 }
 
 module.exports = {
-    getAllDBStates
+    getAllDBStatesByTicketId
 
 }
 

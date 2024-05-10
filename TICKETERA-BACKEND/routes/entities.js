@@ -7,7 +7,7 @@ const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany } = require('../controllers/brands');
-const { getAllStates } = require('../controllers/states');
+const { getAllStatesByTicketId } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
@@ -346,12 +346,12 @@ router.post(
 );
 
 router.post(
-    '/getAllStates',
+    '/getAllStatesByTicketId',
     [
-
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
     ],
 
-    getAllStates
+    getAllStatesByTicketId
 );
 
 router.post(

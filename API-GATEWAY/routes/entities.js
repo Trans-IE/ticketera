@@ -6,7 +6,7 @@ const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts,
 const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
 const { createBrand, deleteBrand, updateBrand, getAllBrands, getBrandsByCompany } = require('../controllers/brands');
 const { getAllPrioritys } = require('../controllers/prioritys');
-const { getAllStates } = require('../controllers/states');
+const { getAllStatesByTicketId } = require('../controllers/states');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
@@ -1640,24 +1640,37 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/getAllStates:
+ * /api/entities/getAllStatesByTicketId:
  *   post:
  *     summary: Obtener todos los estados en el sistema
  *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todos los estados en el sistema.
  *     tags: [Ticket Actions]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: Id del ticket.
+ *                 example: 8290
+ *             required:
+ *               - ticket_id
  *     responses:
  *       200:
- *         description: Lista de estados obtenida correctamente.
+ *         description: Información de todas los estados en el sistema obtenida correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 states:
+ *                 ticket_actions:
  *                   type: array
- *                   description: Lista de estados.
- *                   items:
- *                     type: object
+ *                   description: Detalles de todas las acciones por ticket.
  *       401:
  *         description: No autorizado (401) por falta de credenciales.
  *         content:
@@ -1671,17 +1684,18 @@ router.post(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada.
- *     parameters: []
- *     security:
- *      - x-token: []
  */
 router.post(
-    '/getAllStates',
+    '/getAllStatesByTicketId',
     [
+        //Recibo un id de ticket.
+        // Si ticket es -1 devuelve los estados validos para un filtro, si no los validos para el ticket.
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
         validarJWT
     ],
 
-    getAllStates
+    getAllStatesByTicketId
 );
 
 /**
