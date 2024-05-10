@@ -47,6 +47,14 @@ await build({
                 to: ['dist/public'],
             },
             watch: false,
+        }),
+        copy({
+            resolveFrom: 'cwd',
+            assets: {
+                from: ['./package.json'],
+                to: ['dist/package.json'],
+            },
+            watch: false,
         })
     ],
 
