@@ -143,6 +143,48 @@ const getAllDBTicketTypes = () => {
     return return_promise;
 }
 
+const changeAssingDBTicket = (userId, ticketId, responsableId) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from f_ticket_assign($1, $2, $3, $4);', [userId, ticketId, responsableId, ''], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+const changeStateDBTicket = (userId, ticketId, idState) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from f_ticket_change_state($1, $2, $3, $4);', [userId, ticketId, idState, ''], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     getAllDBTicketsByFilter,
     createDBTicketTrans,
@@ -150,5 +192,7 @@ module.exports = {
     createDBTicketClient,
     deleteDBTicket,
     getAllDBFailTypes,
-    getAllDBTicketTypes
+    getAllDBTicketTypes,
+    changeAssingDBTicket,
+    changeStateDBTicket
 }

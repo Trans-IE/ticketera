@@ -2706,6 +2706,10 @@ router.put(
  *                 type: string
  *                 description: ID del ticket asociado al partner.
  *                 example: ""
+ *               responsableId:
+ *                 type: integer
+ *                 description: ID del responsableId asociado al ticket.
+ *                 example: 2108
  *               array_user_id_notif:
  *                 type: string
  *                 description: Array para notificaciones.

@@ -1,11 +1,11 @@
 const { response } = require('express');
-const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes } = require('../databases/queries_tickets');
+const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes, changeAssingDBTicket, changeStateDBTicket } = require('../databases/queries_tickets');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 
 const { logger, loggerCSV } = require('../logger');
-const { userType } = require('../helpers/constants');
+const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
 
 const createTicketTrans = async (req, res = response) => {
@@ -13,24 +13,61 @@ const createTicketTrans = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif } = req.body;
+    const { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, responsableId, array_user_id_notif } = req.body;
 
-    logger.info(`createTicketTrans username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} array_user_id_notif:${array_user_id_notif}`);
+    logger.info(`createTicketTrans username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} array_user_id_notif:${array_user_id_notif}`);
 
     const userId = await getDBUserIdByUser(username);
+    const typeId = await getDBTypeUserByUser(username);
 
     try {
         createDBTicketTrans(userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { id: result },
-                    msg: `Ticket creado correctamente.`
-                });
-
+            .then(ticketId => {
+                if (responsableId) {
+                    //TODO: Validar que la asignación y el cambio de estado del ticket solo lo pueda hacer un usuario TRANS a un usuario TRANS!
+                    if (typeId != userType.client) {
+                        changeAssingDBTicket(userId, ticketId, responsableId)
+                            .then(result_changeAssing => {
+                                changeStateDBTicket(userId, ticketId, ticketStatus.Pendiente_de_trans)
+                                    .then(result_state => {
+                                        res.status(200).json({
+                                            ok: true,
+                                            value: { id: result_state },
+                                            msg: `Ticket creado correctamente.`
+                                        });
+                                    }).catch(dataError => {
+                                        logger.error(`createTicketTrans => changeStateDBTicket : params=> userId:${userId} ticketId:${ticketId} responsableId:${responsableId} error=> ${dataError}`);
+                                        res.status(501).json({
+                                            ok: false,
+                                            error: dataError,
+                                            msg: `No se pudo crear la acción createTicket del ticket. `
+                                        });
+                                    });
+                            }).catch(dataError => {
+                                logger.error(`createTicketTrans => changeAssingDBTicket : params=> userId:${userId} ticketId:${ticketId} responsableId:${responsableId} error=> ${dataError}`);
+                                res.status(501).json({
+                                    ok: false,
+                                    error: dataError,
+                                    msg: `No se pudo crear la acción createTicket del ticket. `
+                                });
+                            });
+                    } else {
+                        res.status(200).json({
+                            ok: true,
+                            value: { id: ticketId },
+                            msg: `Ticket creado correctamente.`
+                        });
+                    }
+                } else {
+                    res.status(401).json({
+                        ok: false,
+                        error: dataError,
+                        msg: `No tiene permiso para realizar esta acción.`
+                    });
+                }
             })
             .catch(dataError => {
-                logger.error(`createTicketTrans => createDBTicketTrans : params=> username:${username} userId:${userId} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} array_user_id_notif:${array_user_id_notif} error=> ${dataError}`);
+                logger.error(`createTicketTrans => createDBTicketTrans : params=> username:${username} userId:${userId} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} array_user_id_notif:${array_user_id_notif} error=> ${dataError}`);
                 res.status(501).json({
                     ok: false,
                     error: dataError,
@@ -39,7 +76,7 @@ const createTicketTrans = async (req, res = response) => {
             });
 
     } catch (error) {
-        logger.error(`createTicketTrans => createDBTicketTrans : params=> username:${username} userId:${userId} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} array_user_id_notif:${array_user_id_notif} error=> ${error}`);
+        logger.error(`createTicketTrans params=> username:${username} userId:${userId} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} array_user_id_notif:${array_user_id_notif} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -59,7 +96,7 @@ const updateTicketTrans = async (req, res = response) => {
     const userId = await getDBUserIdByUser(username);
 
     try {
-        logger.info(`createTicketClient userId:${userId}`);
+        logger.info(`updateTicketTrans userId:${userId}`);
 
         updateDBTicketTrans(userId, empresaId, tipoFalla, cliente, partner, rma, bug, comment, nroSerie, nodo, titulo, causaRaiz, preventa, vendedor, producto, esProjecto, proyecton, array_user_id_notif)
             .then(result => {
@@ -102,7 +139,7 @@ const createTicketClient = async (req, res = response) => {
 
     const empresaIdByUser = await getDBCompanyByUser(username);
     const userId = await getDBUserIdByUser(username);
-    const contracts = await getDBContractsIdByCompany(54);
+    const contracts = await getDBContractsIdByCompany(empresaId);
 
     console.log('empresaIdByUser: ' + empresaIdByUser);
     console.log('userId: ' + userId);

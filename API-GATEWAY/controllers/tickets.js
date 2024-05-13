@@ -64,7 +64,7 @@ const getAllTicketsByFilter = async (req, res = response) => {
 const createTicket = async (req, res = response) => {
 
     const { label: username } = req;
-    const { empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif } = req.body;
+    const { empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, responsableId, array_user_id_notif } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.ClienteADM},${UserRol.ClienteUSR},${UserRol.LocalTAC}`;
@@ -72,21 +72,22 @@ const createTicket = async (req, res = response) => {
     let url = "";
 
     try {
-        logger.info(`createTicket username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} array_user_id_notif:${array_user_id_notif}`);
+        logger.info(`createTicket username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} array_user_id_notif:${array_user_id_notif}`);
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
         let setRolUser = new Set(rol.split(',').map(Number));
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
+        //TODO: Los roles que se filtran deben ser explícitos ya que si no es Trans sí o sí siempre entraría por Cliente.
         if (resultado) {
             if (setRolUser.has(UserRol.LocalSM) || setRolUser.has(UserRol.LocalEJ) || setRolUser.has(UserRol.LocalTEC)) {
                 url = process.env.HOST_TICKETERA_BACKEND + "/entities/createTicketTrans";
-            } else {
+            } else if (setRolUser.has(UserRol.ClienteADM) || setRolUser.has(UserRol.ClienteUSR)) {
                 url = process.env.HOST_TICKETERA_BACKEND + "/entities/createTicketClient";
             }
 
-            const resp = await fetchSinToken(url, { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif }, 'POST');
+            const resp = await fetchSinToken(url, { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, responsableId, array_user_id_notif }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
