@@ -446,9 +446,9 @@ router.post(
         check('listHours', 'La lista de horas es obligatoria').isArray({ min: 1 }),
         check('listHours.*.ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('listHours.*.horas', 'Las horas son obligatorias').not().isEmpty(),
-        check('listHours.*.username', 'El username es obligatorio').not().isEmpty(),
+        check('listHours.*.fecha_accion_hs', 'Las horas son obligatorias').not().isEmpty(),
 
-        validarCampos
+        validarCampos,
     ],
 
     setHoursByList

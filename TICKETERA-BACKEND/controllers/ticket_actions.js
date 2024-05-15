@@ -161,7 +161,7 @@ const setHours = async (req, res = response) => {
 }
 
 const setHoursByList = async (req, res = response) => {
-    const { listHours } = req.body;
+    const { listHours, username } = req.body;
 
     logger.info(`setHoursByList listHours:${JSON.stringify(listHours)}`);
 
@@ -170,7 +170,7 @@ const setHoursByList = async (req, res = response) => {
         const results = [];
 
         // Iterar sobre cada objeto en la lista de horas
-        for (const { ticket_id, horas, fecha_accion_hs, username } of listHours) {
+        for (const { ticket_id, horas, fecha_accion_hs } of listHours) {
             // Llamar a la función para crear la hora en la base de datos
             const result = await createDBHoursByList(ticket_id, horas, fecha_accion_hs, username);
             results.push(result); // Agregar el resultado al array de resultados
