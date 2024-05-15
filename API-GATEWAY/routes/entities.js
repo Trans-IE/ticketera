@@ -2515,18 +2515,37 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               ticket_id:
- *                 type: integer
- *                 description: El ID del ticket
- *                 example: 8290
- *               horas:
- *                 type: string
- *                 description: Nueva hora asociada al ticket.
- *                 example: "00:01:00"
- *               fecha_accion_hs:
- *                 type: string
- *                 description: Nueva hora real asociada al ticket.
- *                 example: "2024-01-01 00:00:00"
+ *               listHours:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     ticket_id:
+ *                       type: integer
+ *                       description: El ID del ticket
+ *                       example: 8290
+ *                     horas:
+ *                       type: string
+ *                       description: Nueva hora asociada al ticket.
+ *                       example: "00:01:00"
+ *                     fecha_accion_hs:
+ *                       type: string
+ *                       description: Nueva hora real asociada al ticket.
+ *                       example: "2024-01-01 00:00:00"
+ *       examples:
+ *         setHoursExample:
+ *           summary: Ejemplo de solicitud para establecer horas trabajadas en múltiples tickets.
+ *           value:
+ *             listHours:
+ *               - ticket_id: 8290
+ *                 horas: "00:01:00"
+ *                 fecha_accion_hs: "2024-01-01 00:00:00"
+ *               - ticket_id: 8291
+ *                 horas: "01:30:00"
+ *                 fecha_accion_hs: "2024-01-02 08:00:00"
+ *               - ticket_id: 8292
+ *                 horas: "02:15:00"
+ *                 fecha_accion_hs: "2024-01-03 12:30:00"
  *     responses:
  *       201:
  *         description: Estado creado correctamente.
@@ -2571,9 +2590,10 @@ router.post(
 router.post(
     '/setHoursByList',
     [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('horas', 'Las horas son obligatoria').not().isEmpty(),
-        check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
+        check('listHours', 'La lista de horas es obligatoria').isArray({ min: 1 }),
+        check('listHours.*.ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('listHours.*.horas', 'Las horas son obligatorias').not().isEmpty(),
+        check('listHours.*.fecha_accion_hs', 'Las horas son obligatorias').not().isEmpty(),
 
         validarCampos,
         validarJWT

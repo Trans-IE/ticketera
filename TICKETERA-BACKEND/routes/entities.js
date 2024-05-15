@@ -443,14 +443,17 @@ router.post(
 router.post(
     '/setHoursByList',
     [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('horas', 'Las horas son obligatoria').not().isEmpty(),
-        check('username', 'El username es obligatorio').not().isEmpty(),
+        check('listHours', 'La lista de horas es obligatoria').isArray({ min: 1 }),
+        check('listHours.*.ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('listHours.*.horas', 'Las horas son obligatorias').not().isEmpty(),
+        check('listHours.*.username', 'El username es obligatorio').not().isEmpty(),
 
+        validarCampos
     ],
 
     setHoursByList
 );
+
 
 router.post(
     '/setExtraHours',

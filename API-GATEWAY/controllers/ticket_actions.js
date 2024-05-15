@@ -372,14 +372,14 @@ const setHours = async (req, res = response) => {
 
 const setHoursByList = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id, horas, fecha_accion_hs } = req.body;
+    const { listHours } = req.body; // Modificado para acceder a listHours en lugar de extraer ticket_id, horas y fecha_accion_hs directamente
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
     logger.info(`==> setHoursByList - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHoursByList";
 
     try {
-        logger.info(`setHoursByList ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username}`)
+        logger.info(`setHoursByList listHours:${JSON.stringify(listHours)} username:${username}`) // Modificado para loggear la lista de horas trabajadas
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -387,7 +387,7 @@ const setHoursByList = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { ticket_id, horas, fecha_accion_hs, username }, 'POST');
+            const resp = await fetchSinToken(url, { listHours, username }, 'POST'); // Modificado para enviar listHours en lugar de ticket_id, horas y fecha_accion_hs
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {

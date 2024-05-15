@@ -161,35 +161,28 @@ const setHours = async (req, res = response) => {
 }
 
 const setHoursByList = async (req, res = response) => {
+    const { listHours } = req.body;
 
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token
-
-    const { ticket_id, horas, fecha_accion_hs, username } = req.body;
-
-    logger.info(`setHoursByList ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username} `)
+    logger.info(`setHoursByList listHours:${JSON.stringify(listHours)}`);
 
     try {
-        createDBHoursByList(ticket_id, horas, fecha_accion_hs, username)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { hours: result },
-                    msg: `Ticket acción hora creada correctamente con id: ${result}`
-                });
+        // Array para almacenar los resultados de la creación de horas
+        const results = [];
 
-            })
-            .catch(dataError => {
-                logger.error(`setHoursByList => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${dataError}`);
-                res.status(401).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo crear la acción horas del ticket. `
-                });
-            });
+        // Iterar sobre cada objeto en la lista de horas
+        for (const { ticket_id, horas, fecha_accion_hs, username } of listHours) {
+            // Llamar a la función para crear la hora en la base de datos
+            const result = await createDBHoursByList(ticket_id, horas, fecha_accion_hs, username);
+            results.push(result); // Agregar el resultado al array de resultados
+        }
 
+        res.status(200).json({
+            ok: true,
+            value: { hours: results },
+            msg: `Se crearon las horas de acción para los tickets correctamente.`
+        });
     } catch (error) {
-        logger.error(`setHoursByList => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${error}`);
+        logger.error(`setHoursByList => createDBHours : error => ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
