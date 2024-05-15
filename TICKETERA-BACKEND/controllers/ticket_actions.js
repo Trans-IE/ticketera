@@ -171,9 +171,18 @@ const setHoursByList = async (req, res = response) => {
 
         // Iterar sobre cada objeto en la lista de horas
         for (const { ticket_id, horas, fecha_accion_hs } of listHours) {
-            // Llamar a la función para crear la hora en la base de datos
-            const result = await createDBHoursByList(ticket_id, horas, fecha_accion_hs, username);
-            results.push(result); // Agregar el resultado al array de resultados
+            try {
+                // Llamar a la función para crear la hora en la base de datos
+                const result = await createDBHoursByList(ticket_id, horas, fecha_accion_hs, username);
+                results.push(result); // Agregar el resultado al array de resultados
+            } catch (error) {
+                logger.error(`setHoursByList => createDBHours : error => ${error}`);
+                res.status(500).json({
+                    ok: false,
+                    error: error,
+                    msg: 'Por favor hable con el administrador'
+                });
+            }
         }
 
         res.status(200).json({

@@ -74,7 +74,7 @@ const getProductsByBrandAndCompany = async (req, res = response) => {
     const { marca_id, company } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getProductsByBrandAndCompany. marca_id:${marca_id} company=> ${company}`)
+    logger.info(`getProductsByBrandAndCompany. marca_id:${marca_id} company: ${company}`)
     try {
 
         getDBProductByBrandAndCompany(marca_id, company)
