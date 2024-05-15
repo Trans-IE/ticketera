@@ -118,6 +118,28 @@ const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
     return return_promise;
 }
 
+const createDBHoursByList = (ticket_id, horas, fecha_accion_hs, username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_hours($1, $2, $3, $4)', [ticket_id, horas, fecha_accion_hs, username], (error, results) => {
+            if (error) {
+
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows[0].f_ticketera_ticket_action_create_hours);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const createDBExtraHours = (ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, user_id, id) => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -314,5 +336,6 @@ module.exports = {
     createDBExtraHours,
     getAllDBUsers,
     getAllDBUsersByCompany,
-    getDBTicketDetail
+    getDBTicketDetail,
+    createDBHoursByList
 }

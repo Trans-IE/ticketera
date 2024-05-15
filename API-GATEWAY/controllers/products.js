@@ -119,6 +119,62 @@ const getProduct = async (req, res = response) => {
     }
 }
 
+
+const getProductsByBrandAndCompany = async (req, res = response) => {
+    const { label: username } = req;
+    const { marca_id, company } = req.body;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> getProductsByBrandAndCompany - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProductsByBrandAndCompany";
+
+    try {
+        logger.info(`getProductsByBrandAndCompany marca_id:${marca_id} comppany:${company}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { marca_id, company }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getProductsByBrandAndCompany - username:${username}`);
+                loggerCSV.info(`getProductsByBrandAndCompany,${(new Date() - function_enter_time) / 1000}`)
+
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Producto obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getProductsByBrandAndCompany : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getProductsByBrandAndCompany`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getProductsByBrandAndCompany : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const getProductsByBrand = async (req, res = response) => {
     const { label: username } = req;
     const { marca_id } = req.body;
@@ -362,6 +418,7 @@ const deleteProduct = async (req, res = response) => {
 module.exports = {
     getProduct,
     getProductsByBrand,
+    getProductsByBrandAndCompany,
     getAllProducts,
     createProduct,
     updateProduct,

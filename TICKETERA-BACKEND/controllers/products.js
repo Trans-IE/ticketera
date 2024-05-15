@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getDBProduct, getDBProductByBrand, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct } = require('../databases/queries_products');
+const { getDBProduct, getDBProductByBrand, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct, getDBProductByBrandAndCompany } = require('../databases/queries_products');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -59,6 +59,40 @@ const getProduct = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`getDBProduct : params=> id=${id} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            value: [],
+            msg: 'Error obteniendo listado de productos.'
+        });
+    }
+}
+
+const getProductsByBrandAndCompany = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token.
+    const { marca_id, company } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`getProductsByBrandAndCompany. marca_id:${marca_id} company=> ${company}`)
+    try {
+
+        getDBProductByBrandAndCompany(marca_id, company)
+            .then(result => {
+                logger.info(`<== getProductsByBrandAndCompany`);
+                loggerCSV.info(`getProductsByBrandAndCompany, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de productos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getProductsByBrandAndCompany => getDBProductByBrandAndCompany : params=> marca_id=> ${marca_id} company=> ${company} error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getDBProductByBrandAndCompany : params=> marca_id=> ${marca_id} company=> ${company} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
@@ -242,5 +276,6 @@ module.exports = {
     getAllProducts,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByBrandAndCompany
 }

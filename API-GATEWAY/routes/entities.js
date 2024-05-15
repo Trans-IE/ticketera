@@ -2,16 +2,16 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
-const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
+const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndCompany } = require('../controllers/products');
 const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
 const { createBrand, deleteBrand, updateBrand, getAllBrands, getBrandsByCompany } = require('../controllers/brands');
 const { getAllPrioritys } = require('../controllers/prioritys');
-const { getAllStatesByTicketId } = require('../controllers/states');
+const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 const { getProjectByCompany } = require('../controllers/projects');
 const router = Router();
@@ -430,6 +430,125 @@ router.post(
     ],
 
     getProductsByBrand
+);
+
+/**
+ * @openapi
+ * /api/entities/getProductsByBrand:
+ *   post:
+ *     summary: Obtener información de todos los productos por marca en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los productos por marca en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Products]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               marca_id:
+ *                 type: integer
+ *                 description: Id de la marca de los productos a buscar.
+ *             required:
+ *               - marca_id
+ *     responses:
+ *       200:
+ *         description: Información de todos los productos por marca obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   description: Detalles de todos los productos por marca.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getProductsByBrand',
+    [
+        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getProductsByBrand
+);
+
+/**
+ * @openapi
+ * /api/entities/getProductsByBrandAndCompany:
+ *   post:
+ *     summary: Obtener información de todos los productos por marca y compañía en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los productos por marca y compañia en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Products]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               marca_id:
+ *                 type: integer
+ *                 description: Id de la marca de los productos a buscar.
+ *               company:
+ *                 type: integer
+ *                 description: Id de la compañía de los productos a buscar.
+ *             required:
+ *               - marca_id
+ *               - company
+ *     responses:
+ *       200:
+ *         description: Información de todos los productos por marca y compañía obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   description: Detalles de todos los productos por marca y compañía.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getProductsByBrandAndCompany',
+    [
+        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+        check('company', 'Debe ingresar una compañia').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getProductsByBrandAndCompany
 );
 
 /**
@@ -1700,6 +1819,53 @@ router.post(
 
 /**
  * @openapi
+ * /api/entities/getAllStates:
+ *   post:
+ *     summary: Obtener todas los estados en el sistema
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de todas las prioridades en el sistema.
+ *     tags: [Ticket Actions]
+ *     responses:
+ *       200:
+ *         description: Lista de estados obtenidos correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 states:
+ *                   type: array
+ *                   description: Lista de estados.
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getAllStates',
+    [
+
+        validarJWT
+    ],
+
+    getAllStates
+);
+
+/**
+ * @openapi
  * /api/entities/getTicketActionByTicketId:
  *   post:
  *     summary: Obtener información de todas las acciones por ticket id en el sistema
@@ -2333,6 +2499,87 @@ router.post(
     ],
 
     setHours
+);
+
+/**
+ * @openapi
+ * /api/entities/setHoursByList:
+ *   post:
+ *     summary: Setea las horas trabajadas en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               horas:
+ *                 type: string
+ *                 description: Nueva hora asociada al ticket.
+ *                 example: "00:01:00"
+ *               fecha_accion_hs:
+ *                 type: string
+ *                 description: Nueva hora real asociada al ticket.
+ *                 example: "2024-01-01 00:00:00"
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setHoursByList',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('horas', 'Las horas son obligatoria').not().isEmpty(),
+        check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setHoursByList
 );
 
 /**

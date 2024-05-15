@@ -59,10 +59,10 @@ const createTicketTrans = async (req, res = response) => {
                         });
                     }
                 } else {
-                    res.status(401).json({
-                        ok: false,
-                        error: dataError,
-                        msg: `No tiene permiso para realizar esta acción.`
+                    res.status(200).json({
+                        ok: true,
+                        value: { id: ticketId },
+                        msg: `Ticket creado correctamente.`
                     });
                 }
             })

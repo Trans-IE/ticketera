@@ -4,14 +4,14 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
-const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand } = require('../controllers/products');
+const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndCompany } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany } = require('../controllers/brands');
-const { getAllStatesByTicketId } = require('../controllers/states');
+const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -115,6 +115,16 @@ router.post(
     ],
 
     getProduct
+);
+
+router.post(
+    '/getProductsByBrandAndCompany',
+    [
+        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+        check('company', 'Debe ingresar una compañia').not().isEmpty(),
+    ],
+
+    getProductsByBrandAndCompany
 );
 
 router.post(
@@ -355,6 +365,15 @@ router.post(
 );
 
 router.post(
+    '/getAllStates',
+    [
+
+    ],
+
+    getAllStates
+);
+
+router.post(
     '/setResponsible',
     [
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
@@ -419,6 +438,18 @@ router.post(
     ],
 
     setHours
+);
+
+router.post(
+    '/setHoursByList',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('horas', 'Las horas son obligatoria').not().isEmpty(),
+        check('username', 'El username es obligatorio').not().isEmpty(),
+
+    ],
+
+    setHoursByList
 );
 
 router.post(

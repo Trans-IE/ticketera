@@ -16,11 +16,32 @@ const getDBProductByBrand = (marca_id) => {
                 }
             }
         })
-
     });
 
     return return_promise;
 }
+
+//Obtener todos los productos
+const getDBProductByBrandAndCompany = (marca_id, company) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_product_by_brand_and_company($1, $2)', [marca_id, company], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+    });
+
+    return return_promise;
+}
+
 
 //Obtener todos los productos
 const getAllDBProducts = () => {
@@ -38,7 +59,6 @@ const getAllDBProducts = () => {
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -59,7 +79,6 @@ const getDBProduct = (id) => {
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -81,7 +100,6 @@ const createDBProduct = (nombre, modelo, habilitado, marca_id) => {
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -132,6 +150,7 @@ module.exports = {
     createDBProduct,
     deleteDBProduct,
     updateDBProduct,
-    getDBProductByBrand
+    getDBProductByBrand,
+    getDBProductByBrandAndCompany
 }
 

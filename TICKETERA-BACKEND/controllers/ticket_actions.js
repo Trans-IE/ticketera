@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
@@ -152,6 +152,44 @@ const setHours = async (req, res = response) => {
 
     } catch (error) {
         logger.error(`setHours => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const setHoursByList = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { ticket_id, horas, fecha_accion_hs, username } = req.body;
+
+    logger.info(`setHoursByList ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username} `)
+
+    try {
+        createDBHoursByList(ticket_id, horas, fecha_accion_hs, username)
+            .then(result => {
+                res.status(200).json({
+                    ok: true,
+                    value: { hours: result },
+                    msg: `Ticket acción hora creada correctamente con id: ${result}`
+                });
+
+            })
+            .catch(dataError => {
+                logger.error(`setHoursByList => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${dataError}`);
+                res.status(401).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo crear la acción horas del ticket. `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`setHoursByList => createDBHours : params=> ticket_id:${ticket_id} horas:${horas} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -522,5 +560,6 @@ module.exports = {
     getAllUsersByCompany,
     setHiddenNote,
     setExtraHours,
-    getTicketDetail
+    getTicketDetail,
+    setHoursByList
 }

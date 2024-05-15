@@ -370,6 +370,67 @@ const setHours = async (req, res = response) => {
     }
 }
 
+const setHoursByList = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id, horas, fecha_accion_hs } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
+    logger.info(`==> setHoursByList - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setHoursByList";
+
+    try {
+        logger.info(`setHoursByList ticket_id:${ticket_id} horas:${horas} fecha_accion_hs:${fecha_accion_hs} username:${username}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { ticket_id, horas, fecha_accion_hs, username }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== setHoursByList - username:${username}`);
+                loggerCSV.info(`setHoursByList,${(new Date() - function_enter_time) / 1000}`)
+                const { hours } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { hours },
+                    msg: 'Hora creada correctamente.'
+                });
+            } else {
+                logger.error(`setHoursByList : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setHoursByList`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`setHoursByList : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const setExtraHours = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, id } = req.body;
@@ -783,5 +844,6 @@ module.exports = {
     setFilePath,
     setHiddenNote,
     setExtraHours,
-    getAllUsersByCompany
+    getAllUsersByCompany,
+    setHoursByList
 }
