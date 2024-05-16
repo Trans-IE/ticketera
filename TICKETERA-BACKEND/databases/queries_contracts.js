@@ -44,7 +44,7 @@ const getAllDBContractsExternal = (username) => {
 const getDBContractsByCompanyLocal = (empresa_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from contratos where habilitado = true and empresa_id = ($1);', [empresa_id], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_contracts_by_company_local($1);', [empresa_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -64,7 +64,7 @@ const getDBContractsByCompanyLocal = (empresa_id) => {
 const getDBContractsByCompanyExternal = (username, empresa_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from tickets.f_ticketera_get_contracts_by_company($1, $2);', [username, empresa_id], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_contracts_by_company_external($1, $2);', [username, empresa_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
