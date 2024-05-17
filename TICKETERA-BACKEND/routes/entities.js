@@ -4,7 +4,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
-const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndCompany } = require('../controllers/products');
+const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany } = require('../controllers/brands');
 const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
@@ -118,13 +118,13 @@ router.post(
 );
 
 router.post(
-    '/getProductsByBrandAndCompany',
+    '/getProductsByBrandAndContract',
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
-        check('company', 'Debe ingresar una compañia').not().isEmpty(),
+        check('contract', 'Debe ingresar un contrato').not().isEmpty(),
     ],
 
-    getProductsByBrandAndCompany
+    getProductsByBrandAndContract
 );
 
 router.post(

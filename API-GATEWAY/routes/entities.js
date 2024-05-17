@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
-const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndCompany } = require('../controllers/products');
+const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
 const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
 const { createBrand, deleteBrand, updateBrand, getAllBrands, getBrandsByCompany } = require('../controllers/brands');
 const { getAllPrioritys } = require('../controllers/prioritys');
@@ -491,10 +491,10 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/getProductsByBrandAndCompany:
+ * /api/entities/getProductsByBrandAndContract:
  *   post:
- *     summary: Obtener información de todos los productos por marca y compañía en el sistema
- *     description: Este endpoint permite obtener información detallada de todos los productos por marca y compañia en el sistema. Se requieren credenciales de usuario autenticado.
+ *     summary: Obtener información de todos los productos por marca y contrato en el sistema
+ *     description: Este endpoint permite obtener información detallada de todos los productos por marca y contrato en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Products]
  *     security:
  *      - x-token: []
@@ -508,15 +508,15 @@ router.post(
  *               marca_id:
  *                 type: integer
  *                 description: Id de la marca de los productos a buscar.
- *               company:
+ *               contract:
  *                 type: integer
- *                 description: Id de la compañía de los productos a buscar.
+ *                 description: Id del contrato de los productos a buscar.
  *             required:
  *               - marca_id
- *               - company
+ *               - contract
  *     responses:
  *       200:
- *         description: Información de todos los productos por marca y compañía obtenida correctamente.
+ *         description: Información de todos los productos por marca y contrato obtenida correctamente.
  *         content:
  *           application/json:
  *             schema:
@@ -524,7 +524,7 @@ router.post(
  *               properties:
  *                 products:
  *                   type: array
- *                   description: Detalles de todos los productos por marca y compañía.
+ *                   description: Detalles de todos los productos por marca y contrato.
  *       401:
  *         description: No autorizado (401) por falta de credenciales.
  *         content:
@@ -540,15 +540,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProductsByBrandAndCompany',
+    '/getProductsByBrandAndContract',
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
-        check('company', 'Debe ingresar una compañia').not().isEmpty(),
+        check('contract', 'Debe ingresar un contrato').not().isEmpty(),
 
         validarJWT
     ],
 
-    getProductsByBrandAndCompany
+    getProductsByBrandAndContract
 );
 
 /**

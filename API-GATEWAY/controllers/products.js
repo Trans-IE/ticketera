@@ -120,17 +120,17 @@ const getProduct = async (req, res = response) => {
 }
 
 
-const getProductsByBrandAndCompany = async (req, res = response) => {
+const getProductsByBrandAndContract = async (req, res = response) => {
     const { label: username } = req;
-    const { marca_id, company } = req.body;
+    const { marca_id, contract } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
-    logger.info(`==> getProductsByBrandAndCompany - username:${username}`);
-    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProductsByBrandAndCompany";
+    logger.info(`==> getProductsByBrandAndContract - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getProductsByBrandAndContract";
 
     try {
-        logger.info(`getProductsByBrandAndCompany marca_id:${marca_id} comppany:${company}`)
+        logger.info(`getProductsByBrandAndContract marca_id:${marca_id} contract:${contract}`)
 
         const rol = await getUserRol(username);
         let arrRolExclusive = rolExclusive.split(',').map(Number);
@@ -138,12 +138,12 @@ const getProductsByBrandAndCompany = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { marca_id, company }, 'POST');
+            const resp = await fetchSinToken(url, { marca_id, contract }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                logger.info(`<== getProductsByBrandAndCompany - username:${username}`);
-                loggerCSV.info(`getProductsByBrandAndCompany,${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getProductsByBrandAndContract - username:${username}`);
+                loggerCSV.info(`getProductsByBrandAndContract,${(new Date() - function_enter_time) / 1000}`)
 
                 res.status(200).json({
                     ok: true,
@@ -151,14 +151,14 @@ const getProductsByBrandAndCompany = async (req, res = response) => {
                     msg: 'Producto obtenido correctamente.'
                 });
             } else {
-                logger.error(`getProductsByBrandAndCompany : ${body.msg}`);
+                logger.error(`getProductsByBrandAndContract : ${body.msg}`);
                 res.status(200).json({
                     ok: false,
                     msg: body.msg
                 });
             }
         } else {
-            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getProductsByBrandAndCompany`)
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getProductsByBrandAndContract`)
             res.status(401).json({
                 ok: false,
                 msg: 'No se poseen permisos suficientes para realizar la acción'
@@ -166,7 +166,7 @@ const getProductsByBrandAndCompany = async (req, res = response) => {
         }
 
     } catch (error) {
-        logger.error(`getProductsByBrandAndCompany : ${error.message}`);
+        logger.error(`getProductsByBrandAndContract : ${error.message}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -418,7 +418,7 @@ const deleteProduct = async (req, res = response) => {
 module.exports = {
     getProduct,
     getProductsByBrand,
-    getProductsByBrandAndCompany,
+    getProductsByBrandAndContract,
     getAllProducts,
     createProduct,
     updateProduct,

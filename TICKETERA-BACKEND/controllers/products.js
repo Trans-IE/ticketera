@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getDBProduct, getDBProductByBrand, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct, getDBProductByBrandAndCompany } = require('../databases/queries_products');
+const { getDBProduct, getDBProductByBrand, getAllDBProducts, createDBProduct, updateDBProduct, deleteDBProduct, getDBProductByBrandAndContract } = require('../databases/queries_products');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
 const crypto = require('crypto');
@@ -67,20 +67,20 @@ const getProduct = async (req, res = response) => {
     }
 }
 
-const getProductsByBrandAndCompany = async (req, res = response) => {
+const getProductsByBrandAndContract = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
-    const { marca_id, company } = req.body;
+    const { marca_id, contract } = req.body;
 
     let function_enter_time = new Date();
-    logger.info(`getProductsByBrandAndCompany. marca_id:${marca_id} company: ${company}`)
+    logger.info(`getProductsByBrandAndContract. marca_id:${marca_id} contract: ${contract}`)
     try {
 
-        getDBProductByBrandAndCompany(marca_id, company)
+        getDBProductByBrandAndContract(marca_id, contract)
             .then(result => {
-                logger.info(`<== getProductsByBrandAndCompany`);
-                loggerCSV.info(`getProductsByBrandAndCompany, ${(new Date() - function_enter_time) / 1000}`)
+                logger.info(`<== getProductsByBrandAndContract`);
+                loggerCSV.info(`getProductsByBrandAndContract, ${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
                     value: result,
@@ -88,11 +88,11 @@ const getProductsByBrandAndCompany = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`getProductsByBrandAndCompany => getDBProductByBrandAndCompany : params=> marca_id=> ${marca_id} company=> ${company} error=> ${error}`);
+                logger.error(`getProductsByBrandAndContract => getDBProductByBrandAndContract : params=> marca_id=> ${marca_id} contract=> ${contract} error=> ${error}`);
             })
 
     } catch (error) {
-        logger.error(`getDBProductByBrandAndCompany : params=> marca_id=> ${marca_id} company=> ${company} error=> ${error}`);
+        logger.error(`getDBProductByBrandAndContract : params=> marca_id=> ${marca_id} contract=> ${contract} error=> ${error}`);
         res.status(500).json({
             ok: false,
             value: [],
@@ -277,5 +277,5 @@ module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
-    getProductsByBrandAndCompany
+    getProductsByBrandAndContract
 }

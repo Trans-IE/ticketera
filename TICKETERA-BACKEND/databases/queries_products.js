@@ -22,10 +22,10 @@ const getDBProductByBrand = (marca_id) => {
 }
 
 //Obtener todos los productos
-const getDBProductByBrandAndCompany = (marca_id, company) => {
+const getDBProductByBrandAndContract = (marca_id, contract) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from tickets.f_ticketera_get_product_by_brand_and_company($1, $2)', [marca_id, company], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_product_by_brand_and_company($1, $2)', [marca_id, contract], (error, results) => {
             if (error) {
                 reject(error.message);
             }
@@ -151,6 +151,6 @@ module.exports = {
     deleteDBProduct,
     updateDBProduct,
     getDBProductByBrand,
-    getDBProductByBrandAndCompany
+    getDBProductByBrandAndContract
 }
 

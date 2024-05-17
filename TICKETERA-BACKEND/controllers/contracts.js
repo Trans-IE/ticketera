@@ -69,11 +69,9 @@ const getContractsByCompanyLocal = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token.
     const { empresa_id } = req.body;
-
     let function_enter_time = new Date();
     logger.info(`getContractsByCompany. empresa_id:${empresa_id}`)
     try {
-
         getDBContractsByCompanyLocal(empresa_id)
             .then(result => {
                 logger.info(`<== getDBContractsByCompany`);
