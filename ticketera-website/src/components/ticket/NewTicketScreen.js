@@ -5,7 +5,7 @@ import { ButtonTrans } from "../ui/ButtonTrans";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getContractsByCompany } from "../../redux/actions/contractActions";
-import { getAllBrands, getBrandsByCompany, getProductsByBrand, getProductsByBrandAndContract } from "../../redux/actions/productActions";
+import { getAllBrands, getBrandsByCompany, getBrandsByContract, getProductsByBrand, getProductsByBrandAndContract } from "../../redux/actions/productActions";
 import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
 import { getProjectsByCompany } from "../../redux/actions/projectActions";
 import { createNewTicket } from "../../redux/actions/ticketActions";
@@ -13,7 +13,6 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { styled } from '@mui/material/styles';
 import { arrayTabsClose, editTicketTabShownChange } from "../../redux/actions/userInterfaceActions";
-import { getBrandsByContract } from "../../../../TICKETERA-BACKEND/controllers/brands";
 
 export const NewTicketScreen = () => {
     const theme = useTheme();
@@ -69,7 +68,8 @@ export const NewTicketScreen = () => {
     }, [])
 
     useEffect(() => {
-        console.log('CAMBIO EL CONTRATO', contract)
+        setBrand("");
+        setProduct("")
         if (contract === -1) {
             dispatch(getAllBrands()).then(res => {
                 setBrandsDataList(res.value)
@@ -77,12 +77,17 @@ export const NewTicketScreen = () => {
         }
         else {
             dispatch(getBrandsByContract(contract)).then(res => {
-                setBrandsDataList(res.value)
+                console.log('hola', res)
+                setBrandsDataList(res)
             })
         }
     }, [contract])
 
     useEffect(() => {
+        setProduct("")
+        setBrand("")
+        setContract("")
+
         if (empresa) {
             dispatch(getContractsByCompany(empresa)).then(res => {
                 if (res.ok) {
@@ -106,6 +111,7 @@ export const NewTicketScreen = () => {
     }, [empresa])
 
     useEffect(() => {
+        setProduct("")
         if (brand && empresa) {
             if (contract === -1) {
                 dispatch(getProductsByBrand(brand)).then(res => {
@@ -116,7 +122,6 @@ export const NewTicketScreen = () => {
                 })
             }
             else {
-                console.log('se')
                 dispatch(getProductsByBrandAndContract(brand, contract)).then(res => {
                     if (res.ok) {
                         console.log(res)
