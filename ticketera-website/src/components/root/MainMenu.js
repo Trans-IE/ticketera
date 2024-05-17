@@ -15,7 +15,7 @@ import { useTheme } from '@mui/styles';
 import { toast } from 'sonner';
 import { userMenuOptions } from '../../helpers/constants';
 import { Link } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { ThemeContext } from '../..';
 
@@ -33,8 +33,6 @@ export const MainMenu = ({ onClick, optionSelected }) => {
       default:
         break;
     }
-
-
   }
 
 
@@ -117,6 +115,7 @@ export const SecondaryMenu = (
 
 export const UserMenu = ({ onClick, dispatch }) => {
   const { toggleTheme } = useContext(ThemeContext);
+  const { user } = useSelector(state => state.auth, shallowEqual);
 
   const onClickMenu = (option) => {
     switch (option) {
@@ -126,8 +125,7 @@ export const UserMenu = ({ onClick, dispatch }) => {
         break;
 
       case userMenuOptions.MyAccountMenu:
-        onClick("Mi Cuenta", option);
-
+        alert(`Usuario logueado: ${user.apellido}, ${user.nombres}`)
       default:
         break;
     }

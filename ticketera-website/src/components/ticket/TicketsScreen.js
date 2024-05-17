@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
@@ -11,104 +11,7 @@ import { getShortDateString } from '../../helpers/dateHelper';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import TicketFilterDrawer from './TicketFilterDrawer';
 import { SocketContext } from '../../context/SocketContext';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  toolbarDrawerSearch: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 3px",
-    // ...theme.mixins.toolbar,
-    minHeight: "0px",
-  },
-  toolbarDrawerArrow: {
-    paddingTop: "1px",
-    paddingBottom: "1px",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerSearch: {
-    width: drawerWidth,
-    height: "95vh",
-    marginTop: "45px",
-    paddingRight: 5,
-    overflowX: "hidden",
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-  },
-  drawerSearchOpen: {
-    width: drawerWidth,
-    height: "95vh",
-    marginTop: "45px",
-    paddingRight: 5,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerSearchClose: {
-    marginTop: "45px",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(3) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(5) + 1,
-    },
-  },
-  title: {
-    flexGrow: 1,
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-  },
-  container: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  paper: {
-    padding: theme.spacing(0),
-    display: "flex",
-    //    overflow: 'auto',
-    flexDirection: "column",
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-  iconButtonStyle: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
-    zIndex: 1,
-  },
-}));
-
-const drawerWidth = 330;
+import { getProductsByBrand } from '../../redux/actions/productActions';
 
 
 export const TicketsScreen = () => {
@@ -119,12 +22,9 @@ export const TicketsScreen = () => {
   const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
   const { companiesDataList } = useSelector(state => state.company, shallowEqual);
   const { statesDataList } = useSelector(state => state.state, shallowEqual);
-  const { productsDataList } = useSelector(state => state.product, shallowEqual);
   const { failTypesDataList } = useSelector(state => state.failType, shallowEqual);
+  const [productsDataList, setProductsDataList] = useState([])
 
-
-
-  const { config } = useSelector((state) => state.auth, shallowEqual);
   const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
   const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
@@ -140,16 +40,15 @@ export const TicketsScreen = () => {
     product: "",
     priority: "",
     failType: "",
-    state: "",
+    state: -2,
     cause: ""
   })
+  const [sorting, setSorting] = useState(1)
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const [resetPaginationGrid, setResetPaginationGrid] = useState(false);
   const [agentList, setAgentList] = useState([]);
-  const [ivrFilterListSelectedConfirm, setivrFilterListSelectedConfirm] = useState([]);
-  // Tipo	 Id 	Título	Empresa	Tipo de falla	Responsable 	 Estado	 Creado	Cerrado	T. Trans	T. Cliente
 
   const columnsData = [
     { id: 'priority', label: '', cellWidth: 0, visible: true },
@@ -165,22 +64,48 @@ export const TicketsScreen = () => {
         { id: 'tkcliente', label: 'T.Cliente', minWidth: 50 } */
   ]
 
-  const { online, socket } = useContext(SocketContext);
+  // const { online, socket } = useContext(SocketContext);
+
+
+  // useEffect(() => {
+  //   if (online) {
+  //     console.log('socket en tickets conectado');
+  //   } else {
+  //     console.log('socket en tickets desconectado');
+  //   }
+
+
+  // }
+  //   , [online])
+
 
 
   useEffect(() => {
-    if (online) {
-      console.log('socket en tickets conectado');
-    } else {
-      console.log('socket en tickets desconectado');
+    if (filters.brand) {
+      dispatch(getProductsByBrand(filters.brand)).then((res) => {
+        setProductsDataList(res.value)
+      })
     }
+  }, [filters])
 
+
+  useEffect(() => {
+    dispatch(getTicketsByFilter(actualOffsetTickets, filters, sorting)).then((res) => {
+      setAgentList(formatTicketsArray(res.value))
+      if (res.value.length < 25) {
+        setHasMorePages(false)
+      }
+      else {
+        setHasMorePages(true)
+      }
+    })
+  }, [actualOffsetTickets, filters, responsiblesDataList, sorting])
+
+
+  const formatSorting = (sortId) => {
 
   }
-    , [online])
-
-
-  const setPriority = (priority) => {
+  const setPriority = (priority, state) => {
     let color = 'black';
     let text = '';
 
@@ -203,6 +128,11 @@ export const TicketsScreen = () => {
         break;
     }
 
+    if (state === 'Cerrado') {
+      color = '#555'
+      text = 'Ticket cerrado'
+    }
+
     return (
       <Tooltip title={text}>
         <CircleIcon style={{ color: color }} />
@@ -210,22 +140,7 @@ export const TicketsScreen = () => {
     );
   }
 
-
-  useEffect(() => {
-    dispatch(getTicketsByFilter(actualOffsetTickets, filters)).then((res) => {
-      setAgentList(formatTicketsArray(res.value))
-      if (res.value.length < 25) {
-        setHasMorePages(false)
-      }
-      else {
-        setHasMorePages(true)
-      }
-    })
-  }, [actualOffsetTickets, filters, responsiblesDataList])
-
-
   const formatTicketsArray = (tickets) => {
-    let responsiblesList = responsiblesDataList
     let formattedArray = [];
 
     tickets.forEach(ticket => {
@@ -235,7 +150,7 @@ export const TicketsScreen = () => {
         tipo_falla: ticket.tipo_falla,
         titulo: ticket.titulo,
         empresa: ticket.empresa,
-        priority: setPriority(ticket.prioridad),
+        priority: setPriority(ticket.prioridad, ticket.estado),
         fecha_creacion: getShortDateString(ticket.fecha_creacion),
         responsable: getResponsibleName(ticket.responsable_id)
       }
@@ -292,22 +207,27 @@ export const TicketsScreen = () => {
         text = `Tipo: `
         break;
       case 'company':
-        text = `Empresa: ${companiesDataList.find(obj => obj.id === value).nombre}`
+        text = `Empresa: ${companiesDataList.find(obj => obj.id === value)?.nombre}`
         break;
       case 'responsible':
-        text = `Responsable: ${responsiblesDataList.find(obj => obj.id === value).nombre_completo}`
+        text = `Responsable: ${responsiblesDataList.find(obj => obj.id === value)?.nombre_completo}`
         break;
       case 'product':
-        text = `Producto: ${productsDataList.find(obj => obj.id === value).nombre}`
+        text = `Producto: ${productsDataList.find(obj => obj.id === value)?.nombre}`
         break;
       case 'priority':
-        text = `Prioridad: ${prioritiesDataList.find(obj => obj.id === value).prioridad}`
+        text = `Prioridad: ${prioritiesDataList.find(obj => obj.id === value)?.prioridad}`
         break;
       case 'failType':
-        text = `Tipo de falla: ${failTypesDataList.find(obj => obj.id === value).descripcion}`
+        text = `Tipo de falla: ${failTypesDataList.find(obj => obj.id === value)?.descripcion}`
         break;
       case 'state':
-        text = `Estado: ${statesDataList.find(obj => obj.id === value).estado}`
+        if (value === -2) {
+          text = 'Estado: Abiertos'
+        }
+        else {
+          text = `Estado: ${statesDataList.find(obj => obj.id === value)?.estado}`
+        }
         break;
       case 'number':
         text = `Numero: ${value}`
@@ -338,7 +258,7 @@ export const TicketsScreen = () => {
           <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
             <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
             {Object.entries(filters).map(([key, value], index) => {
-              if (value && value !== -1 && value !== '') {
+              if (value && value !== -1 && value !== '' && key !== 'brand') {
                 return (
                   <Chip key={key} label={filterChip(key, value)} variant='outlined' sx={{ marginLeft: '5px' }} onDelete={() => { deleteFilter(key) }} />
                 )
@@ -350,14 +270,14 @@ export const TicketsScreen = () => {
               <InputLabel style={{ color: theme.palette.text.primary }}>Ordenar por</InputLabel>
               <Select
                 sx={{ borderRadius: '20px' }}
-                value={1}
+                value={sorting}
                 label="Ordenar por"
-                onChange={() => { }}
+                onChange={(e) => { setSorting(e.target.value) }}
               >
-                <MenuItem key={1} value={2}>Mas nuevos</MenuItem>
-                <MenuItem key={1} value={1}>Mas antiguos</MenuItem>
-                <MenuItem key={1} value={3}>Titulo</MenuItem>
-                <MenuItem key={1} value={4}>ID</MenuItem>
+                <MenuItem key={1} value={1}>Mas nuevos</MenuItem>
+                <MenuItem key={1} value={2}>Mas antiguos</MenuItem>
+                {/* <MenuItem key={1} value={3}>Titulo</MenuItem>
+                <MenuItem key={1} value={4}>ID</MenuItem> */}
               </Select>
             </FormControl>
           </div>

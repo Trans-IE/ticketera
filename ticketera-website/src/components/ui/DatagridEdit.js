@@ -197,7 +197,7 @@ export const DatagridEdit = ({
                     hover
                     tabIndex={-1}
                     key={dataitem.id}
-                    
+
                   >
                     {actionColumnShowLeft && actionColumn}
                     {columns.map((column) => {

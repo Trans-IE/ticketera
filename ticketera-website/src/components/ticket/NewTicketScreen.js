@@ -5,7 +5,7 @@ import { ButtonTrans } from "../ui/ButtonTrans";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getContractsByCompany } from "../../redux/actions/contractActions";
-import { getAllBrands, getBrandsByCompany, getProductsByBrand } from "../../redux/actions/productActions";
+import { getAllBrands, getBrandsByCompany, getProductsByBrand, getProductsByBrandAndCompany } from "../../redux/actions/productActions";
 import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
 import { getProjectsByCompany } from "../../redux/actions/projectActions";
 import { createNewTicket } from "../../redux/actions/ticketActions";
@@ -18,8 +18,9 @@ export const NewTicketScreen = () => {
     const theme = useTheme();
     const dispatch = useDispatch()
     const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
+    const { user } = useSelector(state => state.auth, shallowEqual);
 
-    const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
+    // const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
     const { companiesDataList } = useSelector(state => state.company, shallowEqual);
     const { failTypesDataList } = useSelector(state => state.failType, shallowEqual);
     const [contractDataList, setContractDataList] = useState([])
@@ -27,6 +28,7 @@ export const NewTicketScreen = () => {
     const [brandsDataList, setBrandsDataList] = useState([])
     const [creatorDataList, setCreatorDataList] = useState([])
     const [projectsDataList, setProjectsDataList] = useState([])
+    const [responsiblesDataList, setResponsiblesDataList] = useState([])
 
     const [empresa, setEmpresa] = useState('')
     const [contract, setContract] = useState('')
@@ -45,18 +47,14 @@ export const NewTicketScreen = () => {
     const [vendor, setVendor] = useState()
     const [preSale, setPreSale] = useState()
 
-    const StyledTextField = styled((props) => <TextField {...props} />)(
-        ({ theme }) => ({
-            '& label': {
-                paddingLeft: '14px',
-                color: theme.palette.text.primary
-            },
-            margin: '10px 0'
-        }),
-    );
 
     useEffect(() => {
-        console.log(arrayTabs)
+        console.log('user', user)
+        dispatch(getResponsiblesByCompany(3, 1)).then(res => {
+            setCreatorDataList(res)
+        })
+        setCreator(user.id)
+
         if (companiesDataList.length === 1) {
             setEmpresa(companiesDataList[0].id)
 
@@ -64,14 +62,15 @@ export const NewTicketScreen = () => {
                 setCreatorDataList(res)
             })
         }
-
+        dispatch(getResponsiblesByCompany(3, 1)).then(res => {
+            setResponsiblesDataList(res)
+        })
     }, [])
 
     useEffect(() => {
         if (contract === 0) {
             dispatch(getAllBrands()).then(res => {
                 if (res.ok) {
-                    console.log(res)
                     setBrandsDataList(res.value)
                 }
             })
@@ -85,6 +84,7 @@ export const NewTicketScreen = () => {
         if (empresa) {
             dispatch(getContractsByCompany(empresa)).then(res => {
                 if (res.ok) {
+                    console.log(res)
                     setContractDataList(res.value)
                 }
             })
@@ -104,15 +104,17 @@ export const NewTicketScreen = () => {
     }, [empresa])
 
     useEffect(() => {
-        if (brand) {
-            dispatch(getProductsByBrand(brand)).then(res => {
+        if (brand && empresa) {
+            console.log('se')
+            dispatch(getProductsByBrandAndCompany(brand, empresa)).then(res => {
                 if (res.ok) {
+                    console.log(res)
                     setProductsDataList(res.value)
                 }
             })
         }
 
-    }, [brand])
+    }, [brand, empresa])
 
     const isFormInvalid = () => {
         let invalid = true;
@@ -174,7 +176,7 @@ export const NewTicketScreen = () => {
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Empresa</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Empresa</InputLabel>
                                         <Select
                                             value={empresa}
                                             label="Empresa"
@@ -189,7 +191,7 @@ export const NewTicketScreen = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={contractDataList.length === 0}>Contrato</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={contractDataList.length === 0}>Contrato</InputLabel>
                                         <Select
                                             value={contract}
                                             variant="standard"
@@ -199,7 +201,7 @@ export const NewTicketScreen = () => {
                                         >
                                             <MenuItem value={-1}>Sin Contrato</MenuItem>
                                             {contractDataList?.map((contract) => (
-                                                <MenuItem key={contract.id} value={contract.id}>{contract.id}</MenuItem>
+                                                <MenuItem key={contract.id} value={contract.id}>{contract.descripcion}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -207,12 +209,12 @@ export const NewTicketScreen = () => {
                             </Grid>
 
                             <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={creatorDataList.length === 0}>Creador</InputLabel>
+                                <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={creatorDataList.length === 0}>Creador</InputLabel>
                                 <Select
                                     value={creator}
                                     label="Creador"
                                     variant="standard"
-                                    disabled={creatorDataList.length === 0}
+                                    disabled={creatorDataList.length === 0 || user.tipo !== 1}
                                     onChange={(e) => { setCreator(e.target.value) }}
                                 >
                                     {creatorDataList?.map((creator) => (
@@ -220,36 +222,64 @@ export const NewTicketScreen = () => {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <StyledTextField fullWidth label="Numero de serie" variant="standard" value={serialNumber} onChange={e => setSerialNumber(e.target.value)} />
-                            <Grid container spacing={2}>
-                                <Grid item xs={8}>
-                                    <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Proyecto asociado</InputLabel>
-                                        <Select
-                                            value={empresa}
-                                            variant="standard"
-                                            label="Proyecto asociado"
-                                            onChange={(e) => { setEmpresa(e.target.value) }}
-                                        >
-                                            <MenuItem value={10}>Ninguno</MenuItem>
-                                            {projectsDataList?.map((project) => (
-                                                <MenuItem key={project.id} value={project.id}>{project.nombre}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <FormControlLabel control={<Checkbox checked={isProject} onChange={() => { setisProject(!isProject) }} />} label="Proyecto" style={{ margin: '10px 0' }} />
-                                </Grid>
-                            </Grid>
-                            <StyledTextField fullWidth label="Ticket en partner" variant="standard" value={partnerTicket} onChange={e => setPartnerTicket(e.target.value)} />
+                            <TextField
+                                fullWidth
+                                label="Numero de serie"
+                                variant="standard"
+                                value={serialNumber}
+                                onChange={e => setSerialNumber(e.target.value)}
+                                sx={{
+                                    '& label': {
+                                        color: theme.palette.text.primary
+                                    }
+                                }}
+                            />
 
+                            {user.tipo === 1 &&
+                                <>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={8}>
+                                            <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                                <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Proyecto asociado</InputLabel>
+                                                <Select
+                                                    value={empresa}
+                                                    variant="standard"
+                                                    label="Proyecto asociado"
+                                                    onChange={(e) => { setEmpresa(e.target.value) }}
+                                                >
+                                                    <MenuItem value={10}>Ninguno</MenuItem>
+                                                    {projectsDataList?.map((project) => (
+                                                        <MenuItem key={project.id} value={project.id}>{project.nombre}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <FormControlLabel control={<Checkbox checked={isProject} onChange={() => { setisProject(!isProject) }} style={{ color: theme.palette.text.primary }} />} label="Proyecto" style={{ margin: '10px 0' }} />
+                                        </Grid>
+                                    </Grid>
+
+                                    <TextField
+                                        fullWidth
+                                        label="Ticket en partner"
+                                        variant="standard"
+                                        value={partnerTicket}
+                                        onChange={e => setPartnerTicket(e.target.value)}
+                                        sx={{
+                                            '& label': {
+                                                color: theme.palette.text.primary
+                                            },
+                                            margin: '10px 0'
+                                        }}
+                                    />
+                                </>
+                            }
                         </Grid>
                         <Grid item xs={6}>
                             <Grid container spacing={2}>
                                 <Grid item xs={6} >
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={brandsDataList.length === 0}>Marca</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={brandsDataList.length === 0}>Marca</InputLabel>
                                         <Select
                                             value={brand}
                                             label="Marca"
@@ -265,7 +295,7 @@ export const NewTicketScreen = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label" disabled={productsDataList.length === 0}>Producto</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={productsDataList.length === 0}>Producto</InputLabel>
                                         <Select
                                             value={product}
                                             label="Producto"
@@ -284,7 +314,7 @@ export const NewTicketScreen = () => {
 
 
                             <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Tipo</InputLabel>
+                                <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Tipo</InputLabel>
                                 <Select
                                     value={type}
                                     variant="standard"
@@ -296,21 +326,38 @@ export const NewTicketScreen = () => {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <StyledTextField fullWidth label="Nodo" variant="standard" value={node} onChange={e => setNode(e.target.value)} />
 
-                            <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Responsable</InputLabel>
-                                <Select
-                                    value={responsible}
-                                    variant="standard"
-                                    label="Responsable"
-                                    onChange={(e) => { setResponsible(e.target.value) }}
-                                >
-                                    {responsiblesDataList.map(responsible => (
-                                        <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                            <TextField
+                                fullWidth
+                                label="Nodo"
+                                variant="standard"
+                                value={node}
+                                onChange={e => setNode(e.target.value)}
+                                sx={{
+                                    '& label': {
+
+                                        color: theme.palette.text.primary
+                                    },
+                                    margin: '10px 0'
+                                }}
+                            />
+
+                            {user.tipo === 1 &&
+                                <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                    <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Responsable</InputLabel>
+                                    <Select
+                                        value={responsible}
+                                        variant="standard"
+                                        label="Responsable"
+                                        onChange={(e) => { setResponsible(e.target.value) }}
+                                    >
+                                        {responsiblesDataList.map(responsible => (
+                                            <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            }
+
 
                         </Grid>
                     </Grid>
@@ -319,7 +366,7 @@ export const NewTicketScreen = () => {
                             <Grid container spacing={2}>
                                 <Grid item xs={6} >
                                     <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Preventa</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Preventa</InputLabel>
                                         <Select
                                             value={preSale}
                                             label="Preventa"
@@ -334,7 +381,7 @@ export const NewTicketScreen = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel sx={{ color: theme.palette.text.primary }} id="demo-simple-select-label">Vendedor</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Vendedor</InputLabel>
                                         <Select
                                             value={vendor}
                                             label="Vendedor"
@@ -353,8 +400,34 @@ export const NewTicketScreen = () => {
                     }
 
                     <div style={{ margin: '20px 0' }}>
-                        <StyledTextField variant="standard" required fullWidth label="Titulo" style={{ marginBottom: '20px' }} value={title} onChange={e => setTitle(e.target.value)} />
-                        <TextField variant="standard" style={{ margin: '10px 0' }} InputLabelProps={{ style: { paddingLeft: '14px', color: theme.palette.text.primary } }} required fullWidth multiline minRows={2} maxRows={6} label="Descripcion" value={description} onChange={e => { setDescription(e.target.value) }} />
+                        <TextField
+                            variant="standard"
+                            required fullWidth
+                            label="Título"
+                            style={{ marginBottom: '20px' }}
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            sx={{
+                                '& label': {
+
+                                    color: theme.palette.text.primary
+                                },
+                                margin: '10px 0'
+                            }}
+                        />
+                        <TextField
+                            variant="standard"
+                            style={{ margin: '10px 0' }}
+                            InputLabelProps={{ style: { color: theme.palette.text.primary } }}
+                            required
+                            fullWidth
+                            multiline
+                            minRows={1}
+                            maxRows={6}
+                            label="Descripcion"
+                            value={description}
+                            onChange={e => { setDescription(e.target.value) }}
+                        />
                     </div>
                 </div>
 

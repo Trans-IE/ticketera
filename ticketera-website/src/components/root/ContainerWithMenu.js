@@ -75,7 +75,7 @@ export default function ContainerWithMenu({ children }) {
             if (result.isConfirmed) {
                 console.log("LOGOUT DE USUARIOS");
                 //toast.success('¡Sesión cerrada exitosamente!')
-                dispatch(logoutUser());
+                dispatch(logoutUser())
                 navigate('/');
             }
         })

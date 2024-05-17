@@ -18,7 +18,7 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
 
     const [title, setTitle] = useState("")
     const [cause, setCause] = useState("")
-    const [number, setNumber] = useState(undefined)
+    const [number, setNumber] = useState('')
     const [selectedProduct, setSelectedProduct] = useState("")
     const [selectedType, setSelectedType] = useState("")
     const [selectedFailType, setSelectedFailType] = useState("")
@@ -93,20 +93,12 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
         setNumber(undefined)
     }
 
-    const StyledTextField = styled((props) => <TextField {...props} />)(
-        ({ theme }) => ({
-            '& label': {
-                color: theme.palette.text.primary
-            },
-        }),
-    );
-
-
     const handleFilter = () => {
         let filters = {
             type: selectedType,
             company: selectedCompany,
             responsible: selectedResponsible,
+            brand: selectedBrand,
             product: selectedProduct,
             priority: selectedPriority,
             failType: selectedFailType,
@@ -120,13 +112,51 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
         filter(filters)
     }
 
+    const handleNumberOnChange = (e) => {
+        setNumber(e.target.value)
+    }
+
     return (
         <div style={{ height: '100%', margin: ' 0 auto', scroll: 'auto' }}>
             <div style={{ height: '100%', overflow: 'auto', padding: '25px' }}>
                 <h2>Filtros</h2>
-                <StyledTextField label="Titulo" value={title} onChange={e => setTitle(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
-                <StyledTextField label="Numero" value={number === undefined ? '' : number} onChange={e => setNumber(e.target.value)} type="number" style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
-                <StyledTextField label="Causa raiz" value={cause} onChange={e => setCause(e.target.value)} style={{ paddingBottom: '20px', color: theme.palette.text.primary }} fullWidth />
+                <TextField
+                    label="Titulo"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    style={{ paddingBottom: '20px', color: theme.palette.text.primary }}
+                    fullWidth
+                    sx={{
+                        '& label': {
+                            color: theme.palette.text.primary
+                        }
+                    }}
+                />
+                <TextField
+                    label="Numero"
+                    value={number}
+                    onChange={e => handleNumberOnChange(e)}
+                    type="number"
+                    style={{ paddingBottom: '20px', color: theme.palette.text.primary }}
+                    fullWidth
+                    sx={{
+                        '& label': {
+                            color: theme.palette.text.primary
+                        }
+                    }}
+                />
+                <TextField
+                    label="Causa raiz"
+                    value={cause}
+                    onChange={e => setCause(e.target.value)}
+                    style={{ paddingBottom: '20px', color: theme.palette.text.primary }}
+                    fullWidth
+                    sx={{
+                        '& label': {
+                            color: theme.palette.text.primary
+                        }
+                    }}
+                />
                 <FormControl fullWidth style={{ paddingBottom: '20px' }}>
                     <InputLabel style={{ color: theme.palette.text.primary }}>Estado</InputLabel>
                     <Select
@@ -134,6 +164,7 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
                         label="Estado"
                         onChange={(e) => { setselectedState(e.target.value) }}
                     >
+                        <MenuItem value={-2}>Abiertos</MenuItem>
                         {stateList.map((state) => {
                             return (
                                 <MenuItem key={state.id} value={state.id}>{state.estado}</MenuItem>

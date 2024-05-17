@@ -70,7 +70,17 @@ si esta autenticado debo hacer lo siguiente:
     [config]
   );
 
+
   useEffect(() => {
+    dispatch(loadConfigData()).then((data) => {
+      dispatch(startChecking()).then(result => {
+
+        if (!result && location.pathname !== '/login') {
+          location.assign('/login')
+        }
+        console.log("START CHECKING OK ");
+      })
+    })
     return () => {
       setOpResultInfoText("");
       setOpResultInfoState(0);
