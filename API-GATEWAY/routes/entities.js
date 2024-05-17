@@ -2054,7 +2054,7 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               company:
+ *               contract:
  *                 type: integer
  *                 description: Id del contrato.
  *                 example: 3
