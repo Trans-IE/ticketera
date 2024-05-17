@@ -25,7 +25,7 @@ const getDBProductByBrand = (marca_id) => {
 const getDBProductByBrandAndContract = (marca_id, contract) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from tickets.f_ticketera_get_product_by_brand_and_company($1, $2)', [marca_id, contract], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_product_by_brand_and_contract($1, $2)', [marca_id, contract], (error, results) => {
             if (error) {
                 reject(error.message);
             }

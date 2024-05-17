@@ -6,7 +6,7 @@ const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAl
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
-const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany } = require('../controllers/brands');
+const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany, getBrandsByContract } = require('../controllers/brands');
 const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany } = require('../controllers/projects');
@@ -701,6 +701,16 @@ router.post(
     ],
 
     getBrandsByCompany
+);
+
+router.post(
+    '/getBrandsByContract',
+    [
+        check('username', 'Debe ingresar un username').not().isEmpty(),
+        check('company', 'Debe ingresar un contract').not().isEmpty(),
+    ],
+
+    getBrandsByContract
 );
 
 router.post(

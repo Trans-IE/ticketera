@@ -105,11 +105,33 @@ const getDBBrandsByCompany = (username, company) => {
     return return_promise;
 }
 
+const getDBBrandsByContract = (username, contract) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from tickets.f_ticketera_get_brands_by_contract($1, $2);', [username, contract], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     getAllDBBrands,
     createDBBrand,
     deleteDBBrand,
     updateDBBrand,
-    getDBBrandsByCompany
+    getDBBrandsByCompany,
+    getDBBrandsByContract
 }
 
