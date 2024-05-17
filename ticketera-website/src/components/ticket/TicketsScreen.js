@@ -90,7 +90,7 @@ export const TicketsScreen = () => {
 
 
   useEffect(() => {
-    dispatch(getTicketsByFilter(actualOffsetTickets, filters, sorting)).then((res) => {
+    dispatch(getTicketsByFilter(actualOffsetTickets, filters, formatSorting(sorting))).then((res) => {
       setAgentList(formatTicketsArray(res.value))
       if (res.value.length < 25) {
         setHasMorePages(false)
@@ -103,7 +103,24 @@ export const TicketsScreen = () => {
 
 
   const formatSorting = (sortId) => {
+    let sorting = {
+      orderBy: '',
+      orderByType: ''
+    }
 
+    switch (sortId) {
+      case 1:
+        sorting.orderBy = 't.fecha_creacion'
+        break;
+      case 2:
+        sorting.orderBy = 't.fecha_creacion'
+        sorting.orderByType = 'ASC'
+        break;
+      default:
+        break;
+    }
+
+    return sorting
   }
   const setPriority = (priority, state) => {
     let color = 'black';

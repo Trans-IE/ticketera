@@ -5,7 +5,7 @@ import { ButtonTrans } from "../ui/ButtonTrans";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getContractsByCompany } from "../../redux/actions/contractActions";
-import { getAllBrands, getBrandsByCompany, getProductsByBrand, getProductsByBrandAndCompany } from "../../redux/actions/productActions";
+import { getAllBrands, getBrandsByCompany, getProductsByBrand, getProductsByBrandAndContract } from "../../redux/actions/productActions";
 import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
 import { getProjectsByCompany } from "../../redux/actions/projectActions";
 import { createNewTicket } from "../../redux/actions/ticketActions";
@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { styled } from '@mui/material/styles';
 import { arrayTabsClose, editTicketTabShownChange } from "../../redux/actions/userInterfaceActions";
+import { getBrandsByContract } from "../../../../TICKETERA-BACKEND/controllers/brands";
 
 export const NewTicketScreen = () => {
     const theme = useTheme();
@@ -68,15 +69,16 @@ export const NewTicketScreen = () => {
     }, [])
 
     useEffect(() => {
-        if (contract === 0) {
+        console.log('CAMBIO EL CONTRATO', contract)
+        if (contract === -1) {
             dispatch(getAllBrands()).then(res => {
-                if (res.ok) {
-                    setBrandsDataList(res.value)
-                }
+                setBrandsDataList(res.value)
             })
         }
         else {
-
+            dispatch(getBrandsByContract(contract)).then(res => {
+                setBrandsDataList(res.value)
+            })
         }
     }, [contract])
 
@@ -105,16 +107,26 @@ export const NewTicketScreen = () => {
 
     useEffect(() => {
         if (brand && empresa) {
-            console.log('se')
-            dispatch(getProductsByBrandAndCompany(brand, empresa)).then(res => {
-                if (res.ok) {
-                    console.log(res)
-                    setProductsDataList(res.value)
-                }
-            })
+            if (contract === -1) {
+                dispatch(getProductsByBrand(brand)).then(res => {
+                    if (res.ok) {
+                        console.log(res)
+                        setProductsDataList(res.value)
+                    }
+                })
+            }
+            else {
+                console.log('se')
+                dispatch(getProductsByBrandAndContract(brand, contract)).then(res => {
+                    if (res.ok) {
+                        console.log(res)
+                        setProductsDataList(res.value)
+                    }
+                })
+            }
         }
 
-    }, [brand, empresa])
+    }, [brand, empresa, contract])
 
     const isFormInvalid = () => {
         let invalid = true;

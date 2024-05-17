@@ -91,16 +91,16 @@ export const getProductsByBrand = (marca_id) => {
     }
 }
 
-export const getProductsByBrandAndCompany = (marca_id, company_id) => {
+export const getProductsByBrandAndContract = (marca_id, contract) => {
 
     return async (dispatch, getState) => {
 
         try {
             const { config } = getState().auth;
-            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getProductsByBrandAndCompany");
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getProductsByBrandAndContract");
             const resp = await fetchConToken(url, {
                 "marca_id": marca_id,
-                "company": company_id
+                "contract": contract
             }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();
@@ -131,6 +131,35 @@ export const getBrandsByCompany = (companyId) => {
             let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getBrandsByCompany");
             const resp = await fetchConToken(url, {
                 "company": companyId
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                body.value.sort(productSorter)
+                return body.value
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const getBrandsByContract = (contract) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getBrandsByContract");
+            const resp = await fetchConToken(url, {
+                "contract": contract
             }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();

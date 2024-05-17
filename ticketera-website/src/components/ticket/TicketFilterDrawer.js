@@ -1,12 +1,12 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ButtonTrans } from '../ui/ButtonTrans'
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getAllTicketTypes } from '../../redux/actions/ticketActions';
 import './TicketFilterDrawer.scss'
 import { styled, useTheme } from '@mui/styles';
 import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
-import { getAllResponsibles } from '../../redux/actions/responsibleActions';
+import { getAllResponsibles, getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
 import { getAllCompanies } from '../../redux/actions/companyActions';
 import { getAllTicketStates } from '../../redux/actions/stateActions';
 import { getAllBrands, getAllProducts, getProductsByBrand } from '../../redux/actions/productActions';
@@ -15,6 +15,7 @@ import { getAllFailTypes } from '../../redux/actions/failTypeActions';
 export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
     const dispatch = useDispatch();
     const theme = useTheme();
+    const { user } = useSelector(state => state.auth, shallowEqual);
 
     const [title, setTitle] = useState("")
     const [cause, setCause] = useState("")
@@ -63,7 +64,7 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
             setFailTypeList(res.value)
         })
 
-        dispatch(getAllResponsibles()).then(res => {
+        dispatch(getResponsiblesByCompany(3, 0)).then(res => {
             setResponsiblesList(res)
         })
     }, [])
@@ -214,20 +215,24 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
                         })}
                     </Select>
                 </FormControl>
-                <FormControl fullWidth style={{ paddingBottom: '20px' }}>
-                    <InputLabel style={{ color: theme.palette.text.primary }}>Empresa</InputLabel>
-                    <Select
-                        value={selectedCompany}
-                        label="Empresa"
-                        onChange={(e) => { setSelectedCompany(e.target.value) }}
-                    >
-                        {companiesList.map((company) => {
-                            return (
-                                <MenuItem key={company.id} value={company.id}>{company.nombre}</MenuItem>
-                            )
-                        })}
-                    </Select>
-                </FormControl>
+                {user.tipo === 1 &&
+                    <FormControl fullWidth style={{ paddingBottom: '20px' }}>
+                        <InputLabel style={{ color: theme.palette.text.primary }}>Empresa</InputLabel>
+                        <Select
+                            value={selectedCompany}
+                            label="Empresa"
+                            onChange={(e) => { setSelectedCompany(e.target.value) }}
+                        >
+                            {companiesList.map((company) => {
+                                return (
+                                    <MenuItem key={company.id} value={company.id}>{company.nombre}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </FormControl>
+
+                }
+
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <FormControl fullWidth style={{ paddingBottom: '20px' }}>
                         <InputLabel style={{ color: theme.palette.text.primary }}>Marca</InputLabel>
@@ -255,20 +260,23 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
                         </Select>
                     </FormControl>
                 </div>
-                <FormControl fullWidth style={{ paddingBottom: '20px' }}>
-                    <InputLabel style={{ color: theme.palette.text.primary }}>Responsable</InputLabel>
-                    <Select
-                        value={selectedResponsible}
-                        label="Responsable"
-                        onChange={(e) => { setSelectedResponsible(e.target.value) }}
-                    >
-                        {responsiblesList.map((responsible) => {
-                            return (
-                                <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
-                            )
-                        })}
-                    </Select>
-                </FormControl>
+
+                {user.tipo === 1 &&
+                    <FormControl fullWidth style={{ paddingBottom: '20px' }}>
+                        <InputLabel style={{ color: theme.palette.text.primary }}>Responsable</InputLabel>
+                        <Select
+                            value={selectedResponsible}
+                            label="Responsable"
+                            onChange={(e) => { setSelectedResponsible(e.target.value) }}
+                        >
+                            {responsiblesList.map((responsible) => {
+                                return (
+                                    <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </FormControl>
+                }
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         <ButtonTrans variant='contained' onClick={handleFilter}>Filtrar</ButtonTrans>

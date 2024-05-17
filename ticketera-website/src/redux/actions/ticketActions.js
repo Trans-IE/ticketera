@@ -28,8 +28,8 @@ export const getTicketsByFilter = (offset, filters, sorting) => {
                 "tksinac": "",
                 "offset": offset,
                 "tipoTicket": filters.type === '' ? -1 : filters.type,
-                "orderBy": "",
-                "orderByType": "",
+                "orderBy": sorting.orderBy,
+                "orderByType": sorting.orderByType,
                 "limit": 25
 
             }, 'POST');
