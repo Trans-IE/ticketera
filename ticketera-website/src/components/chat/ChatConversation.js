@@ -99,7 +99,7 @@ export const ChatConversation = memo(() => {
 
   // temporal 
   const [chatActiveIsEditable, setchatActiveIsEditable] = useState(true);
-  const [online, setonline] = useState(true)
+  // const [online, setonline] = useState(true)
 
   const textAreaRef = useRef(null);
 
@@ -107,463 +107,463 @@ export const ChatConversation = memo(() => {
 
 
     setactiveHistoryList([
-            {
-              send_time: '2023-11-21T18:48:24.752Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '5491132114106',
-              suspended: false,
-              message_value: 'Hola',
-              direction: 0,
-              message_id: 6140,
-              message_type: 0,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:26.234Z',
-              event_type: 's',
-              extension_id: 130,
-              extension_type: 1,
-              label: 'bot_whap_1',
-              agent_name: '',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:26.257Z',
-              event_type: 's',
-              extension_id: 160,
-              extension_type: 0,
-              label: 'bot_demo_wh',
-              agent_name: 'Bot de ingreso por whatsap',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:26.552Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '',
-              suspended: false,
-              message_value: 'Buen día! Por favor escribí el número de caso por el que querés consultar',
-              direction: 1,
-              message_id: 6141,
-              message_type: 0,
-              status: 'read',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:35.867Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '5491132114106',
-              suspended: false,
-              message_value: '27363',
-              direction: 0,
-              message_id: 6142,
-              message_type: 0,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:35.926Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '',
-              suspended: false,
-              message_value: 'El caso se encuentra en curso. ',
-              direction: 1,
-              message_id: 6143,
-              message_type: 0,
-              status: 'read',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:48:38.552Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '',
-              suspended: false,
-              message_value: '<p><span style="text-decoration: underline;"><strong>Elijí una opción</strong></span></p><p>¿Querés hablar con un operador?</p><ul style="list-style-type: disc;"><li><strong>SI</strong></li><li><strong>NO</strong></li></ul >',
-              direction: 1,
-              message_id: 6144,
-              message_type: 7,
-              status: 'read',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:49:21.957Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '5491132114106',
-              suspended: false,
-              message_value: 'SI',
-              direction: 0,
-              message_id: 6145,
-              message_type: 0,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:49:22.110Z',
-              event_type: 's',
-              extension_id: 4,
-              extension_type: 1,
-              label: 'soporte_wh',
-              agent_name: '',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Bot',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:49:22.141Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T18:50:01.074Z',
-              event_type: 'm',
-              extension_id: -1,
-              extension_type: -1,
-              label: '',
-              agent_name: '5491132114106',
-              suspended: false,
-              message_value: 'Holaaaaa',
-              direction: 0,
-              message_id: 6146,
-              message_type: 0,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: '',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T19:28:06.821Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T20:09:29.828Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-21T21:04:18.503Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T14:09:30.729Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T15:38:30.004Z',
-              event_type: 's',
-              extension_id: 277,
-              extension_type: 0,
-              label: 'gGomez',
-              agent_name: 'Genoveva Gomez',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T17:06:21.689Z',
-              event_type: 's',
-              extension_id: 16,
-              extension_type: 0,
-              label: 'mindurain',
-              agent_name: 'Martin Indurain',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Martin Indurain (mindurain)',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T17:06:28.191Z',
-              event_type: 's',
-              extension_id: 16,
-              extension_type: 0,
-              label: 'mindurain',
-              agent_name: 'Martin Indurain',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T17:07:41.781Z',
-              event_type: 's',
-              extension_id: 16,
-              extension_type: 0,
-              label: 'mindurain',
-              agent_name: 'Martin Indurain',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T17:26:42.119Z',
-              event_type: 's',
-              extension_id: 16,
-              extension_type: 0,
-              label: 'mindurain',
-              agent_name: 'Martin Indurain',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-22T17:38:02.120Z',
-              event_type: 's',
-              extension_id: 16,
-              extension_type: 0,
-              label: 'mindurain',
-              agent_name: 'Martin Indurain',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-23T13:15:13.684Z',
-              event_type: 's',
-              extension_id: 279,
-              extension_type: 0,
-              label: 'facu',
-              agent_name: 'Facu Seib',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Facu Seib (facu)',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-23T17:44:35.252Z',
-              event_type: 's',
-              extension_id: 279,
-              extension_type: 0,
-              label: 'facu',
-              agent_name: 'Facu Seib',
-              suspended: true,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            },
-            {
-              send_time: '2023-11-23T17:50:40.656Z',
-              event_type: 's',
-              extension_id: 279,
-              extension_type: 0,
-              label: 'facu',
-              agent_name: 'Facu Seib',
-              suspended: false,
-              message_value: '',
-              direction: -1,
-              message_id: -1,
-              message_type: -1,
-              status: '',
-              error_code: -1,
-              path: null,
-              perform_user: 'Sistema',
-              forwarded: false,
-              id_interaction: 2405
-            }
-          ]
+      {
+        send_time: '2023-11-21T18:48:24.752Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '5491132114106',
+        suspended: false,
+        message_value: 'Hola',
+        direction: 0,
+        message_id: 6140,
+        message_type: 0,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:26.234Z',
+        event_type: 's',
+        extension_id: 130,
+        extension_type: 1,
+        label: 'bot_whap_1',
+        agent_name: '',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:26.257Z',
+        event_type: 's',
+        extension_id: 160,
+        extension_type: 0,
+        label: 'bot_demo_wh',
+        agent_name: 'Bot de ingreso por whatsap',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:26.552Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '',
+        suspended: false,
+        message_value: 'Buen día! Por favor escribí el número de caso por el que querés consultar',
+        direction: 1,
+        message_id: 6141,
+        message_type: 0,
+        status: 'read',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:35.867Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '5491132114106',
+        suspended: false,
+        message_value: '27363',
+        direction: 0,
+        message_id: 6142,
+        message_type: 0,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:35.926Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '',
+        suspended: false,
+        message_value: 'El caso se encuentra en curso. ',
+        direction: 1,
+        message_id: 6143,
+        message_type: 0,
+        status: 'read',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:48:38.552Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '',
+        suspended: false,
+        message_value: '<p><span style="text-decoration: underline;"><strong>Elijí una opción</strong></span></p><p>¿Querés hablar con un operador?</p><ul style="list-style-type: disc;"><li><strong>SI</strong></li><li><strong>NO</strong></li></ul >',
+        direction: 1,
+        message_id: 6144,
+        message_type: 7,
+        status: 'read',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:49:21.957Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '5491132114106',
+        suspended: false,
+        message_value: 'SI',
+        direction: 0,
+        message_id: 6145,
+        message_type: 0,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:49:22.110Z',
+        event_type: 's',
+        extension_id: 4,
+        extension_type: 1,
+        label: 'soporte_wh',
+        agent_name: '',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Bot',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:49:22.141Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T18:50:01.074Z',
+        event_type: 'm',
+        extension_id: -1,
+        extension_type: -1,
+        label: '',
+        agent_name: '5491132114106',
+        suspended: false,
+        message_value: 'Holaaaaa',
+        direction: 0,
+        message_id: 6146,
+        message_type: 0,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: '',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T19:28:06.821Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T20:09:29.828Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-21T21:04:18.503Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T14:09:30.729Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T15:38:30.004Z',
+        event_type: 's',
+        extension_id: 277,
+        extension_type: 0,
+        label: 'gGomez',
+        agent_name: 'Genoveva Gomez',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T17:06:21.689Z',
+        event_type: 's',
+        extension_id: 16,
+        extension_type: 0,
+        label: 'mindurain',
+        agent_name: 'Martin Indurain',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Martin Indurain (mindurain)',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T17:06:28.191Z',
+        event_type: 's',
+        extension_id: 16,
+        extension_type: 0,
+        label: 'mindurain',
+        agent_name: 'Martin Indurain',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T17:07:41.781Z',
+        event_type: 's',
+        extension_id: 16,
+        extension_type: 0,
+        label: 'mindurain',
+        agent_name: 'Martin Indurain',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T17:26:42.119Z',
+        event_type: 's',
+        extension_id: 16,
+        extension_type: 0,
+        label: 'mindurain',
+        agent_name: 'Martin Indurain',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-22T17:38:02.120Z',
+        event_type: 's',
+        extension_id: 16,
+        extension_type: 0,
+        label: 'mindurain',
+        agent_name: 'Martin Indurain',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-23T13:15:13.684Z',
+        event_type: 's',
+        extension_id: 279,
+        extension_type: 0,
+        label: 'facu',
+        agent_name: 'Facu Seib',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Facu Seib (facu)',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-23T17:44:35.252Z',
+        event_type: 's',
+        extension_id: 279,
+        extension_type: 0,
+        label: 'facu',
+        agent_name: 'Facu Seib',
+        suspended: true,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      },
+      {
+        send_time: '2023-11-23T17:50:40.656Z',
+        event_type: 's',
+        extension_id: 279,
+        extension_type: 0,
+        label: 'facu',
+        agent_name: 'Facu Seib',
+        suspended: false,
+        message_value: '',
+        direction: -1,
+        message_id: -1,
+        message_type: -1,
+        status: '',
+        error_code: -1,
+        path: null,
+        perform_user: 'Sistema',
+        forwarded: false,
+        id_interaction: 2405
+      }
+    ]
     )
 
     return () => {
@@ -736,124 +736,124 @@ export const ChatConversation = memo(() => {
 
         {
 
-           
-                    activeHistoryList.map(
-                      (chatmsg, index) => {
 
-                        console.log(chatmsg);
+          activeHistoryList.map(
+            (chatmsg, index) => {
 
-                        if (chatmsg?.event_type === "m") {
-          
-                          if (chatmsg.direction === 0) {
-                            return (
-                              <div key={index}
-                                ref={refs[chatmsg.message_id]}
-                              >
-                                <ChatMessageV2
-                                  key={chatmsg.message_id}
-                                  avatar={''}
-                                  showavatar={false}
-                                  messages={[
-                                    { message_value: chatmsg.message_value, type: chatmsg.message_type, path: chatmsg.path, id: chatmsg.message_id, forwarded: chatmsg.forwarded, sender_name: chatmsg.sender_name }
-                                  ]}
-          
-                                  status={chatmsg.status}
-                                  error_code_message={(chatmsg.status === "failed") ? getErrorCodeMessage(chatmsg.error_code) : ""}
-                                  timestamp={getFullDateString(chatmsg.send_time)}
-                                />
-                              </div>
-                            )
-                          } else {
-          
-                            let formatMessage = "";
-                            let sender_name = null;
-          
-                            if (chatmsg.sender_name !== undefined && chatmsg.sender_name !== "") {
-                              if (isMonitor || chatmsg.sender_name?.toUpperCase() !== (agent.name?.toUpperCase() + " " + agent.surname?.toUpperCase())) {
-                                sender_name = chatmsg.sender_name;
-                              }
-                            }
-                            formatMessage = chatmsg.message_value;
-                            return (
-                              <div key={index}
-                                ref={refs[chatmsg.message_id]}
-                              >
-                                <ChatMessageV2
-                                  key={chatmsg.message_id}
-                                  side={'right'}
-                                  messages={[
-          
-                                    { message_value: formatMessage, type: chatmsg.message_type, path: chatmsg.path, id: chatmsg.message_id, forwarded: chatmsg.forwarded, sender_name: sender_name },
-                                  ]}
-                                  status={chatmsg.status}
-                                  error_code_message={(chatmsg.status === "failed") ? getErrorCodeMessage(chatmsg.error_code) : ""}
-                                  timestamp={getFullDateString(chatmsg.send_time)}
-                                  ref={refs[chatmsg.message_id]}
-                                />
-                              </div>
-                            )
-                          }
-          
-                        } else {
-          
-                          if (chatmsg?.event_type === "s") {
-                            let formatMessageS = "";
-          
-                            if (chatmsg.extension_type === 0) {
-                              const lastStep = activeHistoryList.slice(0, index).reverse().find(step => step?.event_type === 's');
-                              if (lastStep?.extension_id === chatmsg.extension_id) {
-                                if (chatmsg.suspended === false) {
-                                  if (lastStep?.suspended === true && lastStep !== chatmsg) {
-                                    formatMessageS += `Conversación reactivada en ${chatmsg.agent_name || " "} (${chatmsg.label})`;
-                                  }
-                                } else {
-                                  if (lastStep?.suspended === false && lastStep !== chatmsg) {
-                                    formatMessageS += `Conversación suspendida en ${chatmsg.agent_name || " "} (${chatmsg.label})`;
-                                  }
-                                }
-                              } else {
-                                if (chatmsg.suspended === false) {
-                                  formatMessageS = `Conversación asignada a ${chatmsg.agent_name || " "} (${chatmsg.label}) por ${chatmsg.perform_user || ''}`;
-                                  if (lastStep?.suspended === true && lastStep !== chatmsg) {
-                                    formatMessageS += " y retomada";
-                                  }
-                                } else {
-                                  formatMessageS = `Conversación asignada a ${chatmsg.agent_name || " "} (${chatmsg.label}) por ${chatmsg.perform_user || ''}`;
-                                  if (lastStep?.suspended === false && lastStep !== chatmsg) {
-                                    formatMessageS += " y suspendida";
-                                  }
-                                }
-                              }
-                            } else {
-                              if (chatmsg.label) {
-                                formatMessageS = `Conversación transferida a ${chatmsg.agent_name || " "} (${chatmsg.label})${chatmsg.perform_user ? " por " + chatmsg.perform_user : ''}`;
-                              } else {
-                                formatMessageS = `Conversación finalizada${chatmsg.perform_user ? " por " + chatmsg.perform_user : ''}`;
-                              }
-                            }
-          
-                            if (activeHistoryList[index + 1]?.event_type === "s") {
-                              elements.push(
-                                <div style={{ paddingBottom: 5 }}>
-                                  <ChatMessageLabel key={index} timestamp={getFullDateString(chatmsg.send_time)} message={formatMessageS} />
-                                </div>);
-                              return <></>
-                            } else {
-                              let mainElement = <ChatMessageLabel key={index} timestamp={getFullDateString(chatmsg.send_time)} message={formatMessageS} />;
-                              let tmpElementsData = [...elements];
-                              elements = [];
-                              return (<div style={{ paddingBottom: 10 }}><GroupedElementsList mainElement={mainElement} arrayElements={tmpElementsData} /></div>)
-                            }
-          
-                          }
+              console.log(chatmsg);
+
+              if (chatmsg?.event_type === "m") {
+
+                if (chatmsg.direction === 0) {
+                  return (
+                    <div key={index}
+                      ref={refs[chatmsg.message_id]}
+                    >
+                      <ChatMessageV2
+                        key={chatmsg.message_id}
+                        avatar={''}
+                        showavatar={false}
+                        messages={[
+                          { message_value: chatmsg.message_value, type: chatmsg.message_type, path: chatmsg.path, id: chatmsg.message_id, forwarded: chatmsg.forwarded, sender_name: chatmsg.sender_name }
+                        ]}
+
+                        status={chatmsg.status}
+                        error_code_message={(chatmsg.status === "failed") ? getErrorCodeMessage(chatmsg.error_code) : ""}
+                        timestamp={getFullDateString(chatmsg.send_time)}
+                      />
+                    </div>
+                  )
+                } else {
+
+                  let formatMessage = "";
+                  let sender_name = null;
+
+                  if (chatmsg.sender_name !== undefined && chatmsg.sender_name !== "") {
+                    if (isMonitor || chatmsg.sender_name?.toUpperCase() !== (agent.name?.toUpperCase() + " " + agent.surname?.toUpperCase())) {
+                      sender_name = chatmsg.sender_name;
+                    }
+                  }
+                  formatMessage = chatmsg.message_value;
+                  return (
+                    <div key={index}
+                      ref={refs[chatmsg.message_id]}
+                    >
+                      <ChatMessageV2
+                        key={chatmsg.message_id}
+                        side={'right'}
+                        messages={[
+
+                          { message_value: formatMessage, type: chatmsg.message_type, path: chatmsg.path, id: chatmsg.message_id, forwarded: chatmsg.forwarded, sender_name: sender_name },
+                        ]}
+                        status={chatmsg.status}
+                        error_code_message={(chatmsg.status === "failed") ? getErrorCodeMessage(chatmsg.error_code) : ""}
+                        timestamp={getFullDateString(chatmsg.send_time)}
+                        ref={refs[chatmsg.message_id]}
+                      />
+                    </div>
+                  )
+                }
+
+              } else {
+
+                if (chatmsg?.event_type === "s") {
+                  let formatMessageS = "";
+
+                  if (chatmsg.extension_type === 0) {
+                    const lastStep = activeHistoryList.slice(0, index).reverse().find(step => step?.event_type === 's');
+                    if (lastStep?.extension_id === chatmsg.extension_id) {
+                      if (chatmsg.suspended === false) {
+                        if (lastStep?.suspended === true && lastStep !== chatmsg) {
+                          formatMessageS += `Conversación reactivada en ${chatmsg.agent_name || " "} (${chatmsg.label})`;
                         }
-
-
-
+                      } else {
+                        if (lastStep?.suspended === false && lastStep !== chatmsg) {
+                          formatMessageS += `Conversación suspendida en ${chatmsg.agent_name || " "} (${chatmsg.label})`;
+                        }
                       }
-                      
-                    )
-          
+                    } else {
+                      if (chatmsg.suspended === false) {
+                        formatMessageS = `Conversación asignada a ${chatmsg.agent_name || " "} (${chatmsg.label}) por ${chatmsg.perform_user || ''}`;
+                        if (lastStep?.suspended === true && lastStep !== chatmsg) {
+                          formatMessageS += " y retomada";
+                        }
+                      } else {
+                        formatMessageS = `Conversación asignada a ${chatmsg.agent_name || " "} (${chatmsg.label}) por ${chatmsg.perform_user || ''}`;
+                        if (lastStep?.suspended === false && lastStep !== chatmsg) {
+                          formatMessageS += " y suspendida";
+                        }
+                      }
+                    }
+                  } else {
+                    if (chatmsg.label) {
+                      formatMessageS = `Conversación transferida a ${chatmsg.agent_name || " "} (${chatmsg.label})${chatmsg.perform_user ? " por " + chatmsg.perform_user : ''}`;
+                    } else {
+                      formatMessageS = `Conversación finalizada${chatmsg.perform_user ? " por " + chatmsg.perform_user : ''}`;
+                    }
+                  }
+
+                  if (activeHistoryList[index + 1]?.event_type === "s") {
+                    elements.push(
+                      <div style={{ paddingBottom: 5 }}>
+                        <ChatMessageLabel key={index} timestamp={getFullDateString(chatmsg.send_time)} message={formatMessageS} />
+                      </div>);
+                    return <></>
+                  } else {
+                    let mainElement = <ChatMessageLabel key={index} timestamp={getFullDateString(chatmsg.send_time)} message={formatMessageS} />;
+                    let tmpElementsData = [...elements];
+                    elements = [];
+                    return (<div style={{ paddingBottom: 10 }}><GroupedElementsList mainElement={mainElement} arrayElements={tmpElementsData} /></div>)
+                  }
+
+                }
+              }
+
+
+
+            }
+
+          )
+
         }
 
       </List>}

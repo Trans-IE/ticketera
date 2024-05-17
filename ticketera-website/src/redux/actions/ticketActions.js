@@ -5,10 +5,10 @@ import { ticketGridDataLoadedRedux } from '../slices/ticketSlice';
 
 
 
-export const getTicketsByFilter = (offset, filters) => {
+export const getTicketsByFilter = (offset, filters, sorting) => {
 
     return async (dispatch, getState) => {
-        console.log('FILTROS', filters)
+
         try {
             const { config } = getState().auth;
             let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllTicketsByFilter");
@@ -72,10 +72,12 @@ export const createNewTicket = (ticket) => {
                 "preventaId": ticket.presaleId ? ticket.presaleId : 0,
                 "vendedorId": ticket.vendorId ? ticket.vendedorId : 0,
                 "tkEnPartner": ticket.partnerTicket ? ticket.partnerTicket : "",
-                "array_user_id_notif": ""
+                "array_user_id_notif": "",
+                "responsableId": ticket.responsible
             }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();
+            console.log('NUEVO', body)
             if (body.ok) {
                 return body
             }
@@ -129,6 +131,34 @@ export const getAllTicketStates = () => {
             const { config } = getState().auth;
             let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllStates");
             const resp = await fetchConToken(url, {}, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const getTicketStatesByTicketId = (ticketId) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllStatesByTicketId");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId
+            }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();
             if (body.ok) {

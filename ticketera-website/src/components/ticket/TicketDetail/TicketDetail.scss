@@ -62,6 +62,15 @@ $black: #000;
     cursor: pointer;
 }
 
+.messageBox {
+    width: 100%;
+    resize: none;
+    border-radius: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-right: 10px;
+}
+
 .messages {
     height: calc(100% - 50px);
     overflow-y: auto;

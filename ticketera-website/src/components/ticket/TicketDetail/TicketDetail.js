@@ -13,23 +13,26 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/styles';
 import { ButtonTrans } from '../../ui/ButtonTrans';
 import { toast } from "sonner";
-import { useDispatch } from 'react-redux';
-import { getAllTicketStates, getTicketDetail, getTicketMessages, sendNewHiddenNote, sendNewNote } from '../../../redux/actions/ticketActions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getAllTicketStates, getTicketDetail, getTicketMessages, getTicketStatesByTicketId, sendNewHiddenNote, sendNewNote } from '../../../redux/actions/ticketActions';
 import { ticketType } from '../../../helpers/constants';
 import { NotesMessage } from '../../messages/NotesMessage';
 import { UpdatedMessage } from '../../messages/UpdatedMessage';
 import { getAllTicketPriorities, setTicketPriority } from '../../../redux/actions/priorityActions';
-import { getAllResponsibles, setTicketResponsible } from '../../../redux/actions/responsibleActions';
+import { getAllResponsibles, getResponsiblesByCompany, setTicketResponsible } from '../../../redux/actions/responsibleActions';
 import { setTicketState } from '../../../redux/actions/stateActions';
 import WorkingHoursModal from '../WorkingHoursModal/WorkingHoursModal';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
     const dispatch = useDispatch()
+    const { user } = useSelector(state => state.auth, shallowEqual);
+
     const [messages, setMessages] = useState([])
     const [ticketDetail, setTicketDetail] = useState({})
 
     const [ticketStates, setTicketStates] = useState([])
+    const [states, setStates] = useState([])
     const [responsibles, setResponsibles] = useState([])
     const [priorities, setPriorities] = useState([])
 
@@ -48,7 +51,6 @@ export const TicketDetail = ({ ticketID }) => {
         dispatch(getTicketDetail(ticketID)).then(res => {
             if (res.ok) {
                 setTicketDetail(res.value[0])
-                console.log(res.value[0])
 
                 setSelectedPriority(res.value[0].t_prioridadid)
                 setSelectedState(res.value[0].t_estado)
@@ -56,13 +58,19 @@ export const TicketDetail = ({ ticketID }) => {
             }
         })
 
-        dispatch(getAllTicketStates()).then(res => {
+        dispatch(getTicketStatesByTicketId(ticketID)).then(res => {
             if (res.ok) {
                 setTicketStates(res.value)
             }
         })
 
-        dispatch(getAllResponsibles()).then(res => {
+        dispatch(getAllTicketStates()).then(res => {
+            if (res.ok) {
+                setStates(res.value)
+            }
+        })
+
+        dispatch(getResponsiblesByCompany(3, 1)).then(res => {
             setResponsibles(res)
         })
 
@@ -81,7 +89,7 @@ export const TicketDetail = ({ ticketID }) => {
     }, [selectedState, selectedPriority, selectedResponsible, tempDependencyNewNote])
 
     const findStateByID = (id) => {
-        const state = ticketStates.find(obj => obj.id === id);
+        const state = states.find(obj => obj.id === id);
         return state.estado
     }
 
@@ -147,7 +155,6 @@ export const TicketDetail = ({ ticketID }) => {
 
     const changeResponsible = (e) => {
         dispatch(setTicketResponsible(ticketDetail.t_id, e.target.value)).then(res => {
-            console.log(res)
             if (res) {
                 toast.success('Responsable cambiado exitosamente')
                 setSelectedResponsible(e.target.value)
@@ -157,7 +164,6 @@ export const TicketDetail = ({ ticketID }) => {
 
     const changeState = (e) => {
         dispatch(setTicketState(ticketDetail.t_id, e.target.value)).then(res => {
-            console.log(res)
             if (res) {
                 toast.success('Estado editado exitosamente')
                 setSelectedState(e.target.value)
@@ -207,10 +213,19 @@ export const TicketDetail = ({ ticketID }) => {
                         <Button variant="text" color="error" style={{ borderRadius: '20px' }} >Contrato: Vencido</Button>
                     </div>
                     {/* Botones */}
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div>
-                            <ButtonTrans variant="contained" onClick={() => setIsWorkingHoursModalOpen(true)}>Agregar Horas</ButtonTrans>
-                        </div>
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
+                        {user.tipo === 1 &&
+                            <div>
+                                <ButtonTrans
+                                    style={{ whiteSpace: 'nowrap' }}
+                                    variant="contained"
+                                    onClick={() => setIsWorkingHoursModalOpen(true)}
+                                >
+                                    Agregar Horas
+                                </ButtonTrans>
+                            </div>
+                        }
+
                         <Modal
                             BackdropProps={{
                                 onClick: (event) => event.stopPropagation(), // Prevent closing on backdrop click
@@ -220,21 +235,21 @@ export const TicketDetail = ({ ticketID }) => {
                         >
                             <WorkingHoursModal closeModal={() => setIsWorkingHoursModalOpen(false)} />
                         </Modal>
+                        {/* <div>
+                            <ButtonTrans style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
+                        </div> */}
                         <div>
-                            <ButtonTrans variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
+                            <ButtonTrans disabled style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Editar Ticket</ButtonTrans>
                         </div>
                         <div>
-                            <ButtonTrans variant="contained" marginLeft>Editar Ticket</ButtonTrans>
-                        </div>
-                        <div>
-                            <ButtonTrans variant="contained" marginLeft>Soporte</ButtonTrans>
+                            <ButtonTrans disabled style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Soporte</ButtonTrans>
                         </div>
                     </div>
                 </div>
 
 
 
-                <div style={{ display: 'flex', marginTop: '25px', marginBottom: '25px', justifyContent: 'space-between', height: '70vh' }}>
+                <div style={{ display: 'flex', marginTop: '25px', marginBottom: '25px', justifyContent: 'space-between', height: '60vh' }}>
 
                     {/* Panel Izquierdo */}
                     <div style={{ width: '65%', backgroundColor: theme.palette.background.main, height: '80vh', borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border, display: 'flex', flexDirection: 'column' }}>
@@ -270,9 +285,6 @@ export const TicketDetail = ({ ticketID }) => {
                                             <NotesMessage key={message.action_id} message={message} />
                                         )
                                     }
-                                    else {
-                                        // console.log('message', message)
-                                    }
                                 })}
                                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                     <div style={{ marginBottom: '15px', backgroundColor: theme.palette.background.border, borderRadius: '25px', padding: '5px 15px', marginTop: '15px' }}>Inicio de ticket</div>
@@ -283,8 +295,24 @@ export const TicketDetail = ({ ticketID }) => {
                         {/* Input bar */}
                         <div className="input_msg" style={{ marginTop: '10px' }}>
                             <form className="input">
-                                <FormControlLabel control={<Checkbox checked={isNoteHidden} onChange={() => { setIsNoteHidden(!isNoteHidden) }} />} labelPlacement="top" label="Oculta" />
-                                <TextareaAutosize value={noteText} onChange={(e) => { setNoteText(e.target.value) }} placeholder={isNoteHidden ? "Agrega una nueva nota oculta..." : "Agrega una nueva nota..."} autoFocus style={{ backgroundColor: isNoteHidden ? theme.palette.background.reddishBackground : theme.palette.background.main, color: '#ccc', width: '100%', resize: 'none', borderRadius: '15px', padding: '10px', boxSizing: 'border-box', marginRight: '10px' }} minRows={3} maxRows={8} />
+                                {user.tipo === 1 &&
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isNoteHidden}
+                                            style={{ color: theme.palette.text.primary }}
+                                            onChange={() => { setIsNoteHidden(!isNoteHidden) }} />}
+                                        labelPlacement="top"
+                                        label="Oculta"
+                                    />
+                                }
+                                <TextareaAutosize
+                                    value={noteText}
+                                    className='messageBox'
+                                    onChange={(e) => { setNoteText(e.target.value) }}
+                                    placeholder={isNoteHidden ? "Agrega una nueva nota oculta..." : "Agrega una nueva nota..."}
+                                    autoFocus
+                                    style={{ backgroundColor: isNoteHidden ? theme.palette.background.reddishBackground : theme.palette.background.main, color: theme.palette.text.primary }}
+                                    minRows={3}
+                                    maxRows={8} />
                                 <Tooltip title='Enviar'>
                                     <IconButton disabled={noteText === ''} onClick={handleSendNote} aria-label="delete" size="large" color="primary">
                                         <SendIcon />
@@ -323,8 +351,8 @@ export const TicketDetail = ({ ticketID }) => {
                                 <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Prioridad:
                                 </div>
-                                <div >
-                                    <Select variant='standard' onChange={(e) => { changePriority(e) }} value={selectedPriority}>
+                                <div style={{ width: '50%' }}>
+                                    <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { changePriority(e) }} value={selectedPriority}>
                                         {priorities.map((priority) => {
                                             return (
                                                 <MenuItem key={priority.id} value={priority.id} >
@@ -341,8 +369,8 @@ export const TicketDetail = ({ ticketID }) => {
                                 <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Responsable:
                                 </div>
-                                <div >
-                                    <Select fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
+                                <div style={{ width: '50%' }}>
+                                    <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
                                         {responsibles.map((responsible) => {
                                             return (
                                                 <MenuItem key={responsible.id} value={responsible.id} >
@@ -357,8 +385,8 @@ export const TicketDetail = ({ ticketID }) => {
                                 <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                     Estado:
                                 </div>
-                                <div>
-                                    <Select variant='standard' onChange={(e) => { changeState(e) }} value={selectedState}>
+                                <div style={{ width: '50%' }}>
+                                    <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { changeState(e) }} value={selectedState}>
                                         {ticketStates.map((state) => {
                                             return (
                                                 <MenuItem key={state.id} value={state.id} >

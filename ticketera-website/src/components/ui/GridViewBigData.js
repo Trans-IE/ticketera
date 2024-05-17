@@ -5,6 +5,7 @@ import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import LockIcon from '@mui/icons-material/Lock';
 
 import { useTheme } from '@mui/styles';
 
