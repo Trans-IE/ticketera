@@ -2056,10 +2056,10 @@ router.post(
  *             properties:
  *               company:
  *                 type: integer
- *                 description: Id de la compañía.
+ *                 description: Id del contrato.
  *                 example: 3
  *             required:
- *               - company
+ *               - contract
  *     responses:
  *       200:
  *         description: Información de todas las acciones de un ticket por id de ticket obtenida correctamente.
