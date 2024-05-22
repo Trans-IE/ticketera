@@ -124,7 +124,6 @@ const lightTheme = createTheme({
     mode: 'light',
   },
   esES,
-
 });
 
 const darkTheme = createTheme({
@@ -236,7 +235,6 @@ const darkTheme = createTheme({
     mode: 'dark',
   },
   esES,
-
 });
 
 

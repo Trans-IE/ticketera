@@ -94,3 +94,44 @@ $black: #000;
         }
     }
 }
+
+
+
+.projectDrawer {
+    margin-left: 55px;
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+    left: -1000px;
+    /* Initially off-screen */
+    width: 450px;
+    height: 100%;
+    transition: left 0.2s ease;
+    border-right: 1px solid #23558e;
+    /* Smooth transition effect */
+}
+
+.projectDrawer.open {
+    left: 0;
+    /* Slide in when the drawer is open */
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    z-index: 10;
+    /* Ensure the overlay is on top of other content */
+    display: none;
+    /* Initially hidden */
+}
+
+.overlay.show {
+    display: block;
+    /* Show the overlay when the drawer is open */
+}
