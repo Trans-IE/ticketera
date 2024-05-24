@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar-campos');
+const { validarCampos, validarCamposFormData } = require('../middlewares/validar-campos');
 
 const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
@@ -16,6 +16,18 @@ const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, 
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
+
+const multer = require('multer');
+const { sendImage } = require('../../API-GATEWAY/controllers/tickets');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
+});
+const upload = multer({ storage: storage });
 
 router.post(
     '/getAllCompaniesLocal',
@@ -723,5 +735,15 @@ router.post(
     getProjectsByCompany
 );
 
+
+router.post(
+    '/sendImage',
+    [
+        check('id_interaction', 'El id interaction es obligatorio').not().isEmpty(),
+        upload.fields([{ name: 'images' }]),
+        validarCamposFormData
+    ],
+    sendImage
+);
 
 module.exports = router;

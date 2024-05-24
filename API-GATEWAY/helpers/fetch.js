@@ -1,4 +1,3 @@
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fetchSinToken = (url, data, method = "GET") => {
   if (method === "GET") {
     if (data === undefined) {
@@ -63,12 +62,8 @@ const fetchConToken = (url, data, method = "GET") => {
 };
 
 const fetchSinTokenForm = (url, form) => {
-
   return fetch(url, {
     method: 'POST',
-    headers: {
-      "type": "formData"
-    },
     body: form,
   });
 };

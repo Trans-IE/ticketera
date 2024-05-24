@@ -1,7 +1,7 @@
 const { response } = require('express');
 const { logger, loggerCSV } = require('../logger');
 const { generarJWT } = require('../helpers/jwt');
-const { fetchConToken, fetchSinToken } = require('../helpers/fetch');
+const { fetchConToken, fetchSinToken, fetchSinTokenForm } = require('../helpers/fetch');
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 
@@ -377,11 +377,55 @@ const getTicketTypes = async (req, res = response) => {
     }
 }
 
+const sendImage = async (req, res = response) => {
+    let function_enter_time = new Date();
+    let { id_interaction } = req.body;
+    const { label } = req;
+    let multFiles = req.files["images"];
+    logger.info(
+        `==> sendImage - id_interaction:${id_interaction} multFiles:${multFiles}`
+    );
+    const form = new FormData();
+
+    multFiles.forEach((element) => {
+        let filePath = `uploads/${element.originalname}`;
+        let data = fs.readFileSync(filePath);
+        const blobEnBuffer = Buffer.from(data);
+        const blob = new Blob([blobEnBuffer]);
+        form.append("images", blob, element.originalname);
+    });
+    form.append("id_interaction", id_interaction);
+    form.append("label", label);
+    const resp = await fetchSinTokenForm(url, form);
+    body = await resp.json();
+    if (body.ok) {
+        logger.info(`<== sendImage - id_interaction:${id_interaction}`);
+        loggerCSV.info(
+            `sendImage,${(new Date() - function_enter_time) / 1000}`
+        );
+        res.status(200).json({
+            ok: body.ok,
+            value: body.value,
+            msg: body.msg,
+        });
+    } else {
+        logger.error(
+            `interactionID: ${id_interaction} could not set message. Body false`
+        );
+        res.status(500).json({
+            ok: false,
+            value: body.value,
+            msg: body.msg,
+        });
+    }
+};
+
 module.exports = {
     getAllTicketsByFilter,
     updateTicket,
     createTicket,
     deleteTicket,
     getFailTypes,
-    getTicketTypes
+    getTicketTypes,
+    sendImage
 }

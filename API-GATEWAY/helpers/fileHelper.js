@@ -26,4 +26,11 @@ const deleteTmpFiles = (folderPath = "", olderThanSeconds = 3600) => {
   }
 };
 
-module.exports = { deleteTmpFiles };
+const checkAndCreateFolder = (folderPath) => {
+
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+  }
+}
+
+module.exports = { deleteTmpFiles, checkAndCreateFolder };
