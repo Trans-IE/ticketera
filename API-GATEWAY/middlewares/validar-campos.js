@@ -19,11 +19,10 @@ const validarCamposFormData = (req, res = response, next) => {
   const errors = validationResult(req);
 
   // Obtener las claves requeridas desde los errores de validación
-  const clavesRequeridas = errors.array().map((error) => error.param);
+  const clavesRequeridas = errors.array().map((error) => error.path);
 
   // Verificar si las claves están presentes en el formulario
   const clavesFaltantes = clavesRequeridas.filter((clave) => !(clave in body));
-
   if (clavesFaltantes.length > 0) {
     return res.status(400).json({
       ok: false,

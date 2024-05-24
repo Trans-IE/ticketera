@@ -6,6 +6,8 @@ const https = require('https');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
+const { checkAndCreateFolder, deleteTmpFiles } = require('./helpers/fileHelper');
+const path = require('path');
 
 // CORS
 app.use(cors())
@@ -25,6 +27,12 @@ if (process.env.SHOW_DOCUMENTATION === 'ON') {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
+const checkDeleteTmpFiles = () => {
+    deleteTmpFiles(`${__dirname}${path.sep}uploads`, 3600)
+}
+
+checkAndCreateFolder(`${__dirname}${path.sep}uploads`)
+
 if (process.env.SSL === 'ON') {
     const privateKey = fs.readFileSync(`sslcert/${process.env.SSL_KEY_CRT_NAME}.key`, 'utf8');
     const certificate = fs.readFileSync(`sslcert/${process.env.SSL_KEY_CRT_NAME}.crt`, 'utf8');
@@ -32,9 +40,11 @@ if (process.env.SSL === 'ON') {
     var httpsServer = https.createServer(credentials, app);
     httpsServer.listen(process.env.PORT, () => {
         console.log(`API-GATEWAY is working in port ${process.env.PORT}. SSL: ON`);
+        setInterval(checkDeleteTmpFiles, 3600000);
     });
 } else {
     app.listen(process.env.PORT, () => {
         console.log(`API-GATEWAY is working in port ${process.env.PORT}. SSL: OFF`);
+        setInterval(checkDeleteTmpFiles, 3600000);
     });
 }

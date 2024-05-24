@@ -7,6 +7,7 @@ const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 const { logger, loggerCSV } = require('../logger');
 const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
+const { getCleanName } = require('../helpers/fileHelper');
 
 const createTicketTrans = async (req, res = response) => {
 
@@ -342,6 +343,31 @@ const getTicketTypes = async (req, res = response) => {
         });
     }
 }
+
+const sendImage = async (req, res = response) => {
+    let { id_interaction } = req.body;
+    let multFiles = req.files["images"];
+    const fs = require('fs');
+    logger.info(
+        `==> sendImage - id_interaction:${id_interaction} multFiles:${multFiles}`
+    );
+    multFiles.forEach((element) => {
+        console.log(element);//path y filename
+        const file = fs.readFileSync(element.path);
+        const filename = getCleanName(element.filename) || ''
+        fs.writeFileSync('carpeta_destino.extension', file);
+
+    });
+    logger.info(
+        `<== sendImage - id_interaction:${id_interaction}`
+    );
+    res.status(200).json({
+        ok: body.ok,
+        value: body.value,
+        msg: body.msg,
+    });
+
+};
 
 module.exports = {
     getAllTicketsByFilter,

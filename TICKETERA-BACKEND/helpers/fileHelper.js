@@ -33,4 +33,22 @@ const checkAndCreateFolder = (folderPath) => {
   }
 }
 
-module.exports = { deleteTmpFiles, checkAndCreateFolder };
+const getCleanName = (name) => {
+  let modifiedString = name.replace(/ /g, '_');
+
+  // Convertir a minúsculas
+  modifiedString = modifiedString.toLowerCase();
+
+  // Reemplazar tildes y caracteres especiales
+  const accentMap = {
+    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+    'ü': 'u', 'ñ': 'n'
+  };
+
+  modifiedString = modifiedString.replace(/[áéíóúüñ]/g, match => accentMap[match] || match);
+  modifiedString = modifiedString.replace(/[^a-z0-9_]/g, '');
+
+  return modifiedString;
+}
+
+module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName };
