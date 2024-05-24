@@ -5,7 +5,7 @@ const path = require('path');
 // Crear el servidor de express
 const app = express();
 const cors = require('cors');
-const { deleteTmpFiles } = require('./helpers/fileHelper');
+const { deleteTmpFiles, checkAndCreateFolder } = require('./helpers/fileHelper');
 // CORS
 app.use(cors())
 
