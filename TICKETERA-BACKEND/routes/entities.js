@@ -18,6 +18,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const router = Router();
 
 const multer = require('multer');
+const { sendImage } = require('../../API-GATEWAY/controllers/tickets');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "uploads/");
