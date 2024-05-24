@@ -13,7 +13,7 @@ import Logo from '../../../public/trans.png'
 import { Grid } from '@mui/material';
 import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import Swal from 'sweetalert2';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { logoutUser } from '../../redux/actions/userActions';
 
 const drawerWidth = 240;

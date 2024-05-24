@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Button, Chip, Divider, FormControl, InputLabel, Menu, MenuItem, Select, TextField, Tooltip, styled } from '@mui/material';
-import { useTheme } from '@mui/styles';
+import { Chip, Divider, FormControl, InputLabel, Menu, MenuItem, Select, TextField, Tooltip, styled } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
@@ -10,7 +10,6 @@ import { getTicketsByFilter } from '../../redux/actions/ticketActions';
 import { getShortDateString } from '../../helpers/dateHelper';
 import { ButtonTrans } from '../ui/ButtonTrans';
 import TicketFilterDrawer from './TicketFilterDrawer';
-import { SocketContext } from '../../context/SocketContext';
 import { getProductsByBrand } from '../../redux/actions/productActions';
 import { getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
 
@@ -344,7 +343,7 @@ export const TicketsScreen = () => {
               value={quickFilterNumber}
               onChange={handleInputChange}
               style={{ color: theme.palette.text.primary }}
-
+              type='number'
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '20px',

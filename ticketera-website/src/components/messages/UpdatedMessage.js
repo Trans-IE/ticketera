@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useTheme } from "@mui/styles"
+import { useTheme } from "@mui/material/styles"
 import { getFullDateString, getShortDateString } from "../../helpers/dateHelper"
 import BoltIcon from '@mui/icons-material/Bolt';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';

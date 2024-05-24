@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, Paper } from '@mui/material';
-import { ChatConversation } from '../chat/ChatConversation';
+import { Grid } from '@mui/material';
 import { NewTicketScreen } from '../ticket/NewTicketScreen';
 import { TicketDetail } from '../ticket/TicketDetail/TicketDetail';
 

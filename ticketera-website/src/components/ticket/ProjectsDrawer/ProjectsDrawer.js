@@ -1,27 +1,26 @@
 import React from 'react'
-import { makeStyles, useTheme } from '@mui/styles';
-import { Divider, IconButton } from '@mui/material';
+import { Divider, IconButton, useTheme } from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { arrayTabsAddNew } from '../../../redux/actions/userInterfaceActions';
+import styled from 'styled-components';
 
-const useStyles = makeStyles((theme) => ({
-    project: {
-        color: theme.palette.trans.light,
-        userSelect: 'none',
-        cursor: 'pointer',
-        margin: '10px 0',
-        padding: '5px',
-        '&:hover': {
-            backgroundColor: theme.palette.background.light,
-            borderRadius: '10px'
-        },
-    }
-}));
+const ProjectDiv = styled.div`
+     color:  ${(props) => props.theme.palette.trans.light};
+     user-select: none;
+     cursor: pointer;
+     margin: 10px 0;
+     padding: 5px;
+
+     &:hover: {
+         background-color:  ${(props) => props.theme.palette.background.light},
+         border-radius: 10px;
+     },
+`
 
 export default function ProjectsDrawer(props) {
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const theme = useTheme()
 
     const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
@@ -81,9 +80,9 @@ export default function ProjectsDrawer(props) {
             <Divider />
             {dumbData.map(data => {
                 return (
-                    <div key={data.id} className={classes.project} onClick={() => { handleGoToTicket(data.id) }}>
+                    <ProjectDiv theme={theme} key={data.id} onClick={() => { handleGoToTicket(data.id) }}>
                         {formatName(data.level, data.name)}
-                    </div>
+                    </ProjectDiv>
                 )
             })}
         </div>

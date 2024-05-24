@@ -9,9 +9,7 @@ import { PanelOpResultInfo } from "../ui/PanelOpResultInfo";
 import LoginTheme from "./LoginTheme";
 import { Autocomplete, Box, Button, Container, CssBaseline, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, ThemeProvider } from "@mui/material";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
-import { makeStyles, useTheme } from '@mui/styles'
-
-import encryptStorage from "../../helpers/storageEncrypter";
+import { useTheme } from '@mui/material/styles'
 import { Copyright } from "../ui/Copyright";
 
 import { LoginButtonAzure } from "./LoginButtonAzure";
@@ -19,27 +17,10 @@ import { LoginButtonAuth0 } from "./LoginButtonAuth0";
 import Logo from '../../../public/translogo.png'
 import './SignIn.scss'
 
-const useStyles = makeStyles((theme) => ({
 
-
-  submit: {
-    margin: theme.spacing(1, 0, 2),
-    background: theme.palette.primary.main,
-    color: 'white'
-  },
-
-  robotoMediumsz16: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: 500,
-    fontSize: 16,
-  },
-
-}));
 
 export const SignIn = () => {
   const theme = useTheme()
-  const classes = useStyles();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -182,7 +163,7 @@ si esta autenticado debo hacer lo siguiente:
                 <div style={{ textAlign: 'center' }}>
                   <img src={Logo} style={{ padding: 10, transform: 'scale(0.8)' }} />
                 </div>
-                <form id="loginAuto" className={classes.formLogin} onSubmit={loginThroughDB} autoComplete="off">
+                <form id="loginAuto" onSubmit={loginThroughDB} autoComplete="off">
                   <FormControl fullWidth sx={{ marginBottom: '10px' }}>
                     <InputLabel htmlFor="agent">Agente</InputLabel>
                     <OutlinedInput
@@ -204,7 +185,7 @@ si esta autenticado debo hacer lo siguiente:
                     />
                   </FormControl>
 
-                  <FormControl variant="outlined" fullWidth className={clsx(classes.loginTextField, classes.robotoMediumsz16)} >
+                  <FormControl variant="outlined" fullWidth >
                     <InputLabel htmlFor="password">Contraseña</InputLabel>
                     <OutlinedInput
                       id="password"
@@ -226,7 +207,7 @@ si esta autenticado debo hacer lo siguiente:
                           </IconButton>
                         </InputAdornment>
                       }
-                      label="Clave"
+                      label="Contraseña"
                       autoComplete={"off"}
                     />
                   </FormControl>
@@ -236,7 +217,11 @@ si esta autenticado debo hacer lo siguiente:
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
+                    sx={{
+                      margin: theme.spacing(1, 0, 2),
+                      background: theme.palette.primary.main,
+                      color: 'white'
+                    }}
                     disabled={opResultInfoState === 1 || agent.trim().length === 0 || password.trim().length === 0}
                   >
                     Ingresar

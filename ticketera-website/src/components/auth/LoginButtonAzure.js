@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@mui/styles";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { InteractionType } from "@azure/msal-browser";
 import {
   useIsAuthenticated,
@@ -8,15 +7,8 @@ import {
   useMsalAuthentication,
 } from "@azure/msal-react";
 
-const useStyles = makeStyles((theme) => ({
-  submit: {
-    margin: theme.spacing(1, 0, 2),
-    background: "#3DADD9",
-  },
-}));
-
 export const LoginButtonAzure = ({ handlerOnCallback }) => {
-  const classes = useStyles();
+  const theme = useTheme()
 
   const { instance: azureInstance } = useMsal();
 
@@ -47,7 +39,7 @@ export const LoginButtonAzure = ({ handlerOnCallback }) => {
       }
     }
 
-    return () => {};
+    return () => { };
   }, [error, result]);
 
   const handleSignInAZURE = () => {
@@ -58,15 +50,19 @@ export const LoginButtonAzure = ({ handlerOnCallback }) => {
 
   return (
     <>
-    {/*   <img src={Logo} style={{ padding: 10, transform: "scale(0.7)" }} /> */}
+      {/*   <img src={Logo} style={{ padding: 10, transform: "scale(0.7)" }} /> */}
       <Button
         type="submit"
         fullWidth
         variant="contained"
         color="primary"
+        sx={{
+          margin: theme.spacing(1, 0, 2),
+          background: "#3DADD9",
+        }}
         className={classes.submit}
         onClick={handleSignInAZURE}
-        //  disabled={ agent.trim().length === 0}
+      //  disabled={ agent.trim().length === 0}
       >
         Ingresar
       </Button>

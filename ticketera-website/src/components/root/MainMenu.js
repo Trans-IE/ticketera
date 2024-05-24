@@ -10,9 +10,6 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { Tooltip } from '@mui/material';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import Swal from 'sweetalert2';
-import { useTheme } from '@mui/styles';
-import { toast } from 'sonner';
 import { userMenuOptions } from '../../helpers/constants';
 import { Link } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
