@@ -60,10 +60,7 @@ export default function ProjectsDrawer(props) {
     }
 
     const handleGoToTicket = (ticketId) => {
-        console.log('entre')
         let tabNew = new Object();
-        // definir constantes con tipos asociados a la operacion_ 
-        // 0: crear ticket 1: editar ticket 2: abm de empresas 3: abm marcas 
         tabNew.type = 0;
         tabNew.title = `Ticket ${ticketId}`;
         tabNew.id = ticketId;
@@ -76,7 +73,7 @@ export default function ProjectsDrawer(props) {
     return (
         <div style={{ margin: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Árbol de proyectos </h2>
+                <h2>Árbol de proyectos</h2>
                 <IconButton onClick={props.handleCloseDrawer}>
                     <NavigateBeforeIcon />
                 </IconButton>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Chip, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
+import { Button, Chip, Divider, FormControl, InputLabel, Menu, MenuItem, Select, TextField, Tooltip, styled } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { GridViewBigData } from '../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
@@ -12,6 +12,7 @@ import { ButtonTrans } from '../ui/ButtonTrans';
 import TicketFilterDrawer from './TicketFilterDrawer';
 import { SocketContext } from '../../context/SocketContext';
 import { getProductsByBrand } from '../../redux/actions/productActions';
+import { getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
 
 
 export const TicketsScreen = () => {
@@ -19,18 +20,18 @@ export const TicketsScreen = () => {
 
   const dispatch = useDispatch();
   const { prioritiesDataList } = useSelector(state => state.priority, shallowEqual);
-  const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
   const { companiesDataList } = useSelector(state => state.company, shallowEqual);
   const { statesDataList } = useSelector(state => state.state, shallowEqual);
   const { failTypesDataList } = useSelector(state => state.failType, shallowEqual);
   const [productsDataList, setProductsDataList] = useState([])
-
-  const { editTicketTabShown, arrayTabs } = useSelector((state) => state.ui, shallowEqual);
+  const [responsiblesDataList, setResponsiblesDataList] = useState([])
+  const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
   const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
   const [rowsPerPageTickets, setRowsPerPageTickets] = useState(10);
   const [actualOffsetTickets, setActualOffsetTickets] = useState(0);
   const [hasMorePages, setHasMorePages] = useState(true)
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
   const [filters, setFilters] = useState({
     title: "",
     number: "",
@@ -44,6 +45,7 @@ export const TicketsScreen = () => {
     cause: ""
   })
   const [sorting, setSorting] = useState(1)
+  const [quickFilterNumber, setQuickFilterNumber] = useState('')
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -88,6 +90,11 @@ export const TicketsScreen = () => {
     }
   }, [filters])
 
+  useEffect(() => {
+    dispatch(getResponsiblesByCompany(3, 0)).then((res) => {
+      setResponsiblesDataList(res)
+    })
+  }, [])
 
   useEffect(() => {
     dispatch(getTicketsByFilter(actualOffsetTickets, filters, formatSorting(sorting))).then((res) => {
@@ -264,40 +271,119 @@ export const TicketsScreen = () => {
     let tempFilters = { ...filters }
     tempFilters[filter] = "";
     setFilters(tempFilters)
+    if (filter === 'number') {
+      setQuickFilterNumber('')
+    }
   }
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setQuickFilterNumber(value);
+
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    const newTimeout = setTimeout(() => {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        number: value,
+      }));
+    }, 1000); // Delay
+
+    setDebounceTimeout(newTimeout);
+  };
+
 
   return (
     <div>
       <div style={{
         width: '95vw', margin: ' 0 auto', padding: '25px', scroll: 'auto'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
-            <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Filtrar</ButtonTrans>
-            {Object.entries(filters).map(([key, value], index) => {
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ width: '2000px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <FormControl size="small" >
+              <Select
+                sx={{ borderRadius: '20px' }}
+                value={filters.company}
+                displayEmpty
+                onChange={(e) => {
+                  setFilters(prevFilters => ({
+                    ...prevFilters,
+                    company: e.target.value
+                  }));
+                }}
+              >
+                <MenuItem value={''}>Empresa</MenuItem>
+                {companiesDataList.map(item => (
+                  <MenuItem key={item.id} value={item.id}>{item.nombre}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl size="small" >
+              <Select
+                sx={{ borderRadius: '20px' }}
+                value={filters.responsible}
+                displayEmpty
+                onChange={(e) => {
+                  setFilters(prevFilters => ({
+                    ...prevFilters,
+                    responsible: e.target.value
+                  }));
+                }}
+              >
+                <MenuItem value={''}>Responsable</MenuItem>
+                {responsiblesDataList.map(item => (
+                  <MenuItem key={item.id} value={item.id}>{item.nombre_completo}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              size='small'
+              placeholder='Numero'
+              value={quickFilterNumber}
+              onChange={handleInputChange}
+              style={{ color: theme.palette.text.primary }}
+
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '20px',
+                },
+                '& label': {
+                  color: theme.palette.text.primary
+                }
+              }}
+            />
+            <Divider orientation="vertical" flexItem />
+            <div style={{ width: '500px' }}>
+              <ButtonTrans onClick={() => { setIsDrawerOpen(!isDrawerOpen) }} variant='outlined'>Más Filtros</ButtonTrans>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {Object.entries(filters).map(([key, value]) => {
               if (value && value !== -1 && value !== '' && key !== 'brand') {
                 return (
-                  <Chip key={key} label={filterChip(key, value)} variant='outlined' sx={{ marginLeft: '5px' }} onDelete={() => { deleteFilter(key) }} />
+                  <Chip key={key} label={filterChip(key, value)} variant='outlined' onDelete={() => { deleteFilter(key) }} />
                 )
               }
             })}
+            <Divider orientation="vertical" flexItem />
+            <div style={{ width: '150px' }}>
+              <FormControl fullWidth size="small" style={{ minWidth: '100px' }}>
+                <InputLabel style={{ color: theme.palette.text.primary }}>Ordenar por</InputLabel>
+                <Select
+                  sx={{ borderRadius: '20px' }}
+                  value={sorting}
+                  label="Ordenar por"
+                  onChange={(e) => { setSorting(e.target.value) }}
+                >
+                  <MenuItem key={1} value={1}>Mas nuevos</MenuItem>
+                  <MenuItem key={1} value={2}>Mas antiguos</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
-          <div style={{ width: '150px' }}>
-            <FormControl fullWidth size="small" style={{ paddingBottom: '20px', minWidth: '100px' }}>
-              <InputLabel style={{ color: theme.palette.text.primary }}>Ordenar por</InputLabel>
-              <Select
-                sx={{ borderRadius: '20px' }}
-                value={sorting}
-                label="Ordenar por"
-                onChange={(e) => { setSorting(e.target.value) }}
-              >
-                <MenuItem key={1} value={1}>Mas nuevos</MenuItem>
-                <MenuItem key={1} value={2}>Mas antiguos</MenuItem>
-                {/* <MenuItem key={1} value={3}>Titulo</MenuItem>
-                <MenuItem key={1} value={4}>ID</MenuItem> */}
-              </Select>
-            </FormControl>
-          </div>
+
         </div>
 
         {
@@ -339,8 +425,8 @@ export const TicketsScreen = () => {
       </div>
       <div className={`overlay ${isDrawerOpen ? 'show' : ''}`} onClick={() => { setIsDrawerOpen(!isDrawerOpen) }}></div>
       <div className={`drawer ${isDrawerOpen ? 'open' : ''}`} style={{ backgroundColor: theme.palette.background.main }}>
-        <TicketFilterDrawer filter={handleFilterButton} handleCancelFilter={() => { setIsDrawerOpen(false) }} />
+        <TicketFilterDrawer filter={handleFilterButton} filters={filters} handleCancelFilter={() => { setIsDrawerOpen(false) }} />
       </div>
-    </div>
+    </div >
   )
 }

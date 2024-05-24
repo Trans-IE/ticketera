@@ -12,7 +12,7 @@ import { getAllTicketStates } from '../../redux/actions/stateActions';
 import { getAllBrands, getAllProducts, getProductsByBrand } from '../../redux/actions/productActions';
 import { getAllFailTypes } from '../../redux/actions/failTypeActions';
 
-export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
+export default function TicketFilterDrawer({ handleCancelFilter, filter, filters }) {
     const dispatch = useDispatch();
     const theme = useTheme();
     const { user } = useSelector(state => state.auth, shallowEqual);
@@ -68,6 +68,13 @@ export default function TicketFilterDrawer({ handleCancelFilter, filter }) {
             setResponsiblesList(res)
         })
     }, [])
+
+    useEffect(() => {
+        setNumber(filters.number);
+        setSelectedCompany(filters.company);
+        setSelectedResponsible(filters.responsible)
+    }, [filters])
+
 
     useEffect(() => {
         if (selectedBrand) {
