@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { logger } = require("../logger");
+const mime = require('mime-types');
 
 const deleteTmpFiles = (folderPath = "", olderThanSeconds = 3600) => {
   try {
@@ -51,4 +52,56 @@ const getCleanName = (name) => {
   return modifiedString;
 }
 
-module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName };
+const readBinaryFile = (filePath = "") => {
+  try {
+    let readPath = ""
+    if (filePath) {
+      readPath = process.env.ATTACHMENTS_LOCAL_PRIVATE_FOLDER + filePath
+      if (fs.existsSync(readPath)) {
+        const binaryData = fs.readFileSync(readPath);
+        const MIMEType = mime.lookup(readPath) || 'application/octet-stream';
+        const filename = readPath.split('/').pop();
+
+        return {
+          data: binaryData,
+          MIMEType: MIMEType,
+          filename: filename
+        };
+      } else {
+        readPath = process.env.ATTACHMENTS_LOCAL_PUBLIC_FOLDER + filePath
+        if (fs.existsSync(readPath)) {
+          const binaryData = fs.readFileSync(readPath);
+          const MIMEType = mime.lookup(readPath) || 'application/octet-stream';
+          const filename = readPath.split('/').pop();
+
+          return {
+            data: binaryData,
+            MIMEType: MIMEType,
+            filename: filename
+          };
+        } else {
+          return {
+            data: null,
+            MIMEType: null,
+            filename: null
+          };
+        }
+      }
+    } else {
+      return {
+        data: null,
+        MIMEType: null,
+        filename: null
+      };
+    }
+  } catch (error) {
+    console.error('Error reading binary file:', error);
+    return {
+      data: null,
+      MIMEType: null,
+      filename: null
+    };
+  }
+}
+
+module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName, readBinaryFile };
