@@ -8,7 +8,7 @@ import { Toaster } from "sonner";
 import { MainScreen } from "./components/root/MainScreen";
 import { TicketsScreen } from "./components/ticket/TicketsScreen";
 import { BrowserRouter } from "react-router-dom";
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 
 
 

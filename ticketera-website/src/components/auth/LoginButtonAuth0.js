@@ -1,24 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@mui/styles";
-import { Button } from "@mui/material";
-import { InteractionType } from "@azure/msal-browser";
-import {
-  useIsAuthenticated,
-  useMsal,
-  useMsalAuthentication,
-} from "@azure/msal-react";
+import { Button, useTheme } from "@mui/material";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-/* import Logo from "../resources/logo_multimedia.svg";
- */
-const useStyles = makeStyles((theme) => ({
-  submit: {
-    margin: theme.spacing(1, 0, 2),
-    background: "#3DADD9",
-  },
-}));
+
 
 export const LoginButtonAuth0 = ({ handlerOnCallback }) => {
-  const classes = useStyles();
+  const theme = useTheme()
 
   const [dataToken, setDataToken] = useState("");
   const [idToken, setIdToken] = useState("");
@@ -71,7 +57,7 @@ export const LoginButtonAuth0 = ({ handlerOnCallback }) => {
       });
     }
 
-    return () => {};
+    return () => { };
   }, [user]);
 
   const handleSignInAUTH0 = () => {
@@ -80,15 +66,18 @@ export const LoginButtonAuth0 = ({ handlerOnCallback }) => {
 
   return (
     <>
-     {/*  <img src={Logo} style={{ padding: 10, transform: "scale(0.7)" }} />  */}
+      {/*  <img src={Logo} style={{ padding: 10, transform: "scale(0.7)" }} />  */}
       <Button
         type="submit"
         fullWidth
         variant="contained"
         color="primary"
-        className={classes.submit}
+        sx={{
+          margin: theme.spacing(1, 0, 2),
+          background: "#3DADD9",
+        }}
         onClick={handleSignInAUTH0}
-        //  disabled={ agent.trim().length === 0}
+      //  disabled={ agent.trim().length === 0}
       >
         Ingresar
       </Button>

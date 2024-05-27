@@ -10,7 +10,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import BusinessIcon from '@mui/icons-material/Business';
 import PersonIcon from '@mui/icons-material/Person';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { ButtonTrans } from '../../ui/ButtonTrans';
 import { toast } from "sonner";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';

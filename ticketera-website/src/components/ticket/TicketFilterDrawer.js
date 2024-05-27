@@ -4,9 +4,9 @@ import { ButtonTrans } from '../ui/ButtonTrans'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getAllTicketTypes } from '../../redux/actions/ticketActions';
 import './TicketFilterDrawer.scss'
-import { styled, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
-import { getAllResponsibles, getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
+import { getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
 import { getAllCompanies } from '../../redux/actions/companyActions';
 import { getAllTicketStates } from '../../redux/actions/stateActions';
 import { getAllBrands, getAllProducts, getProductsByBrand } from '../../redux/actions/productActions';

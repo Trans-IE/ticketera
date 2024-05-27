@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,68 +9,42 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import DoneIcon from '@mui/icons-material/Done';
+import styled from 'styled-components';
 
-const useStyles = makeStyles({
-  tcontainer: {
-    maxHeight: 450,
-  },
-  tableRow: {
-    height: 30
-  },
-  tableCell: {
-    padding: "0px 16px"
-  },
-  iconButtonClass: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingBottom: 0,
-  },
-});
-
-const PaginationTheme = withStyles({
-  toolbar: {
-    minHeight: '30px'
-  },
-    
-  actions: {
-    "& .MuiButtonBase-root": {
-      paddingLeft: 0, 
-      paddingRight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-    }
+const StyledTablePagination = styled(TablePagination)`
+  .MuiTablePagination-toolbar {
+    min-height: 30px;
   }
-})(TablePagination);
+  .MuiTablePagination-actions .MuiButtonBase-root {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
 
-const CustomTableCell = withStyles((theme) => ({
-  head: {
-    //backgroundColor: theme.palette.primary.main,
-    backgroundColor: "#ea8234",
-    color: theme.palette.common.white,
-    fontSize: 12,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 5,
-    paddingBottom: 5,
-    whiteSpace: "pre",
-  },
-  body: {
-    fontSize: 11,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 0,
-    paddingBottom: 0,
-    whiteSpace: "pre",
-  },
-}))(TableCell);
 
-export const DatagridSelection = ({ columns, data, enableSelect=true, handleGridChangePage, resetPagination, handleSelect=null, hasMorePage=true }) => {
+const CustomTableCell = styled(TableCell)`
+  &.MuiTableCell-head {
+    background-color: #ea8234; // You can use theme.palette.primary.main if you prefer
+    color: ${({ theme }) => theme.palette.common.white};
+    font-size: 12px;
+    padding: 5px; // Shorthand for padding-left, padding-right, padding-top, padding-bottom
+    white-space: pre;
+  }
+  &.MuiTableCell-body {
+    font-size: 11px;
+    padding: 0 5px; // Shorthand for padding-left and padding-right
+    white-space: pre;
+  }
+`;
 
-  const classes = useStyles();
+
+export const DatagridSelection = ({ columns, data, enableSelect = true, handleGridChangePage, resetPagination, handleSelect = null, hasMorePage = true }) => {
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
 
   const handleChangePage = (event, newPage) => {
 
@@ -98,57 +71,57 @@ export const DatagridSelection = ({ columns, data, enableSelect=true, handleGrid
 
   return (
     <>
-      <TableContainer className={classes.tcontainer}  >
+      <TableContainer sx={{ maxHeight: 450 }} >
         <Table stickyHeader aria-label="sticky table" size="small"  >
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 (column.minWidth !== 0) &&
-                <CustomTableCell 
+                <CustomTableCell
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
-                 
+
                 >
                   {column.label}
                 </CustomTableCell>
               ))}
-                <CustomTableCell >
+              <CustomTableCell >
                 #
-                </CustomTableCell>
+              </CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            { data.length > 0 && 
+            {data.length > 0 &&
               data.map((dataitem, index) => {
-              return (
-                (typeof columns !== "undefined" && ((columns.length > 0) === true)) && (
-                <TableRow hover tabIndex={-1} key={dataitem[columns[0].id]} className={classes.tableRow} >
-                  {columns.map((column) => {
-                    const value = dataitem[column.id];
-                    return (
-                      (column.minWidth !== 0) &&
-                      <CustomTableCell key={column.id} align={column.align} padding="none" >
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                return (
+                  (typeof columns !== "undefined" && ((columns.length > 0) === true)) && (
+                    <TableRow hover tabIndex={-1} key={dataitem[columns[0].id]} sx={{ height: 30 }} >
+                      {columns.map((column) => {
+                        const value = dataitem[column.id];
+                        return (
+                          (column.minWidth !== 0) &&
+                          <CustomTableCell key={column.id} align={column.align} padding="none" >
+                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                          </CustomTableCell>
+                        );
+                      })}
+                      <CustomTableCell key={dataitem[columns[0].id]} >
+                        {
+                          enableSelect &&
+                          <IconButton sx={{ paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingBottom: 0 }} key={dataitem[columns[0].id] + "-edit-button"} aria-label="editar" onClick={() => handleSelect(dataitem)}>
+                            <DoneIcon />
+                          </IconButton>
+                        }
                       </CustomTableCell>
-                    );
-                  })}
-                  <CustomTableCell key={dataitem[columns[0].id]} >
-                  {
-                    enableSelect && 
-                    <IconButton className={ classes.iconButtonClass } key={dataitem[columns[0].id]+"-edit-button"} aria-label="editar" onClick={ () => handleSelect(dataitem) }>
-                      <DoneIcon />
-                    </IconButton>
-                  }
-                  </CustomTableCell>
-                </TableRow>
-                )
-              );
-            })}
+                    </TableRow>
+                  )
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer >
-      <PaginationTheme 
+      <StyledTablePagination
         nextIconButtonProps={{ disabled: !hasMorePage }}
         colSpan={10}
         labelRowsPerPage={"Filas por pagina:"}
@@ -159,9 +132,9 @@ export const DatagridSelection = ({ columns, data, enableSelect=true, handleGrid
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        labelDisplayedRows={({ from, to, count }) => 
-        (data.length > 0) && 
-        `Mostrando resultados ${from}-${to}`} 
+        labelDisplayedRows={({ from, to, count }) =>
+          (data.length > 0) &&
+          `Mostrando resultados ${from}-${to}`}
         getItemAriaLabel={(type) => {
           switch (type) {
             case 'first':
@@ -176,7 +149,7 @@ export const DatagridSelection = ({ columns, data, enableSelect=true, handleGrid
               return '';
           }
         }}
-     />
+      />
 
     </>
   )

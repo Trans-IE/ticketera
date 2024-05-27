@@ -1,6 +1,5 @@
-import { Autocomplete, Grid, TextField } from '@mui/material';
+import { Autocomplete, Box, Grid, TextField } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/system';
 
 
 export const CmbSelectFilter = ({

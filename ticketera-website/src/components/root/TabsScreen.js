@@ -6,15 +6,12 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import Stack from '@mui/material/Stack';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AdjustIcon from '@mui/icons-material/Adjust';
 
 import { TabItem } from './TabItem';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import { arrayTabsClose, editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
-import { NewTicketScreen } from '../ticket/NewTicketScreen';
-import { object } from 'prop-types';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';

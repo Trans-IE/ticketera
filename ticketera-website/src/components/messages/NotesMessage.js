@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { getFullDateString } from "../../helpers/dateHelper"
-import { useTheme } from "@mui/styles"
+import { useTheme } from "@mui/material/styles"
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import { ticketType } from "../../helpers/constants";

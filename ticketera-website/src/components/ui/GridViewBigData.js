@@ -1,116 +1,40 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { makeStyles, withStyles } from '@mui/styles';
 
 import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, Typography } from "@mui/material";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import LockIcon from '@mui/icons-material/Lock';
 
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 
 import { GridViewColSelector } from './GridViewColSelector';
 
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
-
-import { grey } from '@mui/material/colors';
 import CircleIcon from '@mui/icons-material/Circle';
 import { DatagridEdit } from "./DatagridEdit";
-const useStyles = makeStyles({
-  tcontainer: {
-    maxHeight: (props) => `calc(${props.maxHeight} - 30px)`,
-    width: "100%",
-  },
-  table: {
-    width: "100%",
-  },
-  footer: {
-    height: "30px",
-    minHeight: "20px",
-    backgroundColor: "grey",
-  },
-  cell_long: {
-    fontSize: "9px",
-    width: "7%",
-    minWidth: "100px",
-  },
-  cell_short: {
-    fontSize: "9px",
-    width: "5%",
-    minWidth: "60px",
-  },
-  cell_mini_short: {
-    fontSize: "9px",
-    width: "3%",
-    minWidth: "40px",
-  },
-  cell_expand_fix_short: {
-    fontSize: "9px",
-    width: "30px",
-    minWidth: "30px",
-    paddingTop: 3,
-    paddingBottom: 3,
-  },
-  iconButtonClass: {
-    paddingBottom: 0,
-    paddingTop: 0,
-    paddingRight: 1
+import styled from "styled-components";
+
+const StyledTableContainer = styled(TableContainer)(({ styleProp }) => `
+  max-height: calc(${styleProp.maxHeight} - 30px);
+  width: 100%;
+`);
+
+
+const PaginationTheme = styled(TablePagination)`
+  .MuiToolbar-root {
+    min-height: 30px;
   }
-});
+  .MuiTablePagination-actions .MuiButtonBase-root {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
 
-const PaginationTheme = withStyles({
-  toolbar: {
-    minHeight: "30px",
-  },
-  actions: {
-    "& .MuiButtonBase-root": {
-      paddingLeft: 0,
-      paddingRight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
-  },
-})(TablePagination);
-
-const TableRowDetail = withStyles((theme) => ({
-  root: {
-    //   backgroundColor: theme.palette.secondary.light,
-    backgroundColor: grey[50]
-  },
-}))(TableRow);
-
-const TableRowMain = withStyles((theme) => ({
-  root: {
-    //   backgroundColor: theme.palette.secondary.light,
-    backgroundColor: grey[200]
-  },
-}))(TableRow);
-
-const CustomTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#ea8234",
-    color: theme.palette.common.white,
-    fontSize: 13,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 5,
-    paddingBottom: 5,
-    whiteSpace: "pre",
-  },
-  body: {
-    fontSize: 13,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 5,
-    paddingBottom: 5,
-    whiteSpace: "pre",
-  },
-}))(TableCell);
 
 const CustomTableCellFormatter = ({ column, value, customColors }) => {
-  const classes = useStyles();
   let colorItem = customColors?.find(item => item[0] === column.id);
   let color = colorItem ? colorItem[1] : "";
   if (!Array.isArray(value)) {
@@ -315,7 +239,6 @@ export const GridViewBigData = ({
 
   const { height, width } = useWindowDimensions();
   const propsStyles = { maxHeight: maxHeight || (height * 82) / 100 };
-  const classes = useStyles(propsStyles);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(initRowsPerPage);
@@ -324,6 +247,10 @@ export const GridViewBigData = ({
   const [order, setOrder] = useState(
     new Array(columns.length).fill(null).map((n, i) => i)
   );
+
+  useEffect(() => {
+    console.log(propsStyles)
+  }, [])
 
   useEffect(() => {
     setOrder(new Array(columns.length).fill(null).map((n, i) => i));
@@ -367,7 +294,7 @@ export const GridViewBigData = ({
 
   return (
     <>
-      <TableContainer className={classes.tcontainer} style={{ borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border }}>
+      <StyledTableContainer styleProp={propsStyles} style={{ borderRadius: '20px', border: '1px solid', borderColor: theme.palette.background.border }}>
         <Table
           stickyHeader
           aria-label="listado de GridViewBigData"
@@ -441,7 +368,7 @@ export const GridViewBigData = ({
               })}
           </TableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
       <PaginationTheme
         nextIconButtonProps={{ disabled: !gridDataHasMorePages }}
         // backIconButtonProps={{ disabled: true }}
@@ -477,24 +404,3 @@ export const GridViewBigData = ({
     </>
   );
 };
-
-const TableRowHeader = withStyles((theme) => ({
-  root: {
-    "&:hover": {
-      cursor: "grab"
-    },
-  }
-}))(TableRow);
-
-
-const SortableHead = SortableContainer(({ children }) => {
-  return (
-    <TableHead>
-      <TableRowHeader >{children}</TableRowHeader>
-    </TableHead>
-  );
-});
-
-const SortableCell = SortableElement(({ value }) => {
-  return <>{value}</>;
-});
