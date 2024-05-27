@@ -18,7 +18,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const router = Router();
 
 const multer = require('multer');
-const { sendImage } = require('../../API-GATEWAY/controllers/tickets');
+const { sendImage } = require('../controllers/tickets');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "uploads/");
@@ -710,6 +710,8 @@ router.post(
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('company', 'Debe ingresar un company').not().isEmpty(),
+
+        validarCampos,
     ],
 
     getBrandsByCompany
@@ -720,6 +722,8 @@ router.post(
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('company', 'Debe ingresar un contract').not().isEmpty(),
+
+        validarCampos,
     ],
 
     getBrandsByContract
@@ -730,6 +734,8 @@ router.post(
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('company', 'Debe ingresar un company').not().isEmpty(),
+
+        validarCampos,
     ],
 
     getProjectsByCompany
@@ -741,8 +747,10 @@ router.post(
     [
         check('id_interaction', 'El id interaction es obligatorio').not().isEmpty(),
         upload.fields([{ name: 'images' }]),
+
         validarCamposFormData
     ],
+
     sendImage
 );
 

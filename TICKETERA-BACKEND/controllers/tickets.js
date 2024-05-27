@@ -345,7 +345,7 @@ const getTicketTypes = async (req, res = response) => {
 }
 
 const sendImage = async (req, res = response) => {
-    let { id_interaction } = req.body;
+    let { id_interaction, label } = req.body;
     let multFiles = req.files["images"];
     const fs = require('fs');
     logger.info(
@@ -355,7 +355,9 @@ const sendImage = async (req, res = response) => {
         console.log(element);//path y filename
         const file = fs.readFileSync(element.path);
         const filename = getCleanName(element.filename) || ''
-        fs.writeFileSync('carpeta_destino.extension', file);
+        fs.writeFileSync('carpeta_destino.extension' + 'ruta relativa con extensión', file);
+
+        //DDBB -> Se escribe la ruta relativa con extensión
 
     });
     logger.info(
@@ -376,5 +378,6 @@ module.exports = {
     createTicketClient,
     deleteTicket,
     getFailTypes,
-    getTicketTypes
+    getTicketTypes,
+    sendImage
 }

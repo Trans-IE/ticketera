@@ -394,10 +394,13 @@ const sendImage = async (req, res = response) => {
         const blob = new Blob([blobEnBuffer]);
         form.append("images", blob, element.originalname);
     });
+
     form.append("id_interaction", id_interaction);
     form.append("label", label);
     const resp = await fetchSinTokenForm(url, form);
+
     body = await resp.json();
+
     if (body.ok) {
         logger.info(`<== sendImage - id_interaction:${id_interaction}`);
         loggerCSV.info(

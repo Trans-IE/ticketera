@@ -3979,16 +3979,16 @@ router.post(
     getFailTypes
 );
 
-
-
 router.post(
     '/sendImage',
     [
         check('id_interaction', 'El id interaction es obligatorio').not().isEmpty(),
         upload.fields([{ name: 'images' }]),
+
         validarCamposFormData,
         validarJWT
     ],
+
     sendImage
 );
 
