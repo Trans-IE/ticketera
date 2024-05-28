@@ -13,7 +13,7 @@ const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, sendImage } = require('../controllers/tickets');
-const { getProjectByCompany } = require('../controllers/projects');
+const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
 
 
@@ -1990,6 +1990,64 @@ router.post(
     ],
 
     getProjectByCompany
+);
+
+/**
+ * @openapi
+ * /api/entities/getProjectTreeByTicketID:
+ *   post:
+ *     summary: Obtener información de todos los proyectos por compañía en el sistema
+ *     description: Este endpoint permite obtener información detallada de todo el arbol de proyecto asociada a un ticketID en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Projects]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: Id de ticket.
+ *                 example: 3
+ *             required:
+ *               - ticket_id
+ *     responses:
+ *       200:
+ *         description: Información de todas los nodos de un proyecto a partir de un ticket por id de ticket obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 projects:
+ *                   type: array
+ *                   description: Detalles de todas las acciones por ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getProjectTreeByTicketID',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarJWT
+    ],
+
+    getProjectTreeByTicketID
 );
 
 /**
