@@ -55,7 +55,36 @@ const convertirFormatoFechaPDF = (fecha = "dd_mm_yyyy") => {
     return fechaFormateada;
 }
 
+// Función para formatear las horas en formato HH:MM:SS
+const formatHours = (hours) => {
+    const pad = (num) => {
+        return (num < 10 ? '0' : '') + num;
+    };
 
-module.exports = { isDate, customFormatDate, convertirFormatoFechaPDF };
+    const hh = Math.floor(hours);
+    const mm = Math.floor((hours - hh) * 60);
+    const ss = Math.floor((hours * 3600) % 60);
+
+    return pad(hh) + ':' + pad(mm) + ':' + pad(ss);
+};
+
+// Función para formatear la fecha en formato YYYY-MM-DD HH:MM:SS
+const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+// Función para rellenar con ceros a la izquierda
+const pad = (num) => {
+    return (num < 10 ? '0' : '') + num;
+};
+
+
+module.exports = { isDate, customFormatDate, convertirFormatoFechaPDF, formatHours, formatDate };
 
 

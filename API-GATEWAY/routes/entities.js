@@ -11,7 +11,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, sendImage } = require('../controllers/tickets');
 const { getProjectByCompany } = require('../controllers/projects');
 const router = Router();
@@ -3990,6 +3990,97 @@ router.post(
     ],
 
     sendImage
+);
+
+/**
+ * @openapi
+ * /api/entities/setProjectedHours:
+ *   post:
+ *     summary: Setea las horas proyectadas trabajadas en el ticket
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las horas proyectadas trabajadas en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: El ID del ticket
+ *                 example: 8290
+ *               fecha_inicio:
+ *                 type: string
+ *                 description: Nueva hora asociada al ticket.
+ *                 example: "2024-01-01 00:01:00"
+ *               fecha_fin:
+ *                 type: string
+ *                 description: Nueva hora asociada al ticket.
+ *                 example: "2024-01-02 23:59:00"
+ *               comentario:
+ *                 type: string
+ *                 description: Comentario asociado al ticket.
+ *                 example: "Test"
+ *               isUpdate:
+ *                 type: integer
+ *                 description: Flag de actualización de hora. 0 o 1.
+ *                 example: 0
+ *     responses:
+ *       201:
+ *         description: Estado creado correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 contract:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setProjectedHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'La fecha_inicio son obligatoria').not().isEmpty(),
+        check('fecha_fin', 'La fecha_fin son obligatoria').not().isEmpty(),
+        check('comentario', 'El comentario son obligatoria').not().isEmpty(),
+        check('isUpdate', 'El isUpdate son obligatoria').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setProjectedHours
 );
 
 module.exports = router;
