@@ -9,7 +9,7 @@ const { getAllContractsLocal, getAllContractsExternal, createContract, updateCon
 const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany, getBrandsByContract } = require('../controllers/brands');
 const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
 const { getAllPrioritys } = require('../controllers/prioritys');
-const { getProjectsByCompany } = require('../controllers/projects');
+const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
@@ -753,6 +753,17 @@ router.post(
     ],
 
     getProjectsByCompany
+);
+
+router.post(
+    '/getProjectTreeByTicketID',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    getProjectTreeByTicketID
 );
 
 

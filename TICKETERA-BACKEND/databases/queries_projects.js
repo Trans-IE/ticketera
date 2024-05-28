@@ -22,7 +22,31 @@ const getDBProjectsByCompany = (username, company) => {
     return return_promise;
 }
 
+const getDBProjectTreeByTicketID = (ticketid) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from f_getProjectTicketsById2($1)', [ticketid], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+
+
 module.exports = {
-    getDBProjectsByCompany
+    getDBProjectsByCompany,
+    getDBProjectTreeByTicketID
 }
 
