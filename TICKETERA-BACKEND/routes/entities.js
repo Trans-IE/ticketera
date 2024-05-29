@@ -741,7 +741,7 @@ router.post(
     '/getBrandsByContract',
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
-        check('company', 'Debe ingresar un contract').not().isEmpty(),
+        check('contract', 'Debe ingresar un contract').not().isEmpty(),
 
         validarCampos,
     ],
