@@ -60,6 +60,20 @@ const getProjectByCompany = async (req, res = response) => {
     }
 }
 
+const getChildrensByTicketID = (nodeList, nodeFather) => {
+
+
+    let childrens = nodeList.filter(node => node.father == nodeFather);
+
+    childrens.forEach(node => {
+        node.childrens = getChildrensByTicketID(nodeList, node.ticket)
+    });
+
+
+    return childrens;
+
+}
+
 const getProjectTreeByTicketID = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id } = req.body;
@@ -85,9 +99,35 @@ const getProjectTreeByTicketID = async (req, res = response) => {
                 logger.info(`getProjectTreeByTicketID ticket_id:${ticket_id}`)
                 loggerCSV.info(`getProjectTreeByTicketID,${(new Date() - function_enter_time) / 1000}`)
 
+                let elements = body.value;
+
+                let rootElement = elements[0];
+
+                let rootElementID = rootElement.ticket;
+
+                rootElement.childrens = getChildrensByTicketID(elements, rootElementID);
+
+                /* let childrens = [].filter(node => node.father == rootElementID); */
+
+
+                /*                 childrens.forEach(c => {
+                                    let cfather = c.ticket;
+                                    let cchildrens = childrens.filter(node => node.father == cfather);
+                                    c.childrens = cchildrens;
+                
+                                    cchildrens.forEach(n => {
+                                        let nfather = n.ticket;
+                                        let nchildrens = cchildrens.filter(node => node.father == nfather);
+                
+                                        n.childrens = nchildrens;
+                                    });
+                                });
+                
+                                rootElement.childrens = childrens; */
+
                 res.status(200).json({
                     ok: true,
-                    value: body.value,
+                    value: rootElement,
                     msg: 'Listado de arbol de proyecto obtenido correctamente.'
                 });
             } else {
