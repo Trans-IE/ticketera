@@ -377,13 +377,14 @@ const getTicketTypes = async (req, res = response) => {
     }
 }
 
-const sendImage = async (req, res = response) => {
+const uploadFile = async (req, res = response) => {
     let function_enter_time = new Date();
-    let { id_interaction } = req.body;
-    const { label } = req;
+    let { ticket_id } = req.body;
+    const { label: username } = req;
+
     let multFiles = req.files["images"];
     logger.info(
-        `==> sendImage - id_interaction:${id_interaction} multFiles:${multFiles}`
+        `==> uploadFile - id_interaction:${id_interaction} multFiles:${multFiles}`
     );
     const form = new FormData();
 
@@ -395,16 +396,19 @@ const sendImage = async (req, res = response) => {
         form.append("images", blob, element.originalname);
     });
 
-    form.append("id_interaction", id_interaction);
-    form.append("label", label);
+    form.append("ticket_id", ticket_id);
+    form.append("username", username);
+
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/uploadFile";
+
     const resp = await fetchSinTokenForm(url, form);
 
     body = await resp.json();
 
     if (body.ok) {
-        logger.info(`<== sendImage - id_interaction:${id_interaction}`);
+        logger.info(`<== uploadFile - ticket_id:${ticket_id}`);
         loggerCSV.info(
-            `sendImage,${(new Date() - function_enter_time) / 1000}`
+            `uploadFile,${(new Date() - function_enter_time) / 1000}`
         );
         res.status(200).json({
             ok: body.ok,
@@ -413,7 +417,7 @@ const sendImage = async (req, res = response) => {
         });
     } else {
         logger.error(
-            `interactionID: ${id_interaction} could not set message. Body false`
+            `Could not set file. Body false`
         );
         res.status(500).json({
             ok: false,
@@ -430,5 +434,5 @@ module.exports = {
     deleteTicket,
     getFailTypes,
     getTicketTypes,
-    sendImage
+    uploadFile
 }

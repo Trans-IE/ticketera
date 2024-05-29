@@ -11,14 +11,14 @@ const { getAllStatesByTicketId, getAllStates } = require('../controllers/states'
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, setFilePath, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList } = require('../controllers/ticket_actions');
-const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes } = require('../controllers/tickets');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
+const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
 
 const multer = require('multer');
-const { sendImage } = require('../controllers/tickets');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "uploads/");
@@ -453,6 +453,20 @@ router.post(
 );
 
 router.post(
+    '/setProjectedHours',
+    [
+        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
+        check('fecha_inicio', 'La fecha_inicio son obligatoria').not().isEmpty(),
+        check('fecha_fin', 'La fecha_fin son obligatoria').not().isEmpty(),
+        check('comentario', 'El comentario son obligatoria').not().isEmpty(),
+        check('isUpdate', 'El isUpdate son obligatoria').not().isEmpty(),
+        check('username', 'El username es obligatorio').not().isEmpty(),
+    ],
+
+    setProjectedHours
+);
+
+router.post(
     '/setHoursByList',
     [
         check('listHours', 'La lista de horas es obligatoria').isArray({ min: 1 }),
@@ -464,36 +478,6 @@ router.post(
     ],
 
     setHoursByList
-);
-
-
-router.post(
-    '/setExtraHours',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'Las horas son obligatoria').not().isEmpty(),
-        check('fecha_fin', 'El username es obligatorio').not().isEmpty(),
-        check('porcentaje', 'El username es obligatorio').not().isEmpty(),
-        check('detalle', 'El username es obligatorio').not().isEmpty(),
-        check('estado', 'El username es obligatorio').not().isEmpty(),
-        check('user_id', 'El username es obligatorio').not().isEmpty(),
-        check('id', 'El username es obligatorio').not().isEmpty(),
-    ],
-
-    setExtraHours
-);
-
-router.post(
-    '/setFilePath',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('archivo', 'El archivo son obligatoria').not().isEmpty(),
-        check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
-    ],
-
-    setFilePath
 );
 
 router.post(
@@ -579,9 +563,6 @@ router.post(
         check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
         check('title', 'El title no puede estar vacío').notEmpty(),
         check('description', 'La description no puede estar vacía').notEmpty(),
-        //check('nroSerie', 'El nroSerie no puede estar vacío').notEmpty(),
-        //check('nodo', 'El nodo no puede estar vacío').notEmpty(),
-        //check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
 
         validarCampos,
     ],
@@ -592,7 +573,7 @@ router.post(
 router.delete(
     '/deleteTicket/:id',
     [
-        check('id', 'El label es obligatorio').not().isEmpty(),
+        check('id', 'El id es obligatorio').not().isEmpty(),
 
         validarCampos,
     ],
@@ -630,10 +611,10 @@ router.post(
 router.post(
     '/getSummarizeHoursByTechnician',
     [
-        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
-        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
-        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
-        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaIni', 'La fecha inicio es obligatoria').not().isEmpty(),
+        check('fechaFin', 'La fecha final es obligatoria').not().isEmpty(),
+        check('idUsuario', 'El id del usuario es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'El id de la empresa es obligatorio').not().isEmpty(),
     ],
 
     getSummarizeHoursByTechnician
@@ -642,11 +623,11 @@ router.post(
 router.post(
     '/getHourDetailByTechnician',
     [
-        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
-        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
-        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
-        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
-        check('proyecto', 'La fecha es obligatorio').not().isEmpty(),
+        check('fechaIni', 'La fecha inicio es obligatoria').not().isEmpty(),
+        check('fechaFin', 'La fecha final es obligatoria').not().isEmpty(),
+        check('idUsuario', 'El id del usuario es obligatorio').not().isEmpty(),
+        check('idEmpresa', 'El id de la empresa es obligatorio').not().isEmpty(),
+        check('proyecto', 'El proyecto es obligatorio').not().isEmpty(),
     ],
 
     getHourDetailByTechnician
@@ -666,7 +647,7 @@ router.post(
 router.delete(
     '/deleteHoliday/:fecha',
     [
-        check('fecha', 'El label es obligatorio').not().isEmpty(),
+        check('fecha', 'La fecha es obligatoria').not().isEmpty(),
 
         validarCampos,
     ],
@@ -678,13 +659,35 @@ router.post(
     '/getTicketDetail',
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
-        check('ticket_id', 'Debe ingresar un rol').not().isEmpty(),
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
         validarCampos,
 
     ],
 
     getTicketDetail
+);
+
+router.post(
+    '/getHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    getHours
+);
+
+router.post(
+    '/getProjectedHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    getProjectedHours
 );
 
 router.post(
@@ -721,7 +724,7 @@ router.post(
     '/getBrandsByContract',
     [
         check('username', 'Debe ingresar un username').not().isEmpty(),
-        check('company', 'Debe ingresar un contract').not().isEmpty(),
+        check('contract', 'Debe ingresar un contract').not().isEmpty(),
 
         validarCampos,
     ],
@@ -754,15 +757,15 @@ router.post(
 
 
 router.post(
-    '/sendImage',
+    '/uploadFile',
     [
-        check('id_interaction', 'El id interaction es obligatorio').not().isEmpty(),
+        check('ticket_id', 'El id ticket es obligatorio').not().isEmpty(),
         upload.fields([{ name: 'images' }]),
 
         validarCamposFormData
     ],
 
-    sendImage
+    uploadFile
 );
 
 module.exports = router;

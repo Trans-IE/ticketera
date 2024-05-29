@@ -1,9 +1,10 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
 const { userType } = require('../helpers/constants');
+const { formatHours, formatDate, pad } = require('../helpers/isDate');
 const crypto = require('crypto');
 
 const setResponsible = async (req, res = response) => {
@@ -160,6 +161,72 @@ const setHours = async (req, res = response) => {
     }
 }
 
+const setProjectedHours = async (req, res = response) => {
+    const { ticket_id, fecha_inicio, fecha_fin, comentario, isUpdate, username } = req.body;
+    let userId;
+
+    try {
+        userId = await getDBUserIdByUser(username);
+
+        const start = new Date(fecha_inicio);
+        const end = new Date(fecha_fin);
+
+        const dayOfWeek = start.getDay();
+
+        const segments = [
+            { start: 0, end: 6, percentage: dayOfWeek === 0 ? 100 : 100 }, // Segmento 00:00 - 06:00 (100% si es domingo)
+            { start: 6, end: 9, percentage: dayOfWeek === 0 ? 100 : (dayOfWeek === 6 ? 50 : 50) }, // Segmento 06:00 - 09:00 (50% si es sábado)
+            { start: 9, end: 13, percentage: dayOfWeek === 0 ? 100 : (dayOfWeek === 6 ? 50 : null) }, // Segmento 09:00 - 13:00 (50% si es sábado)
+            { start: 13, end: 18, percentage: dayOfWeek === 0 ? 100 : (dayOfWeek === 6 ? 100 : null) }, // Segmento 13:00 - 18:00 (100% si es sábado)
+            { start: 18, end: 22, percentage: dayOfWeek === 0 ? 100 : 50 }, // Segmento 18:00 - 22:00 (50%)
+            { start: 22, end: 24, percentage: 100 }, // Segmento 22:00 - 00:00 (100%)
+        ];
+
+        let actions = [];
+
+        segments.forEach(segment => {
+            const segmentStart = new Date(start);
+            const segmentEnd = new Date(start);
+            segmentStart.setHours(segment.start, 0, 0, 0);
+            segmentEnd.setHours(segment.end, 0, 0, 0);
+
+            if (start < segmentEnd && end > segmentStart) {
+                const effectiveStart = start > segmentStart ? start : segmentStart;
+                const effectiveEnd = end < segmentEnd ? end : segmentEnd;
+
+                const formattedStart = formatDate(effectiveStart);
+                const formattedEnd = formatDate(effectiveEnd);
+
+                if (segment.percentage === null) {
+                    // Horas comunes
+                    const commonHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
+                    const hoursString = formatHours(commonHours);
+                    actions.push(createDBHours(ticket_id, hoursString, formattedStart, username));
+                } else {
+                    // Horas proyectadas
+                    actions.push(createDBProjectedHours(userId, ticket_id, formattedStart, formattedEnd, segment.percentage, comentario, isUpdate));
+                }
+            }
+        });
+
+        await Promise.all(actions);
+
+        res.status(200).json({
+            ok: true,
+            value: {},
+            msg: `Horas comunes y proyectadas creadas correctamente.`
+        });
+    } catch (error) {
+        logger.error(`setProjectedHours => error : params=> ticket_id:${ticket_id}, username:${username}, error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+};
+
+
 const setHoursByList = async (req, res = response) => {
     const { listHours, username } = req.body;
 
@@ -192,85 +259,6 @@ const setHoursByList = async (req, res = response) => {
         });
     } catch (error) {
         logger.error(`setHoursByList => createDBHours : error => ${error}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
-}
-
-const setExtraHours = async (req, res = response) => {
-
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token
-
-    const { ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, username, id } = req.body;
-
-    logger.info(`setExtraHours ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} username:${username} id:${id}`)
-
-    try {
-
-        const userId = await getDBUserIdByUser(username);
-
-        createDBExtraHours(ticket_id, fecha_inicio, fecha_fin, porcentaje, detalle, estado, userId, id)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { extraHours: result },
-                    msg: `Se setearon las horas extras correctamente`
-                });
-
-            })
-            .catch(dataError => {
-                logger.error(`setExtraHours => createDBExtraHours : params=> ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} user_id:${user_id} id:${id} error=> ${dataError}`);
-                res.status(401).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo crear una hora extra. `
-                });
-            });
-
-    } catch (error) {
-        logger.error(`setExtraHours => createDBHours : params=> ticket_id:${ticket_id} fecha_inicio:${fecha_inicio} fecha_fin:${fecha_fin} porcentaje:${porcentaje} detalle:${detalle} estado:${estado} user_id:${user_id} id:${id} error=> ${error}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
-}
-
-const setFilePath = async (req, res = response) => {
-
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token
-
-    const { ticket_id, archivo, username } = req.body;
-
-    logger.info(`setFilePath ticket_id:${ticket_id} archivo:${archivo} username:${username}`)
-
-    try {
-        createDBFilePath(ticket_id, archivo, username)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { filePath: result },
-                    msg: `Ticket acción ruta de archivo creada correctamente con id: ${result}`
-                });
-
-            })
-            .catch(dataError => {
-                logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
-                res.status(401).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo crear la acción ruta de archivo del ticket. `
-                });
-            });
-
-    } catch (error) {
-        logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${error}`);
         res.status(500).json({
             ok: false,
             error: error,
@@ -536,7 +524,69 @@ const getTicketDetail = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`function_enter_time => getDBTicketDetail error=> ${error}`);
+                logger.error(`getTicketDetail => getDBTicketDetail error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getTicketDetail error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de detalles del ticket.'
+        });
+    }
+}
+
+const getHours = async (req, res = response) => {
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getHours.`)
+    try {
+
+        getDBTicketHours(ticket_id)
+            .then(result => {
+                logger.info(`<== getHours`);
+                loggerCSV.info(`getHours, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de horas del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getHours => getDBTicketHours error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getHours error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de horas del ticket.'
+        });
+    }
+}
+
+const getProjectedHours = async (req, res = response) => {
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getProjectedHours.`)
+    try {
+
+        getDBTicketProjectedHours(ticket_id)
+            .then(result => {
+                logger.info(`<== getProjectedHours`);
+                loggerCSV.info(`getProjectedHours, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de horas proyectadas del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getProjectedHours => getDBTicketProjectedHours error=> ${error}`);
             })
 
     } catch (error) {
@@ -544,7 +594,7 @@ const getTicketDetail = async (req, res = response) => {
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de detalles del ticket.'
+            msg: 'Error obteniendo listado de horas del ticket.'
         });
     }
 }
@@ -556,12 +606,13 @@ module.exports = {
     setHours,
     setNote,
     setAutoEvaluation,
-    setFilePath,
     getTicketActionByTicketId,
     getAllUsers,
     getAllUsersByCompany,
     setHiddenNote,
-    setExtraHours,
     getTicketDetail,
-    setHoursByList
+    setHoursByList,
+    setProjectedHours,
+    getHours,
+    getProjectedHours
 }
