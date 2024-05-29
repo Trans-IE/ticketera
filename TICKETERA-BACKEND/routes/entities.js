@@ -11,7 +11,7 @@ const { getAllStatesByTicketId, getAllStates } = require('../controllers/states'
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -478,23 +478,6 @@ router.post(
     ],
 
     setHoursByList
-);
-
-
-router.post(
-    '/setExtraHours',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'Las horas son obligatoria').not().isEmpty(),
-        check('fecha_fin', 'El username es obligatorio').not().isEmpty(),
-        check('porcentaje', 'El username es obligatorio').not().isEmpty(),
-        check('detalle', 'El username es obligatorio').not().isEmpty(),
-        check('estado', 'El username es obligatorio').not().isEmpty(),
-        check('user_id', 'El username es obligatorio').not().isEmpty(),
-        check('id', 'El username es obligatorio').not().isEmpty(),
-    ],
-
-    setExtraHours
 );
 
 router.post(
