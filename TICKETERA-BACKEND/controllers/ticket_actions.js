@@ -213,6 +213,7 @@ const setProjectedHours = async (req, res = response) => {
 
         res.status(200).json({
             ok: true,
+            value: {},
             msg: `Horas comunes y proyectadas creadas correctamente.`
         });
     } catch (error) {
