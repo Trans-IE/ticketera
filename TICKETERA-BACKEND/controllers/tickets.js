@@ -1,6 +1,7 @@
 const { response } = require('express');
 const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes, changeAssingDBTicket, changeStateDBTicket } = require('../databases/queries_tickets');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
+const { createDBFilePath } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 
@@ -344,31 +345,58 @@ const getTicketTypes = async (req, res = response) => {
     }
 }
 
-const sendImage = async (req, res = response) => {
-    let { id_interaction, label } = req.body;
+const uploadFile = async (req, res = response) => {
+    let { ticket_id, username } = req.body;
+
     let multFiles = req.files["images"];
     const fs = require('fs');
+
+    let relativePath = process.env.ATTACHMENTS_LOCAL_PRIVATE_RELATIVE_FOLDER;
+    let destinationPath = process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER;
+
     logger.info(
-        `==> sendImage - id_interaction:${id_interaction} multFiles:${multFiles}`
+        `==> uploadFile - ticket_id:${ticket_id} username:${username}`
     );
     multFiles.forEach((element) => {
         console.log(element);//path y filename
         const file = fs.readFileSync(element.path);
         const filename = getCleanName(element.filename) || ''
+
+        //TODO: Preguntar a Fede esta parte para cerrar la suba de archivos
         fs.writeFileSync('carpeta_destino.extension' + 'ruta relativa con extensión', file);
 
         //DDBB -> Se escribe la ruta relativa con extensión
+        try {
+            createDBFilePath(ticket_id, relativePath, username)
+                .then(result => {
+                })
+                .catch(dataError => {
+                    logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
+                    res.status(401).json({
+                        ok: false,
+                        error: dataError,
+                        msg: `No se pudo crear la acción ruta de archivo del ticket. `
+                    });
+                });
 
+        } catch (error) {
+            logger.error(`getAllDBUploadFile error=> ${error}`);
+            res.status(500).json({
+                ok: false,
+                items: [],
+                msg: 'Error grabando el path del archivo.'
+            });
+        }
     });
     logger.info(
-        `<== sendImage - id_interaction:${id_interaction}`
+        `<== uploadFile - ticket_id:${ticket_id} username:${username}`
     );
+
     res.status(200).json({
         ok: body.ok,
         value: body.value,
         msg: body.msg,
     });
-
 };
 
 module.exports = {
@@ -379,5 +407,5 @@ module.exports = {
     deleteTicket,
     getFailTypes,
     getTicketTypes,
-    sendImage
+    uploadFile
 }

@@ -11,8 +11,8 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setFilePath, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, sendImage } = require('../controllers/tickets');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, setExtraHours, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
 const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
 
@@ -2732,82 +2732,6 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/setFilePath:
- *   post:
- *     summary: Setea una nueva ruta de archivo en el ticket
- *     description: Este endpoint permite a un usuario con credenciales válidas crear una nueva ruta de archivo en el ticket. Se requieren varios campos obligatorios para la creación del contrato.
- *     tags: [Ticket Actions]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               ticket_id:
- *                 type: integer
- *                 description: El ID del ticket
- *                 example: 8290
- *               archivo:
- *                 type: string
- *                 description: Ruta del archivo.
- *                 example: "files/test.txt"
- *     responses:
- *       201:
- *         description: File creado correctamente.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 contract:
- *                   type: object
- *                   description: Información de la hora y código único generado.
- *       400:
- *         description: Solicitud incorrecta (400) debido a validaciones.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de solicitud incorrecta.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional devuelta.
- *       401:
- *         description: No autorizado (401) debido a falta de credenciales.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
- *                 msg:
- *                   type: string
- *                   description: Mensaje con información adicional devuelta.
- *     parameters: []
- *     security:
- *      - x-token: []
- */
-router.post(
-    '/setFilePath',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('archivo', 'Las horas son obligatoria').not().isEmpty(),
-
-        validarCampos,
-        validarJWT
-    ],
-
-    setFilePath
-);
-
-/**
- * @openapi
  * /api/entities/setHiddenNote:
  *   post:
  *     summary: Setear una nueva nota oculta en el ticket
@@ -3849,7 +3773,7 @@ router.post(
  * /api/entities/getTicketDetail:
  *   post:
  *     summary: Obtener listado de todos los detalles del ticket en el sistema
- *     description: Este endpoint permite obtener el listado de todas las empresas en el sistema. Se requieren credenciales de usuario autenticado.
+ *     description: Este endpoint permite obtener el listado de todos los detalles del ticket en el sistema. Se requieren credenciales de usuario autenticado.
  *     tags: [Ticket Actions]
  *     requestBody:
  *       content:
@@ -3897,6 +3821,118 @@ router.post(
     ],
 
     getTicketDetail
+);
+
+/**
+ * @openapi
+ * /api/entities/getHours:
+ *   post:
+ *     summary: Obtener listado de todos las horas del ticket en el sistema
+ *     description: Este endpoint permite obtener el listado de todas las horas del ticket en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: ID del ticket para el que se desean obtener los detalles. Este campo es obligatorio.
+ *     responses:
+ *       200:
+ *         description: Listado de todos los detalles de horas del ticket obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 details:
+ *                   type: array
+ *                   description: Horas del ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarJWT,
+        validarCampos,
+
+    ],
+
+    getHours
+);
+
+/**
+ * @openapi
+ * /api/entities/getProjectedHours:
+ *   post:
+ *     summary: Obtener listado de todos los detalles de horas proyectadas ticket en el sistema
+ *     description: Este endpoint permite obtener el listado de horas proyectadas en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: ID del ticket para el que se desean obtener los detalles. Este campo es obligatorio.
+ *     responses:
+ *       200:
+ *         description: Listado de todos las horas proyectadas del ticket obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 details:
+ *                   type: array
+ *                   description: Horas proyectadas del ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getProjectedHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarJWT,
+        validarCampos,
+
+    ],
+
+    getProjectedHours
 );
 
 /**
@@ -3993,24 +4029,48 @@ router.post(
 
 /**
  * @openapi
- * /api/entities/getFailTypes:
+ * /uploadFile:
  *   post:
- *     summary: Obtener todos los tipos en el sistema
- *     description: Este endpoint permite a un usuario con credenciales válidas obtener la lista de tipos en el sistema.
- *     tags: [Tickets]
+ *     summary: Subir un archivo
+ *     description: Este endpoint permite a un usuario con credenciales válidas subir archivos relacionados con un ticket.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: string
+ *                 description: El id del ticket
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Lista de imágenes a subir
  *     responses:
  *       200:
- *         description: Lista de tipos obtenida correctamente.
+ *         description: Archivo subido correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 fileTypes:
- *                   type: array
- *                   description: Lista de tipos.
- *                   items:
- *                     type: object
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de éxito
+ *       400:
+ *         description: Error en la solicitud.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error
  *       401:
  *         description: No autorizado (401) por falta de credenciales.
  *         content:
@@ -4020,13 +4080,13 @@ router.post(
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje de error en caso de falta de autorización.
+ *                   description: Mensaje de error en caso de falta de autorización
  *                 msg:
  *                   type: string
- *                   description: Mensaje con información adicional retornada.
+ *                   description: Mensaje con información adicional retornada
  *     parameters: []
  *     security:
- *      - x-token: []
+ *       - x-token: []
  */
 router.post(
     '/getFailTypes',
@@ -4037,17 +4097,47 @@ router.post(
     getFailTypes
 );
 
+/**
+ * @swagger
+ * /uploadFile:
+ *   post:
+ *     summary: Subir un archivo
+ *     tags: [Tickets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: string
+ *                 description: El id del ticket
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Lista de imágenes a subir
+ *     responses:
+ *       200:
+ *         description: Archivo subido correctamente
+ *       400:
+ *         description: Error en la solicitud
+ *       401:
+ *         description: No autorizado
+ */
 router.post(
-    '/sendImage',
+    '/uploadFile',
     [
-        check('id_interaction', 'El id interaction es obligatorio').not().isEmpty(),
+        check('ticket_id', 'El id ticket es obligatorio').not().isEmpty(),
         upload.fields([{ name: 'images' }]),
 
         validarCamposFormData,
         validarJWT
     ],
 
-    sendImage
+    uploadFile
 );
 
 /**

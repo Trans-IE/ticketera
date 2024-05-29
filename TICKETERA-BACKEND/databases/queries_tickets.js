@@ -38,7 +38,6 @@ const createDBTicketTrans = (userId, empresaId, contratoId, productoId, tipoFall
     return return_promise;
 };
 
-
 const updateDBTicketTrans = (userId, empresaId, tipoFalla, cliente, partner, rma, bug, comment, nroSerie, nodo, titulo, causaRaiz, preventa, vendedor, producto, esProjecto, proyecton, array_user_id_notif) => {
     const return_promise = new Promise((resolve, reject) => {
         pooldata.getPool.query('select * from public.f_ticket_edit($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)', [userId, empresaId, tipoFalla, cliente, partner, rma, bug, comment, nroSerie, nodo, titulo, causaRaiz, preventa, vendedor, producto, esProjecto, proyecton, array_user_id_notif], (error, results) => {

@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, createDBFilePath, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, createDBExtraHours, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
@@ -308,44 +308,6 @@ const setExtraHours = async (req, res = response) => {
     }
 }
 
-const setFilePath = async (req, res = response) => {
-
-    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
-    // alli identifica estos datos desencriptando el hash x-token
-
-    const { ticket_id, archivo, username } = req.body;
-
-    logger.info(`setFilePath ticket_id:${ticket_id} archivo:${archivo} username:${username}`)
-
-    try {
-        createDBFilePath(ticket_id, archivo, username)
-            .then(result => {
-                res.status(200).json({
-                    ok: true,
-                    value: { filePath: result },
-                    msg: `Ticket acción ruta de archivo creada correctamente con id: ${result}`
-                });
-
-            })
-            .catch(dataError => {
-                logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
-                res.status(401).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo crear la acción ruta de archivo del ticket. `
-                });
-            });
-
-    } catch (error) {
-        logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${error}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
-}
-
 const setNote = async (req, res = response) => {
 
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
@@ -603,7 +565,69 @@ const getTicketDetail = async (req, res = response) => {
                 });
             })
             .catch(error => {
-                logger.error(`function_enter_time => getDBTicketDetail error=> ${error}`);
+                logger.error(`getTicketDetail => getDBTicketDetail error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getTicketDetail error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de detalles del ticket.'
+        });
+    }
+}
+
+const getHours = async (req, res = response) => {
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getHours.`)
+    try {
+
+        getDBTicketHours(ticket_id)
+            .then(result => {
+                logger.info(`<== getHours`);
+                loggerCSV.info(`getHours, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de horas del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getHours => getDBTicketHours error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getHours error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de horas del ticket.'
+        });
+    }
+}
+
+const getProjectedHours = async (req, res = response) => {
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getProjectedHours.`)
+    try {
+
+        getDBTicketProjectedHours(ticket_id)
+            .then(result => {
+                logger.info(`<== getProjectedHours`);
+                loggerCSV.info(`getProjectedHours, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de horas proyectadas del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getProjectedHours => getDBTicketProjectedHours error=> ${error}`);
             })
 
     } catch (error) {
@@ -611,7 +635,7 @@ const getTicketDetail = async (req, res = response) => {
         res.status(500).json({
             ok: false,
             items: [],
-            msg: 'Error obteniendo listado de detalles del ticket.'
+            msg: 'Error obteniendo listado de horas del ticket.'
         });
     }
 }
@@ -623,7 +647,6 @@ module.exports = {
     setHours,
     setNote,
     setAutoEvaluation,
-    setFilePath,
     getTicketActionByTicketId,
     getAllUsers,
     getAllUsersByCompany,
@@ -631,5 +654,7 @@ module.exports = {
     setExtraHours,
     getTicketDetail,
     setHoursByList,
-    setProjectedHours
+    setProjectedHours,
+    getHours,
+    getProjectedHours
 }
