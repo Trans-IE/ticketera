@@ -4027,7 +4027,7 @@ router.post(
  *                 items:
  *                   type: string
  *                   format: binary
- *                 description: Lista de archivos a subir
+ *                 description: Archivo a subir
  *     responses:
  *       200:
  *         description: Archivo subido correctamente

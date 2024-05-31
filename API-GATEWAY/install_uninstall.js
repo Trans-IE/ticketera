@@ -1,5 +1,5 @@
 const Service = require('node-windows').Service;
-const path = require('path');
+const path = require('node:path');
 
 const SERVICE_NAME = "TRANS_ANALYTICS_API_GATEWAY";
 const SERVICE_DESCRIPTION = "TRANS_ANALYTICS_API_GATEWAY";

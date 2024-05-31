@@ -4,6 +4,7 @@ const { generarJWT } = require('../helpers/jwt');
 const { fetchConToken, fetchSinToken, fetchSinTokenForm } = require('../helpers/fetch');
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
+const fs = require('node:fs');
 
 const getAllTicketsByFilter = async (req, res = response) => {
 
