@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 const { validarCampos, validarCamposFormData } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
 const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
@@ -18,6 +18,7 @@ const router = Router();
 
 
 const multer = require('multer');
+const { min } = require('moment/moment');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "uploads/");
@@ -102,9 +103,9 @@ const upload = multer({ storage: storage });
 router.post(
     '/createCompany',
     [
-        check('nombre', 'El nombre debe ser mayor a 3 caracteres'),
-        check('direccion', 'La debe ser mayor a 3 caracteres'),
-        check('telefono', 'El teléfono debe ser mayor a 3 caracteres'),
+        check('nombre', 'El nombre debe ser mayor a 3 caracteres').isLength({ min: 3 }),
+        check('direccion', 'La debe ser mayor a 3 caracteres').isLength({ min: 3 }),
+        check('telefono', 'El teléfono debe ser mayor a 3 caracteres').isLength({ min: 3 }),
         check('mail', 'El mail es obligatorio').not().isEmpty(),
 
         validarCampos,
@@ -2041,9 +2042,15 @@ router.post(
  */
 router.post(
     '/getProjectTreeByTicketID',
+
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+        check('ticket_id', 'Debe ser un valor numerico ').isLength({ min: 1 }),
+        check('ticket_id', 'Debe ser un valor numerico ').isNumeric(),
+        check('ticket_id', 'Debe ser un numero mayor a 0').not().isEmpty().isInt({ min: 1, max: 9999999 }),
+        //  .isLength({ min: 1, max: 999999 }),
 
+        validarCampos,
         validarJWT
     ],
 
