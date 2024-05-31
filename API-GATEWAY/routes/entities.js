@@ -3314,7 +3314,6 @@ router.post(
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
 
-        validarCampos,
         validarJWT
     ],
 

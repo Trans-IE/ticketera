@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos, validarCamposFormData } = require('../middlewares/validar-campos');
-
 const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
 const { createUser, getUserRol } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
@@ -33,8 +32,6 @@ router.post(
     '/getAllCompaniesLocal',
     [
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllCompaniesLocal
@@ -44,8 +41,6 @@ router.post(
     '/getAllCompaniesExternal',
     [
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllCompaniesExternal
@@ -59,7 +54,6 @@ router.post(
         check('telefono', 'El telefono es obligatorio').not().isEmpty(),
         check('mail', 'El mail es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     createCompany
@@ -75,7 +69,6 @@ router.put(
         check('mail', 'El mail es obligatorio').not().isEmpty(),
         check('habilitado', 'El campo habilitado es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     updateCompany
@@ -86,7 +79,6 @@ router.delete(
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     deleteCompany
@@ -105,7 +97,6 @@ router.post(
         check('mail', 'El mail debe tener el formato correcto').not().isEmail(),
         check('usuario', 'El usuario debe tener al menos 8 caracteres').isLength({ min: 8 }),
 
-        validarCampos
     ],
 
     createUser
@@ -116,7 +107,6 @@ router.post(
     [
         check('label', 'El label es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     getUserRol
@@ -127,7 +117,6 @@ router.post(
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     getProduct
@@ -138,8 +127,6 @@ router.post(
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
         check('contract', 'Debe ingresar un contrato').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getProductsByBrandAndContract
@@ -150,7 +137,6 @@ router.post(
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
 
-        validarCampos
     ],
 
     getProductsByBrand
@@ -172,7 +158,6 @@ router.post(
         check('habilitado', 'Habilitado es obligatorio').not().isEmpty(),
         check('marca_id', 'Marca id es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     createProduct
@@ -187,8 +172,6 @@ router.put(
         check('habilitado', 'El habilitado es obligatorio').not().isEmpty(),
         check('marca_id', 'El marca_id es obligatorio').not().isEmpty(),
 
-        validarCampos,
-
     ],
 
     updateProduct
@@ -199,7 +182,6 @@ router.delete(
     [
         check('id', 'El label es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     deleteProduct
@@ -209,8 +191,6 @@ router.post(
     '/getAllContractsLocal',
     [
         check('username', 'El id es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllContractsLocal
@@ -220,8 +200,6 @@ router.post(
     '/getAllContractsExternal',
     [
         check('username', 'El id es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllContractsExternal
@@ -232,8 +210,6 @@ router.post(
     [
         check('username', 'El username es obligatorio').not().isEmpty(),
         check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getContractsByCompanyLocal
@@ -244,8 +220,6 @@ router.post(
     [
         check('username', 'El username es obligatorio').not().isEmpty(),
         check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getContractsByCompanyExternal
@@ -268,7 +242,6 @@ router.post(
         check('fecha_inicio', 'fecha_inicio es obligatorio').not().isEmpty(),
         check('fecha_fin', 'fecha_fin es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     createContract
@@ -290,7 +263,6 @@ router.put(
         check('soporte_onsite', 'soporte_onsite es obligatorio').not().isEmpty(),
         check('reemplazo_partes', 'reemplazo_partes es obligatorio').not().isEmpty(),
 
-        validarCampos
     ],
 
     updateContract
@@ -301,7 +273,6 @@ router.delete(
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     deleteContract
@@ -321,7 +292,6 @@ router.post(
         check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     createBrand
@@ -333,8 +303,6 @@ router.put(
         check('id', 'El id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
-        validarCampos,
-
     ],
 
     updateBrand
@@ -345,7 +313,6 @@ router.delete(
     [
         check('id', 'El nombre es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     deleteBrand
@@ -356,8 +323,6 @@ router.post(
     [
         check('username', 'El rol es obligatorio').not().isEmpty(),
         check('rol', 'El rol es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllUsers
@@ -369,8 +334,6 @@ router.post(
         check('username', 'El username es obligatorio').not().isEmpty(),
         check('empresaId', 'Debe ingresar empresaId').not().isEmpty(),
         check('includemyself', 'Debe ingresar includemyself').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllUsersByCompany
@@ -389,8 +352,6 @@ router.post(
     '/getAllStatesByTicketId',
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllStatesByTicketId
@@ -411,8 +372,6 @@ router.post(
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('responsable_id', 'El responsable_id es obligatorio').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setResponsible
@@ -424,8 +383,6 @@ router.post(
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('prioridad', 'La prioridad es obligatoria').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setPriority
@@ -437,8 +394,6 @@ router.post(
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('estado', 'El estado es obligatorio').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setState
@@ -450,8 +405,6 @@ router.post(
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('notas', 'Las notas son obligatorias').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setNote
@@ -463,8 +416,6 @@ router.post(
         check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
         check('auto_evaluacion', 'La autoevaluacion es obligatoria').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setAutoEvaluation
@@ -477,7 +428,6 @@ router.post(
         check('horas', 'Las horas son obligatoria').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     setHours
@@ -492,8 +442,6 @@ router.post(
         check('comentario', 'El comentario son obligatoria').not().isEmpty(),
         check('isUpdate', 'El isUpdate son obligatoria').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     setProjectedHours
@@ -507,7 +455,6 @@ router.post(
         check('listHours.*.horas', 'Las horas son obligatorias').not().isEmpty(),
         check('listHours.*.fecha_accion_hs', 'Las horas son obligatorias').not().isEmpty(),
 
-        validarCampos,
     ],
 
     setHoursByList
@@ -518,8 +465,6 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
         check('username', 'Debe ingresar un username').not().isEmpty(),
-
-        validarCampos,
 
     ],
 
@@ -533,7 +478,6 @@ router.post(
         check('nota', 'La nota oculta es obligatorio').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     setHiddenNote
@@ -561,7 +505,6 @@ router.put(
         check('proyecton', 'El proyecton no puede estar vacío').notEmpty(),
         check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
 
-        validarCampos,
     ],
 
     updateTicketTrans
@@ -580,7 +523,6 @@ router.post(
         check('preventaId', 'El preventaId no puede estar vacío').notEmpty(),
         check('vendedorId', 'El vendedorId no puede estar vacío').notEmpty(),
 
-        validarCampos,
     ],
 
     createTicketTrans
@@ -597,7 +539,6 @@ router.post(
         check('title', 'El title no puede estar vacío').notEmpty(),
         check('description', 'La description no puede estar vacía').notEmpty(),
 
-        validarCampos,
     ],
 
     createTicketClient
@@ -608,7 +549,6 @@ router.delete(
     [
         check('id', 'El id es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     deleteTicket
@@ -636,8 +576,6 @@ router.post(
         check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getAllTicketsByFilter
@@ -650,8 +588,6 @@ router.post(
         check('fechaFin', 'La fecha final es obligatoria').not().isEmpty(),
         check('idUsuario', 'El id del usuario es obligatorio').not().isEmpty(),
         check('idEmpresa', 'El id de la empresa es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getSummarizeHoursByTechnician
@@ -665,8 +601,6 @@ router.post(
         check('idUsuario', 'El id del usuario es obligatorio').not().isEmpty(),
         check('idEmpresa', 'El id de la empresa es obligatorio').not().isEmpty(),
         check('proyecto', 'El proyecto es obligatorio').not().isEmpty(),
-
-        validarCampos,
     ],
 
     getHourDetailByTechnician
@@ -678,7 +612,6 @@ router.post(
         check('fecha', 'La fecha es obligatorio').not().isEmpty(),
         check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
 
-        validarCampos,
     ],
 
     createHoliday
@@ -689,7 +622,6 @@ router.delete(
     [
         check('fecha', 'La fecha es obligatoria').not().isEmpty(),
 
-        validarCampos,
     ],
 
     deleteHoliday
@@ -701,8 +633,6 @@ router.post(
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
-        validarCampos,
-
     ],
 
     getTicketDetail
@@ -713,7 +643,6 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getHours
@@ -724,7 +653,6 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getProjectedHours
@@ -754,7 +682,6 @@ router.post(
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('company', 'Debe ingresar un company').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getBrandsByCompany
@@ -766,7 +693,6 @@ router.post(
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('contract', 'Debe ingresar un contract').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getBrandsByContract
@@ -778,7 +704,6 @@ router.post(
         check('username', 'Debe ingresar un username').not().isEmpty(),
         check('company', 'Debe ingresar un company').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getProjectsByCompany
@@ -789,7 +714,6 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
-        validarCampos,
     ],
 
     getProjectTreeByTicketID
@@ -801,7 +725,6 @@ router.post(
         check('ticket_id', 'El id ticket es obligatorio').not().isEmpty(),
         upload.fields([{ name: 'files' }]),
 
-        validarCamposFormData
     ],
 
     uploadFile
