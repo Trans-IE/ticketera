@@ -8,7 +8,8 @@ const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 const { logger, loggerCSV } = require('../logger');
 const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
-const { getCleanName } = require('../helpers/fileHelper');
+const { getCleanName, loadFileServer } = require('../helpers/fileHelper');
+const { off } = require('process');
 
 const createTicketTrans = async (req, res = response) => {
 
@@ -348,54 +349,30 @@ const getTicketTypes = async (req, res = response) => {
 const uploadFile = async (req, res = response) => {
     let { ticket_id, username } = req.body;
 
-    let multFiles = req.files["images"];
-    const fs = require('fs');
-
-    let relativePath = process.env.ATTACHMENTS_LOCAL_PRIVATE_RELATIVE_FOLDER;
-    let destinationPath = process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER;
+    let multFiles = req.files["files"];
 
     logger.info(
-        `==> uploadFile - ticket_id:${ticket_id} username:${username}`
+        `==> uploadFile - ticket_id:${ticket_id} username:${username} multFiles:${multFiles}`
     );
-    multFiles.forEach((element) => {
-        console.log(element);//path y filename
-        const file = fs.readFileSync(element.path);
-        const filename = getCleanName(element.filename) || ''
 
-        //TODO: Preguntar a Fede esta parte para cerrar la suba de archivos
-        fs.writeFileSync('carpeta_destino.extension' + 'ruta relativa con extensión', file);
-
-        //DDBB -> Se escribe la ruta relativa con extensión
+    for (const file of multFiles) {
         try {
-            createDBFilePath(ticket_id, relativePath, username)
-                .then(result => {
-                })
-                .catch(dataError => {
-                    logger.error(`setFilePath => createDBFilePath : params=> ticket_id:${ticket_id} archivo:${archivo} username:${username} error=> ${dataError}`);
-                    res.status(401).json({
-                        ok: false,
-                        error: dataError,
-                        msg: `No se pudo crear la acción ruta de archivo del ticket. `
-                    });
-                });
-
+            const path = await loadFileServer(file, ticket_id);
+            const result = await createDBFilePath(ticket_id, path, username);
+            console.log(path);
         } catch (error) {
-            logger.error(`getAllDBUploadFile error=> ${error}`);
-            res.status(500).json({
-                ok: false,
-                items: [],
-                msg: 'Error grabando el path del archivo.'
-            });
+            logger.error(`uploadFile: ${error}`);
         }
-    });
+    }
+
     logger.info(
         `<== uploadFile - ticket_id:${ticket_id} username:${username}`
     );
 
     res.status(200).json({
-        ok: body.ok,
-        value: body.value,
-        msg: body.msg,
+        ok: true,
+        value: {},
+        msg: ''
     });
 };
 

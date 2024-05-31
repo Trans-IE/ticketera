@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { logger } = require("../logger");
 const mime = require('mime-types');
+const { getFormatDate } = require("./isDate");
 
 const deleteTmpFiles = (folderPath = "", olderThanSeconds = 3600) => {
   try {
@@ -104,4 +105,41 @@ const readBinaryFile = (filePath = "") => {
   }
 }
 
-module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName, readBinaryFile };
+const makeid = (length = 0) => {
+  length = length + 10;
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+const loadFileServer = (fileToUpload, idTicket) => {
+
+  const return_promise = new Promise((resolve, reject) => {
+    try {
+      const date = new Date();
+      let savePath = `${process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER}${path.sep}${getFormatDate(date)}${idTicket}${path.sep}${makeid(Math.floor(Math.random() * 50) + 1)}`;
+
+      fs.mkdirSync(savePath, { recursive: true });
+
+      let filename = fileToUpload.filename ? fileToUpload.filename.indexOf('.') > 0 ? fileToUpload.filename.substring(0, fileToUpload.filename.indexOf('.')) : fileToUpload.filename : makeid(Math.floor(Math.random() * 50) + 30)
+      filename = getCleanName(filename);
+      savePath = savePath + `${path.sep}${filename}.${fileToUpload.path.substr(fileToUpload.path.indexOf('.') + 1)}`
+      var buffer = fs.readFileSync(fileToUpload.path);
+      fs.writeFileSync(savePath, buffer);
+      resolve(savePath.replace(process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER, ''));
+    } catch (error) {
+      logger.error(`loadFileServer: ${error}`);
+      reject(error);
+    }
+
+  });
+
+  return return_promise;
+
+}
+
+module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName, readBinaryFile, loadFileServer };

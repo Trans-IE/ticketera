@@ -84,7 +84,11 @@ const pad = (num) => {
     return (num < 10 ? '0' : '') + num;
 };
 
+const getFormatDate = (date, format = 'YYYY-MM-DD') => {
+    return moment(date).format(format);
+}
 
-module.exports = { isDate, customFormatDate, convertirFormatoFechaPDF, formatHours, formatDate };
+
+module.exports = { isDate, customFormatDate, convertirFormatoFechaPDF, formatHours, formatDate, getFormatDate };
 
 
