@@ -96,8 +96,22 @@ const getProjectTreeByTicketID = async (req, res = response) => {
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                logger.info(`getProjectTreeByTicketID ticket_id:${ticket_id}`)
-                loggerCSV.info(`getProjectTreeByTicketID,${(new Date() - function_enter_time) / 1000}`)
+
+
+
+                logger.info(`getProjectTreeByTicketID-1 ticket_id:${ticket_id}`)
+                //    logger.info(`getProjectTreeByTicketID BODYVALUE-1 :${JSON.stringify(body)}`)
+                loggerCSV.info(`getProjectTreeByTicketID-1 ,${(new Date() - function_enter_time) / 1000}`)
+
+
+                if (body.value.length <= 0) {
+                    res.status(200).json({
+                        ok: true,
+                        value: {},
+                        msg: 'Listado de arbol de proyecto obtenido correctamente.'
+                    });
+                    return;
+                }
 
                 let elements = body.value;
 
