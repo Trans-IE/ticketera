@@ -325,6 +325,7 @@ router.post(
     '/getUserRol',
     [
         check('label', 'El label es obligatorio').not().isEmpty(),
+
         validarCampos,
         validarJWT
     ],
@@ -336,6 +337,7 @@ router.post(
     '/getCompanyByUser',
     [
         check('label', 'El label es obligatorio').not().isEmpty(),
+
         validarCampos,
         validarJWT
     ],
@@ -438,6 +440,7 @@ router.post(
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -495,6 +498,7 @@ router.post(
     [
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -557,6 +561,7 @@ router.post(
         check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
         check('contract', 'Debe ingresar un contrato').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -982,6 +987,8 @@ router.post(
     '/getContractsByCompany',
     [
         check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
+
+        validarCampos,
         validarJWT
     ],
 
@@ -1716,6 +1723,8 @@ router.post(
     [
         check('empresaId', 'Debe ingresar empresaId').not().isEmpty(),
         check('includemyself', 'Debe ingresar includemyself').not().isEmpty(),
+
+        validarCampos,
         validarJWT
     ],
 
@@ -1823,6 +1832,7 @@ router.post(
         // Si ticket es -1 devuelve los estados validos para un filtro, si no los validos para el ticket.
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -1928,6 +1938,7 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -1986,6 +1997,7 @@ router.post(
     [
         check('company', 'Debe ingresar un company').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -2044,6 +2056,7 @@ router.post(
     [
         check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -2102,6 +2115,7 @@ router.post(
     [
         check('company', 'Debe ingresar un company').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -2160,6 +2174,7 @@ router.post(
     [
         check('contract', 'Debe ingresar un contrato').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -3293,6 +3308,7 @@ router.post(
         check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
         check('limit', 'El limit es obligatorio').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -3366,6 +3382,7 @@ router.post(
         check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
         check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -3444,6 +3461,7 @@ router.post(
         check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
         check('proyecto', 'La fecha es obligatorio').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -3507,6 +3525,7 @@ router.post(
         check('fecha', 'La fecha es obligatorio').not().isEmpty(),
         check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
 
+        validarCampos,
         validarJWT
     ],
 
@@ -3928,38 +3947,24 @@ router.post(
 
 /**
  * @openapi
- * /uploadFile:
+ * /api/entities/getFailTypes:
  *   post:
- *     summary: Subir un archivo
- *     description: Este endpoint permite a un usuario con credenciales válidas subir archivos relacionados con un ticket.
+ *     summary: Obtener tipos de fallos
+ *     description: Este endpoint permite a un usuario con credenciales válidas obtener una lista de tipos de fallos.
  *     tags: [Ticket Actions]
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               ticket_id:
- *                 type: string
- *                 description: El id del ticket
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *                 description: Lista de imágenes a subir
  *     responses:
  *       200:
- *         description: Archivo subido correctamente.
+ *         description: Tipos de fallos obtenidos correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje de éxito
+ *                 failTypes:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: Lista de tipos de fallos
  *       400:
  *         description: Error en la solicitud.
  *         content:
@@ -3983,7 +3988,6 @@ router.post(
  *                 msg:
  *                   type: string
  *                   description: Mensaje con información adicional retornada
- *     parameters: []
  *     security:
  *       - x-token: []
  */
@@ -3997,8 +4001,8 @@ router.post(
 );
 
 /**
- * @swagger
- * /uploadFile:
+ * @openapi
+ * /api/entities/uploadFile:
  *   post:
  *     summary: Subir un archivo
  *     tags: [Tickets]
@@ -4012,12 +4016,12 @@ router.post(
  *               ticket_id:
  *                 type: string
  *                 description: El id del ticket
- *               images:
+ *               files:
  *                 type: array
  *                 items:
  *                   type: string
  *                   format: binary
- *                 description: Lista de imágenes a subir
+ *                 description: Lista de archivos a subir
  *     responses:
  *       200:
  *         description: Archivo subido correctamente
@@ -4030,7 +4034,7 @@ router.post(
     '/uploadFile',
     [
         check('ticket_id', 'El id ticket es obligatorio').not().isEmpty(),
-        upload.fields([{ name: 'images' }]),
+        upload.fields([{ name: 'files' }]),
 
         validarCamposFormData,
         validarJWT

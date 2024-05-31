@@ -382,9 +382,9 @@ const uploadFile = async (req, res = response) => {
     let { ticket_id } = req.body;
     const { label: username } = req;
 
-    let multFiles = req.files["images"];
+    let multFiles = req.files["files"];
     logger.info(
-        `==> uploadFile - id_interaction:${id_interaction} multFiles:${multFiles}`
+        `==> uploadFile - id_interaction:${ticket_id} username:${username}`
     );
     const form = new FormData();
 
@@ -393,36 +393,62 @@ const uploadFile = async (req, res = response) => {
         let data = fs.readFileSync(filePath);
         const blobEnBuffer = Buffer.from(data);
         const blob = new Blob([blobEnBuffer]);
-        form.append("images", blob, element.originalname);
+        form.append("files", blob, element.originalname);
     });
 
     form.append("ticket_id", ticket_id);
     form.append("username", username);
 
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> uploadFile - username:${username}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/uploadFile";
 
-    const resp = await fetchSinTokenForm(url, form);
+    try {
+        logger.info(`uploadFile `)
 
-    body = await resp.json();
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
-    if (body.ok) {
-        logger.info(`<== uploadFile - ticket_id:${ticket_id}`);
-        loggerCSV.info(
-            `uploadFile,${(new Date() - function_enter_time) / 1000}`
-        );
-        res.status(200).json({
-            ok: body.ok,
-            value: body.value,
-            msg: body.msg,
-        });
-    } else {
-        logger.error(
-            `Could not set file. Body false`
-        );
+        if (resultado) {
+            const resp = await fetchSinTokenForm(url, form);
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== uploadFile - ticket_id:${ticket_id}`);
+                loggerCSV.info(
+                    `uploadFile,${(new Date() - function_enter_time) / 1000}`
+                );
+                res.status(200).json({
+                    ok: body.ok,
+                    value: body.value,
+                    msg: body.msg,
+                });
+            } else {
+                logger.error(
+                    `Could not set file. Body false`
+                );
+                res.status(500).json({
+                    ok: false,
+                    value: body.value,
+                    msg: body.msg,
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion uploadFile`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`uploadFile : ${error.message}`);
         res.status(500).json({
             ok: false,
-            value: body.value,
-            msg: body.msg,
+            error: error,
+            msg: 'Por favor hable con el administrador'
         });
     }
 };
