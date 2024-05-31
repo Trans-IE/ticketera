@@ -55,7 +55,7 @@ const getProjectTreeByTicketID = async (req, res = response) => {
                 res.status(200).json({
                     ok: true,
                     value: result,
-                    msg: 'Listado de marcas obtenido correctamente.'
+                    msg: 'Listado de arbol de proyectos obtenido correctamente.'
                 });
             })
             .catch(error => {
