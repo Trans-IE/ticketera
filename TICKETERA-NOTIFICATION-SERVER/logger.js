@@ -1,6 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
-const fs = require('fs');
+const fs = require('node:fs');
 const timezoned = () => {
     return new Date().toLocaleString();
 }

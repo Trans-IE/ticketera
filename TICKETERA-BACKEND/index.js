@@ -1,7 +1,7 @@
 const express = require('express');
-const fs = require('fs');
-const https = require('https');
-const path = require('path');
+const fs = require('node:fs');
+const https = require('node:https');
+const path = require('node:path');
 // Crear el servidor de express
 const app = express();
 const cors = require('cors');

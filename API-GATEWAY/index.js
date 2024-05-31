@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const https = require('https');
+const fs = require('node:fs');
+const https = require('node:https');
 // Crear el servidor de express
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const { checkAndCreateFolder, deleteTmpFiles } = require('./helpers/fileHelper');
-const path = require('path');
+const path = require('node:path');
 
 // CORS
 app.use(cors())

@@ -2,11 +2,11 @@
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
-const path = require('path');
+const path = require('node:path');
 const cors = require('cors');
 const Sockets = require('./sockets');
-const fs = require('fs');
-const https = require('https');
+const fs = require('node:fs');
+const https = require('node:https');
 
 class Server {
 
