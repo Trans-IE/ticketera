@@ -25,7 +25,8 @@ export const NotesMessage = ({ message }) => {
                 setWording('Nota oculta')
                 break
             case ticketType.Creation:
-                setWording('Informacion de creacion del ticket')
+                setIcon(<SpeakerNotesIcon style={{ color: theme.palette.oposite }} />);
+                setWording('Detalle de ticket')
                 break
         }
 

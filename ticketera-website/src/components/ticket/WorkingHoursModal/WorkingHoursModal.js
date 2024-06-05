@@ -1,7 +1,11 @@
-import { Box, Button, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, IconButton, ListItem, ListItemButton, ListItemText, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { ButtonTrans } from '../../ui/ButtonTrans';
 import ExtraHoursModal from './ExtraHoursModal';
+import { useDispatch } from 'react-redux';
+import { getHours, getProjectedHours, setHours } from '../../../redux/actions/ticketActions';
+import { toast } from 'sonner';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
     position: 'absolute',
@@ -31,7 +35,9 @@ const confirmationModalStyle = {
     pb: 3,
 };
 
-export default function WorkingHoursModal({ closeModal }) {
+export default function WorkingHoursModal({ ticketId, closeModal }) {
+    const dispatch = useDispatch()
+
     const [week, setWeek] = useState(0)
     const [tableRows, setTableRows] = useState([])
 
@@ -40,20 +46,38 @@ export default function WorkingHoursModal({ closeModal }) {
     const [nextWeekButtonDisabled, setNextWeekButtonDisabled] = useState(true)
 
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
+    const [loadedHours, setLoadedHours] = useState([])
+    const [loadedProjectedHours, setLoadedProjectedHours] = useState([])
+
+    useEffect(() => {
+        dispatch(getHours(ticketId)).then(res => {
+            console.log('reee', res)
+            setLoadedHours(formatGetHours(res, 'comunes'))
+        })
+        dispatch(getProjectedHours(ticketId)).then(res => {
+            setLoadedProjectedHours(formatGetHours(res, 'proyectadas'))
+        })
+    }, [])
+
+
     useEffect(() => {
         let daysOfTheWeek = getCurrentWeekDates(week)
 
         setTableRows([
-            createData(daysOfTheWeek[0][0], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][0]),
-            createData(daysOfTheWeek[0][1], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][1]),
-            createData(daysOfTheWeek[0][2], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][2]),
-            createData(daysOfTheWeek[0][3], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][3]),
-            createData(daysOfTheWeek[0][4], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][4]),
-            createData(daysOfTheWeek[0][5], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][5]),
-            createData(daysOfTheWeek[0][6], '8 horas trabajadas - 3 horas proyectadas trabajadas', 0, daysOfTheWeek[1][6]),
+            createData(daysOfTheWeek[0][0], `${getHorasForDate(daysOfTheWeek[1][0])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][0])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][0]),
+            createData(daysOfTheWeek[0][1], `${getHorasForDate(daysOfTheWeek[1][1])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][1])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][1]),
+            createData(daysOfTheWeek[0][2], `${getHorasForDate(daysOfTheWeek[1][2])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][2])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][2]),
+            createData(daysOfTheWeek[0][3], `${getHorasForDate(daysOfTheWeek[1][3])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][3])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][3]),
+            createData(daysOfTheWeek[0][4], `${getHorasForDate(daysOfTheWeek[1][4])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][4])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][4]),
+            createData(daysOfTheWeek[0][5], `${getHorasForDate(daysOfTheWeek[1][5])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][5])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][5]),
+            createData(daysOfTheWeek[0][6], `${getHorasForDate(daysOfTheWeek[1][6])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][6])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][6]),
         ]);
-    }, [week])
+    }, [week, loadedHours, loadedProjectedHours])
 
+
+    function createData(date, hoursWorked, hoursWorkedToAdd, dateString) {
+        return { date, hoursWorked, hoursWorkedToAdd, dateString };
+    }
 
     function getCurrentWeekDates(weeksAgo = 0) {
         const today = new Date();
@@ -72,15 +96,92 @@ export default function WorkingHoursModal({ closeModal }) {
             const month = date.toLocaleString('es-ES', { month: 'long' });
             const day = date.getDate();
             currentWeekDates.push(`${dayOfWeek}, ${day} de ${month}`);
-            currentDates.push(`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`)
+            currentDates.push(formatDate(date))
         }
 
         return [currentWeekDates, currentDates]
     }
 
 
-    function createData(date, hoursWorked, hoursWorkedToAdd, dateString) {
-        return { date, hoursWorked, hoursWorkedToAdd, dateString };
+    const formatGetHours = (dates, type) => {
+        let formattedData = []
+        console.log('taratara', dates)
+
+        if (type === 'comunes') {
+            dates.forEach(date => {
+                date.fecha_accion_hs = date.fecha_accion_hs.substring(0, 10)
+                formattedData.push(date)
+            })
+        }
+        else {
+            dates.forEach(date => {
+                const fecha_accion_hs = date.fecha_inicio.substring(0, 10)
+                const start = new Date(date.fecha_inicio)
+                const end = new Date(date.fecha_fin)
+                const durationMilliseconds = end - start
+
+                const hours = Math.floor(durationMilliseconds / (1000 * 60 * 60)).toString().padStart(2, '0')
+                const minutes = Math.floor((durationMilliseconds % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0')
+                const seconds = Math.floor((durationMilliseconds % (1000 * 60)) / 1000).toString().padStart(2, '0')
+
+                const horas = `${hours}:${minutes}:${seconds}`
+
+                formattedData.push({
+                    fecha_accion_hs,
+                    horas
+                })
+            })
+        }
+
+        return mergeAndSumHours(formattedData)
+    }
+
+    const getHorasForDate = (date) => {
+        const foundData = loadedHours.find(item => item.fecha_accion_hs === date);
+        return foundData ? foundData.horas : "00:00:00";
+    };
+
+    const getProjectedHorasForDate = (date) => {
+        const foundData = loadedProjectedHours.find(item => item.fecha_accion_hs === date);
+        return foundData ? foundData.horas : "00:00:00";
+    };
+
+    //No preguntar acerca de esta funcion
+    const mergeAndSumHours = (data) => {
+        // Function to sum time strings
+        const sumTimes = (times) => {
+            let totalMinutes = times.reduce((total, time) => {
+                const [hours, minutes] = time.split(':').map(Number);
+                return total + (hours * 60) + minutes;
+            }, 0);
+
+            const hours = Math.floor(totalMinutes / 60).toString().padStart(2, '0');
+            const minutes = (totalMinutes % 60).toString().padStart(2, '0');
+
+            return `${hours}:${minutes}:00`;
+        };
+
+        // Group by fecha_accion_hs and sum horas
+        const mergedData = Object.values(data.reduce((acc, { fecha_accion_hs, horas }) => {
+            if (!acc[fecha_accion_hs]) {
+                acc[fecha_accion_hs] = { fecha_accion_hs, horas: [] };
+            }
+            acc[fecha_accion_hs].horas.push(horas);
+            return acc;
+        }, {})).map(({ fecha_accion_hs, horas }) => ({
+            fecha_accion_hs: fecha_accion_hs + ' 00:00:00',
+            horas: sumTimes(horas)
+        }));
+
+        return mergedData;
+    };
+
+    function formatDate(date) {
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, '0')
+        let day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day} 00:00:00`
     }
 
     const addCounter = (date, dateString) => {
@@ -154,16 +255,50 @@ export default function WorkingHoursModal({ closeModal }) {
         return hoursToAdd.findIndex(item => item.date === date)
     }
 
-    const handleAddHours = () => {
-        console.log('Horas a agregar: ', hoursToAdd)
-        setIsConfirmationModalOpen(true)
+    const handleSendnewHours = () => {
+        let payload = []
+
+        hoursToAdd.forEach(item => {
+            payload.push({
+                ticket_id: ticketId,
+                horas: `0${item.hours}:00:00`,
+                fecha_accion_hs: item.dateString
+            })
+        })
+        dispatch(setHours(payload)).then(res => {
+            toast.success('Horas agregadas correctamente')
+            closeModal()
+        })
+    }
+
+    const isDateInTheFuture = (date) => {
+        const formattedDate = new Date(date)
+        const currentDate = new Date()
+
+        if (formattedDate > currentDate) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    const handleDeleteHourToLoad = (data) => {
+        let arrayCopy = [...hoursToAdd]
+        let indexToRemove = arrayCopy.findIndex(item => item.date === data)
+        arrayCopy.splice(indexToRemove, 1);
+        setHoursToAdd(arrayCopy);
     }
 
     return (
         <Box sx={{ ...style }}>
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '15%', marginBottom: '20px' }}>
-                    <h2>Agregar Horas</h2>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2>Agregar Horas</h2>
+
+                        <ExtraHoursModal ticketId={ticketId} />
+                    </div>
                     <h3 style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 0 }}>
                         <Button
                             onClick={() => handleGoToPastWeek()}
@@ -190,7 +325,6 @@ export default function WorkingHoursModal({ closeModal }) {
                                 <TableCell>Dia</TableCell>
                                 <TableCell >Horas trabajadas cargadas</TableCell>
                                 <TableCell align="center">Agregar Horas</TableCell>
-                                <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>Agregar Horas Proyectadas</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -208,7 +342,7 @@ export default function WorkingHoursModal({ closeModal }) {
                                     <TableCell align="center">
                                         <span style={{ whiteSpace: 'nowrap' }}>
                                             <Button
-                                                disabled={findDate(row.date) === -1}
+                                                disabled={findDate(row.date) === -1 || isDateInTheFuture(row.dateString)}
                                                 onClick={() => { removeCounter(row.date) }}
                                                 variant='outlined'
                                                 sx={{ borderRadius: '25px', padding: 0, minHeight: '28px', minWidth: '28px', marginRight: '10px' }}
@@ -219,7 +353,7 @@ export default function WorkingHoursModal({ closeModal }) {
                                                 {findDate(row.date) !== -1 ? hoursToAdd[findDate(row.date)].hours : 0}
                                             </span>
                                             <Button
-                                                disabled={hoursToAdd[findDate(row.date)]?.hours === 9}
+                                                disabled={hoursToAdd[findDate(row.date)]?.hours === 9 || isDateInTheFuture(row.dateString)}
                                                 onClick={() => { addCounter(row.date, row.dateString) }}
                                                 variant='outlined'
                                                 sx={{ borderRadius: '25px', padding: 0, minHeight: '28px', minWidth: '28px', marginLeft: '10px' }}
@@ -228,40 +362,53 @@ export default function WorkingHoursModal({ closeModal }) {
                                             </Button>
                                         </span>
                                     </TableCell>
-                                    <TableCell align="center">
-                                        <ExtraHoursModal />
-                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <div style={{ marginTop: '10px', height: '5%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <ButtonTrans onClick={() => handleAddHours()} variant='contained' >Agregar</ButtonTrans>
-                    <ButtonTrans onClick={() => closeModal()} variant='outlined' marginLeft>Cancelar</ButtonTrans>
+                    <ButtonTrans onClick={() => setIsConfirmationModalOpen(true)} disabled={!hoursToAdd.length} variant='contained' >Agregar</ButtonTrans>
+                    <ButtonTrans onClick={() => closeModal()} variant='outlined' marginLeft>Cerrar</ButtonTrans>
                 </div>
                 <Modal open={isConfirmationModalOpen}>
                     <Box sx={{ ...confirmationModalStyle }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <h2 style={{ height: '10%' }}>
-                                Las siguientes horas seran agregadas:
-                            </h2>
-                            <div style={{ maxHeight: '85%' }}>
-                                <div>
-                                    <h4>Horas comunes:</h4>
-                                    {hoursToAdd.map(item => (
-                                        <div>
-                                            {`${item.hours} hora/s el dia ${item.date}`}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <h4>Horas proyectadas</h4>
+                        <div style={{ height: '100%', padding: '15px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div style={{ height: '90%' }}>
+                                <h2 style={{ marginBottom: '25px' }}>
+                                    Las siguientes horas seran agregadas:
+                                </h2>
+                                <div style={{ height: '80%', overflow: 'auto' }}>
+                                    <div>
+                                        {hoursToAdd.length ?
+                                            hoursToAdd.map(item => (
+                                                <ListItem
+                                                    key={item.date}
+                                                    secondaryAction={
+                                                        <IconButton edge="end" aria-label="comments" onClick={() => { handleDeleteHourToLoad(item.date) }}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    }
+                                                    disablePadding
+                                                >
+                                                    <ListItemButton >
+                                                        <ListItemText primary={`${item.hours} ${item.hours === 1 ? 'hora' : 'horas'} el dia ${item.date}`} />
+                                                    </ListItemButton>
+                                                </ListItem>
+                                            )) :
+                                            <>No hay horas enlistadas para cargar</>
+                                        }
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <div>
+                                <ButtonTrans variant='contained' disabled={!hoursToAdd.length} onClick={handleSendnewHours}>Aceptar</ButtonTrans>
+                                <ButtonTrans variant='outlined' marginLeft onClick={() => setIsConfirmationModalOpen(false)}>Volver</ButtonTrans>
+                            </div>
+
+                        </div>
                     </Box>
                 </Modal>
             </div>

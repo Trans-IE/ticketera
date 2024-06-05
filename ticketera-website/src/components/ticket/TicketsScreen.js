@@ -223,8 +223,7 @@ export const TicketsScreen = () => {
 
   const filterChip = (name, value) => {
     let text = '';
-    console.log('name', name)
-    console.log('value', value)
+
     switch (name) {
       case 'type':
         text = `Tipo: `

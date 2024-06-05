@@ -9,15 +9,12 @@ import { getAllBrands, getBrandsByCompany, getBrandsByContract, getProductsByBra
 import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
 import { getProjectsByCompany } from "../../redux/actions/projectActions";
 import { createNewTicket } from "../../redux/actions/ticketActions";
-import Swal from "sweetalert2";
 import { toast } from "sonner";
-import { styled } from '@mui/material/styles';
 import { arrayTabsClose, editTicketTabShownChange } from "../../redux/actions/userInterfaceActions";
 
 export const NewTicketScreen = () => {
     const theme = useTheme();
     const dispatch = useDispatch()
-    const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
     const { user } = useSelector(state => state.auth, shallowEqual);
 
     // const { responsiblesDataList } = useSelector(state => state.responsible, shallowEqual);
@@ -55,7 +52,7 @@ export const NewTicketScreen = () => {
         })
         setCreator(user.id)
 
-        if (companiesDataList.length === 1) {
+        if (companiesDataList && companiesDataList.length === 1) {
             setEmpresa(companiesDataList[0].id)
 
             dispatch(getResponsiblesByCompany(companiesDataList[0].id, 1)).then(res => {
@@ -68,6 +65,7 @@ export const NewTicketScreen = () => {
     }, [])
 
     useEffect(() => {
+        console.log('aaaaa', contractDataList)
         setBrand("");
         setProduct("")
         if (contract === -1) {
@@ -75,7 +73,7 @@ export const NewTicketScreen = () => {
                 setBrandsDataList(res.value)
             })
         }
-        else {
+        else if (contract) {
             dispatch(getBrandsByContract(contract)).then(res => {
                 console.log('hola', res)
                 setBrandsDataList(res)
@@ -91,7 +89,6 @@ export const NewTicketScreen = () => {
         if (empresa) {
             dispatch(getContractsByCompany(empresa)).then(res => {
                 if (res.ok) {
-                    console.log(res)
                     setContractDataList(res.value)
                 }
             })
@@ -116,7 +113,6 @@ export const NewTicketScreen = () => {
             if (contract === -1) {
                 dispatch(getProductsByBrand(brand)).then(res => {
                     if (res.ok) {
-                        console.log(res)
                         setProductsDataList(res.value)
                     }
                 })
@@ -124,7 +120,6 @@ export const NewTicketScreen = () => {
             else {
                 dispatch(getProductsByBrandAndContract(brand, contract)).then(res => {
                     if (res.ok) {
-                        console.log(res)
                         setProductsDataList(res.value)
                     }
                 })
@@ -165,7 +160,8 @@ export const NewTicketScreen = () => {
             creator: creator,
             responsible: responsible,
             presaleId: isProject ? preSale : 0,
-            vendorId: isProject ? vendor : 0
+            vendorId: isProject ? vendor : 0,
+            asociatedProyectId: project
         }
         dispatch(createNewTicket(ticket)).then(res => {
             console.log('RES', res)
@@ -200,7 +196,7 @@ export const NewTicketScreen = () => {
                                             variant="standard"
                                             onChange={(e) => { setEmpresa(e.target.value) }}
                                         >
-                                            {companiesDataList.map((company) => (
+                                            {companiesDataList?.map((company) => (
                                                 <MenuItem key={company.id} value={company.id}>{company.nombre}</MenuItem>
                                             ))}
                                         </Select>
@@ -208,13 +204,13 @@ export const NewTicketScreen = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={contractDataList.length === 0}>Contrato</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={contractDataList?.length === 0}>Contrato</InputLabel>
                                         <Select
                                             value={contract}
                                             variant="standard"
                                             label="Contrato"
                                             onChange={(e) => { setContract(e.target.value) }}
-                                            disabled={contractDataList.length === 0}
+                                            disabled={contractDataList?.length === 0}
                                         >
                                             <MenuItem value={-1}>Sin Contrato</MenuItem>
                                             {contractDataList?.map((contract) => (
@@ -226,12 +222,12 @@ export const NewTicketScreen = () => {
                             </Grid>
 
                             <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={creatorDataList.length === 0}>Creador</InputLabel>
+                                <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={creatorDataList?.length === 0}>Creador</InputLabel>
                                 <Select
                                     value={creator}
                                     label="Creador"
                                     variant="standard"
-                                    disabled={creatorDataList.length === 0 || user.tipo !== 1}
+                                    disabled={creatorDataList?.length === 0 || user.tipo !== 1}
                                     onChange={(e) => { setCreator(e.target.value) }}
                                 >
                                     {creatorDataList?.map((creator) => (
@@ -259,10 +255,10 @@ export const NewTicketScreen = () => {
                                             <FormControl fullWidth style={{ margin: '10px 0' }}>
                                                 <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Proyecto asociado</InputLabel>
                                                 <Select
-                                                    value={empresa}
+                                                    value={project}
                                                     variant="standard"
                                                     label="Proyecto asociado"
-                                                    onChange={(e) => { setEmpresa(e.target.value) }}
+                                                    onChange={(e) => { setProject(e.target.value) }}
                                                 >
                                                     <MenuItem value={10}>Ninguno</MenuItem>
                                                     {projectsDataList?.map((project) => (
@@ -296,15 +292,15 @@ export const NewTicketScreen = () => {
                             <Grid container spacing={2}>
                                 <Grid item xs={6} >
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={brandsDataList.length === 0}>Marca</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={brandsDataList?.length === 0}>Marca</InputLabel>
                                         <Select
                                             value={brand}
                                             label="Marca"
                                             variant="standard"
-                                            disabled={brandsDataList.length === 0}
+                                            disabled={brandsDataList?.length === 0}
                                             onChange={(e) => { setBrand(e.target.value) }}
                                         >
-                                            {brandsDataList.map(brand => (
+                                            {brandsDataList?.map(brand => (
                                                 <MenuItem key={brand.id} value={brand.id}>{brand.nombre}</MenuItem>
                                             ))}
                                         </Select>
@@ -312,15 +308,15 @@ export const NewTicketScreen = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <FormControl required fullWidth style={{ margin: '10px 0' }}>
-                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={productsDataList.length === 0}>Producto</InputLabel>
+                                        <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={productsDataList?.length === 0}>Producto</InputLabel>
                                         <Select
                                             value={product}
                                             label="Producto"
                                             variant="standard"
                                             onChange={(e) => { setProduct(e.target.value) }}
-                                            disabled={productsDataList.length === 0}
+                                            disabled={productsDataList?.length === 0}
                                         >
-                                            {productsDataList.map(product => (
+                                            {productsDataList?.map(product => (
                                                 <MenuItem key={product.id} value={product.id}>{product.nombre}</MenuItem>
                                             ))}
                                         </Select>
@@ -338,7 +334,7 @@ export const NewTicketScreen = () => {
                                     label="Tipo"
                                     onChange={(e) => { setType(e.target.value) }}
                                 >
-                                    {failTypesDataList.map(type => (
+                                    {failTypesDataList?.map(type => (
                                         <MenuItem key={type.id} value={type.id}>{type.descripcion}</MenuItem>
                                     ))}
                                 </Select>
@@ -368,7 +364,7 @@ export const NewTicketScreen = () => {
                                         label="Responsable"
                                         onChange={(e) => { setResponsible(e.target.value) }}
                                     >
-                                        {responsiblesDataList.map(responsible => (
+                                        {responsiblesDataList?.map(responsible => (
                                             <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
                                         ))}
                                     </Select>
@@ -390,7 +386,7 @@ export const NewTicketScreen = () => {
                                             variant="standard"
                                             onChange={(e) => { setPreSale(e.target.value) }}
                                         >
-                                            {responsiblesDataList.map(responsible => (
+                                            {responsiblesDataList?.map(responsible => (
                                                 <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
                                             ))}
                                         </Select>
@@ -405,7 +401,7 @@ export const NewTicketScreen = () => {
                                             variant="standard"
                                             onChange={(e) => { setVendor(e.target.value) }}
                                         >
-                                            {responsiblesDataList.map(responsible => (
+                                            {responsiblesDataList?.map(responsible => (
                                                 <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
                                             ))}
                                         </Select>

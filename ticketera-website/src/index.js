@@ -88,6 +88,7 @@ const lightTheme = createTheme({
     },
   },
   palette: {
+    oposite: 'black',
     trans: {
       light: '#0095DA',
       main: '#23558e',
@@ -188,6 +189,7 @@ const darkTheme = createTheme({
     },
   },
   palette: {
+    oposite: 'white',
     trans: {
       light: '#0095DA',
       main: '#23558e',
