@@ -31,6 +31,16 @@ export const TabsScreen = () => {
   };
 
   useEffect(() => {
+    setValue(editTicketTabShown);
+
+
+
+    return () => {
+
+    }
+  }, [editTicketTabShown])
+
+  useEffect(() => {
 
     console.log('uiMainMenuShown tab', uiMainMenuShown);
     if (arrayTabs?.length > 0 /* && uiMainMenuShown === -1 */) {
