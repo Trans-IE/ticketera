@@ -3,9 +3,10 @@ const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
-const { userType } = require('../helpers/constants');
+const { userType, PAYLOAD_TYPES } = require('../helpers/constants');
 const { formatHours, formatDate, pad } = require('../helpers/isDate');
 const crypto = require('crypto');
+const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
 
 const setResponsible = async (req, res = response) => {
 
@@ -280,22 +281,19 @@ const setNote = async (req, res = response) => {
     try {
 
         createDBNote(ticket_id, notas, username)
-            .then(objresult => {
+            .then(result => {
                 logger.info(`<== createDBNote`);
                 loggerCSV.info(`createDBNote, ${(new Date() - function_enter_time) / 1000}`)
-                if (objresult.result == -1) {
-                    res.status(401).json({
-                        ok: false,
-                        value: objresult.rows,
-                        msg: objresult.error_message
-                    });
-                } else {
-                    res.status(200).json({
-                        ok: true,
-                        value: objresult.rows,
-                        msg: 'Nota insertada correctamente.'
-                    });
-                }
+
+                //CReación de una nueva notificación
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_NOTE_ADD, { ticket_id, notas })
+
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Nota insertada correctamente.'
+                });
+
             })
             .catch(dataError => {
                 logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${dataError}`);
@@ -333,7 +331,6 @@ const setAutoEvaluation = async (req, res = response) => {
                     value: { autoEvaluation: result },
                     msg: `Ticket acción auto-evaluación creada correctamente con id: ${result}`
                 });
-
             })
             .catch(dataError => {
                 logger.error(`setAutoEvaluation => createDBAutoEvaluation : params=> ticket_id:${ticket_id} auto_evaluacion:${auto_evaluacion} username:${username} error=> ${dataError}`);
@@ -364,22 +361,16 @@ const getTicketActionByTicketId = async (req, res = response) => {
     logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id} username:${username}`)
     try {
         getDBTicketActionByTicketId(ticket_id, username)
-            .then(objresult => {
+            .then(result => {
                 logger.info(`<== getTicketActionByTicketId`);
                 loggerCSV.info(`getTicketActionByTicketId, ${(new Date() - function_enter_time) / 1000}`)
-                if (objresult.result == -1) {
-                    res.status(401).json({
-                        ok: false,
-                        value: objresult.rows,
-                        msg: objresult.error_message
-                    });
-                } else {
-                    res.status(200).json({
-                        ok: true,
-                        value: objresult.rows,
-                        msg: 'Listado de acciones obtenido correctamente.'
-                    });
-                }
+
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de acciones obtenido correctamente.'
+                });
+
             })
             .catch(error => {
                 logger.error(`getTicketActionByTicketId => getDBTicketActionByTicketId : params=> ticket_id=> ${ticket_id} error=> ${error}`);

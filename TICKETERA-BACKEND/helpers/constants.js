@@ -17,7 +17,22 @@ const ticketStatus = {
     Pendiente_de_importación: 11
 }
 
+const NOTIFICATION_EVENTS = {
+    'CONNECTION': 'connection',
+    'CONNECT': 'connect',
+    'JOIN': 'join',
+    'LEAVE': 'leave',
+    'TICKET_NEW_NOTIFICATION': 'ticket-new-notification',
+}
+
+//Agregar evento nuevo según se requiera
+const PAYLOAD_TYPES = {
+    'TICKET_NOTE_ADD': 'ticket-note-add'
+}
+
 module.exports = {
     userType,
-    ticketStatus
+    ticketStatus,
+    NOTIFICATION_EVENTS,
+    PAYLOAD_TYPES
 }

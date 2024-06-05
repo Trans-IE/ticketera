@@ -5,18 +5,16 @@ const createDBResponsible = (ticket_id, responsable_id, username) => {
 
         pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_responsible($1, $2, $3)', [ticket_id, responsable_id, username], (error, results) => {
             if (error) {
-
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_responsible);
+                    resolve(results.rows[0].f_ticketera_ticket_action_create_note);
                 } catch (error) {
                     reject(error.message);
                 }
             }
         })
-
     });
 
     return return_promise;
@@ -26,22 +24,12 @@ const createDBNote = (ticket_id, notas, username) => {
     const return_promise = new Promise((resolve, reject) => {
 
         pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_note($1, $2, $3)', [ticket_id, notas, username], (error, results) => {
-            let objreturn = new Object();
-
             if (error) {
-                objreturn.result = -1;
-                objreturn.error_message = error.message;
-                objreturn.rows = [];
-
-                resolve(objreturn);
+                reject(error.message);
             }
             else {
                 try {
-                    objreturn.result = 1;
-                    objreturn.error_message = "";
-                    objreturn.rows = results.rows[0].f_ticketera_ticket_action_create_note;
-
-                    resolve(objreturn);
+                    resolve(results.rows[0].f_ticketera_ticket_action_create_note);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -209,22 +197,13 @@ const getDBTicketActionByTicketId = (ticket_id, username) => {
 
         pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_get_by_ticketId($1, $2)', [ticket_id, username], (error, results) => {
 
-            let objreturn = new Object();
-
             if (error) {
-                objreturn.result = -1;
-                objreturn.error_message = error.message;
-                objreturn.rows = [];
 
-                resolve(objreturn);
+                reject(error.message);
             }
             else {
                 try {
-                    objreturn.result = 1;
-                    objreturn.error_message = "";
-                    objreturn.rows = results.rows;
-
-                    resolve(objreturn);
+                    resolve(results.rows);
                 } catch (error) {
                     reject(error.message);
                 }
