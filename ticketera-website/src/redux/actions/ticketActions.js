@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
-import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
-import { getConfigData, getURLFromConfigByName } from '../../helpers/getConfigFunctions';
+import { fetchConToken, fetchConTokenSendForm } from '../../helpers/fetch';
+import { getURLFromConfigByName } from '../../helpers/getConfigFunctions';
 import { ticketGridDataLoadedRedux } from '../slices/ticketSlice';
 
 
@@ -325,6 +325,146 @@ export const sendNewHiddenNote = (ticketId, note) => {
             const body = await resp.json();
             if (body.ok) {
                 return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const uploadFiles = (files, ticketId) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const formData = new FormData()
+            formData.append('files', files);
+            formData.append('ticket_id', ticketId)
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/uploadFile");
+            const resp = await fetchConTokenSendForm(url, formData);
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const setHours = (listHours) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setHoursByList");
+            const resp = await fetchConToken(url, {
+                "listHours": listHours
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const setExtraHours = (ticketId, data) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/setProjectedHours");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId,
+                "fecha_inicio": data.start,
+                "fecha_fin": data.end,
+                "comentario": data.note,
+                "isUpdate": 0
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.msg
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const getHours = (ticketId) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getHours");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.value
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
+export const getProjectedHours = (ticketId) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getProjectedHours");
+            const resp = await fetchConToken(url, {
+                "ticket_id": ticketId
+            }, 'POST');
+            // const resp = await fetchConToken( url, {}, 'POST' );
+            const body = await resp.json();
+            if (body.ok) {
+                return body.value
             }
             else {
                 Swal.fire('Error', body.msg, 'error');

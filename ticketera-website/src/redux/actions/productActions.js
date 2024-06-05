@@ -1,8 +1,6 @@
-import React from "react";
 import { getURLFromConfigByName } from "../../helpers/getConfigFunctions";
 import { fetchConToken } from "../../helpers/fetch";
 import Swal from "sweetalert2";
-import { responsibleGridDataLoadedRedux } from "../slices/responsibleSlice";
 import { brandGridDataLoadedRedux, productGridDataLoadedRedux } from "../slices/productSlice";
 import { productSorter } from "../../helpers/sorters";
 
@@ -156,6 +154,7 @@ export const getBrandsByContract = (contract) => {
     return async (dispatch, getState) => {
 
         try {
+            console.log('CONTRACT', contract)
             const { config } = getState().auth;
             let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getBrandsByContract");
             const resp = await fetchConToken(url, {
@@ -163,6 +162,8 @@ export const getBrandsByContract = (contract) => {
             }, 'POST');
             // const resp = await fetchConToken( url, {}, 'POST' );
             const body = await resp.json();
+            console.log('BODY', body)
+
             if (body.ok) {
                 body.value.sort(productSorter)
                 return body.value

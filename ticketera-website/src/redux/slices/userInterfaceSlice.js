@@ -19,6 +19,7 @@ export const userInterfaceSlice = createSlice(
         reducers: {
             editTicketTabShownChangeRedux: (state, action) => {
                 const { tabShown } = action.payload;
+                console.log('TAB', tabShown)
                 state.editTicketTabShown = tabShown;
                 // desactivo el menu especificado porque tengo foco
                 state.uiMainMenuShown = -1;

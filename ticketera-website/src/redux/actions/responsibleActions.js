@@ -1,4 +1,3 @@
-import React from "react";
 import { getURLFromConfigByName } from "../../helpers/getConfigFunctions";
 import { fetchConToken } from "../../helpers/fetch";
 import Swal from "sweetalert2";

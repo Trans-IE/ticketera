@@ -3,7 +3,9 @@ import React, { forwardRef, useState } from 'react'
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ButtonTrans } from '../../ui/ButtonTrans';
-import InputMask from 'react-input-mask';
+import { useDispatch } from 'react-redux';
+import { setExtraHours } from '../../../redux/actions/ticketActions';
+import { toast } from 'sonner';
 
 const style = {
     position: 'absolute',
@@ -19,17 +21,14 @@ const style = {
     pb: 3,
 };
 
-function CustomHourInput(props) {
-    return (
-        <InputMask mask='99:99' maskChar="-" {...props}>
-            {(inputProps) => <TextField {...inputProps} />}
-        </InputMask>
-    )
-}
+export default function ExtraHoursModal({ ticketId }) {
+    const dispatch = useDispatch()
 
-export default function ExtraHoursModal() {
     const [isExtraHoursModalOpen, setIsExtraHoursModalOpen] = useState(false)
     const [currentDate, setCurrentDate] = useState('')
+    const [hourRangeStart, setHourRangeStart] = useState('')
+    const [hourRangeEnd, setHourRangeEnd] = useState('')
+    const [note, setNote] = useState('')
 
     const CustomDatePickerInput = forwardRef(({ value, onClick }, ref) => (
         <TextField sx={{ width: '125px' }} placeholder='DD/MM/YYYY' value={value} onClick={onClick} ref={ref}>
@@ -37,10 +36,47 @@ export default function ExtraHoursModal() {
         </TextField>
     ));
 
+    const isFormValid = () => {
+        if (note && currentDate && hourRangeEnd && hourRangeStart) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    const formatDate = (date, hourRange) => {
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let day = String(date.getDate()).padStart(2, '0');
+        let hours = hourRange.substring(0, 2)
+        let minutes = hourRange.slice(-2);
+        let seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    }
+
+    const handleAddExtraHours = () => {
+
+        const payload = {
+            start: formatDate(currentDate, hourRangeStart),
+            end: formatDate(currentDate, hourRangeEnd),
+            note: note
+        }
+
+        dispatch(setExtraHours(ticketId, payload)).then(res => {
+            toast.success(res)
+            setIsExtraHoursModalOpen(false)
+        })
+    }
 
     return (
         <React.Fragment>
-            <Button onClick={() => setIsExtraHoursModalOpen(true)} variant='outlined' sx={{ borderRadius: '25px', padding: 0, minHeight: '32px', minWidth: '32px' }}>+</Button>
+            <ButtonTrans
+                onClick={() => setIsExtraHoursModalOpen(true)}
+                variant='outlined'
+                sx={{ borderRadius: '25px', padding: 0, minHeight: '32px', minWidth: '32px' }}>Agregar Horas Proyectadas</ButtonTrans>
             <Modal open={isExtraHoursModalOpen}>
                 <Box sx={{ ...style }}>
                     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -65,21 +101,35 @@ export default function ExtraHoursModal() {
                                     <div>
                                         desde
                                     </div>
-                                    <CustomHourInput sx={{ width: '100px' }} placeholder='HH:MM' />
+                                    <TextField
+                                        sx={{ width: '100px' }}
+                                        placeholder='HH:MM'
+                                        value={hourRangeStart}
+                                        onChange={e => setHourRangeStart(e.target.value)}
+                                        type='time'
+                                    />
+                                    {/* <CustomHourInput sx={{ width: '100px' }} placeholder='HH:MM' /> */}
                                     <div>
                                         hasta las
                                     </div>
-                                    <CustomHourInput sx={{ width: '100px' }} placeholder='HH:MM' />
+                                    <TextField
+                                        sx={{ width: '100px' }}
+                                        placeholder='HH:MM'
+                                        value={hourRangeEnd}
+                                        onChange={e => setHourRangeEnd(e.target.value)}
+                                        type='time'
+                                    />
+                                    {/* <CustomHourInput sx={{ width: '100px' }} placeholder='HH:MM' /> */}
                                 </div>
                             </div>
                             <div>
                                 <h4>Nota</h4>
-                                <TextField fullWidth multiline rows={5} />
+                                <TextField fullWidth multiline rows={5} value={note} onChange={e => setNote(e.target.value)} />
                             </div>
                         </div>
 
                         <div style={{ width: '100%', height: '15%', marginTop: '20px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <ButtonTrans variant='contained'>Agregar horas proyectadas</ButtonTrans>
+                            <ButtonTrans variant='contained' disabled={!isFormValid()} onClick={handleAddExtraHours}>Agregar horas proyectadas</ButtonTrans>
                             <ButtonTrans variant='outlined' marginLeft onClick={() => setIsExtraHoursModalOpen(false)}>Cancelar</ButtonTrans>
                         </div>
                     </div>

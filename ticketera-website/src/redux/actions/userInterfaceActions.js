@@ -24,6 +24,9 @@ export const arrayTabsAddNew = (tabNew) => {
     if (arrayTabs.findIndex(item => item.id === tabNew.id) === -1) {
       dispatch(arrayTabsAddNewRedux(tabNew));
     }
+    else {
+      dispatch(editTicketTabShownChangeRedux({ tabShown: arrayTabs.findIndex(item => item.id === tabNew.id) }))
+    }
     return true;
   };
 }
