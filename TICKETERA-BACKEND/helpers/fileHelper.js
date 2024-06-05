@@ -121,7 +121,7 @@ const loadFileServer = (fileToUpload, idTicket) => {
   const return_promise = new Promise((resolve, reject) => {
     try {
       const date = new Date();
-      let savePath = `${process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER}${path.sep}${getFormatDate(date)}${idTicket}${path.sep}${makeid(Math.floor(Math.random() * 50) + 1)}`;
+      let savePath = `${process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER}${path.sep}${getFormatDate(date)}${path.sep}${idTicket}${path.sep}${makeid(Math.floor(Math.random() * 50) + 1)}`;
 
       fs.mkdirSync(savePath, { recursive: true });
 

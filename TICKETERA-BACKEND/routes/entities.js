@@ -10,7 +10,7 @@ const { getAllStatesByTicketId, getAllStates } = require('../controllers/states'
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -728,6 +728,18 @@ router.post(
     ],
 
     uploadFile
+);
+
+router.post(
+    '/getTotalHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarCampos,
+
+    ],
+
+    getTotalHours
 );
 
 module.exports = router;
