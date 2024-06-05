@@ -11,7 +11,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
 const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
@@ -3800,6 +3800,62 @@ router.post(
     ],
 
     getHours
+);
+
+/**
+ * @openapi
+ * /api/entities/getTotalHours:
+ *   post:
+ *     summary: Obtener listado de todos las horas del ticket en el sistema
+ *     description: Este endpoint permite obtener el listado de todas las horas del ticket en el sistema. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: ID del ticket para el que se desean obtener los detalles. Este campo es obligatorio.
+ *     responses:
+ *       200:
+ *         description: Listado de todos los detalles de horas del ticket obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 details:
+ *                   type: array
+ *                   description: Horas del ticket.
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/getTotalHours',
+    [
+        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+
+        validarJWT,
+        validarCampos,
+
+    ],
+
+    getTotalHours
 );
 
 /**

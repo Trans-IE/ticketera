@@ -321,6 +321,28 @@ const getDBTicketDetail = (ticket_id, userId) => {
     return return_promise;
 }
 
+const getDBTicketTotalHours = (ticket_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query("SELECT * FROM tickets.f_ticketera_get_ticket_total_hours($1);", [ticket_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const getDBTicketHours = (ticket_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -380,5 +402,6 @@ module.exports = {
     createDBHoursByList,
     createDBProjectedHours,
     getDBTicketHours,
-    getDBTicketProjectedHours
+    getDBTicketProjectedHours,
+    getDBTicketTotalHours
 }

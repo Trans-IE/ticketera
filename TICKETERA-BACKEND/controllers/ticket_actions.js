@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours, getDBTicketTotalHours } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
@@ -536,6 +536,36 @@ const getTicketDetail = async (req, res = response) => {
         });
     }
 }
+const getTotalHours = async (req, res = response) => {
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getTotalHours.`)
+    try {
+
+        getDBTicketTotalHours(ticket_id)
+            .then(result => {
+                logger.info(`<== getTotalHours`);
+                loggerCSV.info(`getTotalHours, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de horas totales del ticket obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getTotalHours => getDBTicketHours error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getTotalHours error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de horas del ticket.'
+        });
+    }
+}
 
 const getHours = async (req, res = response) => {
     const { ticket_id } = req.body;
@@ -614,5 +644,6 @@ module.exports = {
     setHoursByList,
     setProjectedHours,
     getHours,
-    getProjectedHours
+    getProjectedHours,
+    getTotalHours
 }
