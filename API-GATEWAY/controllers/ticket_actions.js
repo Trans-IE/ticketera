@@ -268,29 +268,9 @@ const setNote = async (req, res = response) => {
             const resp = await fetchSinToken(url, { ticket_id, notas, username }, 'POST');
             console.log(resp);
             const body = await resp.json();
-            if (body.ok) {
-                if (!body.value) {
-                    return res.status(400).json({
-                        ok: false,
-                        msg: body.msg
-                    });
-                }
-
-                logger.info(`<== setNota - username:${username}`);
-                loggerCSV.info(`setNota,${(new Date() - function_enter_time) / 1000}`)
-                const { note } = body.value;
-                res.status(200).json({
-                    ok: true,
-                    value: { note },
-                    msg: 'Nota creada correctamente.'
-                });
-            } else {
-                logger.error(`setNota : ${body.msg}`);
-                res.status(200).json({
-                    ok: false,
-                    msg: body.msg
-                });
-            }
+            logger.info(`<== setNota - username:${username}`);
+            loggerCSV.info(`setNota,${(new Date() - function_enter_time) / 1000}`)
+            res.status(200).json({ ...body })
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setNota`)
             res.status(401).json({

@@ -29,7 +29,7 @@ const createDBNote = (ticket_id, notas, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_note);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }

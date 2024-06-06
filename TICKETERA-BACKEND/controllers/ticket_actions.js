@@ -280,36 +280,27 @@ const setNote = async (req, res = response) => {
 
     try {
 
-        createDBNote(ticket_id, notas, username)
-            .then(result => {
-                logger.info(`<== createDBNote`);
-                loggerCSV.info(`createDBNote, ${(new Date() - function_enter_time) / 1000}`)
+        const result = await createDBNote(ticket_id, notas, username);
 
-                //CReación de una nueva notificación
-                createNewTicketNotification(PAYLOAD_TYPES.TICKET_NOTE_ADD, { ticket_id, notas })
+        logger.info(`<== createDBNote`);
+        loggerCSV.info(`createDBNote, ${(new Date() - function_enter_time) / 1000}`)
 
-                res.status(200).json({
-                    ok: true,
-                    value: result,
-                    msg: 'Nota insertada correctamente.'
-                });
+        //CReación de una nueva notificación
+        //La variable ticket_id en este caso pasa como clave valor pero podría ser ticket_id:"cualquier objeto" y por subsiguiente result que puede ser cualquier objeto
+        createNewTicketNotification(PAYLOAD_TYPES.TICKET_NOTE_ADD, { ticket_id, result })
 
-            })
-            .catch(dataError => {
-                logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${dataError}`);
-                res.status(401).json({
-                    ok: false,
-                    error: dataError,
-                    msg: `No se pudo crear la acción nota del ticket. `
-                });
-            });
+        res.status(200).json({
+            ok: true,
+            value: result,
+            msg: 'Nota insertada correctamente.'
+        });
 
     } catch (error) {
-        logger.error(`setNote => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${error}`);
-        res.status(500).json({
+        logger.error(`setNota => createDBNote : params=> ticket_id:${ticket_id} username:${username} notas:${notas} username:${username} error=> ${error}`);
+        res.status(401).json({
             ok: false,
             error: error,
-            msg: 'Por favor hable con el administrador'
+            msg: `No se pudo crear la acción nota del ticket. `
         });
     }
 }

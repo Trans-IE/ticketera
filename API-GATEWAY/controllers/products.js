@@ -24,22 +24,9 @@ const getAllProducts = async (req, res = response) => {
             const resp = await fetchSinToken(url, {}, 'POST');
             console.log(resp);
             const body = await resp.json();
-            if (body.ok) {
-                logger.info(`<== getAllProducts - username:${username}`);
-                loggerCSV.info(`getAllProducts,${(new Date() - function_enter_time) / 1000}`)
-
-                res.status(200).json({
-                    ok: true,
-                    value: body.value,
-                    msg: 'Producto obtenido correctamente.'
-                });
-            } else {
-                logger.error(`getAllProducts : ${body.msg}`);
-                res.status(200).json({
-                    ok: false,
-                    msg: body.msg
-                });
-            }
+            logger.info(`<== getAllProducts - username:${username}`);
+            loggerCSV.info(`getAllProducts,${(new Date() - function_enter_time) / 1000}`)
+            res.status(200).json({ ...body })
         } else {
             logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllProducts`)
             res.status(401).json({
