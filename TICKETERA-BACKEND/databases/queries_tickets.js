@@ -124,7 +124,7 @@ const getAllDBAreas = () => {
 const getAllDBResponsiblesByArea = (area_id) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('', [area_id], (error, results) => {
+        pooldata.getPool.query('SELECT * FROM tickets.f_ticketera_ticket_get_responsible_by_area($1);', [area_id], (error, results) => {
             if (error) {
                 reject(error.message);
             }
