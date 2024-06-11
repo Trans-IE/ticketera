@@ -4021,7 +4021,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 ticketTypes:
+ *                 areas:
  *                   type: array
  *                   description: Lista de areas.
  *                   items:

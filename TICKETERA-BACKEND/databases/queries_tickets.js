@@ -103,7 +103,7 @@ const getAllDBTicketsByFilter = (titulo, causaRaiz, ticketPartner, empresaId, pr
 const getAllDBAreas = () => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('SELECT * FROM public.areas;', [], (error, results) => {
+        pooldata.getPool.query('SELECT * FROM public.area;', [], (error, results) => {
             if (error) {
                 reject(error.message);
             }
