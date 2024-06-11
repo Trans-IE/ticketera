@@ -21,6 +21,9 @@ const setResponsible = async (req, res = response) => {
 
         createDBResponsible(ticket_id, responsable_id, username)
             .then(result => {
+
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result })
+
                 res.status(200).json({
                     ok: true,
                     value: { responsible: result },
@@ -54,12 +57,15 @@ const setPriority = async (req, res = response) => {
 
     const { ticket_id, prioridad, username } = req.body;
 
-    logger.info(`setResponsible ticket_id:${ticket_id} prioridad:${prioridad} username:${username}`)
+    logger.info(`setPriority ticket_id:${ticket_id} prioridad:${prioridad} username:${username}`)
 
     try {
 
         createDBPriority(ticket_id, prioridad, username)
             .then(result => {
+
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_PRIORITY_ADD, { ticket_id, result })
+
                 res.status(200).json({
                     ok: true,
                     value: { priority: result },
@@ -98,10 +104,12 @@ const setState = async (req, res = response) => {
     try {
         createDBState(ticket_id, estado, username)
             .then(result => {
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_STATE_ADD, { ticket_id, result })
+
                 res.status(200).json({
                     ok: true,
                     value: { state: result },
-                    msg: `Ticket acción esto creada correctamente con id: ${result}`
+                    msg: `Ticket acción estado creado correctamente con id: ${result}`
                 });
 
             })
@@ -136,6 +144,9 @@ const setHours = async (req, res = response) => {
     try {
         createDBHours(ticket_id, horas, fecha_accion_hs, username)
             .then(result => {
+
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result })
+
                 res.status(200).json({
                     ok: true,
                     value: { hours: result },
@@ -389,6 +400,10 @@ const setHiddenNote = async (req, res = response) => {
     try {
         createDBHiddenNote(ticket_id, nota, username)
             .then(result => {
+
+                //TODO: Validar seguridad sobre este evento
+                //createNewTicketNotification(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, { ticket_id, result })
+
                 res.status(200).json({
                     ok: true,
                     value: { hiddenNote: result },

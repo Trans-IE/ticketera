@@ -5,6 +5,7 @@ const { fetchConToken, fetchSinToken, fetchSinTokenForm } = require('../helpers/
 const { getUserRol } = require('../helpers/validators');
 const { UserRol } = require('../helpers/constants');
 const fs = require('node:fs');
+const { getResponsibleByArea } = require('../../TICKETERA-BACKEND/controllers/tickets');
 
 const getAllTicketsByFilter = async (req, res = response) => {
 
@@ -378,6 +379,59 @@ const getTicketTypes = async (req, res = response) => {
     }
 }
 
+const getAreas = async (req, res = response) => {
+    const { label: username } = req;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> getAreas - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getAreas";
+
+    try {
+        logger.info(`getAreas `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { username }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getAreas - username:${username}`);
+                loggerCSV.info(`getAreas,${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Listado de tipos obtenidas correctamente.'
+                });
+            } else {
+                logger.error(`getAreas : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getAreas. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getAllStates`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getAreas : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const uploadFile = async (req, res = response) => {
     let function_enter_time = new Date();
     let { ticket_id } = req.body;
@@ -454,6 +508,60 @@ const uploadFile = async (req, res = response) => {
     }
 };
 
+const getResponsiblesByArea = async (req, res = response) => {
+    const { label: username } = req;
+    const { ticket_id } = req.body;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
+    logger.info(`==> getResponsiblesByArea - username:${username} ticket_id:${ticket_id}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getResponsiblesByArea";
+
+    try {
+        logger.info(`getResponsiblesByArea `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { username, ticket_id }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getResponsiblesByArea - username:${username} ticket_id:${ticket_id}`);
+                loggerCSV.info(`getResponsiblesByArea,${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Detalles de responsables por area del ticket obtenidas correctamente.'
+                });
+            } else {
+                logger.error(`getResponsiblesByArea : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion getResponsiblesByArea`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getResponsiblesByArea : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
     getAllTicketsByFilter,
     updateTicket,
@@ -461,5 +569,7 @@ module.exports = {
     deleteTicket,
     getFailTypes,
     getTicketTypes,
-    uploadFile
+    uploadFile,
+    getAreas,
+    getResponsiblesByArea
 }

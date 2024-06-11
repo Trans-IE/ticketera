@@ -100,6 +100,48 @@ const getAllDBTicketsByFilter = (titulo, causaRaiz, ticketPartner, empresaId, pr
     return return_promise;
 }
 
+const getAllDBAreas = () => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('SELECT * FROM public.areas;', [], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
+const getAllDBResponsiblesByArea = (area_id) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('', [area_id], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 const getAllDBFailTypes = () => {
     const return_promise = new Promise((resolve, reject) => {
 
@@ -193,5 +235,7 @@ module.exports = {
     getAllDBFailTypes,
     getAllDBTicketTypes,
     changeAssingDBTicket,
-    changeStateDBTicket
+    changeStateDBTicket,
+    getAllDBAreas,
+    getAllDBResponsiblesByArea
 }

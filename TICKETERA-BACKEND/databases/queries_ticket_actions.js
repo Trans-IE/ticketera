@@ -73,7 +73,7 @@ const createDBPriority = (ticket_id, prioridad, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_priority);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -94,7 +94,7 @@ const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_hours);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }
@@ -181,7 +181,7 @@ const createDBState = (ticket_id, estado, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_state);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }

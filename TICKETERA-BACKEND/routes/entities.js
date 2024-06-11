@@ -11,7 +11,7 @@ const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours } = require('../controllers/ticket_actions');
-const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile } = require('../controllers/tickets');
+const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
@@ -740,6 +740,26 @@ router.post(
     ],
 
     getTotalHours
+);
+
+router.post(
+    '/getAreas',
+    [
+
+    ],
+
+    getAreas
+);
+
+router.post(
+    '/getResponsiblesByArea',
+    [
+        check('area_id', 'Debe ingresar un area_id').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    getResponsiblesByArea
 );
 
 module.exports = router;

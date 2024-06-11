@@ -27,7 +27,12 @@ const NOTIFICATION_EVENTS = {
 
 //Agregar evento nuevo según se requiera
 const PAYLOAD_TYPES = {
-    'TICKET_NOTE_ADD': 'ticket-note-add'
+    'TICKET_NOTE_ADD': 'ticket-note-add',
+    'TICKET_HIDDEN_NOTE_ADD': 'ticket-hidden-note-add',
+    'TICKET_STATE_ADD': 'ticket-state-note-add',
+    'TICKET_PRIORITY_ADD': 'ticket-priority-note-add',
+    'TICKET_RESPONSIBLE_ADD': 'ticket-responsible-note-add',
+    'TICKET_HOURS_ADD': 'ticket-hours-add',
 }
 
 module.exports = {

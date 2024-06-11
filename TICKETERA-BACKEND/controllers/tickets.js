@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes, changeAssingDBTicket, changeStateDBTicket } = require('../databases/queries_tickets');
+const { createDBTicketTrans, updateDBTicketTrans, createDBTicketClient, deleteDBTicket, getAllDBTicketsByFilter, getAllDBFailTypes, getAllDBTicketTypes, changeAssingDBTicket, changeStateDBTicket, getAllDBAreas, getAllDBResponsiblesByArea } = require('../databases/queries_tickets');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { createDBFilePath } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
@@ -346,6 +346,64 @@ const getTicketTypes = async (req, res = response) => {
     }
 }
 
+const getAreas = async (req, res = response) => {
+
+    let function_enter_time = new Date();
+    logger.info(`==> getAreas.`)
+    try {
+        getAllDBAreas()
+            .then(result => {
+                logger.info(`<== getAreas`);
+                loggerCSV.info(`getAreas, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de areas obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAreas => getAllDBAreas error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBAreas error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de areas.'
+        });
+    }
+}
+
+const getResponsiblesByArea = async (req, res = response) => {
+
+    let function_enter_time = new Date();
+    logger.info(`==> getResponsibleByArea.`)
+    try {
+        getAllDBResponsiblesByArea(area_id)
+            .then(result => {
+                logger.info(`<== getResponsibleByArea`);
+                loggerCSV.info(`getResponsibleByArea, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de responsables por area obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getResponsibleByArea => getAllDBAreas error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllDBAreas error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de responsables por area.'
+        });
+    }
+}
+
 const uploadFile = async (req, res = response) => {
     let { ticket_id, username } = req.body;
 
@@ -384,5 +442,7 @@ module.exports = {
     deleteTicket,
     getFailTypes,
     getTicketTypes,
-    uploadFile
+    uploadFile,
+    getAreas,
+    getResponsiblesByArea
 }
