@@ -2218,7 +2218,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 responsible:
  *                   type: object
  *                   description: Información del responsable creado y código único generado.
  *       400:
@@ -2294,7 +2294,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 priority:
  *                   type: object
  *                   description: Información de la prioridad y código único generado.
  *       400:
@@ -2371,7 +2371,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 state:
  *                   type: object
  *                   description: Información del estado y código único generado.
  *       400:
@@ -2447,7 +2447,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 note:
  *                   type: object
  *                   description: Información de la nota y código único generado.
  *       400:
@@ -2523,7 +2523,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 autoEvaluation:
  *                   type: object
  *                   description: Información de la autoevaluación y código único generado.
  *       400:
@@ -2603,7 +2603,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 hours:
  *                   type: object
  *                   description: Información de la hora y código único generado.
  *       400:
@@ -2703,7 +2703,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 hours:
  *                   type: object
  *                   description: Información de la hora y código único generado.
  *       400:
@@ -2781,7 +2781,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 hiddenNote:
  *                   type: object
  *                   description: Información del estado y código único generado.
  *       400:
@@ -3644,7 +3644,7 @@ router.delete(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 hours:
  *                   type: object
  *                   description: Información de la hora y código único generado.
  *       400:
@@ -4192,7 +4192,7 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
- *                 contract:
+ *                 projectedHours:
  *                   type: object
  *                   description: Información de la hora y código único generado.
  *       400:

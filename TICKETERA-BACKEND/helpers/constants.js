@@ -33,6 +33,7 @@ const PAYLOAD_TYPES = {
     'TICKET_PRIORITY_ADD': 'ticket-priority-note-add',
     'TICKET_RESPONSIBLE_ADD': 'ticket-responsible-note-add',
     'TICKET_HOURS_ADD': 'ticket-hours-add',
+    'TICKET_PROJECTED_HOURS_ADD': 'ticket-projected-hours-add',
 }
 
 const TICKETS_ROOMS_PREFIX = {

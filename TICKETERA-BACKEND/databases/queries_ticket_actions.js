@@ -108,15 +108,16 @@ const createDBHours = (ticket_id, horas, fecha_accion_hs, username) => {
 
 const createDBProjectedHours = (userId, ticket_id, effectiveStart, effectiveEnd, percentage, comentario, isUpdate) => {
     const return_promise = new Promise((resolve, reject) => {
+        // Log the parameters before making the database call
 
-        pooldata.getPool.query('select * from public.f_ticket_horas_extras($1, $2, $3, $4, $5, $6, $7)', [userId, ticket_id, effectiveStart, effectiveEnd, percentage, comentario, isUpdate], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_action_create_projected_hours($1, $2, $3, $4, $5, $6, $7)', [userId, ticket_id, effectiveStart, effectiveEnd, percentage, comentario, isUpdate], (error, results) => {
             if (error) {
 
                 reject(error.message);
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticket_horas_extras);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }

@@ -319,10 +319,10 @@ const setProjectedHours = async (req, res = response) => {
 
                 logger.info(`<== setProjectedHours - username:${username}`);
                 loggerCSV.info(`setProjectedHours,${(new Date() - function_enter_time) / 1000}`)
-                const { hours } = body.value;
+                const { result } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { hours },
+                    value: { result },
                     msg: 'Hora proyectada creada correctamente.'
                 });
             } else {
