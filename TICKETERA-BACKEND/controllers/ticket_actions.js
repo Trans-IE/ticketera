@@ -409,8 +409,8 @@ const setHiddenNote = async (req, res = response) => {
 
                 res.status(200).json({
                     ok: true,
-                    value: { hiddenNote: result },
-                    msg: `Ticket acción nota oculta creada correctamente con id: ${result}`
+                    value: { result },
+                    msg: `Ticket acción nota oculta creada correctamente`
                 });
 
             })

@@ -555,13 +555,12 @@ const setHiddenNote = async (req, res = response) => {
                         msg: body.msg
                     });
                 }
-
                 logger.info(`<== setHiddenNote - username:${username}`);
                 loggerCSV.info(`setHiddenNote,${(new Date() - function_enter_time) / 1000}`)
-                const { filePath } = body.value;
+                const { result } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { filePath },
+                    value: { result },
                     msg: 'Nota oculta creada correctamente.'
                 });
             } else {
