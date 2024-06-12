@@ -376,6 +376,7 @@ const getAreas = async (req, res = response) => {
 }
 
 const getResponsiblesByArea = async (req, res = response) => {
+    const { area_id } = req.body;
 
     let function_enter_time = new Date();
     logger.info(`==> getResponsibleByArea.`)
