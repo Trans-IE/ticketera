@@ -4254,7 +4254,7 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               ticket_id:
+ *               area_id:
  *                 type: integer
  *                 description: ID del ticket para el que se desean obtener los detalles. Este campo es obligatorio.
  *     responses:
