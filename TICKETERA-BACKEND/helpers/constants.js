@@ -35,9 +35,15 @@ const PAYLOAD_TYPES = {
     'TICKET_HOURS_ADD': 'ticket-hours-add',
 }
 
+const TICKETS_ROOMS_PREFIX = {
+    CLIENTE: 'c_',
+    EMPRESA: 'e_'
+}
+
 module.exports = {
     userType,
     ticketStatus,
     NOTIFICATION_EVENTS,
-    PAYLOAD_TYPES
+    PAYLOAD_TYPES,
+    TICKETS_ROOMS_PREFIX
 }

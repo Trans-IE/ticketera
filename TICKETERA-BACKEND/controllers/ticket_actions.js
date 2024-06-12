@@ -3,7 +3,7 @@ const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
-const { userType, PAYLOAD_TYPES } = require('../helpers/constants');
+const { userType, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX } = require('../helpers/constants');
 const { formatHours, formatDate, pad } = require('../helpers/isDate');
 const crypto = require('crypto');
 const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
@@ -22,7 +22,8 @@ const setResponsible = async (req, res = response) => {
         createDBResponsible(ticket_id, responsable_id, username)
             .then(result => {
 
-                createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
 
                 res.status(200).json({
                     ok: true,
@@ -63,8 +64,8 @@ const setPriority = async (req, res = response) => {
 
         createDBPriority(ticket_id, prioridad, username)
             .then(result => {
-
-                createNewTicketNotification(PAYLOAD_TYPES.TICKET_PRIORITY_ADD, { ticket_id, result })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_PRIORITY_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_PRIORITY_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
 
                 res.status(200).json({
                     ok: true,
@@ -104,7 +105,9 @@ const setState = async (req, res = response) => {
     try {
         createDBState(ticket_id, estado, username)
             .then(result => {
-                createNewTicketNotification(PAYLOAD_TYPES.TICKET_STATE_ADD, { ticket_id, result })
+
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_STATE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_STATE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
 
                 res.status(200).json({
                     ok: true,
@@ -145,7 +148,7 @@ const setHours = async (req, res = response) => {
         createDBHours(ticket_id, horas, fecha_accion_hs, username)
             .then(result => {
 
-                createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
 
                 res.status(200).json({
                     ok: true,
@@ -402,7 +405,7 @@ const setHiddenNote = async (req, res = response) => {
             .then(result => {
 
                 //TODO: Validar seguridad sobre este evento
-                //createNewTicketNotification(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, { ticket_id, result })
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
 
                 res.status(200).json({
                     ok: true,

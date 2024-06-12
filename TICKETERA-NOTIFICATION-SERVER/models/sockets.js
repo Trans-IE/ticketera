@@ -63,7 +63,7 @@ class Sockets {
             });
             socket.on(NOTIFICATION_EVENTS.TICKET_NEW_NOTIFICATION, (payload) => {
                 let notification = new Notification(payload.type, payload, new Date())
-                this.io.to(`room:${payload.ticket_id}`).emit(payload.type, notification);
+                this.io.to(`room:${payload.room}`).emit(payload.type, notification);
             });
         });
 
