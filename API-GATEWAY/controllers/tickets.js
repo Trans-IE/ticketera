@@ -526,7 +526,7 @@ const getResponsiblesByArea = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { username, ticket_id }, 'POST');
+            const resp = await fetchSinToken(url, { username, area_id }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
