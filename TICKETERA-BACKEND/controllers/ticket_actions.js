@@ -256,6 +256,9 @@ const setHoursByList = async (req, res = response) => {
             try {
                 // Llamar a la función para crear la hora en la base de datos
                 const result = await createDBHoursByList(ticket_id, horas, fecha_accion_hs, username);
+
+                createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+
                 results.push(result); // Agregar el resultado al array de resultados
             } catch (error) {
                 logger.error(`setHoursByList => createDBHours : error => ${error}`);
@@ -300,8 +303,9 @@ const setNote = async (req, res = response) => {
         loggerCSV.info(`createDBNote, ${(new Date() - function_enter_time) / 1000}`)
 
         //CReación de una nueva notificación
-        //La variable ticket_id en este caso pasa como clave valor pero podría ser ticket_id:"cualquier objeto" y por subsiguiente result que puede ser cualquier objeto
-        createNewTicketNotification(PAYLOAD_TYPES.TICKET_NOTE_ADD, { ticket_id, result })
+        //La variable ticket_id en este caso pasa como clave valor pero podría ser ticket_id:"cualquier objeto" y por subsiguiente result que puede ser cualquier objeto        
+        createNewTicketNotification(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+        createNewTicketNotification(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
 
         res.status(200).json({
             ok: true,
