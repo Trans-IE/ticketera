@@ -269,7 +269,7 @@ const setHoursByList = async (req, res = response) => {
 
         res.status(200).json({
             ok: true,
-            value: { hours: results },
+            value: { results },
             msg: `Se crearon las horas de acción para los tickets correctamente.`
         });
     } catch (error) {

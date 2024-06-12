@@ -138,7 +138,7 @@ const createDBHoursByList = (ticket_id, horas, fecha_accion_hs, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_hours);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }

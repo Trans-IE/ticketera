@@ -441,10 +441,10 @@ const setHoursByList = async (req, res = response) => {
 
                 logger.info(`<== setHoursByList - username:${username}`);
                 loggerCSV.info(`setHoursByList,${(new Date() - function_enter_time) / 1000}`)
-                const { hours } = body.value;
+                const { results } = body.value;
                 res.status(200).json({
                     ok: true,
-                    value: { hours },
+                    value: { results },
                     msg: 'Hora creada correctamente.'
                 });
             } else {
