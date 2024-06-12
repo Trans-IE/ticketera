@@ -4287,7 +4287,7 @@ router.post(
 router.post(
     '/getResponsiblesByArea',
     [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+        check('area_id', 'Debe ingresar un area_id').not().isEmpty(),
 
         validarJWT,
         validarCampos,

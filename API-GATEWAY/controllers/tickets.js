@@ -510,11 +510,11 @@ const uploadFile = async (req, res = response) => {
 
 const getResponsiblesByArea = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id } = req.body;
+    const { area_id } = req.body;
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
-    logger.info(`==> getResponsiblesByArea - username:${username} ticket_id:${ticket_id}`);
+    logger.info(`==> getResponsiblesByArea - username:${username} area_id:${area_id}`);
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getResponsiblesByArea";
 
     try {
@@ -530,7 +530,7 @@ const getResponsiblesByArea = async (req, res = response) => {
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
-                logger.info(`<== getResponsiblesByArea - username:${username} ticket_id:${ticket_id}`);
+                logger.info(`<== getResponsiblesByArea - username:${username} area_id:${area_id}`);
                 loggerCSV.info(`getResponsiblesByArea,${(new Date() - function_enter_time) / 1000}`)
                 res.status(200).json({
                     ok: true,
