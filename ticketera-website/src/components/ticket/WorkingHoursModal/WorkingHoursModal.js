@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { ButtonTrans } from '../../ui/ButtonTrans';
 import ExtraHoursModal from './ExtraHoursModal';
 import { useDispatch } from 'react-redux';
-import { getHours, getProjectedHours, setHours } from '../../../redux/actions/ticketActions';
+import { getHours, getProjectedHours, getTotalHours, setHours } from '../../../redux/actions/ticketActions';
 import { toast } from 'sonner';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTheme } from '@emotion/react';
 
 const style = {
     position: 'absolute',
@@ -14,11 +15,12 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: '70%',
     height: '80%',
-    bgcolor: 'background.paper',
     boxShadow: 24,
     pt: 2,
     px: 4,
     pb: 3,
+    borderRadius: '20px',
+    border: '1px solid',
 };
 
 const confirmationModalStyle = {
@@ -28,15 +30,17 @@ const confirmationModalStyle = {
     transform: 'translate(-50%, -50%)',
     width: '50%',
     height: '60%',
-    bgcolor: 'background.paper',
     boxShadow: 24,
     pt: 2,
     px: 4,
     pb: 3,
+    borderRadius: '20px',
+    border: '1px solid',
 };
 
 export default function WorkingHoursModal({ ticketId, closeModal }) {
     const dispatch = useDispatch()
+    const theme = useTheme()
 
     const [week, setWeek] = useState(0)
     const [tableRows, setTableRows] = useState([])
@@ -48,14 +52,18 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
     const [loadedHours, setLoadedHours] = useState([])
     const [loadedProjectedHours, setLoadedProjectedHours] = useState([])
+    const [loadedTotalHours, setLoadedTotalHours] = useState()
 
     useEffect(() => {
         dispatch(getHours(ticketId)).then(res => {
-            console.log('reee', res)
             setLoadedHours(formatGetHours(res, 'comunes'))
         })
         dispatch(getProjectedHours(ticketId)).then(res => {
             setLoadedProjectedHours(formatGetHours(res, 'proyectadas'))
+        })
+        dispatch(getTotalHours(ticketId)).then(res => {
+            console.log(res[0])
+            setLoadedTotalHours(res[0])
         })
     }, [])
 
@@ -64,19 +72,27 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
         let daysOfTheWeek = getCurrentWeekDates(week)
 
         setTableRows([
-            createData(daysOfTheWeek[0][0], `${getHorasForDate(daysOfTheWeek[1][0])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][0])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][0]),
-            createData(daysOfTheWeek[0][1], `${getHorasForDate(daysOfTheWeek[1][1])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][1])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][1]),
-            createData(daysOfTheWeek[0][2], `${getHorasForDate(daysOfTheWeek[1][2])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][2])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][2]),
-            createData(daysOfTheWeek[0][3], `${getHorasForDate(daysOfTheWeek[1][3])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][3])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][3]),
-            createData(daysOfTheWeek[0][4], `${getHorasForDate(daysOfTheWeek[1][4])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][4])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][4]),
-            createData(daysOfTheWeek[0][5], `${getHorasForDate(daysOfTheWeek[1][5])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][5])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][5]),
-            createData(daysOfTheWeek[0][6], `${getHorasForDate(daysOfTheWeek[1][6])} horas trabajadas - ${getProjectedHorasForDate(daysOfTheWeek[1][6])} horas proyectadas trabajadas`, 0, daysOfTheWeek[1][6]),
+            createData(daysOfTheWeek[0][0], createLoadedHoursRow(daysOfTheWeek[1][0]), 0, daysOfTheWeek[1][0]),
+            createData(daysOfTheWeek[0][1], createLoadedHoursRow(daysOfTheWeek[1][1]), 0, daysOfTheWeek[1][1]),
+            createData(daysOfTheWeek[0][2], createLoadedHoursRow(daysOfTheWeek[1][2]), 0, daysOfTheWeek[1][2]),
+            createData(daysOfTheWeek[0][3], createLoadedHoursRow(daysOfTheWeek[1][3]), 0, daysOfTheWeek[1][3]),
+            createData(daysOfTheWeek[0][4], createLoadedHoursRow(daysOfTheWeek[1][4]), 0, daysOfTheWeek[1][4]),
+            createData(daysOfTheWeek[0][5], createLoadedHoursRow(daysOfTheWeek[1][5]), 0, daysOfTheWeek[1][5]),
+            createData(daysOfTheWeek[0][6], createLoadedHoursRow(daysOfTheWeek[1][6]), 0, daysOfTheWeek[1][6]),
         ]);
     }, [week, loadedHours, loadedProjectedHours])
 
 
     function createData(date, hoursWorked, hoursWorkedToAdd, dateString) {
         return { date, hoursWorked, hoursWorkedToAdd, dateString };
+    }
+
+    const createLoadedHoursRow = (date) => {
+        return (
+            <div>
+                <span style={{ color: 'green' }}>{getHorasForDate(date)}</span> horas comunes - <span style={{ color: 'red' }}>{getProjectedHorasForDate(date)}</span> horas proyectadas
+            </div>
+        )
     }
 
     function getCurrentWeekDates(weeksAgo = 0) {
@@ -105,7 +121,6 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
 
     const formatGetHours = (dates, type) => {
         let formattedData = []
-        console.log('taratara', dates)
 
         if (type === 'comunes') {
             dates.forEach(date => {
@@ -136,14 +151,15 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
         return mergeAndSumHours(formattedData)
     }
 
+
     const getHorasForDate = (date) => {
         const foundData = loadedHours.find(item => item.fecha_accion_hs === date);
-        return foundData ? foundData.horas : "00:00:00";
+        return foundData ? foundData.horas.slice(0, -3) : "00:00";
     };
 
     const getProjectedHorasForDate = (date) => {
         const foundData = loadedProjectedHours.find(item => item.fecha_accion_hs === date);
-        return foundData ? foundData.horas : "00:00:00";
+        return foundData ? foundData.horas.slice(0, -3) : "00:00";
     };
 
     //No preguntar acerca de esta funcion
@@ -290,8 +306,34 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
         setHoursToAdd(arrayCopy);
     }
 
+    const formatTotalHours = (hour, minute) => {
+        let hours = isNaN(hour) ? 0 : hour;
+        let minutes = isNaN(minute) ? 0 : minute;
+
+        return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+    }
+
+    const getTotalHoursString = () => {
+        let regularHours = '';
+        let extraHours = '';
+
+        if (loadedTotalHours?.total_hours_horas_extras) {
+            extraHours = <span style={{ color: 'red' }}>{formatTotalHours(loadedTotalHours.total_hours_horas_extras.hours, loadedTotalHours.total_hours_horas_extras.minutes)}</span>
+        }
+        if (loadedTotalHours?.total_hours_tickets_acciones) {
+            regularHours = <span style={{ color: 'green' }}>{formatTotalHours(loadedTotalHours.total_hours_tickets_acciones.hours, loadedTotalHours.total_hours_tickets_acciones.minutes)}</span>
+        }
+
+        if (regularHours !== '' || extraHours !== '') {
+            return <h4>Totales: {regularHours} comunes{extraHours !== '' && regularHours !== '' && ' - '}{extraHours} projectadas</h4>
+        }
+        else {
+            return ''
+        }
+    }
+
     return (
-        <Box sx={{ ...style }}>
+        <Box sx={{ ...style, borderColor: theme.palette.background.border, bgcolor: theme.palette.background.background }}>
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '15%', marginBottom: '20px' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -330,8 +372,9 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
                         <TableBody>
                             {tableRows.map((row) => (
                                 <TableRow
+                                    hover
                                     key={row.dateString}
-                                    sx={{ 'td, th': { border: 0 } }}
+                                    sx={{ 'td, th': { border: 0, fontSize: 14 } }}
                                 >
                                     <TableCell component="th" scope="row">
                                         <span style={{ whiteSpace: 'nowrap' }}>{row.date}</span>
@@ -367,12 +410,13 @@ export default function WorkingHoursModal({ ticketId, closeModal }) {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{ margin: '10px 0' }}>{getTotalHoursString()}</div>
                 <div style={{ marginTop: '10px', height: '5%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                     <ButtonTrans onClick={() => setIsConfirmationModalOpen(true)} disabled={!hoursToAdd.length} variant='contained' >Agregar</ButtonTrans>
                     <ButtonTrans onClick={() => closeModal()} variant='outlined' marginLeft>Cerrar</ButtonTrans>
                 </div>
                 <Modal open={isConfirmationModalOpen}>
-                    <Box sx={{ ...confirmationModalStyle }}>
+                    <Box sx={{ ...confirmationModalStyle, borderColor: theme.palette.background.border, bgcolor: theme.palette.background.background, }}>
                         <div style={{ height: '100%', padding: '15px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div style={{ height: '90%' }}>
                                 <h2 style={{ marginBottom: '25px' }}>

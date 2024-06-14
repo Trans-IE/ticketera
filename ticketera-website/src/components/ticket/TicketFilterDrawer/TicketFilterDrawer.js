@@ -1,16 +1,16 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { ButtonTrans } from '../ui/ButtonTrans'
+import { ButtonTrans } from '../../ui/ButtonTrans'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllTicketTypes } from '../../redux/actions/ticketActions';
+import { getAllTicketTypes } from '../../../redux/actions/ticketActions';
 import './TicketFilterDrawer.scss'
 import { useTheme } from '@mui/material/styles';
-import { getAllTicketPriorities } from '../../redux/actions/priorityActions';
-import { getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
-import { getAllCompanies } from '../../redux/actions/companyActions';
-import { getAllTicketStates } from '../../redux/actions/stateActions';
-import { getAllBrands, getAllProducts, getProductsByBrand } from '../../redux/actions/productActions';
-import { getAllFailTypes } from '../../redux/actions/failTypeActions';
+import { getAllTicketPriorities } from '../../../redux/actions/priorityActions';
+import { getResponsiblesByCompany } from '../../../redux/actions/responsibleActions';
+import { getAllCompanies } from '../../../redux/actions/companyActions';
+import { getAllTicketStates } from '../../../redux/actions/stateActions';
+import { getAllBrands, getAllProducts, getProductsByBrand } from '../../../redux/actions/productActions';
+import { getAllFailTypes } from '../../../redux/actions/failTypeActions';
 
 export default function TicketFilterDrawer({ handleCancelFilter, filter, filters }) {
     const dispatch = useDispatch();

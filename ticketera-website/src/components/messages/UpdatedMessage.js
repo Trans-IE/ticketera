@@ -12,26 +12,25 @@ export const UpdatedMessage = ({ message, extra }) => {
     const theme = useTheme()
     const [icon, setIcon] = useState(<></>)
     const [wording, setWording] = useState('')
-    const [userTypeColor, setUserTypeColor] = useState('')
 
     useEffect(() => {
-        setUserTypeColor(message.tipo === 1 ? theme.palette.primary.main : 'lime')
+        let color = message.tipo === 1 ? theme.palette.primary.main : 'lime'
 
         switch (message.tipo_accion) {
             case ticketType.StateChange:
                 setWording(<> cambió el estado a <b>{extra}</b></>)
-                setIcon(<BoltIcon fontSize='large' style={{ color: 'yellow' }} />)
+                setIcon(<BoltIcon fontSize='large' style={{ color: color }} />)
                 break;
             case ticketType.PriorityChange:
                 setWording(<> cambio la prioridad a <b>{extra}</b></>)
-                setIcon(<PriorityHighIcon fontSize='large' />)
+                setIcon(<PriorityHighIcon fontSize='large' style={{ color: theme.palette.primary.main }} />)
                 break;
             case ticketType.Hours:
                 setWording(<> registró <b>{message.horas}</b> horas correspondientes al dia <b>{getShortDateString(message.fecha_accion_hs)}</b></>)
                 setIcon(<AccessTimeIcon fontSize='large' style={{ color: 'red' }} />)
                 break;
             case ticketType.Asigned:
-                setWording(<> reasignó el caso a <CircleIcon style={{ color: theme.palette.primary.main }} sx={{ fontSize: 12 }} /> <b>{message.responsable_nombres}</b></>)
+                setWording(<> reasignó el caso a <b>{message.responsable_nombres}</b></>)
                 setIcon(<ReplyIcon fontSize='large' style={{ color: theme.palette.primary.main }} />)
                 break;
         }
@@ -56,7 +55,6 @@ export const UpdatedMessage = ({ message, extra }) => {
             </div>
             <div style={{ minHeight: '30px', textAlign: 'center' }}>
                 <>
-                    <CircleIcon style={{ color: userTypeColor }} sx={{ fontSize: 12 }} />
                     <b>{` ${message.usuarios_apellido}, ${message.usuarios_nombres}`}</b>
                     {wording}
                 </>

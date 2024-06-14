@@ -10,4 +10,23 @@ const getShortDateString = (time) => {
     let date = moment(dt).format('DD/MM/YYYY');
     return date;
 }
-module.exports = { getFullDateString, getShortDateString }
+
+
+function convertToDate(dateString) {
+    return new Date(dateString);
+}
+
+function compareByDate(a, b) {
+    const dateA = convertToDate(a.fecha);
+    const dateB = convertToDate(b.fecha);
+
+    if (dateA > dateB) {
+        return -1;
+    }
+    if (dateA < dateB) {
+        return 1;
+    }
+    return 0;
+}
+
+module.exports = { getFullDateString, getShortDateString, compareByDate }

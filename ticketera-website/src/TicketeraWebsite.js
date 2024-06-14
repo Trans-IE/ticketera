@@ -6,7 +6,7 @@ import { store } from './redux/configureStore';
 import { AppRouter } from './routers/AppRouter';
 import { Toaster } from "sonner";
 import { MainScreen } from "./components/root/MainScreen";
-import { TicketsScreen } from "./components/ticket/TicketsScreen";
+import { TicketsScreen } from "./components/ticket/TicketsScreen/TicketsScreen";
 import { BrowserRouter } from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
 

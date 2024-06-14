@@ -4,40 +4,41 @@ import { useTheme } from "@mui/material/styles"
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import { ticketType } from "../../helpers/constants";
-import CircleIcon from '@mui/icons-material/Circle';
 
 export const NotesMessage = ({ message }) => {
     const theme = useTheme()
     const [icon, setIcon] = useState(<SpeakerNotesIcon style={{ color: 'white' }} />)
     const [wording, setWording] = useState('')
-    const [userTypeColor, setUserTypeColor] = useState('')
 
     useEffect(() => {
-        setUserTypeColor(message.tipo === 1 ? theme.palette.primary.main : 'lime')
+        let color = message.tipo === 1 ? theme.palette.primary.main : 'lime'
 
         switch (message.tipo_accion) {
             case ticketType.Note:
-                setIcon(<SpeakerNotesIcon style={{ color: theme.palette.primary.main }} />);
-                setWording('Nota')
+                setIcon(<SpeakerNotesIcon style={{ color: color }} />);
+                setWording(<div style={{ marginLeft: '5px' }}> Nota de <b>{`${message.usuarios_apellido}, ${message.usuarios_nombres}`}</b></div>)
                 break;
             case ticketType.SecretNote:
                 setIcon(<SpeakerNotesOffIcon style={{ color: 'red' }} />)
-                setWording('Nota oculta')
+                setWording(<div style={{ marginLeft: '5px' }}> Nota oculta de <b>{`${message.usuarios_apellido}, ${message.usuarios_nombres}`}</b></div>)
                 break
             case ticketType.Creation:
-                setIcon(<SpeakerNotesIcon style={{ color: theme.palette.oposite }} />);
-                setWording('Detalle de ticket')
+                setIcon(<SpeakerNotesIcon style={{ color: color }} />);
+                setWording(<div style={{ marginLeft: '5px' }}><b>{`${message.usuarios_apellido}, ${message.usuarios_nombres}`}</b> creó un ticket</div>)
                 break
         }
 
     }, [])
 
     return (
-        <div key={message.id} style={{ backgroundColor: message.tipo_accion !== 7 ? theme.palette.background.dark : theme.palette.background.reddishBackground, borderRadius: '25px', border: '1px solid', borderColor: theme.palette.background.border, margin: '15px' }}>
+        <div
+            key={message.id}
+            style={{ backgroundColor: message.tipo_accion !== 7 ? theme.palette.background.dark : theme.palette.background.reddishBackground, borderRadius: '25px', border: '1px solid', borderColor: theme.palette.background.border, margin: '15px', marginLeft: message.tipo === 1 ? '150px' : '15px', marginRight: message.tipo !== 1 ? '150px' : '15px' }}
+        >
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 15px 15px 15px', borderRadius: '25px 25px 0 0' }}>
                 <div style={{ paddingRight: '25px', display: 'flex', fontSize: '16px' }}>
                     {icon}
-                    <div style={{ marginLeft: '5px' }}> {wording} de   <CircleIcon style={{ color: userTypeColor }} sx={{ fontSize: 12, marginLeft: '10px' }} /> <b>{`${message.usuarios_apellido}, ${message.usuarios_nombres}`}</b></div>
+                    {wording}
                 </div>
                 <div style={{ color: theme.palette.text.tertiary }}>{message.fecha ? getFullDateString(message.fecha) : ''}</div>
             </div>

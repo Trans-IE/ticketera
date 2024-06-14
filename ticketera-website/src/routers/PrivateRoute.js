@@ -7,7 +7,17 @@ export const PrivateRoute = ({ children }) => {
     const { logged } = useSelector((state) => state.auth, shallowEqual);
     const { pathname, search } = useLocation();
 
-    return (logged)
-        ? children
-        : <Navigate to="/login" />
+    return (
+        <>
+            {
+                logged
+                    ?
+                    pathname === '/login' ?
+                        <Navigate to="/tickets" />
+                        :
+                        children
+                    : <Navigate to="/login" />
+            }
+        </>
+    )
 }

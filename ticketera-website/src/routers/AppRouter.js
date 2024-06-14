@@ -59,29 +59,27 @@ export const AppRouter = () => {
     }
 
     return (
-        // <SocketProvider>
+        <SocketProvider>
+            <Routes>
+                {
+                    user === null &&
+                    <Route path="/*" element={
+                        <PublicRoute>
+                            <LoginRoutes />
+                        </PublicRoute>
+                    }
+                    />
 
-        <Routes>
-            {
-                user === null &&
-                <Route path="/*" element={
-                    <PublicRoute>
-                        <LoginRoutes />
-                    </PublicRoute>
                 }
-                />
-
-            }
-            {user !== null && <Route path="/*" element={
-                <PrivateRoute>
-                    <DashboardRoutes />
-                </PrivateRoute>
-            } />}
+                {user !== null && <Route path="/*" element={
+                    <PrivateRoute>
+                        <DashboardRoutes />
+                    </PrivateRoute>
+                } />}
 
 
 
-        </Routes>
-
-        // </SocketProvider> 
+            </Routes>
+        </SocketProvider>
     )
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Modal, TextField, TextareaAutosize } from '@mui/material'
+import { Box, Button, Modal, TextField, TextareaAutosize, useTheme } from '@mui/material'
 import React, { forwardRef, useState } from 'react'
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,15 +14,17 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: '50%',
     height: '60%',
-    bgcolor: 'background.paper',
     boxShadow: 24,
     pt: 2,
     px: 4,
     pb: 3,
+    borderRadius: '20px',
+    border: '1px solid',
 };
 
 export default function ExtraHoursModal({ ticketId }) {
     const dispatch = useDispatch()
+    const theme = useTheme()
 
     const [isExtraHoursModalOpen, setIsExtraHoursModalOpen] = useState(false)
     const [currentDate, setCurrentDate] = useState('')
@@ -78,7 +80,7 @@ export default function ExtraHoursModal({ ticketId }) {
                 variant='outlined'
                 sx={{ borderRadius: '25px', padding: 0, minHeight: '32px', minWidth: '32px' }}>Agregar Horas Proyectadas</ButtonTrans>
             <Modal open={isExtraHoursModalOpen}>
-                <Box sx={{ ...style }}>
+                <Box sx={{ ...style, borderColor: theme.palette.background.border, bgcolor: theme.palette.background.background, }}>
                     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <div style={{ height: '80%' }}>
                             <h2>Horas proyectadas</h2>

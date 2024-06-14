@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Fab, FormControlLabel, IconButton, MenuItem, Modal, Select, Tooltip } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
 import './TicketDetail.scss'
 import TextareaAutosize from 'react-textarea-autosize';
@@ -14,86 +14,162 @@ import { useTheme } from '@mui/material/styles';
 import { ButtonTrans } from '../../ui/ButtonTrans';
 import { toast } from "sonner";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAllTicketStates, getTicketDetail, getTicketMessages, getTicketStatesByTicketId, sendNewHiddenNote, sendNewNote, uploadFiles } from '../../../redux/actions/ticketActions';
-import { ticketType } from '../../../helpers/constants';
+import { getAllTicketStates, getTicketDetail, getTicketMessages, getTicketStatesByTicketId, getTotalHours, sendNewHiddenNote, sendNewNote, uploadFiles } from '../../../redux/actions/ticketActions';
+import { NOTIFICATION_EVENTS, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX, ticketType, userType } from '../../../helpers/constants';
 import { NotesMessage } from '../../messages/NotesMessage';
 import { UpdatedMessage } from '../../messages/UpdatedMessage';
 import { getAllTicketPriorities, setTicketPriority } from '../../../redux/actions/priorityActions';
-import { getAllResponsibles, getResponsiblesByCompany, setTicketResponsible } from '../../../redux/actions/responsibleActions';
+import { getAllAreas, getAllResponsibles, getResponsiblesByArea, getResponsiblesByCompany, setTicketResponsible } from '../../../redux/actions/responsibleActions';
 import { setTicketState } from '../../../redux/actions/stateActions';
 import WorkingHoursModal from '../WorkingHoursModal/WorkingHoursModal';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ProjectsDrawer from '../ProjectsDrawer/ProjectsDrawer';
+import { SocketContext } from '../../../context/SocketContext';
+import { ticketActionsDataAddNewRedux, ticketActionsDataLoadedRedux } from '../../../redux/slices/ticketSlice';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth, shallowEqual);
+    const { ticketActionsDataList } = useSelector(state => state.ticket, shallowEqual);
+
     const [isLoading, setIsLoading] = useState(true)
-    const [messages, setMessages] = useState([])
     const [ticketDetail, setTicketDetail] = useState({})
+    const { online, socket } = useContext(SocketContext);
 
     const [ticketStates, setTicketStates] = useState([])
     const [states, setStates] = useState([])
     const [responsibles, setResponsibles] = useState([])
     const [priorities, setPriorities] = useState([])
+    const [areas, setAreas] = useState([])
 
     const [isNoteHidden, setIsNoteHidden] = useState(false)
     const [noteText, setNoteText] = useState('')
-    const [tempDependencyNewNote, setTempDependencyNewNote] = useState(false)
 
+    const [selectedArea, setSelectedArea] = useState('')
     const [selectedPriority, setSelectedPriority] = useState('')
     const [selectedResponsible, setSelectedResponsible] = useState('')
     const [selectedState, setSelectedState] = useState('')
 
     const [isWorkingHoursModalOpen, setIsWorkingHoursModalOpen] = useState(false)
-
+    const [loadedTotalHours, setLoadedTotalHours] = useState()
     const [isProyectDrawerOpen, setIsProyectDrawerOpen] = useState(false)
 
     useEffect(() => {
-
-        dispatch(getTicketDetail(ticketID)).then(res => {
-            if (res.ok) {
-                console.log('EL DETALLE', res.value[0])
-                setTicketDetail(res.value[0])
-
-                setSelectedPriority(res.value[0].t_prioridadid)
-                setSelectedState(res.value[0].t_estado)
-                setSelectedResponsible(res.value[0].t_responsable_id)
-
-                setIsLoading(false)
-            }
+        dispatch(getTotalHours(ticketID)).then(res => {
+            setLoadedTotalHours(res[0])
         })
-
-        dispatch(getTicketStatesByTicketId(ticketID)).then(res => {
-            if (res.ok) {
-                setTicketStates(res.value)
-            }
+        dispatch(getAllAreas()).then(res => {
+            setAreas(res)
         })
+    }, [])
 
-        dispatch(getAllTicketStates()).then(res => {
-            if (res.ok) {
-                setStates(res.value)
-            }
-        })
+    useEffect(() => {
+        if (selectedArea) {
+            dispatch(getResponsiblesByArea(selectedArea)).then(res => {
+                console.log('rererer', res)
+                setResponsibles(res)
+            })
+        }
+    }, [selectedArea])
 
-        dispatch(getResponsiblesByCompany(3, 1)).then(res => {
-            setResponsibles(res)
-        })
 
-        dispatch(getAllTicketPriorities()).then(res => {
-            if (res.ok) {
-                setPriorities(res.value)
-            }
-        })
+    useEffect(() => {
+        let prefix = user.tipo === userType.host ? TICKETS_ROOMS_PREFIX.EMPRESA : TICKETS_ROOMS_PREFIX.CLIENTE;
 
-        dispatch(getTicketMessages(ticketID)).then(res => {
-            if (res.ok) {
-                res.value.sort(compareByDate)
-                setMessages(res.value)
-            }
-        })
-    }, [selectedState, selectedPriority, selectedResponsible, tempDependencyNewNote])
+
+        socket?.on(PAYLOAD_TYPES.TICKET_NOTE_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_STATE_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_PRIORITY_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_HOURS_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.on(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
+
+        socket?.emit(NOTIFICATION_EVENTS.JOIN, prefix + ticketID);
+
+        return () => {
+            socket?.off(PAYLOAD_TYPES.TICKET_NOTE_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_HIDDEN_NOTE_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_HOURS_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_STATE_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_PRIORITY_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD);
+            socket?.emit(NOTIFICATION_EVENTS.LEAVE, ticketID);
+        }
+    }, [socket])
+
+
+    useEffect(() => {
+        setIsLoading(true)
+
+        if (online) {
+
+            console.log('socket en tickets conectado');
+            dispatch(getTicketDetail(ticketID)).then(res => {
+                if (res.ok) {
+                    console.log('EL DETALLE', res.value[0])
+                    setTicketDetail(res.value[0])
+
+                    setSelectedPriority(res.value[0]?.t_prioridadid)
+                    setSelectedState(res.value[0]?.t_estado)
+                    setSelectedResponsible(res.value[0]?.t_responsable_id)
+                    setSelectedArea(res.value[0]?.area_id)
+                    setIsLoading(false)
+                }
+            })
+
+            dispatch(getTicketStatesByTicketId(ticketID)).then(res => {
+                if (res.ok) {
+                    setTicketStates(res.value)
+                }
+            })
+
+            dispatch(getAllTicketStates()).then(res => {
+                if (res.ok) {
+                    setStates(res.value)
+                }
+            })
+
+            dispatch(getResponsiblesByCompany(3, 1)).then(res => {
+                setResponsibles(res)
+            })
+
+            dispatch(getAllTicketPriorities()).then(res => {
+                if (res.ok) {
+                    setPriorities(res.value)
+                }
+            })
+
+            dispatch(getTicketMessages(ticketID))
+
+        } else {
+            console.log('socket en tickets desconectado');
+        }
+    }, [online])
+
+
 
     const findStateByID = (id) => {
         const state = states.find(obj => obj.id === id);
@@ -101,7 +177,7 @@ export const TicketDetail = ({ ticketID }) => {
     }
 
     const findPriorityByID = (id) => {
-        const priority = priorities.find(obj => obj.id === id);
+        let priority = priorities.find(obj => obj.id === id);
         return priority.prioridad ? priority.prioridad : ''
     }
 
@@ -128,22 +204,32 @@ export const TicketDetail = ({ ticketID }) => {
         );
     }
 
-    function compareByDate(a, b) {
-        const dateA = convertToDate(a.fecha);
-        const dateB = convertToDate(b.fecha);
+    const formatTotalHours = (hour, minute) => {
+        let hours = isNaN(hour) ? 0 : hour;
+        let minutes = isNaN(minute) ? 0 : minute;
 
-        if (dateA > dateB) {
-            return -1;
-        }
-        if (dateA < dateB) {
-            return 1;
-        }
-        return 0;
+        return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
     }
 
-    function convertToDate(dateString) {
-        return new Date(dateString);
+    const getTotalHoursString = () => {
+        let regularHours = '';
+        let extraHours = '';
+
+        if (loadedTotalHours?.total_hours_horas_extras) {
+            extraHours = <span style={{ color: 'red' }}>{formatTotalHours(loadedTotalHours.total_hours_horas_extras.hours, loadedTotalHours.total_hours_horas_extras.minutes)}</span>
+        }
+        if (loadedTotalHours?.total_hours_tickets_acciones) {
+            regularHours = <span style={{ color: 'green' }}>{formatTotalHours(loadedTotalHours.total_hours_tickets_acciones.hours, loadedTotalHours.total_hours_tickets_acciones.minutes)}</span>
+        }
+
+        if (regularHours !== '' || extraHours !== '') {
+            return <>{regularHours} comunes{extraHours !== '' && regularHours !== '' && ' - '}{extraHours} projectadas</>
+        }
+        else {
+            return ''
+        }
     }
+
 
 
     const copyToClipboard = (data) => {
@@ -184,14 +270,12 @@ export const TicketDetail = ({ ticketID }) => {
                 dispatch(sendNewHiddenNote(ticketDetail.t_id, noteText)).then(res => {
                     toast.success(res)
                     setNoteText('')
-                    setTempDependencyNewNote(!tempDependencyNewNote)
                 })
             }
             else {
                 dispatch(sendNewNote(ticketDetail.t_id, noteText)).then(res => {
                     toast.success(res)
                     setNoteText('')
-                    setTempDependencyNewNote(!tempDependencyNewNote)
                 })
             }
         }
@@ -221,9 +305,9 @@ export const TicketDetail = ({ ticketID }) => {
                 <div style={{ maxWidth: '90%', height: '100%', margin: ' 0 auto', padding: '25px 25px 25px 25px', backgroundColor: theme.palette.background.background }} >
                     <div>
                         {/* Header */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', maxHeight: '33px', flexWrap: 'no-wrap' }}>
                             {/* Info */}
-                            <div>
+                            <div style={{ display: 'flex', flexWrap: 'no-wrap', alignItems: 'center' }}>
                                 <ButtonTrans variant="text" style={{ borderRadius: '20px' }} >{`Ticket N°: ${ticketDetail.t_id}`}</ButtonTrans>
                                 <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
                                 <Button variant="text" style={{ borderRadius: '20px' }} >{`Producto: ${ticketDetail.t_producto}`}</Button>
@@ -231,8 +315,8 @@ export const TicketDetail = ({ ticketID }) => {
                                 <Button variant="text" style={{ borderRadius: '20px' }} >{`Creador: ${ticketDetail.t_creador}`}</Button>
                                 <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
                                 <Button variant="text" style={{ borderRadius: '20px' }} >{`Empresa: ${ticketDetail.t_empresa}`}</Button>
-                                <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span>
-                                <Button variant="text" color="error" style={{ borderRadius: '20px' }} >Contrato: Vencido</Button>
+                                {/* <span style={{ color: theme.palette.primary.main, margin: '0, 5px' }}>|</span> */}
+                                {/* <Button variant="text" color="error" style={{ borderRadius: '20px' }} >Contrato: Vencido</Button> */}
                             </div>
                             {/* Botones */}
                             <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
@@ -257,9 +341,9 @@ export const TicketDetail = ({ ticketID }) => {
                                 >
                                     <WorkingHoursModal ticketId={ticketID} closeModal={() => setIsWorkingHoursModalOpen(false)} />
                                 </Modal>
-                                {/* <div>
-                            <ButtonTrans style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Cargar Archivos</ButtonTrans>
-                        </div> */}
+                                <div>
+                                    <ButtonTrans style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Ver Archivos</ButtonTrans>
+                                </div>
                                 <div>
                                     <ButtonTrans disabled style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Editar Ticket</ButtonTrans>
                                 </div>
@@ -279,7 +363,7 @@ export const TicketDetail = ({ ticketID }) => {
                                         flexDirection: 'column-reverse', height: '100%', scrollBehavior: 'smooth'
                                     }}>
 
-                                        {messages.map((message) => {
+                                        {ticketActionsDataList.map((message) => {
                                             if (message.tipo_accion === ticketType.StateChange ||
                                                 message.tipo_accion === ticketType.PriorityChange ||
                                                 message.tipo_accion === ticketType.Hours ||
@@ -308,7 +392,7 @@ export const TicketDetail = ({ ticketID }) => {
                                                 )
                                             }
                                             else if (message.tipo_accion === ticketType.Attatchment) {
-                                                console.log('Attatchment message', message)
+                                                // console.log('Attatchment message', message)
                                             }
                                         })}
                                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -396,19 +480,44 @@ export const TicketDetail = ({ ticketID }) => {
                                         </div>
                                     </div >
                                     <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', alignItems: 'center' }}>
+
                                         <div style={{ width: '100px', color: theme.palette.text.tertiary }}>
                                             Responsable:
                                         </div>
                                         <div style={{ width: '50%' }}>
-                                            <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
-                                                {responsibles.map((responsible) => {
-                                                    return (
-                                                        <MenuItem key={responsible.id} value={responsible.id} >
-                                                            {responsible.nombre_completo}
-                                                        </MenuItem>
-                                                    )
-                                                })}
-                                            </Select>
+                                            {selectedResponsible ?
+                                                <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
+                                                    {responsibles.map((responsible) => {
+                                                        return (
+                                                            <MenuItem key={responsible.id} value={responsible.id} >
+                                                                {responsible.nombre_completo}
+                                                            </MenuItem>
+                                                        )
+                                                    })}
+                                                </Select>
+                                                :
+                                                <div style={{ display: 'flex', gap: '5px' }}>
+                                                    <Select disabled={user.tipo !== 1} fullWidth variant='standard' onChange={(e) => { setSelectedArea(e.target.value) }} value={selectedArea}>
+                                                        {areas.map((area) => {
+                                                            return (
+                                                                <MenuItem key={area.id} value={area.id} >
+                                                                    {area.nombre}
+                                                                </MenuItem>
+                                                            )
+                                                        })}
+                                                    </Select>
+                                                    <Select disabled={user.tipo !== 1 || !selectedArea} fullWidth variant='standard' onChange={(e) => { changeResponsible(e) }} value={selectedResponsible}>
+                                                        {responsibles.map((responsible) => {
+                                                            return (
+                                                                <MenuItem key={responsible.id} value={responsible.id} >
+                                                                    {responsible.nombre_completo}
+                                                                </MenuItem>
+                                                            )
+                                                        })}
+                                                    </Select>
+                                                </div>
+                                            }
+
                                         </div>
                                     </div>
                                     <div style={{ minHeight: '40px', paddingBottom: '10px', display: 'flex', marginBottom: '10px', alignItems: 'center' }}>
@@ -429,18 +538,23 @@ export const TicketDetail = ({ ticketID }) => {
 
                                     </div>
                                     <div style={{ minHeight: '40px', paddingBottom: '10px', }}>
+                                        <span style={{ paddingRight: '20px' }}>
+                                            <span style={{ paddingRight: '15px', color: theme.palette.text.tertiary }}>Horas:</span>
+                                            <span>{getTotalHoursString()}</span>
+                                        </span>
+                                    </div>
+                                    <div style={{ minHeight: '40px', paddingBottom: '10px', }}>
                                         <span style={{ paddingRight: '20px', color: theme.palette.text.tertiary }}>
-                                            Descripcion:
+                                            Descripción:
                                         </span>
                                         <div style={{ overflow: 'auto', maxHeight: '30vh' }}>
                                             {ticketDetail.t_descripcion}
                                         </div>
-
                                     </div>
                                 </div>
 
                                 {/* Contacto */}
-                                <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid', borderColor: theme.palette.background.border, borderRadius: '15px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid', borderColor: theme.palette.background.border, borderRadius: '15px', overflowY: 'auto', overflowX: 'hidden' }}>
                                     <div style={{ padding: '10px', margin: '2px', width: '50%' }}>
                                         <div className='contactInfo'>
                                             <BusinessIcon fontSize='small' style={{ marginRight: '5px' }} />

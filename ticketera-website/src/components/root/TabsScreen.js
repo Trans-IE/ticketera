@@ -15,6 +15,7 @@ import { arrayTabsClose, editTicketTabShownChange, mainMenuShownChange } from '.
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import TableChartIcon from '@mui/icons-material/TableChart';
 
 export const TabsScreen = () => {
 
@@ -38,7 +39,7 @@ export const TabsScreen = () => {
     return () => {
 
     }
-  }, [editTicketTabShown])
+  }, [editTicketTabShown, uiMainMenuShown])
 
   useEffect(() => {
 
@@ -77,8 +78,11 @@ export const TabsScreen = () => {
   }
 
   const handleCreateNewTicket = () => {
-
     const tab = newTicketProcess();
+  }
+
+  const handleGoToTicketsList = () => {
+    dispatch(mainMenuShownChange(parseInt(1)));
   }
 
   const handleCloseTab = (e, index) => {
@@ -121,6 +125,8 @@ export const TabsScreen = () => {
       <TabContext value={value.toString()}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Stack direction="row"   >
+            <StyledIconTab value={-1} icon={<TableChartIcon color="primary" />} onClick={handleGoToTicketsList} />
+
             <Tabs value={editTicketTabShown} onChange={handleChange} aria-label="lab API tabs example">
               {
                 arrayTabs.map((objTab, i) => {
