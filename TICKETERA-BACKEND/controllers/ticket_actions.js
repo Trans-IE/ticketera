@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours, getDBTicketTotalHours } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours, getDBTicketTotalHours, createDBArea } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
@@ -7,6 +7,46 @@ const { userType, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX } = require('../helpers/co
 const { formatHours, formatDate, pad } = require('../helpers/isDate');
 const crypto = require('crypto');
 const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
+
+const setArea = async (req, res = response) => {
+
+    // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
+    // alli identifica estos datos desencriptando el hash x-token
+
+    const { empresa_id, nombre } = req.body;
+
+    logger.info(`setArea empresa_id:${empresa_id} nombre:${nombre}`)
+
+    try {
+
+        createDBArea(empresa_id, nombre)
+            .then(result => {
+
+                res.status(200).json({
+                    ok: true,
+                    value: { result },
+                    msg: `El area fue creada correctamente`
+                });
+
+            })
+            .catch(dataError => {
+                logger.error(`setArea => createDBArea : params=> empresa_id:${empresa_id} nombre:${nombre} error=> ${dataError}`);
+                res.status(401).json({
+                    ok: false,
+                    error: dataError,
+                    msg: `No se pudo crear el área de la empresa. `
+                });
+            });
+
+    } catch (error) {
+        logger.error(`setArea => createDBArea : params=> empresa_id:${empresa_id} nombre:${nombre} error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
 
 const setResponsible = async (req, res = response) => {
 
@@ -745,5 +785,6 @@ module.exports = {
     setProjectedHours,
     getHours,
     getProjectedHours,
-    getTotalHours
+    getTotalHours,
+    setArea
 }

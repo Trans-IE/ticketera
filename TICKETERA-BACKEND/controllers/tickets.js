@@ -16,15 +16,15 @@ const createTicketTrans = async (req, res = response) => {
     // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes 
     // alli identifica estos datos desencriptando el hash x-token
 
-    const { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, responsableId, array_user_id_notif } = req.body;
+    const { username, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, responsableId, areaId, array_user_id_notif } = req.body;
 
-    logger.info(`createTicketTrans username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} array_user_id_notif:${array_user_id_notif}`);
+    logger.info(`createTicketTrans username:${username} empresaId:${empresaId} contratoId:${contratoId} productoId:${productoId} tipoFalla:${tipoFalla} title:${title} description:${description} nroSerie:${nroSerie} nodo:${nodo} esProyecto:${esProyecto} padreId:${padreId} preventaId:${preventaId} vendedorId:${vendedorId} tkEnPartner:${tkEnPartner} responsableId:${responsableId} areaId:${areaId} array_user_id_notif:${array_user_id_notif}`);
 
     const userId = await getDBUserIdByUser(username);
     const typeId = await getDBTypeUserByUser(username);
 
     try {
-        createDBTicketTrans(userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif)
+        createDBTicketTrans(userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, areaId, array_user_id_notif)
             .then(ticketId => {
                 if (responsableId) {
                     //TODO: Validar que la asignación y el cambio de estado del ticket solo lo pueda hacer un usuario TRANS a un usuario TRANS!

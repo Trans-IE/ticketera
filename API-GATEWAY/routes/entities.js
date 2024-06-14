@@ -9,9 +9,9 @@ const { getAllPrioritys } = require('../controllers/prioritys');
 const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { getUserRol, getCompanyByUser } = require('../helpers/validators');
+const { getUserRol, getCompanyByUser, getTypeByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea } = require('../controllers/tickets');
 const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
@@ -318,6 +318,7 @@ router.post(
     [
         validarJWT
     ],
+
     getAllCompanies
 );
 
@@ -332,6 +333,15 @@ router.post(
     ],
 
     getUserRol
+);
+
+router.post(
+    '/getTypeByUser',
+    [
+        validarJWT
+    ],
+
+    getTypeByUser
 );
 
 router.post(
@@ -2493,7 +2503,7 @@ router.post(
     setNote
 );
 
-/**
+/**a
  * @openapi
  * /api/entities/setAutoEvaluation:
  *   post:
@@ -3050,6 +3060,10 @@ router.put(
  *                 type: integer
  *                 description: ID del responsableId asociado al ticket.
  *                 example: 2108
+ *               areaId:
+ *                 type: integer
+ *                 description: ID del area asociado al ticket.
+ *                 example: 1
  *               array_user_id_notif:
  *                 type: string
  *                 description: Array para notificaciones.
@@ -4239,6 +4253,82 @@ router.post(
     ],
 
     setProjectedHours
+);
+
+/**
+ * @openapi
+ * /api/entities/setArea:
+ *   post:
+ *     summary: Setea las areas de la empresa
+ *     description: Este endpoint permite a un usuario con credenciales válidas setear las areas de la empresa. Se requieren varios campos obligatorios para la creación del contrato.
+ *     tags: [Ticket Actions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               empresa_id:
+ *                 type: integer
+ *                 description: El ID de la empresa
+ *                 example: 3
+ *               nombre:
+ *                 type: string
+ *                 description: Nombre de area.
+ *                 example: "Desarrollo"
+ *     responses:
+ *       201:
+ *         description: Area creada correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 area:
+ *                   type: object
+ *                   description: Información de la hora y código único generado.
+ *       400:
+ *         description: Solicitud incorrecta (400) debido a validaciones.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de solicitud incorrecta.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *       401:
+ *         description: No autorizado (401) debido a falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional devuelta.
+ *     parameters: []
+ *     security:
+ *      - x-token: []
+ */
+router.post(
+    '/setArea',
+    [
+        check('empresa_id', 'La empresa_id es obligatorio').not().isEmpty(),
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    setArea
 );
 
 /**

@@ -350,6 +350,67 @@ const setProjectedHours = async (req, res = response) => {
     }
 }
 
+const setArea = async (req, res = response) => {
+    const { label: username } = req;
+    const { empresa_id, nombre } = req.body;
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
+    logger.info(`==> setArea - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/setArea";
+
+    try {
+        logger.info(`setArea empresa_id:${empresa_id} nombre:${nombre}`)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { empresa_id, nombre }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                if (!body.value) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: body.msg
+                    });
+                }
+
+                logger.info(`<== setArea - username:${username}`);
+                loggerCSV.info(`setArea,${(new Date() - function_enter_time) / 1000}`)
+                const { result } = body.value;
+                res.status(200).json({
+                    ok: true,
+                    value: { result },
+                    msg: 'Area creada correctamente.'
+                });
+            } else {
+                logger.error(`setArea : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion setArea`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`setArea : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const setHours = async (req, res = response) => {
     const { label: username } = req;
     const { ticket_id, horas, fecha_accion_hs } = req.body;
@@ -927,5 +988,6 @@ module.exports = {
     setProjectedHours,
     getHours,
     getProjectedHours,
-    getTotalHours
+    getTotalHours,
+    setArea
 }

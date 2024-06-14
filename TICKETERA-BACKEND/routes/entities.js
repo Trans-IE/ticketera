@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos, validarCamposFormData } = require('../middlewares/validar-campos');
 const { createCompany, updateCompany, deleteCompany, getAllCompaniesLocal, getAllCompaniesExternal } = require('../controllers/companies');
-const { createUser, getUserRol } = require('../controllers/users');
+const { createUser, getUserRol, getTypeByUser } = require('../controllers/users');
 const { getProduct, createProduct, updateProduct, deleteProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
 const { getAllContractsLocal, getAllContractsExternal, createContract, updateContract, deleteContract, getContractsByCompanyLocal, getContractsByCompanyExternal } = require('../controllers/contracts');
 const { getAllBrands, createBrand, updateBrand, deleteBrand, getBrandsByCompany, getBrandsByContract } = require('../controllers/brands');
@@ -10,7 +10,7 @@ const { getAllStatesByTicketId, getAllStates } = require('../controllers/states'
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -355,6 +355,15 @@ router.post(
     ],
 
     getAllStatesByTicketId
+);
+
+router.post(
+    '/getTypeByUser',
+    [
+        check('username', 'El username es obligatorio').not().isEmpty(),
+    ],
+
+    getTypeByUser
 );
 
 router.post(
@@ -760,6 +769,17 @@ router.post(
     ],
 
     getResponsiblesByArea
+);
+
+router.post(
+    '/setArea',
+    [
+        check('empresa_id', 'La empresa_id es obligatorio').not().isEmpty(),
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+
+    ],
+
+    setArea
 );
 
 module.exports = router;

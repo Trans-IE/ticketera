@@ -366,6 +366,27 @@ const getDBTicketProjectedHours = (ticket_id) => {
     return return_promise;
 }
 
+const createDBArea = (empesa_id, nombre) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query("SELECT * FROM tickets.f_ticketera_create_area($1, $2);", [empesa_id, nombre], (error, results) => {
+            if (error) {
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     createDBResponsible,
     createDBNote,
@@ -383,5 +404,6 @@ module.exports = {
     createDBProjectedHours,
     getDBTicketHours,
     getDBTicketProjectedHours,
-    getDBTicketTotalHours
+    getDBTicketTotalHours,
+    createDBArea
 }

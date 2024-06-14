@@ -19,10 +19,10 @@ const createDBTicketClient = (userId, empresaId, contratoId, productoId, tipoFal
     return return_promise;
 };
 
-const createDBTicketTrans = (userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif) => {
+const createDBTicketTrans = (userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, areaId, array_user_id_notif) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from public.f_ticket_create($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)', [userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, array_user_id_notif], (error, results) => {
+        pooldata.getPool.query('select * from public.f_ticket_create($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)', [userId, empresaId, contratoId, productoId, tipoFalla, title, description, nroSerie, nodo, esProyecto, padreId, preventaId, vendedorId, tkEnPartner, areaId, array_user_id_notif], (error, results) => {
             if (error) {
                 reject(error.message);
             } else {

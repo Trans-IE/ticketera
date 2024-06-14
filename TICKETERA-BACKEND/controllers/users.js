@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { getDBUserByLogin, createDBUser, getDBUserRolByUsername } = require('../databases/queries_users');
+const { getDBUserByLogin, createDBUser, getDBUserRolByUsername, getDBTypeUserByUser } = require('../databases/queries_users');
 const { logger, loggerCSV } = require('../logger');
 const { authenticateUser, authenticateUserAzure, authenticateUserAuth0 } = require('../helpers/apiAuthHelper');
 const { userType } = require('../helpers/constants');
@@ -336,11 +336,42 @@ const getUserRol = async (req, res = response) => {
     }
 }
 
+const getTypeByUser = async (req, res = response) => {
+    const { username } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getTypeByUser.`)
+    try {
+        getDBTypeUserByUser(username)
+            .then(result => {
+                logger.info(`<== getTypeByUser`);
+                loggerCSV.info(`getTypeByUser, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Tipo de usuario obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getTypeByUser => getDBTypeUserByUser error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getTypeByUser error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo tipo de usuario.'
+        });
+    }
+}
+
 
 
 module.exports = {
     getUserByLogin,
     createUser,
-    getUserRol
+    getUserRol,
+    getTypeByUser
 
 }
