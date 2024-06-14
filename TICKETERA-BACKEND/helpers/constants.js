@@ -38,7 +38,8 @@ const PAYLOAD_TYPES = {
 
 const TICKETS_ROOMS_PREFIX = {
     CLIENTE: 'c_',
-    EMPRESA: 'e_'
+    EMPRESA: 'e_',
+    USUARIO: 'u_'
 }
 
 module.exports = {

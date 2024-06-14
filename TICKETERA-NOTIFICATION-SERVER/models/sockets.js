@@ -2,7 +2,8 @@ const notificationList = require('./notificationList');
 const Notification = require('./notification');
 const jwt = require('jsonwebtoken');
 const logger = require('../logger');
-const { NOTIFICATION_EVENTS } = require('../helpers/constants');
+const { NOTIFICATION_EVENTS, USER_TYPE, TICKETS_ROOMS_PREFIX } = require('../helpers/constants');
+const { getUserType } = require('../helpers/userHelper');
 class Sockets {
 
     constructor(io) {
@@ -28,10 +29,19 @@ class Sockets {
                 next(new Error('Authentication error'));
             }
         }).on(NOTIFICATION_EVENTS.CONNECTION, (socket) => {
-            socket.on(NOTIFICATION_EVENTS.JOIN, (rooms) => {
+            socket.on(NOTIFICATION_EVENTS.JOIN, async (rooms) => {
                 try {
                     let tmpRoom = `${rooms}`;
                     let room_array = tmpRoom.split(',');
+                    const { label } = jwt.verify(socket.handshake?.query?.token, process.env.SECRET_JWT_SEED)
+                    const userType = await getUserType({ username: label })
+
+                    if (userType === USER_TYPE.HOST) {
+                        room_array = room_array.filter(item => !item.startsWith(TICKETS_ROOMS_PREFIX.CLIENTE))
+                    } else {
+                        room_array = room_array.filter(item => !item.startsWith(TICKETS_ROOMS_PREFIX.EMPRESA))
+                    }
+
                     room_array.forEach(room => {
                         try {
                             socket.join(`room:${room}`)
