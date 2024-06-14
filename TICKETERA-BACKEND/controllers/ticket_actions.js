@@ -198,7 +198,7 @@ const setProjectedHours = async (req, res = response) => {
 
         let actions = [];
 
-        for (const segment of segments) {
+        segments.forEach(segment => {
             const segmentStart = new Date(start);
             const segmentEnd = new Date(start);
             segmentStart.setHours(segment.start, 0, 0, 0);
@@ -215,22 +215,36 @@ const setProjectedHours = async (req, res = response) => {
                     // Horas comunes
                     const commonHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
                     const hoursString = formatHours(commonHours);
-                    const result = await createDBHours(ticket_id, hoursString, formattedStart, username);
-                    createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                    const action = createDBHours(ticket_id, hoursString, formattedStart, username);
+                    actions.push(action);
+
+                    action.then(result => {
+                        createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                    });
                 } else {
                     // Horas proyectadas or common hours based on dbFunction
                     if (segment.dbFunction === 'createDBHours') {
                         const commonHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
                         const hoursString = formatHours(commonHours);
-                        const result = await createDBHours(ticket_id, hoursString, formattedStart, username);
-                        createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                        const action = createDBHours(ticket_id, hoursString, formattedStart, username);
+                        actions.push(action);
+
+                        action.then(result => {
+                            createNewTicketNotification(PAYLOAD_TYPES.TICKET_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                        });
                     } else {
-                        const result = await createDBProjectedHours(userId, ticket_id, formattedStart, formattedEnd, segment.percentage, comentario, isUpdate);
-                        createNewTicketNotification(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                        const action = createDBProjectedHours(userId, ticket_id, formattedStart, formattedEnd, segment.percentage, comentario, isUpdate);
+                        actions.push(action);
+
+                        action.then(result => {
+                            createNewTicketNotification(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` });
+                        });
                     }
                 }
             }
-        }
+        });
+
+        await Promise.all(actions);
 
         res.status(200).json({
             ok: true,
