@@ -196,12 +196,12 @@ const darkTheme = createTheme({
       dark: '#18315B'
     },
     background: {
-      dark: '#1C1D1F',
-      main: '#222325',
-      light: '#313235',
-      border: '#333',
-      background: '#1C1D1F',
-      reddishBackground: '#322325'
+      dark: '#2c2c2c',
+      main: '#383838',
+      light: '#474747',
+      border: '#474747',
+      background: '#2c2c2c',
+      reddishBackground: '#543838'
     },
     primary: {
       // #335c7b azul marino mas claro  
@@ -228,7 +228,7 @@ const darkTheme = createTheme({
     },
     text: {
       // textPrimary: negro #000000
-      primary: "#ddd",
+      primary: "#fafafa",
       // textSecondary: azul claro #3DADD9
       secondary: "#fff",
       tertiary: "#bbb"

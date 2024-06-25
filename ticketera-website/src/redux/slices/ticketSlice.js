@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { compareByDate } from "../../helpers/dateHelper";
 
 const initialState = {
 
@@ -13,6 +14,7 @@ const initialState = {
     // determina si aparece o no el boton "siguiente pagina" 
     ticketsGridDataHasMorePages: false,
 
+    ticketActionsDataList: [],
 }
 
 
@@ -46,6 +48,15 @@ export const ticketSlice = createSlice(
             ticketGridDataHasMorePagesRedux: (state, action) => {
                 state.ticketsGridDataHasMorePages = action.payload;
             },
+            ticketActionsDataLoadedRedux: (state, action) => {
+                state.ticketActionsDataList = action.payload;
+            },
+            ticketActionsDataAddNewRedux: (state, action) => {
+                let newArray = [...state.ticketActionsDataList];
+                newArray.push(action.payload);
+                newArray.sort(compareByDate)
+                state.ticketActionsDataList = newArray;
+            },
             // carga de filtros de ticketera
             ticketFilterListSelectedAddNewRedux: (state, action) => {
                 state.ticketsFilterListSelected = state.echiFilterListSelected.concat(
@@ -61,5 +72,5 @@ export const ticketSlice = createSlice(
     }
 );
 
-export const { ticketClearDataRedux, ticketGridDataLoadedRedux, ticketGridDataLoadingRedux, ticketGridDataHasMorePagesRedux, ticketFilterListSelectedAddNewRedux, ticketFilterListSelectedDeleteRedux } = ticketSlice.actions;
+export const { ticketClearDataRedux, ticketGridDataLoadedRedux, ticketGridDataLoadingRedux, ticketGridDataHasMorePagesRedux, ticketFilterListSelectedAddNewRedux, ticketFilterListSelectedDeleteRedux, ticketActionsDataLoadedRedux, ticketActionsDataAddNewRedux } = ticketSlice.actions;
 export default ticketSlice.reducer;

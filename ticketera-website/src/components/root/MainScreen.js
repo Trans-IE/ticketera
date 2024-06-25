@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallowEqual, useSelector } from "react-redux";
 import { TabsScreen } from './TabsScreen';
-import { TicketsScreen } from '../ticket/TicketsScreen';
+import { TicketsScreen } from '../ticket/TicketsScreen/TicketsScreen';
 import { Grid } from '@mui/material';
 import ContainerWithMenu from './ContainerWithMenu';
 

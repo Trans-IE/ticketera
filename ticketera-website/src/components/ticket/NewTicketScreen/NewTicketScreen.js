@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { useTheme } from "@mui/material/styles"
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { ButtonTrans } from "../ui/ButtonTrans";
+import { ButtonTrans } from "../../ui/ButtonTrans";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getContractsByCompany } from "../../redux/actions/contractActions";
-import { getAllBrands, getBrandsByCompany, getBrandsByContract, getProductsByBrand, getProductsByBrandAndContract } from "../../redux/actions/productActions";
-import { getResponsiblesByCompany } from "../../redux/actions/responsibleActions";
-import { getProjectsByCompany } from "../../redux/actions/projectActions";
-import { createNewTicket } from "../../redux/actions/ticketActions";
+import { getContractsByCompany } from "../../../redux/actions/contractActions";
+import { getAllBrands, getBrandsByCompany, getBrandsByContract, getProductsByBrand, getProductsByBrandAndContract } from "../../../redux/actions/productActions";
+import { getAllAreas, getResponsiblesByArea, getResponsiblesByCompany } from "../../../redux/actions/responsibleActions";
+import { getProjectsByCompany } from "../../../redux/actions/projectActions";
+import { createNewTicket } from "../../../redux/actions/ticketActions";
 import { toast } from "sonner";
-import { arrayTabsClose, editTicketTabShownChange } from "../../redux/actions/userInterfaceActions";
+import { arrayTabsClose, editTicketTabShownChange } from "../../../redux/actions/userInterfaceActions";
 
 export const NewTicketScreen = () => {
     const theme = useTheme();
@@ -26,6 +26,7 @@ export const NewTicketScreen = () => {
     const [creatorDataList, setCreatorDataList] = useState([])
     const [projectsDataList, setProjectsDataList] = useState([])
     const [responsiblesDataList, setResponsiblesDataList] = useState([])
+    const [areasDataList, setAreasDataList] = useState([])
 
     const [empresa, setEmpresa] = useState('')
     const [contract, setContract] = useState('')
@@ -43,7 +44,7 @@ export const NewTicketScreen = () => {
     const [partnerTicket, setPartnerTicket] = useState()
     const [vendor, setVendor] = useState()
     const [preSale, setPreSale] = useState()
-
+    const [area, setArea] = useState()
 
     useEffect(() => {
         console.log('user', user)
@@ -59,13 +60,25 @@ export const NewTicketScreen = () => {
                 setCreatorDataList(res)
             })
         }
-        dispatch(getResponsiblesByCompany(3, 1)).then(res => {
-            setResponsiblesDataList(res)
+        // dispatch(getResponsiblesByCompany(3, 1)).then(res => {
+        //     setResponsiblesDataList(res)
+        // })
+        dispatch(getAllAreas()).then(res => {
+            setAreasDataList(res)
         })
     }, [])
 
+
     useEffect(() => {
-        console.log('aaaaa', contractDataList)
+        if (area) {
+            dispatch(getResponsiblesByArea(area)).then(res => {
+                setResponsiblesDataList(res)
+            })
+        }
+    }, [area])
+
+
+    useEffect(() => {
         setBrand("");
         setProduct("")
         if (contract === -1) {
@@ -75,7 +88,6 @@ export const NewTicketScreen = () => {
         }
         else if (contract) {
             dispatch(getBrandsByContract(contract)).then(res => {
-                console.log('hola', res)
                 setBrandsDataList(res)
             })
         }
@@ -161,7 +173,8 @@ export const NewTicketScreen = () => {
             responsible: responsible,
             presaleId: isProject ? preSale : 0,
             vendorId: isProject ? vendor : 0,
-            asociatedProyectId: project
+            asociatedProyectId: project,
+            areaId: area ? area : null
         }
         dispatch(createNewTicket(ticket)).then(res => {
             console.log('RES', res)
@@ -356,19 +369,40 @@ export const NewTicketScreen = () => {
                             />
 
                             {user.tipo === 1 &&
-                                <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                    <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Responsable</InputLabel>
-                                    <Select
-                                        value={responsible}
-                                        variant="standard"
-                                        label="Responsable"
-                                        onChange={(e) => { setResponsible(e.target.value) }}
-                                    >
-                                        {responsiblesDataList?.map(responsible => (
-                                            <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} >
+                                        <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                            <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} >Area</InputLabel>
+                                            <Select
+                                                value={area}
+                                                variant="standard"
+                                                label="Area"
+                                                onChange={(e) => { setArea(e.target.value) }}
+                                            >
+                                                {areasDataList?.map(area => (
+                                                    <MenuItem key={area.id} value={area.id}>{area.nombre}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={6} >
+                                        <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                            <InputLabel variant="standard" sx={{ color: theme.palette.text.primary }} disabled={responsiblesDataList?.length === 0}>Responsable</InputLabel>
+                                            <Select
+                                                value={responsible}
+                                                variant="standard"
+                                                label="Responsable"
+                                                onChange={(e) => { setResponsible(e.target.value) }}
+                                                disabled={responsiblesDataList?.length === 0}
+                                            >
+                                                {responsiblesDataList?.map((responsible) => (
+                                                    <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
                             }
 
 
@@ -402,7 +436,7 @@ export const NewTicketScreen = () => {
                                             onChange={(e) => { setVendor(e.target.value) }}
                                         >
                                             {responsiblesDataList?.map(responsible => (
-                                                <MenuItem key={responsible.id} value={responsible.id}>{responsible.nombre_completo}</MenuItem>
+                                                <MenuItem key={responsible.user_id} value={responsible.user_id}>{responsible.nombre_completo}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>

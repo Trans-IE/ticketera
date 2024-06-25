@@ -1,7 +1,6 @@
 
 import { configureStore, applyMiddleware } from "@reduxjs/toolkit"
 import { composeWithDevTools } from '@redux-devtools/extension';
-import { ReactIsInDevelopmentMode } from '../helpers/buildModeHelper';
 import { createLogger } from 'redux-logger';
 import * as ReduxThunk from 'redux-thunk';
 import userSlice from "./slices/userSlice";
@@ -16,7 +15,7 @@ import failTypeSlice from "./slices/failTypeSlice";
 import contractSlice from "./slices/contractSlice";
 
 const loggerMiddleware = createLogger();
-const devTools = ReactIsInDevelopmentMode() ? composeWithDevTools(applyMiddleware(ReduxThunk, loggerMiddleware)) : null;
+const devTools = process.env.NODE_ENV === 'dev' ? composeWithDevTools(applyMiddleware(ReduxThunk, loggerMiddleware)) : null;
 
 
 export const store = configureStore(

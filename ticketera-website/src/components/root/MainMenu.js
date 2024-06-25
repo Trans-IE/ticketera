@@ -70,7 +70,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
           </ListItemButton>
         </Link>
       </Tooltip>
-
+      {/* 
       <Tooltip title="Reportes" arrow placement='right'>
         <Link to="/reports" onClick={() => goToReports()}>
           <ListItemButton selected={(optionSelected === 2) ? true : false} onClick={() => onClickMenu(2)}>
@@ -89,7 +89,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
             </ListItemIcon>
           </ListItemButton>
         </Link>
-      </Tooltip>
+      </Tooltip> */}
 
     </React.Fragment>
   );
@@ -97,7 +97,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
 
 export const SecondaryMenu = (
   <React.Fragment>
-    <ListItemButton>
+    {/* <ListItemButton>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
@@ -106,7 +106,7 @@ export const SecondaryMenu = (
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-    </ListItemButton>
+    </ListItemButton> */}
   </React.Fragment>
 );
 

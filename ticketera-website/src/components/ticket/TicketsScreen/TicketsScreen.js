@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Chip, Divider, FormControl, InputLabel, Menu, MenuItem, Select, TextField, Tooltip, styled } from '@mui/material';
+import { Chip, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { GridViewBigData } from '../ui/GridViewBigData';
+import { GridViewBigData } from '../../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
-import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
-import { getTicketsByFilter } from '../../redux/actions/ticketActions';
-import { getShortDateString } from '../../helpers/dateHelper';
-import { ButtonTrans } from '../ui/ButtonTrans';
-import TicketFilterDrawer from './TicketFilterDrawer';
-import { getProductsByBrand } from '../../redux/actions/productActions';
-import { getResponsiblesByCompany } from '../../redux/actions/responsibleActions';
+import { arrayTabsAddNew } from '../../../redux/actions/userInterfaceActions';
+import { getAllTicketTypes, getTicketsByFilter } from '../../../redux/actions/ticketActions';
+import { getShortDateString } from '../../../helpers/dateHelper';
+import { ButtonTrans } from '../../ui/ButtonTrans';
+import { getProductsByBrand } from '../../../redux/actions/productActions';
+import { getResponsiblesByCompany } from '../../../redux/actions/responsibleActions';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import TicketFilterDrawer from '../TicketFilterDrawer/TicketFilterDrawer';
 
 
 export const TicketsScreen = () => {
@@ -24,6 +25,7 @@ export const TicketsScreen = () => {
   const { failTypesDataList } = useSelector(state => state.failType, shallowEqual);
   const [productsDataList, setProductsDataList] = useState([])
   const [responsiblesDataList, setResponsiblesDataList] = useState([])
+  const [ticketTypesDataList, setTicketTypesDataList] = useState([])
   const { arrayTabs } = useSelector((state) => state.ui, shallowEqual);
 
   const [resetPaginationTickets, setResetPaginationTickets] = useState(false);
@@ -53,6 +55,7 @@ export const TicketsScreen = () => {
 
   const columnsData = [
     { id: 'priority', label: '', cellWidth: 0, visible: true },
+    { id: 'type', label: '', cellWidth: 0, visible: true },
     { id: 'id', label: 'ID', cellWidth: 0, visible: true },
     { id: 'titulo', label: 'Titulo', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
     { id: 'empresa', label: 'Empresa', cellWidth: 0, visible: true, backgroundColor: "#b5b3b3", color: 'black' },
@@ -92,6 +95,10 @@ export const TicketsScreen = () => {
   useEffect(() => {
     dispatch(getResponsiblesByCompany(3, 0)).then((res) => {
       setResponsiblesDataList(res)
+    })
+
+    dispatch(getAllTicketTypes()).then((res) => {
+      setTicketTypesDataList(res.value)
     })
   }, [])
 
@@ -173,6 +180,7 @@ export const TicketsScreen = () => {
         tipo_falla: ticket.tipo_falla,
         titulo: ticket.titulo,
         empresa: ticket.empresa,
+        type: ticket.tipo === "P" || ticket.padre !== 0 ? <AccountTreeIcon /> : <></>,
         priority: setPriority(ticket.prioridad, ticket.estado),
         fecha_creacion: getShortDateString(ticket.fecha_creacion),
         responsable: getResponsibleName(ticket.responsable_id)
@@ -226,7 +234,7 @@ export const TicketsScreen = () => {
 
     switch (name) {
       case 'type':
-        text = `Tipo: `
+        text = `Tipo: ${ticketTypesDataList.find(obj => obj.id_tipo === value)?.descripcion}`
         break;
       case 'company':
         text = `Empresa: ${companiesDataList.find(obj => obj.id === value)?.nombre}`
@@ -416,7 +424,7 @@ export const TicketsScreen = () => {
               subDataActionHeaderStyle={{ backgroundColor: grey[400], color: 'black', zIndex: 1 }}
               subDataActionRowsStyle={{ backgroundColor: grey[50] }}
               subDataActionColumnShowLeft={true}
-              maxHeight={'calc(100vh - 135px)'}
+              maxHeight={'calc(100vh - 155px)'}
             />
           )
         }

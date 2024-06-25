@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { NewTicketScreen } from '../ticket/NewTicketScreen';
 import { TicketDetail } from '../ticket/TicketDetail/TicketDetail';
+import { NewTicketScreen } from '../ticket/NewTicketScreen/NewTicketScreen';
 
 export const TabItem = ({ ticketID }) => {
     console.log('ticket id a mostrar ', ticketID);

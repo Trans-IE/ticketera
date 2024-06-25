@@ -5,6 +5,11 @@ const mainMenuOptions = {
     AdministrationMenu: 4,
 }
 
+const userType = {
+    host: 1,
+    client: 2
+}
+
 const userMenuOptions = {
     LogoutMenu: 1,
     MyAccountMenu: 2,
@@ -140,7 +145,31 @@ const CategoriesColor = {
     8: "#B35900"
 }
 
+const NOTIFICATION_EVENTS = {
+    'CONNECTION': 'connection',
+    'CONNECT': 'connect',
+    'JOIN': 'join',
+    'LEAVE': 'leave',
+    'TICKET_NEW_NOTIFICATION': 'ticket-new-notification',
+}
+
+//Agregar evento nuevo según se requiera
+const PAYLOAD_TYPES = {
+    'TICKET_NOTE_ADD': 'ticket-note-add',
+    'TICKET_HIDDEN_NOTE_ADD': 'ticket-hidden-note-add',
+    'TICKET_STATE_ADD': 'ticket-state-note-add',
+    'TICKET_PRIORITY_ADD': 'ticket-priority-note-add',
+    'TICKET_RESPONSIBLE_ADD': 'ticket-responsible-note-add',
+    'TICKET_HOURS_ADD': 'ticket-hours-add',
+    'TICKET_PROJECTED_HOURS_ADD': 'ticket-projected-hours-add',
+}
+
+const TICKETS_ROOMS_PREFIX = {
+    CLIENTE: 'c_',
+    EMPRESA: 'e_',
+    USUARIO: 'u_'
+}
 
 const TReportingVersion = "3.0.0";
 
-module.exports = { CategoriesColor, messageTypes, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TReportingVersion, GupshupErrorCodes, MIMETypes, UserRol, userMenuOptions, ticketType };
+module.exports = { CategoriesColor, messageTypes, userType, messageDirection, interactionTypes, interactionTypesMonitor, interactionStatesMonitor, TReportingVersion, GupshupErrorCodes, MIMETypes, UserRol, userMenuOptions, ticketType, NOTIFICATION_EVENTS, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX };
