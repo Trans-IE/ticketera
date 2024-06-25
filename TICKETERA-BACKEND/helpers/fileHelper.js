@@ -142,4 +142,22 @@ const loadFileServer = (fileToUpload, idTicket) => {
 
 }
 
+const getFileBinary = (relativePath) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const absolutePath = path.join(process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER, relativePath);
+      fs.readFile(absolutePath, (err, data) => {
+        if (err) {
+          logger.error(`getFileBinary: ${err}`);
+          return reject(err);
+        }
+        resolve(data);
+      });
+    } catch (error) {
+      logger.error(`getFileBinary: ${error}`);
+      reject(error);
+    }
+  });
+};
+
 module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName, readBinaryFile, loadFileServer };

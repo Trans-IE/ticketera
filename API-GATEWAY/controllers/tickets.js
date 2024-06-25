@@ -508,6 +508,59 @@ const uploadFile = async (req, res = response) => {
     }
 };
 
+const getFile = async (req, res = response) => {
+    const { label: username } = req;
+
+    let function_enter_time = new Date();
+    const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
+    logger.info(`==> getFile - username:${username}`);
+    let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getFile";
+
+    try {
+        logger.info(`getFile `)
+
+        const rol = await getUserRol(username);
+        let arrRolExclusive = rolExclusive.split(',').map(Number);
+        let setRolUser = new Set(rol.split(',').map(Number));
+        let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
+
+        if (resultado) {
+            const resp = await fetchSinToken(url, { username }, 'POST');
+            console.log(resp);
+            const body = await resp.json();
+            if (body.ok) {
+                logger.info(`<== getFile - username:${username}`);
+                loggerCSV.info(`getFile,${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: body.value,
+                    msg: 'Archivo obtenido correctamente.'
+                });
+            } else {
+                logger.error(`getAreas : ${body.msg}`);
+                res.status(200).json({
+                    ok: false,
+                    msg: body.msg
+                });
+            }
+        } else {
+            logger.error(`getFile. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion`)
+            res.status(401).json({
+                ok: false,
+                msg: 'No se poseen permisos suficientes para realizar la acción'
+            });
+        }
+
+    } catch (error) {
+        logger.error(`getFile : ${error.message}`);
+        res.status(500).json({
+            ok: false,
+            error: error,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const getResponsiblesByArea = async (req, res = response) => {
     const { label: username } = req;
     const { area_id } = req.body;
@@ -571,5 +624,6 @@ module.exports = {
     getTicketTypes,
     uploadFile,
     getAreas,
-    getResponsiblesByArea
+    getResponsiblesByArea,
+    getFile
 }

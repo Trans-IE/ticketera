@@ -12,7 +12,7 @@ const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser, getTypeByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea } = require('../controllers/tickets');
+const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea, getFile } = require('../controllers/tickets');
 const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
 
@@ -4163,6 +4163,52 @@ router.post(
 
     uploadFile
 );
+
+
+/**
+ * @openapi
+ * /api/entities/getFile:
+ *   get:
+ *     summary: Obtener el binario de un archivo
+ *     tags: [Tickets]
+ *     parameters:
+ *       - in: query
+ *         name: relativePath
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Ruta relativa del archivo
+ *       - in: query
+ *         name: idTicket
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El id del ticket
+ *     responses:
+ *       200:
+ *         description: Binario del archivo obtenido correctamente
+ *         content:
+ *           application/octet-stream:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Error en la solicitud
+ *       401:
+ *         description: No autorizado
+ */
+router.post(
+    '/getFile',
+    [
+        check('relativePath', 'La ruta relativa es obligatoria').not().isEmpty(),
+        check('idTicket', 'El id del ticket es obligatorio').not().isEmpty(),
+        validarCampos,
+        validarJWT
+    ],
+
+    getFile
+);
+
 
 /**
  * @openapi

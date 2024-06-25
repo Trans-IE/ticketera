@@ -435,6 +435,22 @@ const uploadFile = async (req, res = response) => {
     });
 };
 
+const getFile = async (req, res = response) => {
+    const { relativePath, idTicket } = req.params;
+
+    try {
+        const binaryData = await loadFileServer(relativePath, idTicket);
+        res.setHeader('Content-Type', 'application/octet-stream');
+        res.send(binaryData);
+    } catch (error) {
+        logger.error(`Error enviando archivo: ${error}`);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error enviando archivo',
+        });
+    }
+};
+
 module.exports = {
     getAllTicketsByFilter,
     updateTicketTrans,
@@ -445,5 +461,6 @@ module.exports = {
     getTicketTypes,
     uploadFile,
     getAreas,
-    getResponsiblesByArea
+    getResponsiblesByArea,
+    getFile
 }

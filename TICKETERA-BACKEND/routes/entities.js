@@ -11,7 +11,7 @@ const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
-const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea } = require('../controllers/tickets');
+const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea, getFile } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
 const router = Router();
@@ -777,9 +777,22 @@ router.post(
         check('empresa_id', 'La empresa_id es obligatorio').not().isEmpty(),
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
 
+        validarCampos,
     ],
 
     setArea
+);
+
+router.post(
+    '/getFile',
+    [
+        check('relativePath', 'El relative_path es obligatorio').not().isEmpty(),
+        check('idTicket', 'El relative_path es obligatorio').not().isEmpty(),
+
+        validarCampos,
+    ],
+
+    getFile
 );
 
 module.exports = router;
