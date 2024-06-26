@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import { arrayTabsClose, editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TableChartIcon from '@mui/icons-material/TableChart';
 
@@ -125,7 +125,9 @@ export const TabsScreen = () => {
       <TabContext value={value.toString()}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Stack direction="row"   >
-            <StyledIconTab value={-1} icon={<TableChartIcon color="primary" />} onClick={handleGoToTicketsList} />
+            <Tooltip title="Volver a lista de tickets">
+              <StyledIconTab value={-1} icon={<TableChartIcon color="primary" />} onClick={handleGoToTicketsList} />
+            </Tooltip>
 
             <Tabs value={editTicketTabShown} onChange={handleChange} aria-label="lab API tabs example">
               {
@@ -146,7 +148,9 @@ export const TabsScreen = () => {
 
               }
             </Tabs>
-            <StyledIconTab value={0} icon={<AddCircleIcon color="primary" />} onClick={handleCreateNewTicket} />
+            <Tooltip title="Nuevo Ticket">
+              <StyledIconTab value={0} icon={<AddCircleIcon color="primary" />} onClick={handleCreateNewTicket} />
+            </Tooltip>
 
           </Stack>
         </Box>

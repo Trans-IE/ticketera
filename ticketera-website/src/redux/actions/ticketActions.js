@@ -371,6 +371,30 @@ export const uploadFiles = (files, ticketId) => {
     }
 }
 
+export const getFile = (path, ticketId) => {
+    return async (dispatch, getState) => {
+
+        try {
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getFile");
+            const resp = await fetchConToken(url, { relativePath: path, idTicket: ticketId }, 'POST');
+            const body = await resp.json();
+            if (body.ok) {
+                return body.value
+            }
+            else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+
+    }
+}
+
 export const setHours = (listHours) => {
     return async (dispatch, getState) => {
 

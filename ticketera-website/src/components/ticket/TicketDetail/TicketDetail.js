@@ -26,6 +26,7 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ProjectsDrawer from '../ProjectsDrawer/ProjectsDrawer';
 import { SocketContext } from '../../../context/SocketContext';
 import { ticketActionsDataAddNewRedux, ticketActionsDataLoadedRedux } from '../../../redux/slices/ticketSlice';
+import { AttachmentMessage } from '../../messages/AttachmentMessage';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
@@ -56,6 +57,10 @@ export const TicketDetail = ({ ticketID }) => {
     const [isProyectDrawerOpen, setIsProyectDrawerOpen] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
+    }, [ticketID])
+
+    useEffect(() => {
         dispatch(getTotalHours(ticketID)).then(res => {
             setLoadedTotalHours(res[0])
         })
@@ -80,6 +85,7 @@ export const TicketDetail = ({ ticketID }) => {
 
         socket?.on(PAYLOAD_TYPES.TICKET_NOTE_ADD, (objCallback) => {
             dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+            console.log('objCallBack llego', objCallback)
         });
 
         socket?.on(PAYLOAD_TYPES.TICKET_STATE_ADD, (objCallback) => {
@@ -107,6 +113,7 @@ export const TicketDetail = ({ ticketID }) => {
         });
 
         socket?.emit(NOTIFICATION_EVENTS.JOIN, prefix + ticketID);
+        console.log(`Unido a sala: ${prefix + ticketID}`)
 
         return () => {
             socket?.off(PAYLOAD_TYPES.TICKET_NOTE_ADD);
@@ -123,61 +130,68 @@ export const TicketDetail = ({ ticketID }) => {
 
     useEffect(() => {
         setIsLoading(true)
+        let isCancelled = false;
 
         if (online) {
 
             console.log('socket en tickets conectado');
-            dispatch(getTicketDetail(ticketID)).then(res => {
-                if (res.ok) {
-                    console.log('EL DETALLE', res.value[0])
-                    setTicketDetail(res.value[0])
+            if (!isCancelled) {
+                dispatch(getTicketDetail(ticketID)).then(res => {
+                    if (res.ok) {
+                        console.log('EL DETALLE', res.value[0])
+                        setTicketDetail(res.value[0])
 
-                    setSelectedPriority(res.value[0]?.t_prioridadid)
-                    setSelectedState(res.value[0]?.t_estado)
-                    setSelectedResponsible(res.value[0]?.t_responsable_id)
-                    setSelectedArea(res.value[0]?.area_id)
-                    setIsLoading(false)
-                }
-            })
+                        setSelectedPriority(res.value[0]?.t_prioridadid)
+                        setSelectedState(res.value[0]?.t_estado)
+                        setSelectedResponsible(res.value[0]?.t_responsable_id)
+                        setSelectedArea(res.value[0]?.area_id)
+                        setIsLoading(false)
+                    }
+                })
 
-            dispatch(getTicketStatesByTicketId(ticketID)).then(res => {
-                if (res.ok) {
-                    setTicketStates(res.value)
-                }
-            })
+                dispatch(getTicketStatesByTicketId(ticketID)).then(res => {
+                    if (res.ok) {
+                        setTicketStates(res.value)
+                    }
+                })
 
-            dispatch(getAllTicketStates()).then(res => {
-                if (res.ok) {
-                    setStates(res.value)
-                }
-            })
+                dispatch(getAllTicketStates()).then(res => {
+                    if (res.ok) {
+                        setStates(res.value)
+                    }
+                })
 
-            dispatch(getResponsiblesByCompany(3, 1)).then(res => {
-                setResponsibles(res)
-            })
+                dispatch(getResponsiblesByCompany(3, 1)).then(res => {
+                    setResponsibles(res)
+                })
 
-            dispatch(getAllTicketPriorities()).then(res => {
-                if (res.ok) {
-                    setPriorities(res.value)
-                }
-            })
+                dispatch(getAllTicketPriorities()).then(res => {
+                    if (res.ok) {
+                        setPriorities(res.value)
+                    }
+                })
 
-            dispatch(getTicketMessages(ticketID))
+                dispatch(getTicketMessages(ticketID))
+
+            }
 
         } else {
             console.log('socket en tickets desconectado');
+        }
+        return () => {
+            isCancelled = true
         }
     }, [online])
 
 
 
     const findStateByID = (id) => {
-        const state = states.find(obj => obj.id === id);
+        const state = states?.find(obj => obj.id === id);
         return state.estado ? state.estado : ''
     }
 
     const findPriorityByID = (id) => {
-        let priority = priorities.find(obj => obj.id === id);
+        let priority = priorities?.find(obj => obj.id === id);
         return priority.prioridad ? priority.prioridad : ''
     }
 
@@ -371,7 +385,10 @@ export const TicketDetail = ({ ticketID }) => {
                                                 let extra = '';
                                                 switch (message.tipo_accion) {
                                                     case ticketType.StateChange:
-                                                        extra = findStateByID(message?.estado);
+                                                        if (message.estado) {
+                                                            extra = findStateByID(message?.estado);
+
+                                                        }
                                                         break;
                                                     case ticketType.PriorityChange:
                                                         if (message.prioridad) {
@@ -392,7 +409,9 @@ export const TicketDetail = ({ ticketID }) => {
                                                 )
                                             }
                                             else if (message.tipo_accion === ticketType.Attatchment) {
-                                                // console.log('Attatchment message', message)
+                                                return (
+                                                    <AttachmentMessage key={message.action_id} message={message} />
+                                                )
                                             }
                                         })}
                                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { ThemeContext } from '../..';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 export const MainMenu = ({ onClick, optionSelected }) => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
         <Link to="/dashboard" onClick={() => { goToDashboard() }}>
           <ListItemButton selected={(optionSelected === 0) ? true : false} onClick={() => onClickMenu(0)}>
             <ListItemIcon>
-              <DashboardIcon />
+              <QueryStatsIcon />
             </ListItemIcon>
           </ListItemButton>
         </Link>
