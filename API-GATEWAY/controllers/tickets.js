@@ -513,9 +513,9 @@ const getFile = async (req, res = response) => {
 
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
-    logger.info(`==> getFile - username:${username}`);
+    const { relativePath, idTicket } = req.body;
     let url = process.env.HOST_TICKETERA_BACKEND + "/entities/getFile";
-
+    logger.info(`==> getFile - username:${username} relativePath:${relativePath} idTicket:${idTicket}`);
     try {
         logger.info(`getFile `)
 
@@ -525,8 +525,7 @@ const getFile = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { username }, 'POST');
-            console.log(resp);
+            const resp = await fetchSinToken(url, { relativePath, idTicket, username }, 'POST');
             const body = await resp.json();
             if (body.ok) {
                 logger.info(`<== getFile - username:${username}`);

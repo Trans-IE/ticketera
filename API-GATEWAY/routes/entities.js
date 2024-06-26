@@ -4168,7 +4168,7 @@ router.post(
 /**
  * @openapi
  * /api/entities/getFile:
- *   get:
+ *   post:
  *     summary: Obtener el binario de un archivo
  *     tags: [Tickets]
  *     parameters:

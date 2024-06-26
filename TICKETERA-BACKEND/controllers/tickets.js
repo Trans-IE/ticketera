@@ -8,7 +8,7 @@ const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 const { logger, loggerCSV } = require('../logger');
 const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
-const { getCleanName, loadFileServer } = require('../helpers/fileHelper');
+const { getCleanName, loadFileServer, readBinaryFile } = require('../helpers/fileHelper');
 const { off } = require('process');
 
 const createTicketTrans = async (req, res = response) => {
@@ -410,9 +410,7 @@ const uploadFile = async (req, res = response) => {
 
     let multFiles = req.files["files"];
 
-    logger.info(
-        `==> uploadFile - ticket_id:${ticket_id} username:${username} multFiles:${multFiles}`
-    );
+    logger.info(`==> uploadFile - ticket_id:${ticket_id} username:${username} multFiles:${multFiles}`);
 
     for (const file of multFiles) {
         try {
@@ -436,14 +434,18 @@ const uploadFile = async (req, res = response) => {
 };
 
 const getFile = async (req, res = response) => {
-    const { relativePath, idTicket } = req.params;
-
+    const { relativePath, idTicket, username } = req.body;
+    logger.info(`==> uploadFile - relativePath: ${relativePath} idTicket: ${idTicket} username: ${username}`);
     try {
-        const binaryData = await loadFileServer(relativePath, idTicket);
-        res.setHeader('Content-Type', 'application/octet-stream');
-        res.send(binaryData);
+        const binaryData = readBinaryFile(relativePath)
+        logger.info(`<== uploadFile - idTicket:${idTicket}`);
+        res.status(200).json({
+            ok: true,
+            value: binaryData,
+            msg: 'Archivo obtenido con exito'
+        });
     } catch (error) {
-        logger.error(`Error enviando archivo: ${error}`);
+        logger.error(`uploadFile. Error enviando archivo: ${error}`);
         res.status(500).json({
             ok: false,
             msg: 'Error enviando archivo',

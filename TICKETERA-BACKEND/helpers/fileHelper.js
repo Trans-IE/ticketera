@@ -57,7 +57,7 @@ const readBinaryFile = (filePath = "") => {
   try {
     let readPath = ""
     if (filePath) {
-      readPath = process.env.ATTACHMENTS_LOCAL_PRIVATE_FOLDER + filePath
+      readPath = process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER + filePath
       if (fs.existsSync(readPath)) {
         const binaryData = fs.readFileSync(readPath);
         const MIMEType = mime.lookup(readPath) || 'application/octet-stream';
@@ -69,24 +69,11 @@ const readBinaryFile = (filePath = "") => {
           filename: filename
         };
       } else {
-        readPath = process.env.ATTACHMENTS_LOCAL_PUBLIC_FOLDER + filePath
-        if (fs.existsSync(readPath)) {
-          const binaryData = fs.readFileSync(readPath);
-          const MIMEType = mime.lookup(readPath) || 'application/octet-stream';
-          const filename = readPath.split('/').pop();
-
-          return {
-            data: binaryData,
-            MIMEType: MIMEType,
-            filename: filename
-          };
-        } else {
-          return {
-            data: null,
-            MIMEType: null,
-            filename: null
-          };
-        }
+        return {
+          data: null,
+          MIMEType: null,
+          filename: null
+        };
       }
     } else {
       return {
@@ -141,23 +128,5 @@ const loadFileServer = (fileToUpload, idTicket) => {
   return return_promise;
 
 }
-
-const getFileBinary = (relativePath) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const absolutePath = path.join(process.env.ATTACHMENTS_LOCAL_PRIVATE_DESTINATION_FOLDER, relativePath);
-      fs.readFile(absolutePath, (err, data) => {
-        if (err) {
-          logger.error(`getFileBinary: ${err}`);
-          return reject(err);
-        }
-        resolve(data);
-      });
-    } catch (error) {
-      logger.error(`getFileBinary: ${error}`);
-      reject(error);
-    }
-  });
-};
 
 module.exports = { deleteTmpFiles, checkAndCreateFolder, getCleanName, readBinaryFile, loadFileServer };
