@@ -13,7 +13,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { userMenuOptions } from '../../helpers/constants';
 import { Link } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { editTicketTabShownChange, mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
+import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
 import { ThemeContext } from '../..';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 

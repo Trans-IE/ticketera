@@ -34,8 +34,6 @@ export const TabsScreen = () => {
   useEffect(() => {
     setValue(editTicketTabShown);
 
-
-
     return () => {
 
     }

@@ -187,12 +187,12 @@ export const TicketDetail = ({ ticketID }) => {
 
     const findStateByID = (id) => {
         const state = states?.find(obj => obj.id === id);
-        return state.estado ? state.estado : ''
+        return state?.estado || ''
     }
 
     const findPriorityByID = (id) => {
         let priority = priorities?.find(obj => obj.id === id);
-        return priority.prioridad ? priority.prioridad : ''
+        return priority?.prioridad || ''
     }
 
     const setPriority = (priority) => {
