@@ -301,83 +301,6 @@ const setProjectedHours = async (req, res = response) => {
     }
 };
 
-
-/*
-const setProjectedHours = async (req, res = response) => {
-    const { ticket_id, fecha_inicio, fecha_fin, comentario, isUpdate, username } = req.body;
-    let userId;
-
-    try {
-        userId = await getDBUserIdByUser(username);
-
-        const start = new Date(fecha_inicio);
-        const end = new Date(fecha_fin);
-
-        const dayOfWeek = start.getDay();
-
-        const segments = [
-            { start: 0, end: 6, percentage: dayOfWeek === 0 ? 100 : 100 }, // 00:00 - 06:00
-            { start: 6, end: 9, percentage: dayOfWeek === 0 ? 100 : (dayOfWeek === 6 ? 50 : 50) }, // 06:00 - 09:00
-            { start: 9, end: 18, percentage: dayOfWeek === 0 ? 100 : (dayOfWeek === 6 ? 100 : null), dbFunction: 'createDBHours' },
-            { start: 18, end: 22, percentage: dayOfWeek === 0 ? 100 : 50 }, // 18:00 - 22:00
-            { start: 22, end: 24, percentage: 100 }, // 22:00 - 00:00
-        ];
-
-        let actions = [];
-
-        segments.forEach(segment => {
-            const segmentStart = new Date(start);
-            const segmentEnd = new Date(start);
-            segmentStart.setHours(segment.start, 0, 0, 0);
-            segmentEnd.setHours(segment.end, 0, 0, 0);
-
-            if (start < segmentEnd && end > segmentStart) {
-                const effectiveStart = start > segmentStart ? start : segmentStart;
-                const effectiveEnd = end < segmentEnd ? end : segmentEnd;
-
-                const formattedStart = formatDate(effectiveStart);
-                const formattedEnd = formatDate(effectiveEnd);
-
-                if (segment.percentage === null) {
-                    // Horas comunes
-                    const commonHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
-                    const hoursString = formatHours(commonHours);
-                    actions.push(createDBHours(ticket_id, hoursString, formattedStart, username));
-
-                    createNewTicketNotification(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
-                } else {
-                    // Horas proyectadas or common hours based on dbFunction
-                    if (segment.dbFunction === 'createDBHours') {
-                        const commonHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
-                        const hoursString = formatHours(commonHours);
-                        actions.push(createDBHours(ticket_id, hoursString, formattedStart, username));
-                    } else {
-                        actions.push(createDBProjectedHours(userId, ticket_id, formattedStart, formattedEnd, segment.percentage, comentario, isUpdate));
-
-                        createNewTicketNotification(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
-                    }
-                }
-            }
-        });
-
-        await Promise.all(actions);
-
-        res.status(200).json({
-            ok: true,
-            value: {},
-            msg: `Horas comunes y proyectadas creadas correctamente.`
-        });
-    } catch (error) {
-        logger.error(`setProjectedHours => error : params=> ticket_id:${ticket_id}, username:${username}, error=> ${error}`);
-        res.status(500).json({
-            ok: false,
-            error: error,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
-};
-*/
-
 const setHoursByList = async (req, res = response) => {
     const { listHours, username } = req.body;
 
@@ -502,10 +425,23 @@ const getTicketActionByTicketId = async (req, res = response) => {
     // alli identifica estos datos desencriptando el hash x-token.
     const { ticket_id, username } = req.body;
 
+    const empresaId = await getDBCompanyByUser(username);
+    const tipoUsuario = await getDBTypeUserByUser(username);
+    //const rol = await getDBUserRolByUsername(username);
+
+    let empresaIdAux;
+
+    if (tipoUsuario == userType.client) {
+        empresaIdAux = await getDBCompanyByUser(username);
+
+    } else {
+        empresaIdAux = empresaId;
+    }
+
     let function_enter_time = new Date();
-    logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id} username:${username}`)
+    logger.info(`getTicketActionByTicketId. ticket_id:${ticket_id} empresaIdAux:${empresaIdAux} tipoUsuario:${tipoUsuario} username:${username}`)
     try {
-        getDBTicketActionByTicketId(ticket_id, username)
+        getDBTicketActionByTicketId(ticket_id, empresaIdAux, tipoUsuario)
             .then(result => {
                 logger.info(`<== getTicketActionByTicketId`);
                 loggerCSV.info(`getTicketActionByTicketId, ${(new Date() - function_enter_time) / 1000}`)
