@@ -20,10 +20,10 @@ const createDBResponsible = (ticket_id, responsable_id, username) => {
     return return_promise;
 }
 
-const createDBNote = (ticket_id, notas, empresaId, tipoUsuario) => {
+const createDBNote = (ticket_id, notas, usernam4) => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_note($1, $2, $3, $4)', [ticket_id, notas, empresaId, tipoUsuario], (error, results) => {
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_create_note($1, $2, $3)', [ticket_id, notas, usernam4], (error, results) => {
             if (error) {
                 reject(error.message);
             }
