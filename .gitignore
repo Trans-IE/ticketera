@@ -4,10 +4,14 @@ ticketera-website/dist/*
 
 API-GATEWAY/logs/*
 !API-GATEWAY/logs/.gitkeep
+API-GATEWAY/uploads/*
+!API-GATEWAY/uploads/.gitkeep
 API-GATEWAY/dist/*
 
 TICKETERA-BACKEND/logs/*
 !TICKETERA-BACKEND/logs/.gitkeep
+TICKETERA-BACKEND/uploads/*
+!TICKETERA-BACKEND/uploads/.gitkeep
 TICKETERA-BACKEND/tAttachments/*
 !TICKETERA-BACKEND/tAttachments/.gitkeep
 TICKETERA-BACKEND/dist/*
