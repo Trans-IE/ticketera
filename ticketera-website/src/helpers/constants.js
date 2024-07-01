@@ -162,6 +162,7 @@ const PAYLOAD_TYPES = {
     'TICKET_RESPONSIBLE_ADD': 'ticket-responsible-note-add',
     'TICKET_HOURS_ADD': 'ticket-hours-add',
     'TICKET_PROJECTED_HOURS_ADD': 'ticket-projected-hours-add',
+    'TICKET_UPLOAD_FILE': 'ticket-upload-file',
 }
 
 const TICKETS_ROOMS_PREFIX = {

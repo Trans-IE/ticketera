@@ -111,6 +111,9 @@ export const TicketDetail = ({ ticketID }) => {
         socket?.on(PAYLOAD_TYPES.TICKET_PROJECTED_HOURS_ADD, (objCallback) => {
             dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
         });
+        socket?.on(PAYLOAD_TYPES.TICKET_UPLOAD_FILE, (objCallback) => {
+            dispatch(ticketActionsDataAddNewRedux(objCallback.data.result))
+        });
 
         socket?.emit(NOTIFICATION_EVENTS.JOIN, prefix + ticketID);
         console.log(`Unido a sala: ${prefix + ticketID}`)
@@ -123,6 +126,7 @@ export const TicketDetail = ({ ticketID }) => {
             socket?.off(PAYLOAD_TYPES.TICKET_STATE_ADD);
             socket?.off(PAYLOAD_TYPES.TICKET_PRIORITY_ADD);
             socket?.off(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD);
+            socket?.off(PAYLOAD_TYPES.TICKET_UPLOAD_FILE);
             socket?.emit(NOTIFICATION_EVENTS.LEAVE, ticketID);
         }
     }, [socket])
