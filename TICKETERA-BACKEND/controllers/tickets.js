@@ -6,12 +6,12 @@ const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries
 const { getDBContractsIdByCompany } = require('../databases/queries_contracts');
 
 const { logger, loggerCSV } = require('../logger');
+const { PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX } = require('../helpers/constants');
 const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
 const { getCleanName, loadFileServer, readBinaryFile } = require('../helpers/fileHelper');
 const { off } = require('process');
 const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
-const { userType, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX } = require('../helpers/constants');
 
 const createTicketTrans = async (req, res = response) => {
 
