@@ -11,6 +11,7 @@ const crypto = require('crypto');
 const { getCleanName, loadFileServer, readBinaryFile } = require('../helpers/fileHelper');
 const { off } = require('process');
 const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
+const { userType, PAYLOAD_TYPES, TICKETS_ROOMS_PREFIX } = require('../helpers/constants');
 
 const createTicketTrans = async (req, res = response) => {
 
@@ -418,8 +419,8 @@ const uploadFile = async (req, res = response) => {
             const path = await loadFileServer(file, ticket_id);
             const result = await createDBFilePath(ticket_id, path, username);
 
-            createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
-            createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
+            createNewTicketNotification(PAYLOAD_TYPES.TICKET_UPLOAD_FILE, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+            createNewTicketNotification(PAYLOAD_TYPES.TICKET_UPLOAD_FILE, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
 
             console.log(path);
         } catch (error) {
