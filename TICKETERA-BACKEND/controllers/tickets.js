@@ -10,6 +10,7 @@ const { userType, ticketStatus } = require('../helpers/constants');
 const crypto = require('crypto');
 const { getCleanName, loadFileServer, readBinaryFile } = require('../helpers/fileHelper');
 const { off } = require('process');
+const { createNewTicketNotification } = require('../helpers/notificationServiceHelper');
 
 const createTicketTrans = async (req, res = response) => {
 
@@ -416,6 +417,10 @@ const uploadFile = async (req, res = response) => {
         try {
             const path = await loadFileServer(file, ticket_id);
             const result = await createDBFilePath(ticket_id, path, username);
+
+            createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.EMPRESA}${ticket_id}` })
+            createNewTicketNotification(PAYLOAD_TYPES.TICKET_RESPONSIBLE_ADD, { ticket_id, result, room: `${TICKETS_ROOMS_PREFIX.CLIENTE}${ticket_id}` })
+
             console.log(path);
         } catch (error) {
             logger.error(`uploadFile: ${error}`);
@@ -435,17 +440,17 @@ const uploadFile = async (req, res = response) => {
 
 const getFile = async (req, res = response) => {
     const { relativePath, idTicket, username } = req.body;
-    logger.info(`==> uploadFile - relativePath: ${relativePath} idTicket: ${idTicket} username: ${username}`);
+    logger.info(`==> getFile - relativePath: ${relativePath} idTicket: ${idTicket} username: ${username}`);
     try {
         const binaryData = readBinaryFile(relativePath)
-        logger.info(`<== uploadFile - idTicket:${idTicket}`);
+        logger.info(`<== getFile - idTicket:${idTicket}`);
         res.status(200).json({
             ok: true,
             value: binaryData,
             msg: 'Archivo obtenido con exito'
         });
     } catch (error) {
-        logger.error(`uploadFile. Error enviando archivo: ${error}`);
+        logger.error(`getFile. Error enviando archivo: ${error}`);
         res.status(500).json({
             ok: false,
             msg: 'Error enviando archivo',

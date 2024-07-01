@@ -4203,6 +4203,7 @@ router.post(
         check('relativePath', 'La ruta relativa es obligatoria').not().isEmpty(),
         check('idTicket', 'El id del ticket es obligatorio').not().isEmpty(),
         validarCampos,
+
         validarJWT
     ],
 
