@@ -161,7 +161,7 @@ const createDBFilePath = (ticket_id, archivo, username) => {
             }
             else {
                 try {
-                    resolve(results.rows[0].f_ticketera_ticket_action_create_filePath);
+                    resolve(results.rows[0]);
                 } catch (error) {
                     reject(error.message);
                 }
