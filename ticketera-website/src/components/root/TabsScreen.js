@@ -31,27 +31,31 @@ export const TabsScreen = () => {
     setValue(newValue);
   };
 
+
   useEffect(() => {
-    setValue(editTicketTabShown);
+    handleChange(null, editTicketTabShown);
 
     return () => {
 
     }
   }, [editTicketTabShown, uiMainMenuShown])
 
-  useEffect(() => {
-
-    console.log('uiMainMenuShown tab', uiMainMenuShown);
-    if (arrayTabs?.length > 0 /* && uiMainMenuShown === -1 */) {
-      console.log(arrayTabs.length);
-      handleChange(null, arrayTabs.length - 1)
-    }
-    else {
-      dispatch(mainMenuShownChange(1))
-    }
-  }, [arrayTabs?.length])
 
 
+  /* 
+    useEffect(() => {
+  
+      console.log('uiMainMenuShown tab', uiMainMenuShown);
+      if (arrayTabs?.length > 0 ) {
+        console.log(arrayTabs.length);
+        handleChange(null, arrayTabs.length - 1)
+      }
+      else {
+        dispatch(mainMenuShownChange(1))
+      }
+    }, [arrayTabs?.length])
+  
+   */
 
   const newTicketProcess = () => {
     try {

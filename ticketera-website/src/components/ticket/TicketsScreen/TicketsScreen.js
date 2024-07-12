@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import { GridViewBigData } from '../../ui/GridViewBigData';
 import CircleIcon from "@mui/icons-material/Circle";
 import { grey } from '@mui/material/colors';
-import { arrayTabsAddNew } from '../../../redux/actions/userInterfaceActions';
+import { arrayTabsAddNew, editTicketTabShownChange } from '../../../redux/actions/userInterfaceActions';
 import { getAllTicketTypes, getTicketsByFilter } from '../../../redux/actions/ticketActions';
 import { getShortDateString } from '../../../helpers/dateHelper';
 import { ButtonTrans } from '../../ui/ButtonTrans';
@@ -216,6 +216,8 @@ export const TicketsScreen = () => {
     tabNew.index = arrayTabs.length;
 
     dispatch(arrayTabsAddNew(tabNew));
+    //  dispatch(editTicketTabShownChange(parseInt(tabNew.index)));
+
 
   }
 
