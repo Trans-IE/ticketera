@@ -23,6 +23,7 @@ export const arrayTabsAddNew = (tabNew) => {
     //Verificar que la tab no exista
     if (arrayTabs.findIndex(item => item.id === tabNew.id) === -1) {
       dispatch(arrayTabsAddNewRedux(tabNew));
+      dispatch(editTicketTabShownChangeRedux({ tabShown: tabNew.index }))
     }
     else {
       dispatch(editTicketTabShownChangeRedux({ tabShown: arrayTabs.findIndex(item => item.id === tabNew.id) }))
