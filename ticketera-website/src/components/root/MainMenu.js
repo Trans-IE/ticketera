@@ -1,27 +1,27 @@
-import React, { useContext } from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import { Tooltip } from '@mui/material';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import { userMenuOptions } from '../../helpers/constants';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import { Tooltip } from "@mui/material";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { userMenuOptions } from "../../helpers/constants";
+import { Link } from "react-router-dom";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { mainMenuShownChange } from '../../redux/actions/userInterfaceActions';
-import { ThemeContext } from '../..';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import { mainMenuShownChange } from "../../redux/actions/userInterfaceActions";
+import { ThemeContext } from "../..";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 export const MainMenu = ({ onClick, optionSelected }) => {
   const dispatch = useDispatch();
-  console.log('optionSelected', optionSelected);
+  console.log("optionSelected", optionSelected);
   const onClickMenu = (option) => {
-
     switch (option) {
       case 1:
         onClick("Tickets", option);
@@ -31,30 +31,40 @@ export const MainMenu = ({ onClick, optionSelected }) => {
       default:
         break;
     }
-  }
-
+  };
 
   const goToDashboard = () => {
-    dispatch(mainMenuShownChange(0))
-  }
+    dispatch(mainMenuShownChange(0));
+  };
 
   const goToTicketList = () => {
-    dispatch(mainMenuShownChange(1))
-  }
+    dispatch(mainMenuShownChange(1));
+  };
 
   const goToReports = () => {
-    dispatch(mainMenuShownChange(2))
-  }
+    dispatch(mainMenuShownChange(2));
+  };
 
   const goToAdmin = () => {
-    dispatch(mainMenuShownChange(3))
-  }
+    dispatch(mainMenuShownChange(3));
+  };
+  const goToProductTable = () => {
+    dispatch(mainMenuShownChange(4));
+  };
 
   return (
     <React.Fragment>
-      <Tooltip title="Dashboard" arrow placement='right'>
-        <Link to="/dashboard" onClick={() => { goToDashboard() }}>
-          <ListItemButton selected={(optionSelected === 0) ? true : false} onClick={() => onClickMenu(0)}>
+      <Tooltip title="Dashboard" arrow placement="right">
+        <Link
+          to="/dashboard"
+          onClick={() => {
+            goToDashboard();
+          }}
+        >
+          <ListItemButton
+            selected={optionSelected === 0 ? true : false}
+            onClick={() => onClickMenu(0)}
+          >
             <ListItemIcon>
               <QueryStatsIcon />
             </ListItemIcon>
@@ -62,11 +72,37 @@ export const MainMenu = ({ onClick, optionSelected }) => {
         </Link>
       </Tooltip>
 
-      <Tooltip title="Tickets" arrow placement='right'>
-        <Link to="/tickets" onClick={() => { goToTicketList() }}>
-          <ListItemButton selected={(optionSelected === 1) ? true : false} onClick={() => onClickMenu(1)}>
+      <Tooltip title="Tickets" arrow placement="right">
+        <Link
+          to="/tickets"
+          onClick={() => {
+            goToTicketList();
+          }}
+        >
+          <ListItemButton
+            selected={optionSelected === 1 ? true : false}
+            onClick={() => onClickMenu(1)}
+          >
             <ListItemIcon>
               <ConfirmationNumberIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
+      </Tooltip>
+
+      <Tooltip title="Tables" arrow placement="right">
+        <Link
+          to="/product"
+          onClick={() => {
+            goToProductTable();
+          }}
+        >
+          <ListItemButton
+            selected={optionSelected === 4 ? true : false}
+            onClick={() => onClickMenu(4)}
+          >
+            <ListItemIcon>
+              <TableChartIcon />
             </ListItemIcon>
           </ListItemButton>
         </Link>
@@ -91,10 +127,9 @@ export const MainMenu = ({ onClick, optionSelected }) => {
           </ListItemButton>
         </Link>
       </Tooltip> */}
-
     </React.Fragment>
   );
-}
+};
 
 export const SecondaryMenu = (
   <React.Fragment>
@@ -113,7 +148,7 @@ export const SecondaryMenu = (
 
 export const UserMenu = ({ onClick, dispatch }) => {
   const { toggleTheme } = useContext(ThemeContext);
-  const { user } = useSelector(state => state.auth, shallowEqual);
+  const { user } = useSelector((state) => state.auth, shallowEqual);
 
   const onClickMenu = (option) => {
     switch (option) {
@@ -123,11 +158,11 @@ export const UserMenu = ({ onClick, dispatch }) => {
         break;
 
       case userMenuOptions.MyAccountMenu:
-        alert(`Usuario logueado: ${user.apellido}, ${user.nombres}`)
+        alert(`Usuario logueado: ${user.apellido}, ${user.nombres}`);
       default:
         break;
     }
-  }
+  };
 
   /* 
     const logout = () => {
@@ -152,7 +187,7 @@ export const UserMenu = ({ onClick, dispatch }) => {
    */
   return (
     <React.Fragment>
-      <Tooltip title="Tema" arrow placement='right'>
+      <Tooltip title="Tema" arrow placement="right">
         <ListItemButton onClick={() => toggleTheme()}>
           <ListItemIcon>
             <LightModeIcon />
@@ -160,15 +195,17 @@ export const UserMenu = ({ onClick, dispatch }) => {
         </ListItemButton>
       </Tooltip>
 
-      <Tooltip title="Mi cuenta" arrow placement='right'>
-        <ListItemButton onClick={() => onClickMenu(userMenuOptions.MyAccountMenu)}>
+      <Tooltip title="Mi cuenta" arrow placement="right">
+        <ListItemButton
+          onClick={() => onClickMenu(userMenuOptions.MyAccountMenu)}
+        >
           <ListItemIcon>
             <AccountCircleOutlinedIcon />
           </ListItemIcon>
         </ListItemButton>
       </Tooltip>
 
-      <Tooltip title="Cerrar sesion" arrow placement='right'>
+      <Tooltip title="Cerrar sesion" arrow placement="right">
         <ListItemButton onClick={() => onClickMenu(userMenuOptions.LogoutMenu)}>
           <ListItemIcon>
             <PowerSettingsNewIcon />
@@ -176,6 +213,5 @@ export const UserMenu = ({ onClick, dispatch }) => {
         </ListItemButton>
       </Tooltip>
     </React.Fragment>
-  )
-
+  );
 };
