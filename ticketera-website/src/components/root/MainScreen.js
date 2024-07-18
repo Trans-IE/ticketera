@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from "react-redux";
 import { TabsScreen } from './TabsScreen';
 import { TicketsScreen } from '../ticket/TicketsScreen/TicketsScreen';
 import { Grid } from '@mui/material';
 import ContainerWithMenu from './ContainerWithMenu';
-
 
 export const MainScreen = () => {
   const { editTicketTabShown } = useSelector((state) => state.ui, shallowEqual);

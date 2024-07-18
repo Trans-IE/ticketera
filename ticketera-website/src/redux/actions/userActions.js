@@ -7,6 +7,7 @@ export const startChecking = (afterCheckingPath = "", history) => {
   return async (dispatch, getState) => {
 
     const token = encryptStorage.getItem('token') || '';
+
     const { config } = getState().auth;
 
     if (token) {
@@ -19,6 +20,10 @@ export const startChecking = (afterCheckingPath = "", history) => {
         const { token, user } = body.value;
         encryptStorage.setItem('token', token);
         encryptStorage.setItem('token-init-date', new Date().getTime());
+
+        /*         let tmpArrayTabs = encryptStorage.getItem("arrayTabs");
+                arrayTabsSetArrayRedux(tmpArrayTabs);
+         */
         await dispatch(authLoginRedux({
           user: user
         }))

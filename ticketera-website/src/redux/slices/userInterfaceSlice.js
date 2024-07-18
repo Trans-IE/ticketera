@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import encryptStorage from "../../helpers/storageEncrypter";
 
 const initialState = {
 
@@ -32,6 +33,11 @@ export const userInterfaceSlice = createSlice(
                 // al aplicar foco en menu, deshabilito opcion seleccionada en tab
                 state.editTicketTabShown = -1;
             },
+            arrayTabsSetArrayRedux: (state, action) => {
+                const { arrayTabs } = action.payload;
+                console.log('fede 3');
+                state.arrayTabs = arrayTabs;
+            },
 
             arrayTabsAddNewRedux: (state, action) => {
 
@@ -42,17 +48,17 @@ export const userInterfaceSlice = createSlice(
             arrayTabsDeleteRedux: (state, action) => {
 
                 const { index } = action.payload;
-                const indexToDelete = state.arrayTabs.findIndex(item => item.index === index)
+                const indexToDelete = state.arrayTabs.findIndex(item => item.index === index);
                 state.arrayTabs.splice(indexToDelete, 1);
+                if (state.arrayTabs.length === 0) {
+                    // seteo en vacio el tabs si elimino el unico tab guardado.
+                    encryptStorage.setItem("arrayTabs", state.arrayTabs);
+                }
             },
-
-            editTicketTabsCountRemoveRedux: (state, action) => {
-                //    state.arrayTabs -= 1;
-            }
 
         }
     }
 );
 
-export const { editTicketTabShownChangeRedux, mainMenuShownChangeRedux, arrayTabsAddNewRedux, editTicketTabsCountRemoveRedux, arrayTabsDeleteRedux } = userInterfaceSlice.actions;
+export const { editTicketTabShownChangeRedux, mainMenuShownChangeRedux, arrayTabsAddNewRedux, arrayTabsDeleteRedux, arrayTabsSetArrayRedux } = userInterfaceSlice.actions;
 export default userInterfaceSlice.reducer;

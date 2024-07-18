@@ -26,15 +26,11 @@ export const AppRouter = () => {
         dispatch(loadConfigData()).then((data) => {
             // console.log("CARGO LA DATA CONFIG: ", data);
             dispatch(startChecking()).then(result => {
-
                 if (!result && location.pathname !== '/login') {
                     location.assign('/login')
                 }
                 console.log("START CHECKING OK ");
-                /*                 if (result !== true) {
-                                   
-                                    
-                                } */
+
 
             })
         })
@@ -44,6 +40,8 @@ export const AppRouter = () => {
 
         return () => {
             //  encryptStorage.clear();
+            /*             console.log("arrayTabs GUARDO VALORES", arrayTabs);
+                        encryptStorage.setItem("arrayTabs", arrayTabs) */
         }
     }, [])
 

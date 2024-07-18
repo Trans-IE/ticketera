@@ -16,6 +16,8 @@ import { arrayTabsAddNew } from '../../redux/actions/userInterfaceActions';
 import { IconButton, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import encryptStorage from '../../helpers/storageEncrypter';
+import { arrayTabsSetArrayRedux } from '../../redux/slices/userInterfaceSlice';
 
 export const TabsScreen = () => {
 
@@ -40,22 +42,20 @@ export const TabsScreen = () => {
     }
   }, [editTicketTabShown, uiMainMenuShown])
 
+  useEffect(() => {
+    if (arrayTabs?.length > 0) {
+      console.log("arrayTabs GUARDO VALORES", arrayTabs);
+      encryptStorage.setItem("arrayTabs", arrayTabs);
+    }
 
+    return () => {
+    }
+  }, [arrayTabs])
 
-  /* 
-    useEffect(() => {
-  
-      console.log('uiMainMenuShown tab', uiMainMenuShown);
-      if (arrayTabs?.length > 0 ) {
-        console.log(arrayTabs.length);
-        handleChange(null, arrayTabs.length - 1)
-      }
-      else {
-        dispatch(mainMenuShownChange(1))
-      }
-    }, [arrayTabs?.length])
-  
-   */
+  useEffect(() => {
+    let tmpArrayTabs = encryptStorage.getItem("arrayTabs");
+    dispatch(arrayTabsSetArrayRedux({ arrayTabs: tmpArrayTabs }));
+  }, [])
 
   const newTicketProcess = () => {
     try {
@@ -91,6 +91,7 @@ export const TabsScreen = () => {
     console.log('Cerrando...', index)
     e.stopPropagation();
     dispatch(arrayTabsClose(index))
+    handleGoToTicketsList();
   }
 
 
