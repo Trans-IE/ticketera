@@ -1,73 +1,76 @@
-import React, { useContext } from "react";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Tooltip,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Popover,
+  Typography,
+} from "@mui/material";
+
 import TableChartIcon from "@mui/icons-material/TableChart";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { Tooltip } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { userMenuOptions } from "../../helpers/constants";
-import { Link } from "react-router-dom";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+
 import { mainMenuShownChange } from "../../redux/actions/userInterfaceActions";
 import { ThemeContext } from "../..";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 export const MainMenu = ({ onClick, optionSelected }) => {
   const dispatch = useDispatch();
-  console.log("optionSelected", optionSelected);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleToggleExpand = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const onClickMenu = (option) => {
     switch (option) {
-      case 1:
-        onClick("Tickets", option);
-
+      case 0:
+        dispatch(mainMenuShownChange(0));
+        onClick("Dashboard", option);
         break;
-
+      case 1:
+        dispatch(mainMenuShownChange(1));
+        onClick("Tickets", option);
+        break;
+      case 4:
+        dispatch(mainMenuShownChange(4));
+        onClick("Tables", option);
+        handleClose();
+        break;
       default:
         break;
     }
   };
 
-  const goToDashboard = () => {
-    dispatch(mainMenuShownChange(0));
-  };
-
-  const goToTicketList = () => {
-    dispatch(mainMenuShownChange(1));
-  };
-
-  const goToReports = () => {
-    dispatch(mainMenuShownChange(2));
-  };
-
-  const goToAdmin = () => {
-    dispatch(mainMenuShownChange(3));
-  };
-  const goToProductTable = () => {
-    dispatch(mainMenuShownChange(4));
-  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   return (
-    <React.Fragment>
+    <Box>
       <Tooltip title="Dashboard" arrow placement="right">
         <Link
           to="/dashboard"
-          onClick={() => {
-            goToDashboard();
-          }}
+          onClick={() => onClickMenu(0)}
+          style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton
-            selected={optionSelected === 0 ? true : false}
-            onClick={() => onClickMenu(0)}
-          >
+          <ListItemButton selected={optionSelected === 0}>
             <ListItemIcon>
               <QueryStatsIcon />
             </ListItemIcon>
+            <ListItemText primary="Dashboard" />
           </ListItemButton>
         </Link>
       </Tooltip>
@@ -75,116 +78,97 @@ export const MainMenu = ({ onClick, optionSelected }) => {
       <Tooltip title="Tickets" arrow placement="right">
         <Link
           to="/tickets"
-          onClick={() => {
-            goToTicketList();
-          }}
+          onClick={() => onClickMenu(1)}
+          style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton
-            selected={optionSelected === 1 ? true : false}
-            onClick={() => onClickMenu(1)}
-          >
+          <ListItemButton selected={optionSelected === 1}>
             <ListItemIcon>
               <ConfirmationNumberIcon />
             </ListItemIcon>
+            <ListItemText primary="Tickets" />
           </ListItemButton>
         </Link>
       </Tooltip>
 
       <Tooltip title="Tables" arrow placement="right">
-        <Link
-          to="/product"
-          onClick={() => {
-            goToProductTable();
-          }}
+        <ListItemButton
+          selected={optionSelected === 4 || open}
+          onClick={handleToggleExpand}
         >
-          <ListItemButton
-            selected={optionSelected === 4 ? true : false}
-            onClick={() => onClickMenu(4)}
-          >
-            <ListItemIcon>
-              <TableChartIcon />
-            </ListItemIcon>
-          </ListItemButton>
-        </Link>
+          <ListItemIcon>
+            <TableChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tables" />
+          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </ListItemButton>
       </Tooltip>
-      {/* 
-      <Tooltip title="Reportes" arrow placement='right'>
-        <Link to="/reports" onClick={() => goToReports()}>
-          <ListItemButton selected={(optionSelected === 2) ? true : false} onClick={() => onClickMenu(2)}>
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-          </ListItemButton>
-        </Link>
-      </ Tooltip>
 
-      <Tooltip title="Administracion" arrow placement='right'>
-        <Link to="/administration" onClick={() => { goToAdmin() }}>
-          <ListItemButton selected={(optionSelected === 3) ? true : false} onClick={() => onClickMenu(3)}>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
-            </ListItemIcon>
-          </ListItemButton>
-        </Link>
-      </Tooltip> */}
-    </React.Fragment>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        <Box>
+          <Link
+            to="/product"
+            onClick={() => onClickMenu(4)}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton selected={optionSelected === 4}>
+              <ListItemText
+                primary={<Typography color="textPrimary">Product</Typography>}
+              />
+            </ListItemButton>
+          </Link>
+          <Link
+            to="/marca"
+            onClick={() => onClickMenu(4)}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton selected={optionSelected === 4}>
+              <ListItemText
+                primary={<Typography color="textPrimary">Marca</Typography>}
+              />
+            </ListItemButton>
+          </Link>
+        </Box>
+      </Popover>
+    </Box>
   );
 };
 
 export const SecondaryMenu = (
   <React.Fragment>
-    {/* <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-    </ListItemButton> */}
+    {/* Aquí podrías agregar otros elementos del menú secundario si es necesario */}
   </React.Fragment>
 );
 
-export const UserMenu = ({ onClick, dispatch }) => {
+export const UserMenu = ({ onClick }) => {
   const { toggleTheme } = useContext(ThemeContext);
-  const { user } = useSelector((state) => state.auth, shallowEqual);
+  const { user } = useSelector((state) => state.auth);
 
   const onClickMenu = (option) => {
     switch (option) {
       case userMenuOptions.LogoutMenu:
         onClick("Cierre de Sesion", option);
-
         break;
-
       case userMenuOptions.MyAccountMenu:
         alert(`Usuario logueado: ${user.apellido}, ${user.nombres}`);
+        break;
       default:
         break;
     }
   };
 
-  /* 
-    const logout = () => {
-  
-      Swal.fire({
-        title: "¿Cerrar sesión?",
-        text: "¿Esta seguro que desea cerrar la sesión?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Cerrar",
-        cancelButtonText: 'Cancelar',
-        background: theme.palette.background.dark,
-        color: theme.palette.text.primary,
-        confirmButtonColor: theme.palette.primary.main
-      }).then((result) => {
-        if(result.isConfirmed){
-          toast.success('¡Sesión cerrada exitosamente!')
-        }
-      })
-  
-    }
-   */
   return (
     <React.Fragment>
       <Tooltip title="Tema" arrow placement="right">
@@ -205,7 +189,7 @@ export const UserMenu = ({ onClick, dispatch }) => {
         </ListItemButton>
       </Tooltip>
 
-      <Tooltip title="Cerrar sesion" arrow placement="right">
+      <Tooltip title="Cerrar sesión" arrow placement="right">
         <ListItemButton onClick={() => onClickMenu(userMenuOptions.LogoutMenu)}>
           <ListItemIcon>
             <PowerSettingsNewIcon />

@@ -15,16 +15,19 @@ import {
   TextField,
   Chip,
   Typography,
+  Snackbar,
+  Button,
 } from "@mui/material";
+import Close from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ItemTable from "../../components/table/Table";
-import CreateItemDrawer from "../../components/createItemDrawer/Create";
-import ContainerWithMenu from "../../components/root/ContainerWithMenu";
-import { ButtonTrans } from "../../components/ui/ButtonTrans";
+import ItemTable from "../table/Table";
+import CreateItemDrawer from "../createItemDrawer/Create";
+import ContainerWithMenu from "../root/ContainerWithMenu";
+import { ButtonTrans } from "../ui/ButtonTrans";
 import {
   getAllProducts,
   getAllBrands,
@@ -75,8 +78,9 @@ const Products = () => {
     model: "",
     sorting: 1, // Ordenar por defecto de más nuevo a más viejo
   });
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [undoProduct, setUndoProduct] = useState(null);
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -102,7 +106,7 @@ const Products = () => {
         dispatch(getAllProducts());
       });
     }
-    setDrawerOpen(false);
+    setOpen(false);
     setEditingItem(null);
   };
 
@@ -116,14 +120,48 @@ const Products = () => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteProduct(id)).then(() => {
-      dispatch(getAllProducts());
-    });
+    if (
+      window.confirm("¿Estás seguro de que quieres eliminar este producto?")
+    ) {
+      const product = products.find((product) => product.id === id);
+      if (product) {
+        const updatedProduct = { ...product, habilitado: false };
+        setUndoProduct(updatedProduct);
+        dispatch(updateProduct(updatedProduct))
+          .then(() => {
+            dispatch(getAllProducts());
+            setSnackbarOpen(true);
+          })
+          .catch((error) => {
+            console.error("Error updating product:", error);
+            // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje de error al usuario
+            alert(`No se pudo eliminar el producto. Error: ${error.message}`);
+          });
+      }
+    }
+  };
+
+  const handleUndo = () => {
+    if (undoProduct) {
+      const reenabledProduct = { ...undoProduct, habilitado: true };
+      dispatch(updateProduct(reenabledProduct)).then(() => {
+        dispatch(getAllProducts());
+        setUndoProduct(null);
+        setSnackbarOpen(false);
+      });
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   const handleEdit = (item) => {
     setEditingItem(item);
-    setDrawerOpen(true);
+    setOpen(true);
   };
 
   // Map the brands to products locally
@@ -131,11 +169,12 @@ const Products = () => {
     const brand = brands.find((brand) => brand.id === product.marca_id);
     return {
       ...product,
-      brandName: brand ? brand.nombre : "Unknown",
+      brandName: brand ? brand.nombre : "Desconocido",
     };
   });
 
   const filteredData = productsWithBrandNames
+    .filter((item) => item.habilitado) // Filtra los productos habilitados
     .filter((item) => {
       return (
         (filters.name === "" ||
@@ -181,6 +220,12 @@ const Products = () => {
         </Box>
       ),
     },
+  ];
+
+  const fields = [
+    { id: "nombre", label: "Nombre", type: "text", required: true },
+    { id: "modelo", label: "Modelo", type: "text", required: true },
+    { id: "marca_id", label: "Marca", type: "select", required: true },
   ];
 
   return (
@@ -320,13 +365,13 @@ const Products = () => {
               )}
             </IconButton>
             <Typography variant="h6">
-              {editingItem ? "Edit Product" : "Add New Product"}
+              {editingItem ? "Editar Producto" : "Agregar Producto"}
             </Typography>
           </DrawerHeader>
           <Divider />
           <List>
             <CreateItemDrawer
-              columns={columns}
+              fields={fields}
               brands={brands}
               onSave={handleSaveItem}
               onClose={handleDrawerClose}
@@ -334,22 +379,27 @@ const Products = () => {
             />
           </List>
         </Drawer>
-        <Drawer
-          anchor="right"
-          open={drawerOpen}
-          onClose={handleDrawerClose}
-          ModalProps={{ keepMounted: true }}
-          sx={{ flexShrink: 0 }}
-          PaperProps={{ sx: { width: "45vw" } }}
-        >
-          <CreateItemDrawer
-            columns={columns}
-            brands={brands}
-            onSave={handleSaveItem}
-            onClose={handleDrawerClose}
-            editingItem={editingItem}
-          />
-        </Drawer>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={10000}
+          onClose={handleSnackbarClose}
+          message="Producto eliminado"
+          action={
+            <>
+              <Button color="primary" size="large" onClick={handleUndo}>
+                DESHACER
+              </Button>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackbarClose}
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            </>
+          }
+        />
       </Box>
     </ContainerWithMenu>
   );

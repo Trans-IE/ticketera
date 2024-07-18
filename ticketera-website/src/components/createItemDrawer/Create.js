@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,9 +11,21 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { ButtonTrans } from "../ui/ButtonTrans";
 
-export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
+export default function CreateItemDrawer({
+  fields,
+  brands,
+  onSave,
+  onClose,
+  editingItem,
+}) {
   const theme = useTheme();
   const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (editingItem) {
+      setFormData(editingItem);
+    }
+  }, [editingItem]);
 
   const handleChange = (id, value) => {
     setFormData({
@@ -23,18 +35,15 @@ export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
   };
 
   const handleSave = () => {
-    const newItem = {
-      nombre: formData.nombre || "",
-      modelo: formData.modelo || "",
-      marca_id: formData.brandName || "",
-      habilitado : true, // Use the brand ID for saving
-    };
+    const newItem = { ...formData };
 
-    // Check if all required fields are filled
-    if (!newItem.nombre || !newItem.marca_id) {
-      // Show an alert if some fields are missing
-      alert("Please fill all required fields.");
-      return;
+    const requiredFields = fields.filter((field) => field.required);
+
+    for (let field of requiredFields) {
+      if (!newItem[field.id]) {
+        alert("Please fill all required fields.");
+        return;
+      }
     }
 
     onSave(newItem);
@@ -42,10 +51,10 @@ export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
 
   return (
     <Box sx={{ padding: theme.spacing(3) }}>
-      {columns.map((column) => (
+      {fields.map((field) => (
         <FormControl
-          key={column.id}
-          required
+          key={field.id}
+          required={field.required}
           fullWidth
           sx={{
             marginBottom: theme.spacing(2),
@@ -68,12 +77,12 @@ export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
             },
           }}
         >
-          {column.id === "brandName" ? (
+          {field.type === "select" ? (
             <>
-              <InputLabel>{column.label}</InputLabel>
+              <InputLabel>{field.label}</InputLabel>
               <Select
-                value={formData[column.id] || ""}
-                onChange={(e) => handleChange(column.id, e.target.value)}
+                value={formData[field.id] || ""}
+                onChange={(e) => handleChange(field.id, e.target.value)}
                 displayEmpty
                 sx={{
                   "& .MuiOutlinedInput-notchedOutline": {
@@ -96,10 +105,9 @@ export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
             </>
           ) : (
             <TextField
-              label={column.label}
-              placeholder={`Enter ${column.label.toLowerCase()}`}
-              value={formData[column.id] || ""}
-              onChange={(e) => handleChange(column.id, e.target.value)}
+              label={field.label}
+              value={formData[field.id] || ""}
+              onChange={(e) => handleChange(field.id, e.target.value)}
               fullWidth
               sx={{
                 "& .MuiOutlinedInput-root": {
@@ -120,10 +128,10 @@ export default function CreateItemDrawer({ columns, brands, onSave, onClose }) {
       ))}
       <Box sx={{ marginTop: theme.spacing(2), textAlign: "right" }}>
         <Button onClick={onClose} sx={{ marginRight: theme.spacing(1) }}>
-          Cancel
+          Cancelar
         </Button>
         <ButtonTrans variant="contained" color="primary" onClick={handleSave}>
-          Save Product
+          Guardar
         </ButtonTrans>
       </Box>
     </Box>

@@ -2,15 +2,24 @@ import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+// Importaciones de componentes raíz
 import { MainScreen } from "../components/root/MainScreen";
+
+// Importaciones de constantes
 import { UserRol } from "../helpers/constants";
+
+// Importaciones de componentes de autenticación
 import { InvalidSession } from "../components/auth/InvalidSession";
-import { TabsScreen } from "../components/root/TabsScreen";
+
+// Importaciones de componentes específicos
 import Dashboard from "../components/dashboard/dashboard/Dashboard";
 import Admin from "../components/admin/Admin";
 import Reports from "../components/reports/Reports";
-import Products from "../pages/ProductPage/Products";
 import { TicketDetail } from "../components/ticket/TicketDetail/TicketDetail";
+
+// Importaciones de páginas
+import Products from "../components/ProductPage/Products";
+import Marca from "../components/Brands/Brands";
 
 export const DashboardRoutes = () => {
   const dispatch = useDispatch();
@@ -33,6 +42,7 @@ export const DashboardRoutes = () => {
         <Route path="/administration" element={<Admin />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/product" element={<Products />} />
+        <Route path="/marca" element={<Marca />} />
 
         {/* <Route path="tickets/:id" element={ <TicketDetail /> } />
          */}

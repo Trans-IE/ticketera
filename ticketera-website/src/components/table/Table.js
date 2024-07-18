@@ -14,7 +14,7 @@ import {
 export default function ItemTable({ columns, data }) {
   const theme = useTheme();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -85,8 +85,8 @@ export default function ItemTable({ columns, data }) {
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[5]}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
       />
     </Paper>
   );
