@@ -18,7 +18,7 @@ import Reports from "../components/reports/Reports";
 import { TicketDetail } from "../components/ticket/TicketDetail/TicketDetail";
 
 // Importaciones de páginas
-import Products from "../components/ProductPage/Products";
+import Products from "../components/Product/Products";
 import Marca from "../components/Brands/Brands";
 
 export const DashboardRoutes = () => {

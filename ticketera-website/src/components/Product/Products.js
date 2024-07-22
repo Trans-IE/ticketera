@@ -32,7 +32,6 @@ import {
   getAllProducts,
   getAllBrands,
   createProduct,
-  deleteProduct,
   updateProduct,
 } from "../../redux/actions/productActions";
 

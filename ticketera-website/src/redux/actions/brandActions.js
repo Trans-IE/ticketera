@@ -17,17 +17,14 @@ export const brandGetRowset = () => {
         "api_gateway_host",
         "entities/getAllBrands"
       );
-      console.log("GET URL:", url); // Log URL
       const resp = await fetchConToken(url, {}, "POST");
       const body = await resp.json();
-      console.log("GET Response:", body); // Log Response
       if (body.ok) {
         dispatch(brandGetRowsetRedux(body.value));
       } else {
         Swal.fire("Error", body.msg, "error");
       }
     } catch (error) {
-      console.log("GET Error:", error); // Log Error
       Swal.fire("Error", error.message, "error");
     }
   };
@@ -37,29 +34,24 @@ export const brandUpdate = (brand) => {
   return async (dispatch, getState) => {
     try {
       const { config } = getState().auth;
-
-      console.log("config", config);
-      console.log("Config:", config); // Log config
-
       let url = getURLFromConfigByName(
         config,
         "api_gateway_host",
         `entities/updateBrand/${brand.id}`
       );
-      console.log("UPDATE URL:", url); // Log URL
-      console.log("UPDATE Body:", brand); // Log Body
       const resp = await fetchConToken(url, brand, "PUT");
       const body = await resp.json();
-      console.log("UPDATE Response:", body); // Log Response
       if (body.ok) {
-        dispatch(brandUpdateRedux(brand));
-        return body.msg;
+        dispatch(brandUpdateRedux(body.value));
+        Swal.fire("Success", "Brand updated successfully", "success");
+        return body.value;
       } else {
-        throw new Error(body.msg);
+        Swal.fire("Error", body.msg, "error");
       }
     } catch (error) {
-      console.log("UPDATE Error:", error); // Log Error
-      Swal.fire("Error", error.message, "error");
+      console.log(error);
+      Swal.fire("Error", "An error occurred while updating the brand", "error");
+      throw new Error(error.message);
     }
   };
 };
@@ -78,11 +70,8 @@ export const brandCreate = (brand) => {
         "api_gateway_host",
         "entities/createBrand"
       );
-      console.log("CREATE URL:", url); // Log URL
-      console.log("CREATE Body:", newBrand); // Log Body
       const resp = await fetchConToken(url, newBrand, "POST");
       const body = await resp.json();
-      console.log("CREATE Response:", body); // Log Response
       if (body.ok) {
         dispatch(brandCreateRedux(newBrand));
         Swal.fire("Success", "Brand added successfully");
@@ -90,35 +79,35 @@ export const brandCreate = (brand) => {
         Swal.fire("Error", body.msg, "error");
       }
     } catch (error) {
-      console.log("CREATE Error:", error); // Log Error
       Swal.fire("Error", "An error occurred while adding the brand");
       throw new Error(error.message);
     }
   };
 };
 
-export const brandDelete = (id) => {
+export const brandDelete = (brand) => {
   return async (dispatch, getState) => {
     try {
       const { config } = getState().auth;
       let url = getURLFromConfigByName(
         config,
         "api_gateway_host",
-        `entities/deleteBrand/${id}`
+        `entities/updateBrand/${brand.id}`
       );
-      console.log("DELETE URL:", url); // Log URL
-      const resp = await fetchConToken(url, {}, "DELETE");
+      const brandToDisable = { ...brand, habilitado: false };
+      const resp = await fetchConToken(url, brandToDisable, "PUT");
       const body = await resp.json();
-      console.log("DELETE Response:", body); // Log Response
       if (body.ok) {
-        dispatch(brandDeleteRedux(id));
-        return body.msg;
+        dispatch(brandDeleteRedux(brand.id));
+        Swal.fire("Success", "Brand deleted successfully", "success");
+        return body.value;
       } else {
-        throw new Error(body.msg);
+        Swal.fire("Error", body.msg, "error");
       }
     } catch (error) {
-      console.log("DELETE Error:", error); // Log Error
-      Swal.fire("Error", error.message, "error");
+      console.log(error);
+      Swal.fire("Error", "An error occurred while deleting the brand", "error");
+      throw new Error(error.message);
     }
   };
 };

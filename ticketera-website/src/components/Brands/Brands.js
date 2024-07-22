@@ -24,6 +24,7 @@ import {
   brandGetRowset,
   brandUpdate,
   brandCreate,
+  brandDelete,
 } from "../../redux/actions/brandActions";
 import ItemTable from "../table/Table";
 import CreateItemDrawer from "../createItemDrawer/Create";
@@ -87,20 +88,21 @@ const Brands = () => {
   };
 
   const handleDelete = (id) => {
-    const brand = brands.find((brand) => brand.id === id);
-    if (brand) {
-      const updatedBrand = { ...brand, habilitado: false };
-      setUndoBrand(updatedBrand);
-      dispatch(brandUpdate(updatedBrand))
-        .then(() => {
-          dispatch(brandGetRowset());
-          setSnackbarOpen(true);
-        })
-        .catch((error) => {
-          console.error("Error updating brand:", error);
-          // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje de error al usuario
-          alert(`No se pudo eliminar la marca. Error: ${error.message}`);
-        });
+    if (window.confirm("¿Estás seguro de que quieres eliminar esta marca?")) {
+      const brand = brands.find((brand) => brand.id === id);
+      if (brand) {
+        const updatedBrand = { ...brand, habilitado: false };
+        setUndoBrand(updatedBrand);
+        dispatch(brandDelete(updatedBrand))
+          .then(() => {
+            dispatch(brandGetRowset());
+            setSnackbarOpen(true);
+          })
+          .catch((error) => {
+            console.error("Error deleting brand:", error);
+            alert(`No se pudo eliminar la marca. Error: ${error.message}`);
+          });
+      }
     }
   };
 
