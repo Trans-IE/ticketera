@@ -32,6 +32,7 @@ export default function CreateItemDrawer({
       ...formData,
       [id]: value,
     });
+    console.log(formData, "FORMDATA");
   };
 
   const handleSave = () => {

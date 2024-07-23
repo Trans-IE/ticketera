@@ -125,7 +125,7 @@ export const MainMenu = ({ onClick, optionSelected }) => {
           >
             <ListItemButton selected={optionSelected === 4}>
               <ListItemText
-                primary={<Typography color="textPrimary">Product</Typography>}
+                primary={<Typography color="textPrimary">Producto</Typography>}
               />
             </ListItemButton>
           </Link>

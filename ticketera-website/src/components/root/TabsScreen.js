@@ -134,7 +134,7 @@ export const TabsScreen = () => {
 
             <Tabs value={editTicketTabShown} onChange={handleChange} aria-label="lab API tabs example">
               {
-                arrayTabs.map((objTab, i) => {
+                arrayTabs?.map((objTab, i) => {
                   return (
                     // <StyledTab key={objTab.index} index={i} label={objTab.title} value={i} onClick={() => { handleClickTab(objTab) }} />
                     <StyledTab key={objTab.index} index={i} value={i} label={
@@ -158,7 +158,7 @@ export const TabsScreen = () => {
           </Stack>
         </Box>
         {
-          arrayTabs.map((objTab, i) => {
+          arrayTabs?.map((objTab, i) => {
             return (
               editTicketTabShown === -1 ?
                 <div key={objTab.index}></div> :
