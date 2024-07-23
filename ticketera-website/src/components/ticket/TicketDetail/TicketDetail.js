@@ -27,6 +27,7 @@ import ProjectsDrawer from '../ProjectsDrawer/ProjectsDrawer';
 import { SocketContext } from '../../../context/SocketContext';
 import { ticketActionsDataAddNewRedux, ticketActionsDataLoadedRedux } from '../../../redux/slices/ticketSlice';
 import { AttachmentMessage } from '../../messages/AttachmentMessage';
+import { ShowFilesModal } from '../ShowFilesModal/ShowFilesModal';
 
 export const TicketDetail = ({ ticketID }) => {
     const theme = useTheme()
@@ -53,6 +54,7 @@ export const TicketDetail = ({ ticketID }) => {
     const [selectedState, setSelectedState] = useState('')
 
     const [isWorkingHoursModalOpen, setIsWorkingHoursModalOpen] = useState(false)
+    const [isShowFilesModalOpen, setIsShowFilesModalOpen] = useState(false)
     const [loadedTotalHours, setLoadedTotalHours] = useState()
     const [isProyectDrawerOpen, setIsProyectDrawerOpen] = useState(false)
 
@@ -360,8 +362,22 @@ export const TicketDetail = ({ ticketID }) => {
                                     <WorkingHoursModal ticketId={ticketID} closeModal={() => setIsWorkingHoursModalOpen(false)} />
                                 </Modal>
                                 <div>
-                                    <ButtonTrans style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Ver Archivos</ButtonTrans>
+                                    <ButtonTrans
+                                        style={{ whiteSpace: 'nowrap' }}
+                                        variant="contained"
+                                        onClick={() => setIsShowFilesModalOpen(true)}
+                                        marginLeft>Ver Archivos</ButtonTrans>
                                 </div>
+                                <Modal
+                                    BackdropProps={{
+                                        onClick: (event) => event.stopPropagation(), // Prevent closing on backdrop click
+                                    }}
+                                    open={isShowFilesModalOpen}
+                                    onClose={() => { setIsShowFilesModalOpen(false) }}
+                                >
+                                    <ShowFilesModal closeModal={() => setIsShowFilesModalOpen(false)} />
+                                </Modal>
+
                                 <div>
                                     <ButtonTrans disabled style={{ whiteSpace: 'nowrap' }} variant="contained" marginLeft>Editar Ticket</ButtonTrans>
                                 </div>
