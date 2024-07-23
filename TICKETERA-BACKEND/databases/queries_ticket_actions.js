@@ -387,6 +387,29 @@ const createDBArea = (empesa_id, nombre) => {
     return return_promise;
 }
 
+const getAllDBFilesPaths = (ticket_id, username) => {
+    const return_promise = new Promise((resolve, reject) => {
+
+        pooldata.getPool.query('select * from tickets.f_ticketera_ticket_action_getAllFilesPaths_by_ticketId($1, $2)', [ticket_id, username], (error, results) => {
+
+            if (error) {
+
+                reject(error.message);
+            }
+            else {
+                try {
+                    resolve(results.rows);
+                } catch (error) {
+                    reject(error.message);
+                }
+            }
+        })
+
+    });
+
+    return return_promise;
+}
+
 module.exports = {
     createDBResponsible,
     createDBNote,
@@ -405,5 +428,6 @@ module.exports = {
     getDBTicketHours,
     getDBTicketProjectedHours,
     getDBTicketTotalHours,
-    createDBArea
+    createDBArea,
+    getAllDBFilesPaths
 }
