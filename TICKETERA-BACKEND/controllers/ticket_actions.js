@@ -706,12 +706,12 @@ const getProjectedHours = async (req, res = response) => {
 }
 
 const getAllFilesPaths = async (req, res = response) => {
-    const { ticket_id, username } = req.body;
+    const { ticket_id, username, offset, limit } = req.body;
 
     let function_enter_time = new Date();
     logger.info(`==> getAllFilesPaths.`)
     try {
-        getAllDBFilesPaths(ticket_id, username)
+        getAllDBFilesPaths(ticket_id, username, offset, limit)
             .then(result => {
                 logger.info(`<== getAllFilesPaths`);
                 loggerCSV.info(`getAllFilesPaths, ${(new Date() - function_enter_time) / 1000}`)

@@ -798,8 +798,10 @@ router.post(
 router.post(
     '/getAllFilesPaths',
     [
-        check('ticket_id', 'Debe ingresar empresaId').not().isEmpty(),
+        check('ticket_id', 'Debe ingresar ticket_id').not().isEmpty(),
         check('username', 'El username es obligatorio').not().isEmpty(),
+        check('offset', 'Debe ingresar offset').not().isEmpty(),
+        check('limit', 'Debe ingresar el limit').not().isEmpty(),
 
         validarCampos,
 

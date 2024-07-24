@@ -974,7 +974,7 @@ const getProjectedHours = async (req, res = response) => {
 
 const getAllFilesPaths = async (req, res = response) => {
     const { label: username } = req;
-    const { ticket_id } = req.body;
+    const { ticket_id, offset, limit } = req.body;
     let function_enter_time = new Date();
     const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC},${UserRol.ClienteADM},${UserRol.ClienteUSR}`;
     logger.info(`==> getAllFilesPaths - username:${username}`);
@@ -989,7 +989,7 @@ const getAllFilesPaths = async (req, res = response) => {
         let resultado = arrRolExclusive.some(numero => setRolUser.has(numero));
 
         if (resultado) {
-            const resp = await fetchSinToken(url, { username, ticket_id }, 'POST');
+            const resp = await fetchSinToken(url, { ticket_id, username, offset, limit }, 'POST');
             console.log(resp);
             const body = await resp.json();
             if (body.ok) {
