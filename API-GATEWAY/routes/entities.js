@@ -11,7 +11,7 @@ const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('..
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
 const { getUserRol, getCompanyByUser, getTypeByUser } = require('../helpers/validators');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
+const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea, getAllFilesPaths } = require('../controllers/ticket_actions');
 const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea, getFile } = require('../controllers/tickets');
 const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const router = Router();
@@ -4432,6 +4432,65 @@ router.post(
     ],
 
     getResponsiblesByArea
+);
+
+/**
+ * @openapi
+ * /api/entities/getAllFilesPaths:
+ *   post:
+ *     summary: Obtener todas las rutas de archivos por ticketId
+ *     description: Este endpoint permite obtener todos las rutas de archivos por ticketId. Se requieren credenciales de usuario autenticado.
+ *     tags: [Ticket Actions]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticket_id:
+ *                 type: integer
+ *                 description: Id del ticket.
+ *                 example: 15
+ *             required:
+ *               - ticket_id
+ *     responses:
+ *       200:
+ *         description: Obtención de todos las rutas de archivos por ticketId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 filesPaths:
+ *                   type: array
+ *                   description: Obtención de todas las rutas de archivo por ticketId
+ *       401:
+ *         description: No autorizado (401) por falta de credenciales.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error en caso de falta de autorización.
+ *                 msg:
+ *                   type: string
+ *                   description: Mensaje con información adicional retornada.
+ */
+router.post(
+    '/getAllFilesPaths',
+    [
+        check('ticket_id', 'Debe ingresar empresaId').not().isEmpty(),
+
+        validarCampos,
+        validarJWT
+    ],
+
+    getAllFilesPaths
 );
 
 module.exports = router;

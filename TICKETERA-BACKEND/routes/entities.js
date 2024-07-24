@@ -10,7 +10,7 @@ const { getAllStatesByTicketId, getAllStates } = require('../controllers/states'
 const { getAllPrioritys } = require('../controllers/prioritys');
 const { getProjectsByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
 const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
+const { setPriority, setState, setResponsible, setHours, setAutoEvaluation, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea, getAllFilesPaths } = require('../controllers/ticket_actions');
 const { createTicketTrans, updateTicketTrans, createTicketClient, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea, getFile } = require('../controllers/tickets');
 const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
 
@@ -793,6 +793,19 @@ router.post(
     ],
 
     getFile
+);
+
+router.post(
+    '/getAllFilesPaths',
+    [
+        check('ticket_id', 'Debe ingresar empresaId').not().isEmpty(),
+        check('username', 'El username es obligatorio').not().isEmpty(),
+
+        validarCampos,
+
+    ],
+
+    getAllFilesPaths
 );
 
 module.exports = router;
