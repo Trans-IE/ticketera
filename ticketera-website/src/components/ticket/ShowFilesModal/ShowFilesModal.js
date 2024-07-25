@@ -7,6 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@emotion/react';
 import { GridViewBigData } from '../../ui/GridViewBigData';
 
+import { getAllFilesByTicketId } from '../../../redux/actions/ticketActions';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -23,7 +25,7 @@ const style = {
 };
 
 
-export const ShowFilesModal = ({ closeModal }) => {
+export const ShowFilesModal = ({ ticketId, closeModal }) => {
     const dispatch = useDispatch();
     const theme = useTheme();
     const [rowsPerPageFiles, setRowsPerPageFiles] = useState(10);
@@ -51,6 +53,20 @@ export const ShowFilesModal = ({ closeModal }) => {
         // obtengo el item seleccionado
 
     }
+
+    useEffect(() => {
+
+        // getAllFilesPaths
+
+        dispatch(getAllFilesByTicketId(ticketId)).then((listOfFiles) => {
+
+        })
+
+        return () => {
+
+        }
+    }, [])
+
 
     return (
         <Box sx={{ ...style, borderColor: theme.palette.background.border, bgcolor: theme.palette.background.background }}>
