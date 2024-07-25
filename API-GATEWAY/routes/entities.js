@@ -4439,7 +4439,7 @@ router.post(
  * /api/entities/getAllFilesPaths:
  *   post:
  *     summary: Obtener todas las rutas de archivos por ticketId
- *     description: Este endpoint permite obtener todos las rutas de archivos por ticketId. Se requieren credenciales de usuario autenticado.
+ *     description: Este endpoint permite obtener todas las rutas de archivos por ticketId. Se requieren credenciales de usuario autenticado.
  *     tags: [Ticket Actions]
  *     security:
  *      - x-token: []
@@ -4454,11 +4454,21 @@ router.post(
  *                 type: integer
  *                 description: Id del ticket.
  *                 example: 15
+ *               offset:
+ *                 type: integer
+ *                 description: El número de desplazamiento para paginación.
+ *                 example: 0
+ *               limit:
+ *                 type: integer
+ *                 description: El número máximo de elementos a retornar.
+ *                 example: 10
  *             required:
  *               - ticket_id
+ *               - offset
+ *               - limit
  *     responses:
  *       200:
- *         description: Obtención de todos las rutas de archivos por ticketId
+ *         description: Obtención de todas las rutas de archivos por ticketId
  *         content:
  *           application/json:
  *             schema:
@@ -4484,7 +4494,10 @@ router.post(
 router.post(
     '/getAllFilesPaths',
     [
-        check('ticket_id', 'Debe ingresar empresaId').not().isEmpty(),
+        check('ticket_id', 'Debe ingresar ticket_id').not().isEmpty(),
+        check('offset', 'Debe ingresar offset').not().isEmpty(),
+        check('limit', 'Debe ingresar el limit').not().isEmpty(),
+
 
         validarCampos,
         validarJWT
