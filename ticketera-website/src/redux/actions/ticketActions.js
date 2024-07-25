@@ -371,6 +371,29 @@ export const uploadFiles = (files, ticketId) => {
     }
 }
 
+export const getAllFilesByTicketId = ({ ticketId, list_offset, list_limit }) => {
+    return async (dispatch, getState) => {
+        try {
+            //getAllFilesPaths
+            const { config } = getState().auth;
+            let url = getURLFromConfigByName(config, "api_gateway_host", "entities/getAllFilesPaths");
+            const resp = await fetchConToken(url, { ticket_id: ticketId, offset: list_offset, limit: list_limit }, 'POST');
+            const body = await resp.json();
+            if (body.ok) {
+                console.log("lista de archivos: ", body.value);
+                return body.value
+            } else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+
+        } catch (error) {
+            console.log(error);
+            console.log("ERROR SIN BODY");
+            throw new Error(error.message);
+        }
+    }
+}
+
 export const getFile = (path, ticketId) => {
     return async (dispatch, getState) => {
 
