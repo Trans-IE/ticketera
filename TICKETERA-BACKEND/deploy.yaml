@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketera-backend
+  labels:
+    app: ticketera-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ticketera-backend
+  template:
+    metadata:
+      labels:
+        app: ticketera-backend
+    spec:
+      containers:
+        - name: ticketera-backend
+          image: your-docker-image:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketera-backend-service
+spec:
+  selector:
+    app: ticketera-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
