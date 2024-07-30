@@ -1,14 +1,13 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
   name: ticketera-backend
-  labels:
-    app: ticketera-backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
-    matchLabels:
-      app: ticketera-backend
+    app: ticketera-backend
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -16,9 +15,27 @@ spec:
     spec:
       containers:
         - name: ticketera-backend
-          image: your-docker-image:latest
+          image: node:18-alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              git clone https://github.com/Trans-IE/ticketera.git && \
+              cd ticketera/TICKETERA-BACKEND && \
+              npm install && \
+              npm start
           ports:
             - containerPort: 8080
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - ticketera-backend
+        from:
+          kind: ImageStreamTag
+          name: "node:18-alpine"
 ---
 apiVersion: v1
 kind: Service
