@@ -58,7 +58,7 @@ export const ShowFilesModal = ({ ticketId, closeModal }) => {
 
         dispatch(getAllFilesByTicketId(ticketId, 0, 15)).then((listOfFiles) => {
 
-            console.log("lista de archivos obtenidos 3 : ", listOfFiles);
+            //    console.log("lista de archivos obtenidos 3 : ", listOfFiles);
 
             if (listOfFiles.length < 15) {
                 setHasMorePages(false)
