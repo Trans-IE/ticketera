@@ -1,31 +1,105 @@
-const { Router } = require('express');
-const { check, body } = require('express-validator');
-const { validarCampos, validarCamposFormData } = require('../middlewares/validar-campos');
-const { createCompany, updateCompany, deleteCompany, getAllCompanies } = require('../controllers/companies');
-const { createProduct, deleteProduct, updateProduct, getProduct, getAllProducts, getProductsByBrand, getProductsByBrandAndContract } = require('../controllers/products');
-const { createContract, deleteContract, updateContract, getAllContracts, getContractsByCompany } = require('../controllers/contracts');
-const { createBrand, deleteBrand, updateBrand, getAllBrands, getBrandsByCompany, getBrandsByContract } = require('../controllers/brands');
-const { getAllPrioritys } = require('../controllers/prioritys');
-const { getAllStatesByTicketId, getAllStates } = require('../controllers/states');
-const { getSummarizeHoursByTechnician, getHourDetailByTechnician } = require('../controllers/reports');
-const { createHoliday, deleteHoliday } = require('../controllers/holidays');
-const { getUserRol, getCompanyByUser, getTypeByUser } = require('../helpers/validators');
-const { validarJWT } = require('../middlewares/validar-jwt');
-const { setState, setPriority, setResponsible, setAutoEvaluation, setHours, setNote, getTicketActionByTicketId, setHiddenNote, getAllUsers, getTicketDetail, getAllUsersByCompany, setHoursByList, setProjectedHours, getHours, getProjectedHours, getTotalHours, setArea } = require('../controllers/ticket_actions');
-const { createTicket, updateTicket, deleteTicket, getAllTicketsByFilter, getFailTypes, getTicketTypes, uploadFile, getAreas, getResponsiblesByArea, getFile } = require('../controllers/tickets');
-const { getProjectByCompany, getProjectTreeByTicketID } = require('../controllers/projects');
+const { Router } = require("express");
+const { check, body } = require("express-validator");
+const {
+  validarCampos,
+  validarCamposFormData,
+} = require("../middlewares/validar-campos");
+const {
+  createCompany,
+  updateCompany,
+  deleteCompany,
+  getAllCompanies,
+} = require("../controllers/companies");
+const {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  getProduct,
+  getAllProducts,
+  getProductsByBrand,
+  getProductsByBrandAndContract,
+} = require("../controllers/products");
+const {
+  createContract,
+  deleteContract,
+  updateContract,
+  getAllContracts,
+  getContractsByCompany,
+} = require("../controllers/contracts");
+const {
+  createBrand,
+  deleteBrand,
+  updateBrand,
+  getAllBrands,
+  getBrandsByCompany,
+  getBrandsByContract,
+} = require("../controllers/brands");
+const { getAllPrioritys } = require("../controllers/prioritys");
+const {
+  getAllStatesByTicketId,
+  getAllStates,
+} = require("../controllers/states");
+const {
+  getSummarizeHoursByTechnician,
+  getHourDetailByTechnician,
+} = require("../controllers/reports");
+const {
+  getAllHolidays,
+  createHoliday,
+  deleteHoliday,
+} = require("../controllers/holidays");
+const {
+  getUserRol,
+  getCompanyByUser,
+  getTypeByUser,
+} = require("../helpers/validators");
+const { validarJWT } = require("../middlewares/validar-jwt");
+const {
+  setState,
+  setPriority,
+  setResponsible,
+  setAutoEvaluation,
+  setHours,
+  setNote,
+  getTicketActionByTicketId,
+  setHiddenNote,
+  getAllUsers,
+  getTicketDetail,
+  getAllUsersByCompany,
+  setHoursByList,
+  setProjectedHours,
+  getHours,
+  getProjectedHours,
+  getTotalHours,
+  setArea,
+} = require("../controllers/ticket_actions");
+const {
+  createTicket,
+  updateTicket,
+  deleteTicket,
+  getAllTicketsByFilter,
+  getFailTypes,
+  getTicketTypes,
+  uploadFile,
+  getAreas,
+  getResponsiblesByArea,
+  getFile,
+} = require("../controllers/tickets");
+const {
+  getProjectByCompany,
+  getProjectTreeByTicketID,
+} = require("../controllers/projects");
 const router = Router();
 
-
-const multer = require('multer');
-const { min } = require('moment/moment');
+const multer = require("multer");
+const { min } = require("moment/moment");
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "uploads/");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    },
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
 const upload = multer({ storage: storage });
 
@@ -101,18 +175,22 @@ const upload = multer({ storage: storage });
  *      - x-token: []
  */
 router.post(
-    '/createCompany',
-    [
-        check('nombre', 'El nombre debe ser mayor a 3 caracteres').isLength({ min: 3 }),
-        check('direccion', 'La debe ser mayor a 3 caracteres').isLength({ min: 3 }),
-        check('telefono', 'El teléfono debe ser mayor a 3 caracteres').isLength({ min: 3 }),
-        check('mail', 'El mail es obligatorio').not().isEmpty(),
+  "/createCompany",
+  [
+    check("nombre", "El nombre debe ser mayor a 3 caracteres").isLength({
+      min: 3,
+    }),
+    check("direccion", "La debe ser mayor a 3 caracteres").isLength({ min: 3 }),
+    check("telefono", "El teléfono debe ser mayor a 3 caracteres").isLength({
+      min: 3,
+    }),
+    check("mail", "El mail es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    createCompany
+  createCompany
 );
 
 /**
@@ -197,20 +275,20 @@ router.post(
  *      - x-token: []
  */
 router.put(
-    '/updateCompany/:id',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('direccion', 'La direccion es obligatorio').not().isEmpty(),
-        check('telefono', 'El telefono es obligatorio').not().isEmpty(),
-        check('mail', 'El mail es obligatorio').not().isEmpty(),
-        check('habilitado', 'El campo habilitado es obligatorio').not().isEmpty(),
+  "/updateCompany/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("direccion", "La direccion es obligatorio").not().isEmpty(),
+    check("telefono", "El telefono es obligatorio").not().isEmpty(),
+    check("mail", "El mail es obligatorio").not().isEmpty(),
+    check("habilitado", "El campo habilitado es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    updateCompany
+  updateCompany
 );
 
 /**
@@ -268,15 +346,15 @@ router.put(
  *      - x-token: []
  */
 router.delete(
-    '/deleteCompany',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
+  "/deleteCompany",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    deleteCompany
+  deleteCompany
 );
 
 /**
@@ -314,46 +392,41 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/getAllCompanies',
-    [
-        validarJWT
-    ],
+  "/getAllCompanies",
+  [validarJWT],
 
-    getAllCompanies
-);
-
-
-router.post(
-    '/getUserRol',
-    [
-        check('label', 'El label es obligatorio').not().isEmpty(),
-
-        validarCampos,
-        validarJWT
-    ],
-
-    getUserRol
+  getAllCompanies
 );
 
 router.post(
-    '/getTypeByUser',
-    [
-        validarJWT
-    ],
+  "/getUserRol",
+  [
+    check("label", "El label es obligatorio").not().isEmpty(),
 
-    getTypeByUser
+    validarCampos,
+    validarJWT,
+  ],
+
+  getUserRol
 );
 
 router.post(
-    '/getCompanyByUser',
-    [
-        check('label', 'El label es obligatorio').not().isEmpty(),
+  "/getTypeByUser",
+  [validarJWT],
 
-        validarCampos,
-        validarJWT
-    ],
+  getTypeByUser
+);
 
-    getCompanyByUser
+router.post(
+  "/getCompanyByUser",
+  [
+    check("label", "El label es obligatorio").not().isEmpty(),
+
+    validarCampos,
+    validarJWT,
+  ],
+
+  getCompanyByUser
 );
 
 /**
@@ -392,12 +465,10 @@ router.post(
  */
 
 router.post(
-    '/getAllProducts',
-    [
-        validarJWT
-    ],
+  "/getAllProducts",
+  [validarJWT],
 
-    getAllProducts
+  getAllProducts
 );
 
 /**
@@ -447,15 +518,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProductsByBrand',
-    [
-        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+  "/getProductsByBrand",
+  [
+    check("marca_id", "Debe ingresar una marca").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getProductsByBrand
+  getProductsByBrand
 );
 
 /**
@@ -505,15 +576,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProductsByBrand',
-    [
-        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
+  "/getProductsByBrand",
+  [
+    check("marca_id", "Debe ingresar una marca").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getProductsByBrand
+  getProductsByBrand
 );
 
 /**
@@ -567,16 +638,16 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProductsByBrandAndContract',
-    [
-        check('marca_id', 'Debe ingresar una marca').not().isEmpty(),
-        check('contract', 'Debe ingresar un contrato').not().isEmpty(),
+  "/getProductsByBrandAndContract",
+  [
+    check("marca_id", "Debe ingresar una marca").not().isEmpty(),
+    check("contract", "Debe ingresar un contrato").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getProductsByBrandAndContract
+  getProductsByBrandAndContract
 );
 
 /**
@@ -639,14 +710,14 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getProduct',
-    [
-        check('id', 'Debe ingresar un nombre').not().isEmpty(),
+  "/getProduct",
+  [
+    check("id", "Debe ingresar un nombre").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
-    getProduct
+    validarCampos,
+    validarJWT,
+  ],
+  getProduct
 );
 
 /**
@@ -721,17 +792,17 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/createProduct',
-    [
-        check('nombre', 'Debe ingresar un nombre').not().isEmpty(),
-        check('modelo', 'Debe ingresar un modelo').not().isEmpty(),
-        check('habilitado', 'Debe ingresar si está habilitado').not().isEmpty(),
-        check('marca_id', 'Debe ingresar la marca').not().isEmpty(),
+  "/createProduct",
+  [
+    check("nombre", "Debe ingresar un nombre").not().isEmpty(),
+    check("modelo", "Debe ingresar un modelo").not().isEmpty(),
+    check("habilitado", "Debe ingresar si está habilitado").not().isEmpty(),
+    check("marca_id", "Debe ingresar la marca").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
-    createProduct
+    validarCampos,
+    validarJWT,
+  ],
+  createProduct
 );
 /**
  * @openapi
@@ -795,15 +866,15 @@ router.post(
  *      - x-token: []
  */
 router.delete(
-    '/deleteProduct/:id',
-    [
-        check('id', 'El label es obligatorio').not().isEmpty(),
+  "/deleteProduct/:id",
+  [
+    check("id", "El label es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    deleteProduct
+  deleteProduct
 );
 
 /**
@@ -884,22 +955,20 @@ router.delete(
  *      - x-token: []
  */
 router.put(
-    '/updateProduct/:id',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('modelo', 'El modelo es obligatorio').not().isEmpty(),
-        check('habilitado', 'Habilitado es obligatorio').not().isEmpty(),
-        check('marca_id', 'La marca id es obligatorio').not().isEmpty(),
+  "/updateProduct/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("modelo", "El modelo es obligatorio").not().isEmpty(),
+    check("habilitado", "Habilitado es obligatorio").not().isEmpty(),
+    check("marca_id", "La marca id es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    updateProduct
+  updateProduct
 );
-
-
 
 /**
  * @openapi
@@ -939,12 +1008,10 @@ router.put(
  *      - x-token: []
  */
 router.post(
-    '/getAllContracts',
-    [
-        validarJWT
-    ],
+  "/getAllContracts",
+  [validarJWT],
 
-    getAllContracts
+  getAllContracts
 );
 
 /**
@@ -995,15 +1062,17 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getContractsByCompany',
-    [
-        check('empresa_id', 'El nombre de la compañía es obligatorio').not().isEmpty(),
+  "/getContractsByCompany",
+  [
+    check("empresa_id", "El nombre de la compañía es obligatorio")
+      .not()
+      .isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getContractsByCompany
+  getContractsByCompany
 );
 
 /**
@@ -1116,27 +1185,27 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/createContract',
-    [
-        check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_provisorio', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_definitivo', 'El nombre es obligatorio').not().isEmpty(),
-        check('tipo', 'El nombre es obligatorio').not().isEmpty(),
-        check('horas_paquete', 'El nombre es obligatorio').not().isEmpty(),
-        check('notas', 'El nombre es obligatorio').not().isEmpty(),
-        check('habilitado', 'El nombre es obligatorio').not().isEmpty(),
-        check('soporte_onsite', 'El nombre es obligatorio').not().isEmpty(),
-        check('reemplazo_partes', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'El nombre es obligatorio').not().isEmpty(),
-        check('fecha_fin', 'El nombre es obligatorio').not().isEmpty(),
+  "/createContract",
+  [
+    check("empresa_id", "El nombre es obligatorio").not().isEmpty(),
+    check("ejecutivo_id", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_respuesta", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_provisorio", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_definitivo", "El nombre es obligatorio").not().isEmpty(),
+    check("tipo", "El nombre es obligatorio").not().isEmpty(),
+    check("horas_paquete", "El nombre es obligatorio").not().isEmpty(),
+    check("notas", "El nombre es obligatorio").not().isEmpty(),
+    check("habilitado", "El nombre es obligatorio").not().isEmpty(),
+    check("soporte_onsite", "El nombre es obligatorio").not().isEmpty(),
+    check("reemplazo_partes", "El nombre es obligatorio").not().isEmpty(),
+    check("fecha_inicio", "El nombre es obligatorio").not().isEmpty(),
+    check("fecha_fin", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    createContract
+  createContract
 );
 
 /**
@@ -1267,28 +1336,27 @@ router.post(
  *      - x-token: []
  */
 router.put(
-    '/updateContract/:id',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
-        check('empresa_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('ejecutivo_id', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_respuesta', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_provisorio', 'El nombre es obligatorio').not().isEmpty(),
-        check('sla_horas_definitivo', 'El nombre es obligatorio').not().isEmpty(),
-        check('tipo', 'El nombre es obligatorio').not().isEmpty(),
-        check('horas_paquete', 'El nombre es obligatorio').not().isEmpty(),
-        check('notas', 'El nombre es obligatorio').not().isEmpty(),
-        check('habilitado', 'El nombre es obligatorio').not().isEmpty(),
-        check('soporte_onsite', 'El nombre es obligatorio').not().isEmpty(),
-        check('reemplazo_partes', 'El nombre es obligatorio').not().isEmpty(),
+  "/updateContract/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("empresa_id", "El nombre es obligatorio").not().isEmpty(),
+    check("ejecutivo_id", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_respuesta", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_provisorio", "El nombre es obligatorio").not().isEmpty(),
+    check("sla_horas_definitivo", "El nombre es obligatorio").not().isEmpty(),
+    check("tipo", "El nombre es obligatorio").not().isEmpty(),
+    check("horas_paquete", "El nombre es obligatorio").not().isEmpty(),
+    check("notas", "El nombre es obligatorio").not().isEmpty(),
+    check("habilitado", "El nombre es obligatorio").not().isEmpty(),
+    check("soporte_onsite", "El nombre es obligatorio").not().isEmpty(),
+    check("reemplazo_partes", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    updateContract
+  updateContract
 );
-
 
 /**
  * @openapi
@@ -1345,17 +1413,16 @@ router.put(
  *      - x-token: []
  */
 router.delete(
-    '/deleteContract/:id',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
+  "/deleteContract/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    deleteContract
+  deleteContract
 );
-
 
 /**
  * @openapi
@@ -1395,12 +1462,10 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/getAllBrands',
-    [
-        validarJWT
-    ],
+  "/getAllBrands",
+  [validarJWT],
 
-    getAllBrands
+  getAllBrands
 );
 
 /**
@@ -1467,16 +1532,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/createBrand',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+  "/createBrand",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    createBrand
+  createBrand
 );
 
 /**
@@ -1545,18 +1610,17 @@ router.post(
  *      - x-token: []
  */
 router.put(
-    '/updateBrand/:id',
-    [
-        check('id', 'El id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+  "/updateBrand/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    updateBrand
+  updateBrand
 );
-
 
 /**
  * @openapi
@@ -1620,15 +1684,15 @@ router.put(
  *      - x-token: []
  */
 router.delete(
-    '/deleteBrand/:id',
-    [
-        check('id', 'El nombre es obligatorio').not().isEmpty(),
+  "/deleteBrand/:id",
+  [
+    check("id", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    deleteBrand
+  deleteBrand
 );
 
 /**
@@ -1669,12 +1733,10 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/getAllUsers',
-    [
-        validarJWT
-    ],
+  "/getAllUsers",
+  [validarJWT],
 
-    getAllUsers
+  getAllUsers
 );
 
 /**
@@ -1730,18 +1792,17 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getAllUsersByCompany',
-    [
-        check('empresaId', 'Debe ingresar empresaId').not().isEmpty(),
-        check('includemyself', 'Debe ingresar includemyself').not().isEmpty(),
+  "/getAllUsersByCompany",
+  [
+    check("empresaId", "Debe ingresar empresaId").not().isEmpty(),
+    check("includemyself", "Debe ingresar includemyself").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getAllUsersByCompany
+  getAllUsersByCompany
 );
-
 
 /**
  * @openapi
@@ -1781,12 +1842,10 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getAllPrioritys',
-    [
-        validarJWT
-    ],
+  "/getAllPrioritys",
+  [validarJWT],
 
-    getAllPrioritys
+  getAllPrioritys
 );
 
 /**
@@ -1837,17 +1896,17 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getAllStatesByTicketId',
-    [
-        //Recibo un id de ticket.
-        // Si ticket es -1 devuelve los estados validos para un filtro, si no los validos para el ticket.
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+  "/getAllStatesByTicketId",
+  [
+    //Recibo un id de ticket.
+    // Si ticket es -1 devuelve los estados validos para un filtro, si no los validos para el ticket.
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getAllStatesByTicketId
+  getAllStatesByTicketId
 );
 
 /**
@@ -1888,13 +1947,10 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getAllStates',
-    [
+  "/getAllStates",
+  [validarJWT],
 
-        validarJWT
-    ],
-
-    getAllStates
+  getAllStates
 );
 
 /**
@@ -1945,15 +2001,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getTicketActionByTicketId',
-    [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+  "/getTicketActionByTicketId",
+  [
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getTicketActionByTicketId
+  getTicketActionByTicketId
 );
 
 /**
@@ -2004,15 +2060,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProjectByCompany',
-    [
-        check('company', 'Debe ingresar un company').not().isEmpty(),
+  "/getProjectByCompany",
+  [
+    check("company", "Debe ingresar un company").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getProjectByCompany
+  getProjectByCompany
 );
 
 /**
@@ -2063,20 +2119,23 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getProjectTreeByTicketID',
+  "/getProjectTreeByTicketID",
 
-    [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
-        check('ticket_id', 'Debe ser un valor numerico ').isLength({ min: 1 }),
-        check('ticket_id', 'Debe ser un valor numerico ').isNumeric(),
-        check('ticket_id', 'Debe ser un numero mayor a 0').not().isEmpty().isInt({ min: 1, max: 9999999 }),
-        //  .isLength({ min: 1, max: 999999 }),
+  [
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
+    check("ticket_id", "Debe ser un valor numerico ").isLength({ min: 1 }),
+    check("ticket_id", "Debe ser un valor numerico ").isNumeric(),
+    check("ticket_id", "Debe ser un numero mayor a 0")
+      .not()
+      .isEmpty()
+      .isInt({ min: 1, max: 9999999 }),
+    //  .isLength({ min: 1, max: 999999 }),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getProjectTreeByTicketID
+  getProjectTreeByTicketID
 );
 
 /**
@@ -2127,15 +2186,15 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getBrandsByCompany',
-    [
-        check('company', 'Debe ingresar un company').not().isEmpty(),
+  "/getBrandsByCompany",
+  [
+    check("company", "Debe ingresar un company").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getBrandsByCompany
+  getBrandsByCompany
 );
 
 /**
@@ -2186,17 +2245,16 @@ router.post(
  *                   description: Mensaje con información adicional retornada.
  */
 router.post(
-    '/getBrandsByContract',
-    [
-        check('contract', 'Debe ingresar un contrato').not().isEmpty(),
+  "/getBrandsByContract",
+  [
+    check("contract", "Debe ingresar un contrato").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getBrandsByContract
+  getBrandsByContract
 );
-
 
 /**
  * @openapi
@@ -2262,17 +2320,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setResponsible',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').isInt(),
-        check('responsable_id', 'El responsable_id es obligatorio').isInt(),
+  "/setResponsible",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").isInt(),
+    check("responsable_id", "El responsable_id es obligatorio").isInt(),
 
-        validarCampos,
-        validarJWT
-    ],
-    setResponsible
+    validarCampos,
+    validarJWT,
+  ],
+  setResponsible
 );
-
 
 /**
  * @openapi
@@ -2338,18 +2395,17 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setPriority',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('prioridad', 'La prioridad es obligatoria').not().isEmpty(),
+  "/setPriority",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("prioridad", "La prioridad es obligatoria").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setPriority
+  setPriority
 );
-
 
 /**
  * @openapi
@@ -2415,17 +2471,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setState',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('estado', 'El estado es obligatorio').not().isEmpty(),
+  "/setState",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("estado", "El estado es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
-    setState
+    validarCampos,
+    validarJWT,
+  ],
+  setState
 );
-
 
 /**
  * @openapi
@@ -2491,16 +2546,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setNote',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('notas', 'Las notas son obligatorias').not().isEmpty(),
+  "/setNote",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("notas", "Las notas son obligatorias").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setNote
+  setNote
 );
 
 /**a
@@ -2567,16 +2622,18 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setAutoEvaluation',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('auto_evaluacion', 'La autoevaluacion es obligatoria').not().isEmpty(),
+  "/setAutoEvaluation",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("auto_evaluacion", "La autoevaluacion es obligatoria")
+      .not()
+      .isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setAutoEvaluation
+  setAutoEvaluation
 );
 
 /**
@@ -2647,17 +2704,17 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setHours',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('horas', 'Las horas son obligatoria').not().isEmpty(),
-        check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
+  "/setHours",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("horas", "Las horas son obligatoria").not().isEmpty(),
+    check("fecha_accion_hs", "Las horas son obligatoria").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setHours
+  setHours
 );
 
 /**
@@ -2747,18 +2804,22 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setHoursByList',
-    [
-        check('listHours', 'La lista de horas es obligatoria').isArray({ min: 1 }),
-        check('listHours.*.ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('listHours.*.horas', 'Las horas son obligatorias').not().isEmpty(),
-        check('listHours.*.fecha_accion_hs', 'Las horas son obligatorias').not().isEmpty(),
+  "/setHoursByList",
+  [
+    check("listHours", "La lista de horas es obligatoria").isArray({ min: 1 }),
+    check("listHours.*.ticket_id", "El ticket_id es obligatorio")
+      .not()
+      .isEmpty(),
+    check("listHours.*.horas", "Las horas son obligatorias").not().isEmpty(),
+    check("listHours.*.fecha_accion_hs", "Las horas son obligatorias")
+      .not()
+      .isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setHoursByList
+  setHoursByList
 );
 
 /**
@@ -2825,16 +2886,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setHiddenNote',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('nota', 'La nota oculta es obligatorio').not().isEmpty(),
+  "/setHiddenNote",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("nota", "La nota oculta es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setHiddenNote
+  setHiddenNote
 );
 
 /**
@@ -2962,31 +3023,34 @@ router.post(
  *       - x-token: []
  */
 router.put(
-    '/updateTicket',
-    [
-        check('empresaId', 'La empresaId no puede estar vacío').notEmpty(),
-        check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
-        check('cliente', 'El cliente no puede estar vacío').notEmpty(),
-        check('partner', 'El partner no puede estar vacío').notEmpty(),
-        check('rma', 'El rma no puede estar vacío').notEmpty(),
-        check('bug', 'La bug no puede estar vacía').notEmpty(),
-        check('comment', 'El comment no puede estar vacío').notEmpty(),
-        check('nroSerie', 'El nroSerie no puede estar vacío').notEmpty(),
-        check('nodo', 'El nodo no puede estar vacío').notEmpty(),
-        check('titulo', 'El titulo no puede estar vacío').notEmpty(),
-        check('causaRaiz', 'El causaRaiz no puede estar vacío').notEmpty(),
-        check('preventa', 'El preventa no puede estar vacío').notEmpty(),
-        check('vendedor', 'El vendedor no puede estar vacío').notEmpty(),
-        check('producto', 'El producto no puede estar vacío').notEmpty(),
-        check('esProjecto', 'El isproject no puede estar vacío').notEmpty(),
-        check('proyecton', 'El proyecton no puede estar vacío').notEmpty(),
-        check('array_user_id_notif', 'El array_user_id_notif no puede estar vacío').notEmpty(),
+  "/updateTicket",
+  [
+    check("empresaId", "La empresaId no puede estar vacío").notEmpty(),
+    check("tipoFalla", "El tipoFalla no puede estar vacío").notEmpty(),
+    check("cliente", "El cliente no puede estar vacío").notEmpty(),
+    check("partner", "El partner no puede estar vacío").notEmpty(),
+    check("rma", "El rma no puede estar vacío").notEmpty(),
+    check("bug", "La bug no puede estar vacía").notEmpty(),
+    check("comment", "El comment no puede estar vacío").notEmpty(),
+    check("nroSerie", "El nroSerie no puede estar vacío").notEmpty(),
+    check("nodo", "El nodo no puede estar vacío").notEmpty(),
+    check("titulo", "El titulo no puede estar vacío").notEmpty(),
+    check("causaRaiz", "El causaRaiz no puede estar vacío").notEmpty(),
+    check("preventa", "El preventa no puede estar vacío").notEmpty(),
+    check("vendedor", "El vendedor no puede estar vacío").notEmpty(),
+    check("producto", "El producto no puede estar vacío").notEmpty(),
+    check("esProjecto", "El isproject no puede estar vacío").notEmpty(),
+    check("proyecton", "El proyecton no puede estar vacío").notEmpty(),
+    check(
+      "array_user_id_notif",
+      "El array_user_id_notif no puede estar vacío"
+    ).notEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    updateTicket
+  updateTicket
 );
 
 /**
@@ -3110,24 +3174,24 @@ router.put(
  *       - x-token: []
  */
 router.post(
-    '/createTicket',
-    [
-        check('empresaId', 'La empresaId no puede estar vacío').notEmpty(),
-        check('contratoId', 'El contratoId no puede estar vacío').notEmpty(),
-        check('productoId', 'El productoId no puede estar vacío').notEmpty(),
-        check('tipoFalla', 'El tipoFalla no puede estar vacío').notEmpty(),
-        check('title', 'El title no puede estar vacío').notEmpty(),
-        check('description', 'La description no puede estar vacía').notEmpty(),
-        check('esProyecto', 'El esProyecto no puede estar vacío').notEmpty(),
-        check('padreId', 'El padreId no puede estar vacío').notEmpty(),
-        check('preventaId', 'El preventaId no puede estar vacío').notEmpty(),
-        check('vendedorId', 'El vendedorId no puede estar vacío').notEmpty(),
+  "/createTicket",
+  [
+    check("empresaId", "La empresaId no puede estar vacío").notEmpty(),
+    check("contratoId", "El contratoId no puede estar vacío").notEmpty(),
+    check("productoId", "El productoId no puede estar vacío").notEmpty(),
+    check("tipoFalla", "El tipoFalla no puede estar vacío").notEmpty(),
+    check("title", "El title no puede estar vacío").notEmpty(),
+    check("description", "La description no puede estar vacía").notEmpty(),
+    check("esProyecto", "El esProyecto no puede estar vacío").notEmpty(),
+    check("padreId", "El padreId no puede estar vacío").notEmpty(),
+    check("preventaId", "El preventaId no puede estar vacío").notEmpty(),
+    check("vendedorId", "El vendedorId no puede estar vacío").notEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    createTicket
+  createTicket
 );
 
 /**
@@ -3185,15 +3249,15 @@ router.post(
  *      - x-token: []
  */
 router.delete(
-    '/deleteTicket/:id',
-    [
-        check('id', 'El label es obligatorio').not().isEmpty(),
+  "/deleteTicket/:id",
+  [
+    check("id", "El label es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    deleteTicket
+  deleteTicket
 );
 
 /**
@@ -3282,7 +3346,7 @@ router.delete(
  *       200:
  *         description: Lista de tickets obtenida correctamente.
  *         content:
-  *             schema:
+ *             schema:
  *               type: object
  *               properties:
  *                 error:
@@ -3308,30 +3372,30 @@ router.delete(
  *       - x-token: []
  */
 router.post(
-    '/getAllTicketsByFilter',
-    [
-        check('titulo', 'El titulo es obligatorio').not().isEmpty(),
-        check('causaRaiz', 'El causaRaiz es obligatorio').not().isEmpty(),
-        check('ticketPartner', 'El ticketPartner es obligatorio').not().isEmpty(),
-        check('empresaId', 'La empresaId es obligatorio').not().isEmpty(),
-        check('productoId', 'El productoId es obligatorio').not().isEmpty(),
-        check('responsableId', 'El responsableId es obligatorio').not().isEmpty(),
-        check('numeroId', 'El numeroId es obligatorio').not().isEmpty(),
-        check('prioridad', 'El prioridad es obligatorio').not().isEmpty(),
-        check('estado', 'El estado es obligatorio').not().isEmpty(),
-        check('tipoFalla', 'El tipoFalla es obligatorio').not().isEmpty(),
-        check('dateFrom', 'El dateFrom es obligatorio').not().isEmpty(),
-        check('dateTo', 'El dateTo es obligatorio').not().isEmpty(),
-        check('tipoTicket', 'El tipoticket es obligatorio').not().isEmpty(),
-        check('offset', 'El offset es obligatorio').not().isEmpty(),
-        check('orderBy', 'El orderBy es obligatorio').not().isEmpty(),
-        check('orderByType', 'El orderByType es obligatorio').not().isEmpty(),
-        check('limit', 'El limit es obligatorio').not().isEmpty(),
+  "/getAllTicketsByFilter",
+  [
+    check("titulo", "El titulo es obligatorio").not().isEmpty(),
+    check("causaRaiz", "El causaRaiz es obligatorio").not().isEmpty(),
+    check("ticketPartner", "El ticketPartner es obligatorio").not().isEmpty(),
+    check("empresaId", "La empresaId es obligatorio").not().isEmpty(),
+    check("productoId", "El productoId es obligatorio").not().isEmpty(),
+    check("responsableId", "El responsableId es obligatorio").not().isEmpty(),
+    check("numeroId", "El numeroId es obligatorio").not().isEmpty(),
+    check("prioridad", "El prioridad es obligatorio").not().isEmpty(),
+    check("estado", "El estado es obligatorio").not().isEmpty(),
+    check("tipoFalla", "El tipoFalla es obligatorio").not().isEmpty(),
+    check("dateFrom", "El dateFrom es obligatorio").not().isEmpty(),
+    check("dateTo", "El dateTo es obligatorio").not().isEmpty(),
+    check("tipoTicket", "El tipoticket es obligatorio").not().isEmpty(),
+    check("offset", "El offset es obligatorio").not().isEmpty(),
+    check("orderBy", "El orderBy es obligatorio").not().isEmpty(),
+    check("orderByType", "El orderByType es obligatorio").not().isEmpty(),
+    check("limit", "El limit es obligatorio").not().isEmpty(),
 
-        validarJWT
-    ],
+    validarJWT,
+  ],
 
-    getAllTicketsByFilter
+  getAllTicketsByFilter
 );
 
 /**
@@ -3394,18 +3458,18 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getSummarizeHoursByTechnician',
-    [
-        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
-        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
-        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
-        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
+  "/getSummarizeHoursByTechnician",
+  [
+    check("fechaIni", "La fecha es obligatorio").not().isEmpty(),
+    check("fechaFin", "La fecha es obligatorio").not().isEmpty(),
+    check("idUsuario", "La fecha es obligatorio").not().isEmpty(),
+    check("idEmpresa", "La fecha es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getSummarizeHoursByTechnician
+  getSummarizeHoursByTechnician
 );
 
 /**
@@ -3472,19 +3536,19 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getHourDetailByTechnician',
-    [
-        check('fechaIni', 'La fecha es obligatorio').not().isEmpty(),
-        check('fechaFin', 'La fecha es obligatorio').not().isEmpty(),
-        check('idUsuario', 'La fecha es obligatorio').not().isEmpty(),
-        check('idEmpresa', 'La fecha es obligatorio').not().isEmpty(),
-        check('proyecto', 'La fecha es obligatorio').not().isEmpty(),
+  "/getHourDetailByTechnician",
+  [
+    check("fechaIni", "La fecha es obligatorio").not().isEmpty(),
+    check("fechaFin", "La fecha es obligatorio").not().isEmpty(),
+    check("idUsuario", "La fecha es obligatorio").not().isEmpty(),
+    check("idEmpresa", "La fecha es obligatorio").not().isEmpty(),
+    check("proyecto", "La fecha es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getHourDetailByTechnician
+  getHourDetailByTechnician
 );
 
 /**
@@ -3538,17 +3602,35 @@ router.post(
  *     security:
  *      - x-token: []
  */
+
 router.post(
-    '/createHoliday',
-    [
-        check('fecha', 'La fecha es obligatorio').not().isEmpty(),
-        check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+    "/getAllHolidays",
+    [validarJWT],
+  
+    getAllHolidays
+  );
+router.post(
+  "/createHoliday",
+  [
+    check("fecha", "La fecha es obligatorio").not().isEmpty(),
+    check("descripcion", "La descripcion es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    createHoliday
+  createHoliday
+);
+router.delete(
+  "/deleteHoliday/:fecha",
+  [
+    check("fecha", "El label es obligatorio").not().isEmpty(),
+
+    validarCampos,
+    validarJWT,
+  ],
+
+  deleteHoliday
 );
 
 /**
@@ -3612,17 +3694,6 @@ router.post(
  *     security:
  *      - x-token: []
  */
-router.delete(
-    '/deleteHoliday/:fecha',
-    [
-        check('fecha', 'El label es obligatorio').not().isEmpty(),
-
-        validarCampos,
-        validarJWT
-    ],
-
-    deleteHoliday
-);
 
 /**
  * @openapi
@@ -3692,17 +3763,17 @@ router.delete(
  *      - x-token: []
  */
 router.post(
-    '/setHours',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('horas', 'Las horas son obligatoria').not().isEmpty(),
-        check('fecha_accion_hs', 'Las horas son obligatoria').not().isEmpty(),
+  "/setHours",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("horas", "Las horas son obligatoria").not().isEmpty(),
+    check("fecha_accion_hs", "Las horas son obligatoria").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setHours
+  setHours
 );
 
 /**
@@ -3749,15 +3820,15 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getTicketDetail',
-    [
-        check('ticket_id', 'Debe ingresar un rol').not().isEmpty(),
+  "/getTicketDetail",
+  [
+    check("ticket_id", "Debe ingresar un rol").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    getTicketDetail
+  getTicketDetail
 );
 
 /**
@@ -3804,16 +3875,15 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getHours',
-    [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+  "/getHours",
+  [
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
 
-        validarJWT,
-        validarCampos,
+    validarJWT,
+    validarCampos,
+  ],
 
-    ],
-
-    getHours
+  getHours
 );
 
 /**
@@ -3860,16 +3930,15 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getTotalHours',
-    [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+  "/getTotalHours",
+  [
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
 
-        validarJWT,
-        validarCampos,
+    validarJWT,
+    validarCampos,
+  ],
 
-    ],
-
-    getTotalHours
+  getTotalHours
 );
 
 /**
@@ -3916,16 +3985,15 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getProjectedHours',
-    [
-        check('ticket_id', 'Debe ingresar un ticket_id').not().isEmpty(),
+  "/getProjectedHours",
+  [
+    check("ticket_id", "Debe ingresar un ticket_id").not().isEmpty(),
 
-        validarJWT,
-        validarCampos,
+    validarJWT,
+    validarCampos,
+  ],
 
-    ],
-
-    getProjectedHours
+  getProjectedHours
 );
 
 /**
@@ -3966,12 +4034,10 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getFailTypes',
-    [
-        validarJWT
-    ],
+  "/getFailTypes",
+  [validarJWT],
 
-    getFailTypes
+  getFailTypes
 );
 
 /**
@@ -4012,12 +4078,10 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getTicketTypes',
-    [
-        validarJWT
-    ],
+  "/getTicketTypes",
+  [validarJWT],
 
-    getTicketTypes
+  getTicketTypes
 );
 
 /**
@@ -4058,12 +4122,10 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getAreas',
-    [
-        validarJWT
-    ],
+  "/getAreas",
+  [validarJWT],
 
-    getAreas
+  getAreas
 );
 
 /**
@@ -4113,12 +4175,10 @@ router.post(
  *       - x-token: []
  */
 router.post(
-    '/getFailTypes',
-    [
-        validarJWT
-    ],
+  "/getFailTypes",
+  [validarJWT],
 
-    getFailTypes
+  getFailTypes
 );
 
 /**
@@ -4152,18 +4212,17 @@ router.post(
  *         description: No autorizado
  */
 router.post(
-    '/uploadFile',
-    [
-        check('ticket_id', 'El id ticket es obligatorio').not().isEmpty(),
-        upload.fields([{ name: 'files' }]),
+  "/uploadFile",
+  [
+    check("ticket_id", "El id ticket es obligatorio").not().isEmpty(),
+    upload.fields([{ name: "files" }]),
 
-        validarCamposFormData,
-        validarJWT
-    ],
+    validarCamposFormData,
+    validarJWT,
+  ],
 
-    uploadFile
+  uploadFile
 );
-
 
 /**
  * @openapi
@@ -4198,18 +4257,17 @@ router.post(
  *         description: No autorizado
  */
 router.post(
-    '/getFile',
-    [
-        check('relativePath', 'La ruta relativa es obligatoria').not().isEmpty(),
-        check('idTicket', 'El id del ticket es obligatorio').not().isEmpty(),
-        validarCampos,
+  "/getFile",
+  [
+    check("relativePath", "La ruta relativa es obligatoria").not().isEmpty(),
+    check("idTicket", "El id del ticket es obligatorio").not().isEmpty(),
+    validarCampos,
 
-        validarJWT
-    ],
+    validarJWT,
+  ],
 
-    getFile
+  getFile
 );
-
 
 /**
  * @openapi
@@ -4287,19 +4345,19 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setProjectedHours',
-    [
-        check('ticket_id', 'El ticket_id es obligatorio').not().isEmpty(),
-        check('fecha_inicio', 'La fecha_inicio son obligatoria').not().isEmpty(),
-        check('fecha_fin', 'La fecha_fin son obligatoria').not().isEmpty(),
-        check('comentario', 'El comentario son obligatoria').not().isEmpty(),
-        check('isUpdate', 'El isUpdate son obligatoria').not().isEmpty(),
+  "/setProjectedHours",
+  [
+    check("ticket_id", "El ticket_id es obligatorio").not().isEmpty(),
+    check("fecha_inicio", "La fecha_inicio son obligatoria").not().isEmpty(),
+    check("fecha_fin", "La fecha_fin son obligatoria").not().isEmpty(),
+    check("comentario", "El comentario son obligatoria").not().isEmpty(),
+    check("isUpdate", "El isUpdate son obligatoria").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setProjectedHours
+  setProjectedHours
 );
 
 /**
@@ -4366,16 +4424,16 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/setArea',
-    [
-        check('empresa_id', 'La empresa_id es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+  "/setArea",
+  [
+    check("empresa_id", "La empresa_id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
 
-        validarCampos,
-        validarJWT
-    ],
+    validarCampos,
+    validarJWT,
+  ],
 
-    setArea
+  setArea
 );
 
 /**
@@ -4422,16 +4480,15 @@ router.post(
  *      - x-token: []
  */
 router.post(
-    '/getResponsiblesByArea',
-    [
-        check('area_id', 'Debe ingresar un area_id').not().isEmpty(),
+  "/getResponsiblesByArea",
+  [
+    check("area_id", "Debe ingresar un area_id").not().isEmpty(),
 
-        validarJWT,
-        validarCampos,
+    validarJWT,
+    validarCampos,
+  ],
 
-    ],
-
-    getResponsiblesByArea
+  getResponsiblesByArea
 );
 
 module.exports = router;
