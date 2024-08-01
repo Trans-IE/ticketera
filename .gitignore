@@ -8,8 +8,6 @@ API-GATEWAY/uploads/*
 !API-GATEWAY/uploads/.gitkeep
 API-GATEWAY/dist/*
 
-TICKETERA-BACKEND/logs/*
-!TICKETERA-BACKEND/logs/.gitkeep
 TICKETERA-BACKEND/uploads/*
 !TICKETERA-BACKEND/uploads/.gitkeep
 TICKETERA-BACKEND/tAttachments/*
