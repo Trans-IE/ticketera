@@ -6,8 +6,8 @@ COPY package.json package-lock.json* ./
 
 # Install app dependencies
 RUN \
-  if [ -f package-lock.json ]; then npm ci; \
-  else npm install; \
+  if [ -f package-lock.json ]; then npm ci  --legacy-peer-deps; \
+  else npm install --legacy-peer-deps; \
   fi
 
 # Copy the dependencies into a Slim Node docker image
