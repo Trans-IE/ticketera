@@ -5,10 +5,7 @@ FROM registry.access.redhat.com/ubi8/nodejs-18:latest
 COPY package.json package-lock.json* ./
 
 # Install app dependencies
-RUN \
-  if [ -f package-lock.json ]; then npm ci --legacy-peer-deps; \
-  else npm install --legacy-peer-deps; \
-  fi
+RUN npm install --legacy-peer-deps
 
 # Copy the dependencies into a Slim Node docker image
 FROM registry.access.redhat.com/ubi8/nodejs-18-minimal:latest
