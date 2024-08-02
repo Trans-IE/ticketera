@@ -4,8 +4,6 @@ FROM registry.access.redhat.com/ubi8/nodejs-18:latest
 # Copy package.json, and optionally package-lock.json if it exists
 COPY package.json package-lock.json* ./
 
-# Update git
-RUN npm install -g npm@10.8.2
 # Install app dependencies
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
