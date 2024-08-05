@@ -375,7 +375,7 @@ export const TicketDetail = ({ ticketID }) => {
                                     open={isShowFilesModalOpen}
                                     onClose={() => { setIsShowFilesModalOpen(false) }}
                                 >
-                                    <ShowFilesModal closeModal={() => setIsShowFilesModalOpen(false)} />
+                                    <ShowFilesModal ticketId={ticketID} closeModal={() => setIsShowFilesModalOpen(false)} />
                                 </Modal>
 
                                 <div>

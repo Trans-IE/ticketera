@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours, getDBTicketTotalHours, createDBArea } = require('../databases/queries_ticket_actions');
+const { createDBResponsible, createDBAutoEvaluation, createDBHours, createDBNote, createDBPriority, createDBState, getDBTicketActionByTicketId, createDBHiddenNote, getAllDBUsers, getAllDBUsersByCompany, getDBTicketDetail, createDBHoursByList, createDBProjectedHours, getDBTicketHours, getDBTicketProjectedHours, getDBTicketTotalHours, createDBArea, getAllDBFilesPaths } = require('../databases/queries_ticket_actions');
 const { getDBUserIdByUser, getDBTypeUserByUser } = require('../databases/queries_users');
 const { getDBCompanyByUser } = require('../databases/queries_companies');
 const { logger, loggerCSV } = require('../logger');
@@ -705,6 +705,36 @@ const getProjectedHours = async (req, res = response) => {
     }
 }
 
+const getAllFilesPaths = async (req, res = response) => {
+    const { ticket_id, username, offset, limit } = req.body;
+
+    let function_enter_time = new Date();
+    logger.info(`==> getAllFilesPaths.`)
+    try {
+        getAllDBFilesPaths(ticket_id, username, offset, limit)
+            .then(result => {
+                logger.info(`<== getAllFilesPaths`);
+                loggerCSV.info(`getAllFilesPaths, ${(new Date() - function_enter_time) / 1000}`)
+                res.status(200).json({
+                    ok: true,
+                    value: result,
+                    msg: 'Listado de rutas de archivos obtenido correctamente.'
+                });
+            })
+            .catch(error => {
+                logger.error(`getAllFilesPaths => getAllDBFilesPaths error=> ${error}`);
+            })
+
+    } catch (error) {
+        logger.error(`getAllFilesPaths error=> ${error}`);
+        res.status(500).json({
+            ok: false,
+            items: [],
+            msg: 'Error obteniendo listado de rutas de archivos.'
+        });
+    }
+}
+
 module.exports = {
     setPriority,
     setResponsible,
@@ -722,5 +752,6 @@ module.exports = {
     getHours,
     getProjectedHours,
     getTotalHours,
-    setArea
+    setArea,
+    getAllFilesPaths
 }
