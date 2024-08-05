@@ -140,6 +140,17 @@ export const MainMenu = ({ onClick, optionSelected }) => {
               />
             </ListItemButton>
           </Link>
+          <Link
+            to="/feriados"
+            onClick={() => onClickMenu(4)}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton selected={optionSelected === 4}>
+              <ListItemText
+                primary={<Typography color="textPrimary">Feriado</Typography>}
+              />
+            </ListItemButton>
+          </Link>
         </Box>
       </Popover>
     </Box>

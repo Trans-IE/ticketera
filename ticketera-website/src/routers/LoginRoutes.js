@@ -5,9 +5,6 @@ import { SignIn } from '../components/auth/SignIn';
 import { Grid } from '@mui/material';
 
 export const LoginRoutes = () => {
-  useEffect(() => {
-    console.log('estoy aca')
-  }, [])
 
   return (
     <Routes>

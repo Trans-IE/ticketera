@@ -1,3 +1,5 @@
+// components/holidays/Holidays.js
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
@@ -21,15 +23,15 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Close from "@mui/icons-material/Close";
 import {
-  brandGetRowset,
-  brandUpdate,
-  brandCreate,
-  brandDelete,
-} from "../../redux/actions/brandActions";
+  holidayGetRowset,
+  holidayUpdate,
+  holidayCreate,
+  holidayDelete,
+} from "../../redux/actions/holidayActions";
 import ItemTable from "../table/Table";
 import CreateItemDrawer from "../createItemDrawer/Create";
 import ContainerWithMenu from "../root/ContainerWithMenu";
-import { ButtonTrans } from "../UI/ButtonTrans";
+import { ButtonTrans } from "../ui/ButtonTrans";
 
 const drawerWidth = 240;
 
@@ -60,10 +62,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-const Brands = () => {
+const Holidays = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { brands } = useSelector((state) => state.brands);
+  const holidays = useSelector((state) => state?.holidays?.holidays || []);
 
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
@@ -72,10 +74,10 @@ const Brands = () => {
   const [editingItem, setEditingItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [undoBrand, setUndoBrand] = useState(null);
+  const [undoHoliday, setUndoHoliday] = useState(null);
 
   useEffect(() => {
-    dispatch(brandGetRowset());
+    dispatch(holidayGetRowset());
   }, [dispatch]);
 
   const handleDrawerOpen = () => {
@@ -87,31 +89,31 @@ const Brands = () => {
     setEditingItem(null);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("¿Estás seguro de que quieres eliminar esta marca?")) {
-      const brand = brands.find((brand) => brand.id === id);
-      if (brand) {
-        const updatedBrand = { ...brand, habilitado: false };
-        setUndoBrand(updatedBrand);
-        dispatch(brandDelete(updatedBrand))
+  const handleDelete = (fecha) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar este feriado?")) {
+      const holiday = holidays.find((holiday) => holiday.fecha === fecha);
+      if (holiday) {
+        const updatedHoliday = { ...holiday, habilitado: false };
+        setUndoHoliday(updatedHoliday);
+        dispatch(holidayDelete(updatedHoliday))
           .then(() => {
-            dispatch(brandGetRowset());
+            dispatch(holidayGetRowset());
             setSnackbarOpen(true);
           })
           .catch((error) => {
-            console.error("Error deleting brand:", error);
-            alert(`No se pudo eliminar la marca. Error: ${error.message}`);
+            console.error("Error deleting holiday:", error);
+            alert(`No se pudo eliminar el feriado. Error: ${error.message}`);
           });
       }
     }
   };
 
   const handleUndo = () => {
-    if (undoBrand) {
-      const reenabledBrand = { ...undoBrand, habilitado: true };
-      dispatch(brandUpdate(reenabledBrand)).then(() => {
-        dispatch(brandGetRowset());
-        setUndoBrand(null);
+    if (undoHoliday) {
+      const reenabledHoliday = { ...undoHoliday, habilitado: true };
+      dispatch(holidayUpdate(reenabledHoliday)).then(() => {
+        dispatch(holidayGetRowset());
+        setUndoHoliday(null);
         setSnackbarOpen(false);
       });
     }
@@ -131,12 +133,15 @@ const Brands = () => {
 
   const handleSaveItem = (newItem) => {
     if (editingItem) {
-      dispatch(brandUpdate({ ...newItem, id: editingItem.id })).then(() => {
-        dispatch(brandGetRowset());
-      });
+      console.log(newItem);
+      dispatch(holidayUpdate({ ...newItem, fecha: editingItem.fecha })).then(
+        () => {
+          dispatch(holidayGetRowset());
+        }
+      );
     } else {
-      dispatch(brandCreate(newItem)).then(() => {
-        dispatch(brandGetRowset());
+      dispatch(holidayCreate(newItem)).then(() => {
+        dispatch(holidayGetRowset());
       });
     }
     setDrawerOpen(false);
@@ -156,14 +161,13 @@ const Brands = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredBrands = brands
-    // .filter((brand) => brand.habilitado) // Filtra las marcas habilitadas
-    .filter((brand) =>
-      brand.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const filteredHolidays = holidays.filter((holiday) =>
+    holiday.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const columns = [
-    { id: "nombre", label: "Marca" },
+    { id: "fecha", label: "Fecha", render: (row) => formatDate(row.fecha) },
+    { id: "descripcion", label: "Descripción" },
     {
       id: "actions",
       label: "",
@@ -179,7 +183,7 @@ const Brands = () => {
           <IconButton onClick={() => handleEdit(row)}>
             <EditIcon />
           </IconButton>
-          <IconButton onClick={() => handleDelete(row.id)}>
+          <IconButton onClick={() => handleDelete(row.fecha)}>
             <DeleteIcon />
           </IconButton>
         </Box>
@@ -187,8 +191,14 @@ const Brands = () => {
     },
   ];
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("es-ES", options);
+  };
+
   const fields = [
-    { id: "nombre", label: "Nombre", type: "text", required: true },
+    { id: "fecha", label: "Fecha", type: "date", required: true },
+    { id: "descripcion", label: "Descripción", type: "text", required: true },
   ];
 
   return (
@@ -208,7 +218,7 @@ const Brands = () => {
               <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 <TextField
                   size="small"
-                  placeholder="Buscar Marca"
+                  placeholder="Buscar Feriado"
                   value={searchTerm}
                   onChange={handleSearchChange}
                   sx={{
@@ -229,22 +239,13 @@ const Brands = () => {
                   startIcon={<AddIcon />}
                   onClick={handleDrawerOpen}
                 >
-                  Añadir Marca
+                  Añadir Feriado
                 </ButtonTrans>
               </Box>
             </Box>
             <Box sx={{ width: "90vw" }}>
-              <ItemTable columns={columns} data={filteredBrands} />
+              <ItemTable columns={columns} data={filteredHolidays} />
             </Box>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={filteredBrands.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
           </Box>
         </Main>
         <Drawer
@@ -270,14 +271,14 @@ const Brands = () => {
               )}
             </IconButton>
             <Typography variant="h6">
-              {editingItem ? "Editar Marca" : "Añadir Nueva Marca"}
+              {editingItem ? "Editar Feriado" : "Añadir Nuevo Feriado"}
             </Typography>
           </DrawerHeader>
           <Divider />
           <List>
             <CreateItemDrawer
               fields={fields}
-              brands={brands}
+              holidays={holidays}
               onSave={handleSaveItem}
               onClose={handleDrawerClose}
               editingItem={editingItem}
@@ -288,7 +289,7 @@ const Brands = () => {
           open={snackbarOpen}
           autoHideDuration={10000}
           onClose={handleSnackbarClose}
-          message="Marca eliminada"
+          message="Feriado eliminado"
           action={
             <>
               <Button color="primary" size="large" onClick={handleUndo}>
@@ -310,4 +311,4 @@ const Brands = () => {
   );
 };
 
-export default Brands;
+export default Holidays;
