@@ -4,11 +4,13 @@ const fs = require("node:fs");
 const https = require("node:https");
 const path = require("node:path");
 
-const logDir = path.join(__dirname, 'logs');
+// Crear el directorio de logs si no existe
+const logDir = path.join(__dirname, "logs");
 if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-    fs.chmodSync(logDir, 0o777);
+  fs.mkdirSync(logDir, { recursive: true });
+  fs.chmodSync(logDir, 0o777);
 }
+
 // Crear el servidor de express
 const app = express();
 const cors = require("cors");
@@ -62,11 +64,3 @@ if (process.env.SSL === "ON") {
     setInterval(checkDeleteTmpFiles, 3600000);
   });
 }
-
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
-});
