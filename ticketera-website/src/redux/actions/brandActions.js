@@ -98,7 +98,7 @@ export const brandDelete = (brand) => {
       const resp = await fetchConToken(url, brandToDisable, "PUT");
       const body = await resp.json();
       if (body.ok) {
-        dispatch(brandDeleteRedux(brand.id));
+        dispatch(brandUpdateRedux(brand.id));
         Swal.fire("Success", "Brand deleted successfully", "success");
         return body.value;
       } else {

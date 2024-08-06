@@ -47,6 +47,7 @@ const {
   getAllHolidays,
   createHoliday,
   deleteHoliday,
+  updateHoliday,
 } = require("../controllers/holidays");
 const {
   getUserRol,
@@ -1614,6 +1615,7 @@ router.put(
   [
     check("id", "El id es obligatorio").not().isEmpty(),
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("habilitado", "El campo habilitado es obligatorio").not().isEmpty(),
 
     validarCampos,
     validarJWT,
@@ -3604,11 +3606,11 @@ router.post(
  */
 
 router.post(
-    "/getAllHolidays",
-    [validarJWT],
-  
-    getAllHolidays
-  );
+  "/getAllHolidays",
+  [validarJWT],
+
+  getAllHolidays
+);
 router.post(
   "/createHoliday",
   [
@@ -3620,6 +3622,18 @@ router.post(
   ],
 
   createHoliday
+);
+router.put(
+  "/updateHoliday/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("fecha", "La fecha es obligatoria").not().isEmpty(),
+
+    validarCampos,
+    validarJWT,
+  ],
+
+  updateHoliday
 );
 router.delete(
   "/deleteHoliday/:fecha",

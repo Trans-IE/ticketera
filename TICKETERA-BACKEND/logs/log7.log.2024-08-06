@@ -1,0 +1,32 @@
+[6/8/2024, 09:39:45] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:39:45] info <== getUserByLogin
+[6/8/2024, 09:39:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:39:45] info <== getUserRol
+[6/8/2024, 09:39:45] info getAllHolidays.
+[6/8/2024, 09:39:45] info <== getAllHolidays
+[6/8/2024, 09:39:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:39:51] info <== getUserRol
+[6/8/2024, 09:39:51] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:39:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:39:51] info <== getUserRol
+[6/8/2024, 09:39:51] info getAllHolidays.
+[6/8/2024, 09:39:51] info <== getAllHolidays
+[6/8/2024, 09:40:00] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:40:00] info <== getUserByLogin
+[6/8/2024, 09:40:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:40:00] info <== getUserRol
+[6/8/2024, 09:40:00] info getAllHolidays.
+[6/8/2024, 09:40:00] info <== getAllHolidays
+[6/8/2024, 09:40:00] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:40:00] info <== getUserByLogin
+[6/8/2024, 09:40:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:40:00] info <== getUserRol
+[6/8/2024, 09:40:00] info getAllHolidays.
+[6/8/2024, 09:40:00] info <== getAllHolidays
+[6/8/2024, 09:40:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:40:05] info <== getUserRol
+[6/8/2024, 09:40:05] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:40:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:40:05] info <== getUserRol
+[6/8/2024, 09:40:05] info getAllHolidays.
+[6/8/2024, 09:40:05] info <== getAllHolidays

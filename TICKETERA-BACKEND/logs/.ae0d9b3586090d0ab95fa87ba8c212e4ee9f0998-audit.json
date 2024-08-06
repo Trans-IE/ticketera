@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 182
+    },
+    "auditLog": "C:\\Users\\mmaruzza\\Desktop\\Proyectos\\ticketera\\TICKETERA-BACKEND\\logs\\.ae0d9b3586090d0ab95fa87ba8c212e4ee9f0998-audit.json",
+    "files": [
+        {
+            "date": 1722946347385,
+            "name": "C:\\Users\\mmaruzza\\Desktop\\Proyectos\\ticketera\\TICKETERA-BACKEND\\logs\\log6.log.2024-08-06",
+            "hash": "42a03ce0b26252b03bad628761f5ab12ce972973c74000431aeb98588102f087"
+        }
+    ],
+    "hashType": "sha256"
+}

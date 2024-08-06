@@ -6,7 +6,7 @@
   "scripts": {
     "bprod": "node --env-file=.env esbuild-prod.mjs",
     "dw": "node --watch --env-file=.env index.js",
-    "start": "node index.js"
+    "start": "node --env-file=.env index.js"
   },
   "author": "",
   "license": "ISC",

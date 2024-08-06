@@ -15,12 +15,9 @@ const holidaysSlice = createSlice({
       state.holidays.push(action.payload);
     },
     holidayUpdateRedux: (state, action) => {
-      const index = state.holidays.findIndex(
-        (holiday) => holiday.fecha === action.payload.fecha
+      state.holidays = state.holidays.map((holiday) =>
+        holiday.id === action.payload.id ? action.payload : holiday
       );
-      if (index !== -1) {
-        state.holidays[index] = action.payload;
-      }
     },
     holidayDeleteRedux: (state, action) => {
       state.holidays = state.holidays.filter(

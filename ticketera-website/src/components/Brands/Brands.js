@@ -5,7 +5,6 @@ import {
   Box,
   CssBaseline,
   Typography,
-  TablePagination,
   TextField,
   IconButton,
   Drawer,
@@ -157,7 +156,7 @@ const Brands = () => {
   };
 
   const filteredBrands = brands
-    // .filter((brand) => brand.habilitado) // Filtra las marcas habilitadas
+    .filter((brand) => brand.habilitado) // Filtra las marcas habilitadas
     .filter((brand) =>
       brand.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -236,15 +235,6 @@ const Brands = () => {
             <Box sx={{ width: "90vw" }}>
               <ItemTable columns={columns} data={filteredBrands} />
             </Box>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={filteredBrands.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
           </Box>
         </Main>
         <Drawer

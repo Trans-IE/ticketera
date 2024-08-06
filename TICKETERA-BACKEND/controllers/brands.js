@@ -81,42 +81,39 @@ const createBrand = async (req, res = response) => {
 
 const updateBrand = async (req, res = response) => {
   const id = req.params.id;
-  const { nombre, habilitado } = req.body; // Incluye el campo habilitado en la desestructuración
-
+  const { nombre, habilitado } = req.body;
   logger.info(
     `updateBrand. id:${id} nombre:${nombre} habilitado:${habilitado}`
   );
   try {
-    // Asegúrate de que updateDBBrand esté manejando todos los campos necesarios
-    updateDBBrand(id, { nombre, habilitado })
+    updateDBBrand(id, nombre, habilitado)
       .then((result) => {
-        console.log(`result: ${result}`);
         if (result == 1) {
           res.status(200).json({
             ok: true,
             value: result,
-            msg: `La marca '${nombre}' fue actualizada correctamente.`,
+            msg: `La marca '${nombre}' fue actualizado correctamente.`,
           });
         } else {
           return res.status(401).json({
             ok: false,
-            msg: `La marca no pudo ser actualizada en el sistema.`,
+            msg: `La marca no pudo ser actualizada en el sistema.-`,
           });
         }
       })
       .catch((dataError) => {
         logger.error(
-          `updateBrand => updateDBBrand : params=> id=${id} nombre=${nombre} habilitado=${habilitado}`
+          `updateBrand  => updateDBBrand : params=> id=${id} nombre=${nombre}`
         );
         res.status(501).json({
           ok: false,
           error: dataError,
-          msg: `No se pudo actualizar la marca '${nombre}'.`,
+          msg: `No se pudo actualizar la marca '${nombre}' `,
         });
       });
   } catch (error) {
     logger.error(
-      `updateBrand : params=> id=${id} nombre=${nombre} habilitado=${habilitado} error=> ${error}`
+      `updateBrand : params=> id=${id} nombre=${nombre} error=> ${error}`
     );
     res.status(500).json({
       ok: false,

@@ -1,0 +1,2 @@
+[6/8/2024, 09:12:07] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:12:22] error getAgentByLogin : {"code":"ECONNABORTED","message":"connect ECONNABORTED 192.168.112.96:5432","stack":"Error: connect ECONNABORTED 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}

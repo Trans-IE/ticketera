@@ -1,0 +1,1571 @@
+[6/8/2024, 09:51:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:51:51] info <== getUserRol
+[6/8/2024, 09:51:51] info getAllHolidays.
+[6/8/2024, 09:51:51] info <== getAllHolidays
+[6/8/2024, 09:51:54] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:51:54] info <== getUserRol
+[6/8/2024, 09:51:54] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:51:56] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:51:56] info <== getUserRol
+[6/8/2024, 09:51:56] info getAllHolidays.
+[6/8/2024, 09:51:56] info <== getAllHolidays
+[6/8/2024, 09:51:56] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:51:56] info <== getUserRol
+[6/8/2024, 09:51:56] info getAllHolidays.
+[6/8/2024, 09:51:56] info <== getAllHolidays
+[6/8/2024, 09:51:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:51:58] info <== getUserRol
+[6/8/2024, 09:51:58] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:52:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:01] info <== getUserRol
+[6/8/2024, 09:52:01] info getAllHolidays.
+[6/8/2024, 09:52:01] info <== getAllHolidays
+[6/8/2024, 09:52:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:13] info <== getUserRol
+[6/8/2024, 09:52:13] info getAllHolidays.
+[6/8/2024, 09:52:13] info <== getAllHolidays
+[6/8/2024, 09:52:15] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:15] info <== getUserRol
+[6/8/2024, 09:52:15] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:52:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:23] info <== getUserRol
+[6/8/2024, 09:52:23] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:52:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:26] info <== getUserRol
+[6/8/2024, 09:52:26] info getAllHolidays.
+[6/8/2024, 09:52:26] info <== getAllHolidays
+[6/8/2024, 09:52:33] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:52:33] info <== getUserByLogin
+[6/8/2024, 09:52:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:33] info <== getUserRol
+[6/8/2024, 09:52:33] info getAllHolidays.
+[6/8/2024, 09:52:33] info <== getAllHolidays
+[6/8/2024, 09:52:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:37] info <== getUserRol
+[6/8/2024, 09:52:37] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:52:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:52:37] info <== getUserRol
+[6/8/2024, 09:52:37] info getAllHolidays.
+[6/8/2024, 09:52:37] info <== getAllHolidays
+[6/8/2024, 09:56:43] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:56:43] info <== getUserByLogin
+[6/8/2024, 09:56:43] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:56:43] info <== getUserRol
+[6/8/2024, 09:56:43] info getAllHolidays.
+[6/8/2024, 09:56:43] info <== getAllHolidays
+[6/8/2024, 09:56:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:56:49] info <== getUserRol
+[6/8/2024, 09:56:49] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:56:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:56:49] info <== getUserRol
+[6/8/2024, 09:56:49] info getAllHolidays.
+[6/8/2024, 09:56:49] info <== getAllHolidays
+[6/8/2024, 10:00:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:00:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:00:10] info <== getUserRol
+[6/8/2024, 10:00:10] info <== getUserRol
+[6/8/2024, 10:00:10] info getAllProducts.
+[6/8/2024, 10:00:10] info ==> getAllBrands.
+[6/8/2024, 10:00:10] info <== getAllProducts
+[6/8/2024, 10:00:10] info <== getAllBrands
+[6/8/2024, 10:03:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:01] info <== getUserRol
+[6/8/2024, 10:03:01] info createProduct nombre:test modelo:Modelo test habilitado:true marca_id:21 
+[6/8/2024, 10:03:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:01] info <== getUserRol
+[6/8/2024, 10:03:01] info getAllProducts.
+[6/8/2024, 10:03:01] info <== getAllProducts
+[6/8/2024, 10:03:19] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:19] info <== getUserRol
+[6/8/2024, 10:03:19] info updateBrand. id:1 nombre:nuevoProducto12222 modelo:modeloNuevo222 habilitado:true marca_id:712781
+[6/8/2024, 10:03:19] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:19] info <== getUserRol
+[6/8/2024, 10:03:19] info getAllProducts.
+[6/8/2024, 10:03:19] info <== getAllProducts
+[6/8/2024, 10:03:28] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:28] info <== getUserRol
+[6/8/2024, 10:03:28] info updateBrand. id:1 nombre:nuevoProducto12222 modelo:modeloNuevo222 habilitado:false marca_id:712781
+[6/8/2024, 10:03:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:29] info <== getUserRol
+[6/8/2024, 10:03:29] info getAllProducts.
+[6/8/2024, 10:03:29] info <== getAllProducts
+[6/8/2024, 10:03:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:32] info <== getUserRol
+[6/8/2024, 10:03:32] info updateBrand. id:1 nombre:nuevoProducto12222 modelo:modeloNuevo222 habilitado:true marca_id:712781
+[6/8/2024, 10:03:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:33] info <== getUserRol
+[6/8/2024, 10:03:33] info getAllProducts.
+[6/8/2024, 10:03:33] info <== getAllProducts
+[6/8/2024, 10:03:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:49] info <== getUserRol
+[6/8/2024, 10:03:49] info ==> getAllBrands.
+[6/8/2024, 10:03:49] info <== getAllBrands
+[6/8/2024, 10:03:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:58] info <== getUserRol
+[6/8/2024, 10:03:58] info createBrand id:907140 nombre:Marca prueba 
+[6/8/2024, 10:03:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:03:58] info <== getUserRol
+[6/8/2024, 10:03:58] info ==> getAllBrands.
+[6/8/2024, 10:03:58] info <== getAllBrands
+[6/8/2024, 10:04:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:04:11] info <== getUserRol
+[6/8/2024, 10:04:11] info updateBrand. id:907140 nombre:Marca habilitado:undefined
+[6/8/2024, 10:04:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:04:11] info <== getUserRol
+[6/8/2024, 10:04:11] info ==> getAllBrands.
+[6/8/2024, 10:04:11] info <== getAllBrands
+[6/8/2024, 10:04:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:04:29] info <== getUserRol
+[6/8/2024, 10:04:30] info updateBrand. id:907140 nombre:{"nombre":"Marca"} habilitado:undefined
+[6/8/2024, 10:04:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:04:30] info <== getUserRol
+[6/8/2024, 10:04:30] info ==> getAllBrands.
+[6/8/2024, 10:04:30] info <== getAllBrands
+[6/8/2024, 10:04:48] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 10:04:48] info <== getUserByLogin
+[6/8/2024, 10:04:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:04:48] info <== getUserRol
+[6/8/2024, 10:04:48] info ==> getAllBrands.
+[6/8/2024, 10:04:48] info <== getAllBrands
+[6/8/2024, 10:05:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:11] info <== getUserRol
+[6/8/2024, 10:05:11] info getAllHolidays.
+[6/8/2024, 10:05:11] info <== getAllHolidays
+[6/8/2024, 10:05:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:30] info <== getUserRol
+[6/8/2024, 10:05:30] info createHoliday fecha:2024-08-21 descripcion:Test 123
+[6/8/2024, 10:05:30] error createHoliday => createDBHoliday : params=> fecha:2024-08-21 descripcion:Test 123 error=> no existe la función tickets.f_ticketera_feriados_insert(unknown, unknown)
+[6/8/2024, 10:05:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:31] info <== getUserRol
+[6/8/2024, 10:05:31] info getAllHolidays.
+[6/8/2024, 10:05:31] info <== getAllHolidays
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info ==> getAllPrioritys.
+[6/8/2024, 10:05:59] info ==> getTicketTypes.
+[6/8/2024, 10:05:59] info ==> getAllStates.
+[6/8/2024, 10:05:59] info <== getAllPrioritys
+[6/8/2024, 10:05:59] info <== getTicketTypes
+[6/8/2024, 10:05:59] info <== getAllStates
+[6/8/2024, 10:05:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:05:59] info ==> getFailTypes.
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getAllUsersByCompany
+[6/8/2024, 10:05:59] info <== getFailTypes
+[6/8/2024, 10:05:59] info ==> getTicketTypes.
+[6/8/2024, 10:05:59] info ==> getAllCompaniesLocal.
+[6/8/2024, 10:05:59] info ==> getAllBrands.
+[6/8/2024, 10:05:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:05:59] info <== getTicketTypes
+[6/8/2024, 10:05:59] info <== getAllBrands
+[6/8/2024, 10:05:59] info <== getAllUsersByCompany
+[6/8/2024, 10:05:59] info <== getAllCompaniesLocal
+[6/8/2024, 10:05:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:05:59] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:05:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:05:59] info <== getUserRol
+[6/8/2024, 10:05:59] info <== getAllTicketsByFilter
+[6/8/2024, 10:05:59] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:05:59] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:05:59] info <== getAllTicketsByFilter
+[6/8/2024, 10:07:52] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 10:07:52] info <== getUserByLogin
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info ==> getAllStates.
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getAllPrioritys.
+[6/8/2024, 10:07:52] info <== getAllPrioritys
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:52] info <== getAllUsersByCompany
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info <== getAllStates
+[6/8/2024, 10:07:52] info ==> getAllCompaniesLocal.
+[6/8/2024, 10:07:52] info <== getAllUsersByCompany
+[6/8/2024, 10:07:52] info ==> getTicketTypes.
+[6/8/2024, 10:07:52] info ==> getAllBrands.
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info <== getTicketTypes
+[6/8/2024, 10:07:52] info <== getAllBrands
+[6/8/2024, 10:07:52] info <== getAllCompaniesLocal
+[6/8/2024, 10:07:52] info ==> getFailTypes.
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getFailTypes
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getTicketTypes.
+[6/8/2024, 10:07:52] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:07:52] info <== getTicketTypes
+[6/8/2024, 10:07:52] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:07:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:52] info <== getUserRol
+[6/8/2024, 10:07:52] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:07:52] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:07:53] info <== getAllTicketsByFilter
+[6/8/2024, 10:07:53] info <== getAllTicketsByFilter
+[6/8/2024, 10:07:58] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 10:07:58] info <== getUserByLogin
+[6/8/2024, 10:07:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:58] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getAllStates.
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getTicketTypes.
+[6/8/2024, 10:07:59] info <== getAllStates
+[6/8/2024, 10:07:59] info ==> getAllCompaniesLocal.
+[6/8/2024, 10:07:59] info ==> getAllPrioritys.
+[6/8/2024, 10:07:59] info <== getTicketTypes
+[6/8/2024, 10:07:59] info ==> getFailTypes.
+[6/8/2024, 10:07:59] info ==> getAllBrands.
+[6/8/2024, 10:07:59] info <== getAllPrioritys
+[6/8/2024, 10:07:59] info <== getAllCompaniesLocal
+[6/8/2024, 10:07:59] info <== getFailTypes
+[6/8/2024, 10:07:59] info <== getAllBrands
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getTicketTypes.
+[6/8/2024, 10:07:59] info <== getAllUsersByCompany
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getAllUsersByCompany
+[6/8/2024, 10:07:59] info <== getTicketTypes
+[6/8/2024, 10:07:59] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:07:59] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:07:59] info <== getAllTicketsByFilter
+[6/8/2024, 10:07:59] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 10:07:59] info <== getUserByLogin
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getAllStates.
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getAllPrioritys.
+[6/8/2024, 10:07:59] info <== getAllStates
+[6/8/2024, 10:07:59] info ==> getAllBrands.
+[6/8/2024, 10:07:59] info <== getAllPrioritys
+[6/8/2024, 10:07:59] info ==> getFailTypes.
+[6/8/2024, 10:07:59] info <== getAllBrands
+[6/8/2024, 10:07:59] info <== getFailTypes
+[6/8/2024, 10:07:59] info ==> getAllCompaniesLocal.
+[6/8/2024, 10:07:59] info ==> getTicketTypes.
+[6/8/2024, 10:07:59] info <== getTicketTypes
+[6/8/2024, 10:07:59] info <== getAllCompaniesLocal
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info ==> getTicketTypes.
+[6/8/2024, 10:07:59] info <== getAllUsersByCompany
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info <== getTicketTypes
+[6/8/2024, 10:07:59] info ==> getAllUsersByCompany.
+[6/8/2024, 10:07:59] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:07:59] info <== getAllUsersByCompany
+[6/8/2024, 10:07:59] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:07:59] info <== getAllTicketsByFilter
+[6/8/2024, 10:07:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 10:07:59] info <== getUserRol
+[6/8/2024, 10:07:59] info ==> getAllTicketsByFilter.
+[6/8/2024, 10:07:59] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 10:07:59] info <== getAllTicketsByFilter
+[6/8/2024, 11:44:22] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:44:22] info <== getUserByLogin
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getAllStates.
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getAllPrioritys.
+[6/8/2024, 11:44:23] info <== getAllPrioritys
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getAllUsersByCompany.
+[6/8/2024, 11:44:23] info <== getAllUsersByCompany
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getAllUsersByCompany.
+[6/8/2024, 11:44:23] info <== getAllUsersByCompany
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info <== getAllStates
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getAllCompaniesLocal.
+[6/8/2024, 11:44:23] info ==> getTicketTypes.
+[6/8/2024, 11:44:23] info <== getTicketTypes
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info ==> getFailTypes.
+[6/8/2024, 11:44:23] info <== getAllCompaniesLocal
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info <== getFailTypes
+[6/8/2024, 11:44:23] info ==> getTicketTypes.
+[6/8/2024, 11:44:23] info ==> getAllBrands.
+[6/8/2024, 11:44:23] info <== getTicketTypes
+[6/8/2024, 11:44:23] info ==> getAllTicketsByFilter.
+[6/8/2024, 11:44:23] info <== getAllBrands
+[6/8/2024, 11:44:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:23] info <== getUserRol
+[6/8/2024, 11:44:23] info ==> getAllTicketsByFilter.
+[6/8/2024, 11:44:23] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 11:44:23] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 11:44:23] info <== getAllTicketsByFilter
+[6/8/2024, 11:44:23] info <== getAllTicketsByFilter
+[6/8/2024, 11:44:25] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:25] info <== getUserRol
+[6/8/2024, 11:44:25] info getAllHolidays.
+[6/8/2024, 11:44:25] info <== getAllHolidays
+[6/8/2024, 11:44:26] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:44:26] info <== getUserByLogin
+[6/8/2024, 11:44:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:26] info <== getUserRol
+[6/8/2024, 11:44:26] info getAllHolidays.
+[6/8/2024, 11:44:26] info <== getAllHolidays
+[6/8/2024, 11:44:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:30] info <== getUserRol
+[6/8/2024, 11:44:30] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 11:44:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:30] info <== getUserRol
+[6/8/2024, 11:44:30] info getAllHolidays.
+[6/8/2024, 11:44:30] info <== getAllHolidays
+[6/8/2024, 11:44:32] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:44:32] info <== getUserByLogin
+[6/8/2024, 11:44:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:44:32] info <== getUserRol
+[6/8/2024, 11:44:32] info getAllHolidays.
+[6/8/2024, 11:44:32] info <== getAllHolidays
+[6/8/2024, 11:45:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:45:09] info <== getUserRol
+[6/8/2024, 11:45:09] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 11:45:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:45:09] info <== getUserRol
+[6/8/2024, 11:45:09] info getAllHolidays.
+[6/8/2024, 11:45:09] info <== getAllHolidays
+[6/8/2024, 11:46:40] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:46:40] info <== getUserRol
+[6/8/2024, 11:46:40] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 11:46:44] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:46:44] info <== getUserRol
+[6/8/2024, 11:46:44] info getAllHolidays.
+[6/8/2024, 11:46:44] info <== getAllHolidays
+[6/8/2024, 11:46:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:46:52] info <== getUserRol
+[6/8/2024, 11:46:52] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 11:46:54] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:46:54] info <== getUserRol
+[6/8/2024, 11:46:54] info getAllHolidays.
+[6/8/2024, 11:46:54] info <== getAllHolidays
+[6/8/2024, 11:47:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:47:24] info <== getUserRol
+[6/8/2024, 11:47:24] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 11:48:36] error uncaughtException: updateHoliday is not defined
+ReferenceError: updateHoliday is not defined
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\API-GATEWAY\routes\entities.js:3634:3)
+    at Module._compile (node:internal/modules/cjs/loader:1467:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:215:24)
+    at Module.require (node:internal/modules/cjs/loader:1304:12)
+    at require (node:internal/modules/helpers:123:16)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\API-GATEWAY\index.js:24:27)
+[6/8/2024, 11:49:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:49:49] info <== getUserRol
+[6/8/2024, 11:49:49] info getAllHolidays.
+[6/8/2024, 11:49:49] info <== getAllHolidays
+[6/8/2024, 11:49:53] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:49:53] info <== getUserByLogin
+[6/8/2024, 11:49:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:49:53] info <== getUserRol
+[6/8/2024, 11:49:53] info getAllHolidays.
+[6/8/2024, 11:49:53] info <== getAllHolidays
+[6/8/2024, 11:49:54] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:49:54] info <== getUserByLogin
+[6/8/2024, 11:49:54] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:49:54] info <== getUserRol
+[6/8/2024, 11:49:54] info getAllHolidays.
+[6/8/2024, 11:49:54] info <== getAllHolidays
+[6/8/2024, 11:50:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:50:00] info <== getUserRol
+[6/8/2024, 11:50:00] info getAllHolidays.
+[6/8/2024, 11:50:00] info <== getAllHolidays
+[6/8/2024, 11:51:41] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:51:41] info <== getUserByLogin
+[6/8/2024, 11:51:41] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:51:41] info <== getUserRol
+[6/8/2024, 11:51:41] info getAllHolidays.
+[6/8/2024, 11:51:41] info <== getAllHolidays
+[6/8/2024, 11:51:42] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:51:42] info <== getUserByLogin
+[6/8/2024, 11:51:42] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:51:42] info <== getUserRol
+[6/8/2024, 11:51:42] info getAllHolidays.
+[6/8/2024, 11:51:42] info <== getAllHolidays
+[6/8/2024, 11:51:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:51:47] info <== getUserRol
+[6/8/2024, 11:51:47] info getAllHolidays.
+[6/8/2024, 11:51:47] info <== getAllHolidays
+[6/8/2024, 11:54:20] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:54:20] info <== getUserByLogin
+[6/8/2024, 11:54:20] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:20] info <== getUserRol
+[6/8/2024, 11:54:20] info getAllHolidays.
+[6/8/2024, 11:54:20] info <== getAllHolidays
+[6/8/2024, 11:54:22] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:22] info <== getUserRol
+[6/8/2024, 11:54:23] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:54:23] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:54:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:23] info <== getUserRol
+[6/8/2024, 11:54:23] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:54:24] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:54:28] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:28] info <== getUserRol
+[6/8/2024, 11:54:28] info getAllHolidays.
+[6/8/2024, 11:54:28] info <== getAllHolidays
+[6/8/2024, 11:54:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:37] info <== getUserRol
+[6/8/2024, 11:54:37] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:54:37] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:54:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:37] info <== getUserRol
+[6/8/2024, 11:54:37] info getAllHolidays.
+[6/8/2024, 11:54:37] info <== getAllHolidays
+[6/8/2024, 11:54:48] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:54:48] info <== getUserByLogin
+[6/8/2024, 11:54:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:48] info <== getUserRol
+[6/8/2024, 11:54:48] info getAllHolidays.
+[6/8/2024, 11:54:48] info <== getAllHolidays
+[6/8/2024, 11:54:49] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:54:49] info <== getUserByLogin
+[6/8/2024, 11:54:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:54:49] info <== getUserRol
+[6/8/2024, 11:54:49] info getAllHolidays.
+[6/8/2024, 11:54:49] info <== getAllHolidays
+[6/8/2024, 11:56:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:56:21] info <== getUserRol
+[6/8/2024, 11:56:21] info updateHoliday id:2 descripcion:asssssssssss fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:56:21] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=asssssssssss error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:56:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:56:21] info <== getUserRol
+[6/8/2024, 11:56:21] info getAllHolidays.
+[6/8/2024, 11:56:21] info <== getAllHolidays
+[6/8/2024, 11:56:29] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:56:30] info <== getUserByLogin
+[6/8/2024, 11:56:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:56:30] info <== getUserRol
+[6/8/2024, 11:56:30] info getAllHolidays.
+[6/8/2024, 11:56:30] info <== getAllHolidays
+[6/8/2024, 11:56:36] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:56:36] info <== getUserRol
+[6/8/2024, 11:56:36] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:56:36] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:56:36] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:56:36] info <== getUserRol
+[6/8/2024, 11:56:36] info getAllHolidays.
+[6/8/2024, 11:56:36] info <== getAllHolidays
+[6/8/2024, 11:57:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:05] info <== getUserRol
+[6/8/2024, 11:57:06] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:06] info <== getUserRol
+[6/8/2024, 11:57:07] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:07] info <== getUserRol
+[6/8/2024, 11:57:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:09] info <== getUserRol
+[6/8/2024, 11:57:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:09] info <== getUserRol
+[6/8/2024, 11:57:11] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:57:11] info <== getUserByLogin
+[6/8/2024, 11:57:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:11] info <== getUserRol
+[6/8/2024, 11:57:11] info getAllHolidays.
+[6/8/2024, 11:57:11] info <== getAllHolidays
+[6/8/2024, 11:57:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:16] info <== getUserRol
+[6/8/2024, 11:57:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:16] info <== getUserRol
+[6/8/2024, 11:57:16] info getAllHolidays.
+[6/8/2024, 11:57:16] info <== getAllHolidays
+[6/8/2024, 11:57:29] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:57:29] info <== getUserByLogin
+[6/8/2024, 11:57:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:29] info <== getUserRol
+[6/8/2024, 11:57:29] info getAllHolidays.
+[6/8/2024, 11:57:29] info <== getAllHolidays
+[6/8/2024, 11:57:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:33] info <== getUserRol
+[6/8/2024, 11:57:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:33] info <== getUserRol
+[6/8/2024, 11:57:33] info getAllHolidays.
+[6/8/2024, 11:57:33] info <== getAllHolidays
+[6/8/2024, 11:57:37] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:57:37] info <== getUserByLogin
+[6/8/2024, 11:57:38] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:38] info <== getUserRol
+[6/8/2024, 11:57:38] info getAllHolidays.
+[6/8/2024, 11:57:38] info <== getAllHolidays
+[6/8/2024, 11:57:45] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 11:57:45] info <== getUserByLogin
+[6/8/2024, 11:57:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:45] info <== getUserRol
+[6/8/2024, 11:57:45] info getAllHolidays.
+[6/8/2024, 11:57:45] info <== getAllHolidays
+[6/8/2024, 11:57:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:49] info <== getUserRol
+[6/8/2024, 11:57:49] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:57:49] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:57:50] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:50] info <== getUserRol
+[6/8/2024, 11:57:50] info getAllHolidays.
+[6/8/2024, 11:57:50] info <== getAllHolidays
+[6/8/2024, 11:57:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:57:57] info <== getUserRol
+[6/8/2024, 11:57:57] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 11:57:57] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 11:58:03] info ==> getUserRol - mmaruzza
+[6/8/2024, 11:58:03] info <== getUserRol
+[6/8/2024, 11:58:03] info getAllHolidays.
+[6/8/2024, 11:58:03] info <== getAllHolidays
+[6/8/2024, 12:01:38] info ==> getUserRol - mmaruzza
+[6/8/2024, 12:01:38] info <== getUserRol
+[6/8/2024, 12:01:38] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 12:01:38] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 12:01:39] info ==> getUserRol - mmaruzza
+[6/8/2024, 12:01:39] info <== getUserRol
+[6/8/2024, 12:01:39] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 12:01:39] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 02:04:06] error uncaughtException: Unexpected token '}'
+C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\databases\queries_holidays.js:90
+}
+^
+
+SyntaxError: Unexpected token '}'
+    at wrapSafe (node:internal/modules/cjs/loader:1383:18)
+    at Module._compile (node:internal/modules/cjs/loader:1412:20)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:215:24)
+    at Module.require (node:internal/modules/cjs/loader:1304:12)
+    at require (node:internal/modules/helpers:123:16)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\controllers\holidays.js:7:5)
+[6/8/2024, 02:06:53] error uncaughtException: Unexpected token '}'
+C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\databases\queries_holidays.js:90
+}
+^
+
+SyntaxError: Unexpected token '}'
+    at wrapSafe (node:internal/modules/cjs/loader:1383:18)
+    at Module._compile (node:internal/modules/cjs/loader:1412:20)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:215:24)
+    at Module.require (node:internal/modules/cjs/loader:1304:12)
+    at require (node:internal/modules/helpers:123:16)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\controllers\holidays.js:7:5)
+[6/8/2024, 02:07:45] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 02:07:45] info ==> authenticateUser - username: mmaruzza
+[6/8/2024, 02:07:45] info <== authenticateUser
+[6/8/2024, 02:07:45] info <== getUserByLogin
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info ==> getAllStates.
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info ==> getAllPrioritys.
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getTicketTypes.
+[6/8/2024, 02:07:46] info <== getTicketTypes
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getFailTypes.
+[6/8/2024, 02:07:46] info <== getFailTypes
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getAllCompaniesLocal.
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getAllUsersByCompany.
+[6/8/2024, 02:07:46] info <== getAllCompaniesLocal
+[6/8/2024, 02:07:46] info ==> getTicketTypes.
+[6/8/2024, 02:07:46] info <== getAllUsersByCompany
+[6/8/2024, 02:07:46] info <== getTicketTypes
+[6/8/2024, 02:07:46] info <== getAllPrioritys
+[6/8/2024, 02:07:46] info <== getAllStates
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getAllBrands.
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getAllTicketsByFilter.
+[6/8/2024, 02:07:46] info <== getAllBrands
+[6/8/2024, 02:07:46] info ==> getAllUsersByCompany.
+[6/8/2024, 02:07:46] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 02:07:46] info <== getAllUsersByCompany
+[6/8/2024, 02:07:46] info <== getAllTicketsByFilter
+[6/8/2024, 02:07:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:07:46] info <== getUserRol
+[6/8/2024, 02:07:46] info ==> getAllTicketsByFilter.
+[6/8/2024, 02:07:46] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 02:07:46] info <== getAllTicketsByFilter
+[6/8/2024, 02:08:02] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:08:02] info <== getUserRol
+[6/8/2024, 02:08:02] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:08:02] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown)
+[6/8/2024, 02:11:34] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:11:34] info <== getUserRol
+[6/8/2024, 02:11:34] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:11:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:11:37] info <== getUserRol
+[6/8/2024, 02:11:37] info getAllHolidays.
+[6/8/2024, 02:11:37] info <== getAllHolidays
+[6/8/2024, 02:11:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:11:52] info <== getUserRol
+[6/8/2024, 02:11:52] info getAllHolidays.
+[6/8/2024, 02:11:52] info <== getAllHolidays
+[6/8/2024, 02:11:55] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:11:55] info <== getUserByLogin
+[6/8/2024, 02:11:56] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:11:56] info <== getUserRol
+[6/8/2024, 02:11:56] info getAllHolidays.
+[6/8/2024, 02:11:56] info <== getAllHolidays
+[6/8/2024, 02:25:17] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:25:17] info <== getUserRol
+[6/8/2024, 02:25:17] info updateHoliday id:2 descripcion:{"descripcion":"test","fecha":"1111-11-11T03:53:48.000Z"} fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:25:17] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:25:17] info <== getUserRol
+[6/8/2024, 02:25:17] info getAllHolidays.
+[6/8/2024, 02:25:17] info <== getAllHolidays
+[6/8/2024, 02:33:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:33:29] info <== getUserRol
+[6/8/2024, 02:33:29] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:33:29] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> ReferenceError: descripcion is not defined
+[6/8/2024, 02:33:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:33:57] info <== getUserRol
+[6/8/2024, 02:33:57] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:33:57] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> el mensaje de «bind» entrega 3 parámetros, pero la sentencia preparada «» requiere 2
+[6/8/2024, 02:33:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:33:58] info <== getUserRol
+[6/8/2024, 02:33:58] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:33:58] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> el mensaje de «bind» entrega 3 parámetros, pero la sentencia preparada «» requiere 2
+[6/8/2024, 02:34:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:34:26] info <== getUserRol
+[6/8/2024, 02:34:26] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:34:26] error updateHoliday => updateDBHoliday: params=> id=2 descripcion=test error=> no existe la función tickets.f_ticketera_feriados_update(unknown, unknown, unknown)
+[6/8/2024, 02:35:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:26] info <== getUserRol
+[6/8/2024, 02:35:26] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:35:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:30] info <== getUserRol
+[6/8/2024, 02:35:30] info getAllHolidays.
+[6/8/2024, 02:35:30] info <== getAllHolidays
+[6/8/2024, 02:35:44] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:44] info <== getUserRol
+[6/8/2024, 02:35:44] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:35:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:47] info <== getUserRol
+[6/8/2024, 02:35:47] info getAllHolidays.
+[6/8/2024, 02:35:47] info <== getAllHolidays
+[6/8/2024, 02:35:55] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:55] info <== getUserRol
+[6/8/2024, 02:35:55] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:35:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:57] info <== getUserRol
+[6/8/2024, 02:35:57] info getAllHolidays.
+[6/8/2024, 02:35:57] info <== getAllHolidays
+[6/8/2024, 02:35:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:58] info <== getUserRol
+[6/8/2024, 02:35:58] info getAllHolidays.
+[6/8/2024, 02:35:58] info <== getAllHolidays
+[6/8/2024, 02:35:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:35:59] info <== getUserRol
+[6/8/2024, 02:35:59] info getAllHolidays.
+[6/8/2024, 02:35:59] info <== getAllHolidays
+[6/8/2024, 02:37:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:37:32] info <== getUserRol
+[6/8/2024, 02:37:32] info updateHoliday id:2 descripcion:desc fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:37:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:37:32] info <== getUserRol
+[6/8/2024, 02:37:32] info getAllHolidays.
+[6/8/2024, 02:37:32] info <== getAllHolidays
+[6/8/2024, 02:38:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:38:27] info <== getUserRol
+[6/8/2024, 02:38:27] info updateHoliday id:2 descripcion:test fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:38:31] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:38:31] info <== getUserRol
+[6/8/2024, 02:38:31] info getAllHolidays.
+[6/8/2024, 02:38:31] info <== getAllHolidays
+[6/8/2024, 02:38:41] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:38:41] info <== getUserRol
+[6/8/2024, 02:38:41] info updateHoliday id:2 descripcion:testx fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:38:43] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:38:43] info <== getUserRol
+[6/8/2024, 02:38:43] info getAllHolidays.
+[6/8/2024, 02:38:43] info <== getAllHolidays
+[6/8/2024, 02:43:03] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:43:04] info <== getUserRol
+[6/8/2024, 02:43:04] info updateHoliday. id:2 descripcion:testx fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:43:04] error updateHoliday : params=> id=2 descripcion=testx error=> ReferenceError: updateDBProduct is not defined
+[6/8/2024, 02:43:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:43:05] info <== getUserRol
+[6/8/2024, 02:43:05] info updateHoliday. id:2 descripcion:testx fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:43:05] error updateHoliday : params=> id=2 descripcion=testx error=> ReferenceError: updateDBProduct is not defined
+[6/8/2024, 02:43:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:43:26] info <== getUserRol
+[6/8/2024, 02:43:27] info updateHoliday. id:2 descripcion:testx fecha:1111-11-11T03:53:48.000Z
+[6/8/2024, 02:43:30] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:43:30] info <== getUserRol
+[6/8/2024, 02:43:30] info getAllHolidays.
+[6/8/2024, 02:43:30] info <== getAllHolidays
+[6/8/2024, 02:47:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:47:51] info <== getUserRol
+[6/8/2024, 02:47:51] info ==> getAllBrands.
+[6/8/2024, 02:47:51] info <== getAllBrands
+[6/8/2024, 02:47:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:47:57] info <== getUserRol
+[6/8/2024, 02:47:57] info updateHoliday. id:1 nombre:Marca
+[6/8/2024, 02:47:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:47:57] info <== getUserRol
+[6/8/2024, 02:47:57] info ==> getAllBrands.
+[6/8/2024, 02:47:57] info <== getAllBrands
+[6/8/2024, 02:48:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:00] info <== getUserRol
+[6/8/2024, 02:48:01] info updateHoliday. id:2 nombre:{}
+[6/8/2024, 02:48:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:01] info <== getUserRol
+[6/8/2024, 02:48:01] info ==> getAllBrands.
+[6/8/2024, 02:48:01] info <== getAllBrands
+[6/8/2024, 02:48:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:05] info <== getUserRol
+[6/8/2024, 02:48:05] info updateHoliday. id:1 nombre:Marca
+[6/8/2024, 02:48:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:05] info <== getUserRol
+[6/8/2024, 02:48:05] info ==> getAllBrands.
+[6/8/2024, 02:48:05] info <== getAllBrands
+[6/8/2024, 02:48:07] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:48:07] info <== getUserByLogin
+[6/8/2024, 02:48:07] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:07] info <== getUserRol
+[6/8/2024, 02:48:07] info ==> getAllBrands.
+[6/8/2024, 02:48:07] info <== getAllBrands
+[6/8/2024, 02:48:32] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:48:32] info <== getUserByLogin
+[6/8/2024, 02:48:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:32] info <== getUserRol
+[6/8/2024, 02:48:32] info ==> getAllBrands.
+[6/8/2024, 02:48:32] info <== getAllBrands
+[6/8/2024, 02:48:33] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:48:33] info <== getUserByLogin
+[6/8/2024, 02:48:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:33] info <== getUserRol
+[6/8/2024, 02:48:33] info ==> getAllBrands.
+[6/8/2024, 02:48:33] info <== getAllBrands
+[6/8/2024, 02:48:35] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:35] info <== getUserRol
+[6/8/2024, 02:48:35] info updateHoliday. id:1 nombre:Marca
+[6/8/2024, 02:48:35] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:35] info <== getUserRol
+[6/8/2024, 02:48:35] info ==> getAllBrands.
+[6/8/2024, 02:48:35] info <== getAllBrands
+[6/8/2024, 02:48:41] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:48:41] info <== getUserByLogin
+[6/8/2024, 02:48:42] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:42] info <== getUserRol
+[6/8/2024, 02:48:42] info ==> getAllBrands.
+[6/8/2024, 02:48:42] info <== getAllBrands
+[6/8/2024, 02:48:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:49] info <== getUserRol
+[6/8/2024, 02:48:49] info updateHoliday. id:1 nombre:Marca
+[6/8/2024, 02:48:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:48:49] info <== getUserRol
+[6/8/2024, 02:48:49] info ==> getAllBrands.
+[6/8/2024, 02:48:49] info <== getAllBrands
+[6/8/2024, 02:49:07] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:07] info <== getUserRol
+[6/8/2024, 02:49:07] info updateHoliday. id:3 nombre:Avaya
+[6/8/2024, 02:49:07] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:07] info <== getUserRol
+[6/8/2024, 02:49:07] info ==> getAllBrands.
+[6/8/2024, 02:49:07] info <== getAllBrands
+[6/8/2024, 02:49:14] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:14] info <== getUserRol
+[6/8/2024, 02:49:14] info updateHoliday. id:4 nombre:Otra
+[6/8/2024, 02:49:14] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:14] info <== getUserRol
+[6/8/2024, 02:49:14] info ==> getAllBrands.
+[6/8/2024, 02:49:14] info <== getAllBrands
+[6/8/2024, 02:49:19] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:19] info <== getUserRol
+[6/8/2024, 02:49:19] info updateHoliday. id:9 nombre:sample
+[6/8/2024, 02:49:19] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:19] info <== getUserRol
+[6/8/2024, 02:49:19] info ==> getAllBrands.
+[6/8/2024, 02:49:19] info <== getAllBrands
+[6/8/2024, 02:49:31] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:32] info <== getUserRol
+[6/8/2024, 02:49:32] info updateHoliday. id:2 nombre:Aperture Science
+[6/8/2024, 02:49:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:32] info <== getUserRol
+[6/8/2024, 02:49:32] info ==> getAllBrands.
+[6/8/2024, 02:49:32] info <== getAllBrands
+[6/8/2024, 02:49:40] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:40] info <== getUserRol
+[6/8/2024, 02:49:40] info updateHoliday. id:10 nombre:Genesys
+[6/8/2024, 02:49:40] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:40] info <== getUserRol
+[6/8/2024, 02:49:40] info ==> getAllBrands.
+[6/8/2024, 02:49:40] info <== getAllBrands
+[6/8/2024, 02:49:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:48] info <== getUserRol
+[6/8/2024, 02:49:48] info updateHoliday. id:11 nombre:Axis
+[6/8/2024, 02:49:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:48] info <== getUserRol
+[6/8/2024, 02:49:48] info ==> getAllBrands.
+[6/8/2024, 02:49:48] info <== getAllBrands
+[6/8/2024, 02:49:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:53] info <== getUserRol
+[6/8/2024, 02:49:53] info ==> getAllBrands.
+[6/8/2024, 02:49:53] info <== getAllBrands
+[6/8/2024, 02:49:53] info <== getUserRol
+[6/8/2024, 02:49:53] info getAllProducts.
+[6/8/2024, 02:49:53] info <== getAllProducts
+[6/8/2024, 02:49:55] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:49:55] info <== getUserRol
+[6/8/2024, 02:49:55] info getAllHolidays.
+[6/8/2024, 02:49:55] info <== getAllHolidays
+[6/8/2024, 02:50:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:50:01] info <== getUserRol
+[6/8/2024, 02:50:01] info updateHoliday. id:1 descripcion:prueba fecha:0222-02-11T03:53:48.000Z
+[6/8/2024, 02:50:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:50:01] info <== getUserRol
+[6/8/2024, 02:50:01] info getAllHolidays.
+[6/8/2024, 02:50:01] info <== getAllHolidays
+[6/8/2024, 02:50:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:50:08] info <== getUserRol
+[6/8/2024, 02:50:08] info updateHoliday. id:1 descripcion:prueba fecha:0222-02-11T03:53:48.000Z
+[6/8/2024, 02:50:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:50:08] info <== getUserRol
+[6/8/2024, 02:50:08] info getAllHolidays.
+[6/8/2024, 02:50:08] info <== getAllHolidays
+[6/8/2024, 02:50:12] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:50:12] info <== getUserByLogin
+[6/8/2024, 02:50:12] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:50:12] info <== getUserRol
+[6/8/2024, 02:50:12] info getAllHolidays.
+[6/8/2024, 02:50:12] info <== getAllHolidays
+[6/8/2024, 02:51:39] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:51:39] info <== getUserRol
+[6/8/2024, 02:51:39] info ==> getAllBrands.
+[6/8/2024, 02:51:39] info <== getAllBrands
+[6/8/2024, 02:51:49] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:51:49] info <== getUserByLogin
+[6/8/2024, 02:51:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:51:49] info <== getUserRol
+[6/8/2024, 02:51:49] info ==> getAllBrands.
+[6/8/2024, 02:51:49] info <== getAllBrands
+[6/8/2024, 02:51:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:51:52] info <== getUserRol
+[6/8/2024, 02:51:56] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:51:56] info <== getUserByLogin
+[6/8/2024, 02:51:56] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:51:56] info <== getUserRol
+[6/8/2024, 02:51:56] info ==> getAllBrands.
+[6/8/2024, 02:51:56] info <== getAllBrands
+[6/8/2024, 02:51:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:51:58] info <== getUserRol
+[6/8/2024, 02:52:21] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:52:21] info <== getUserByLogin
+[6/8/2024, 02:52:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:21] info <== getUserRol
+[6/8/2024, 02:52:21] info ==> getAllBrands.
+[6/8/2024, 02:52:21] info <== getAllBrands
+[6/8/2024, 02:52:22] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:52:22] info <== getUserByLogin
+[6/8/2024, 02:52:22] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:22] info <== getUserRol
+[6/8/2024, 02:52:22] info ==> getAllBrands.
+[6/8/2024, 02:52:22] info <== getAllBrands
+[6/8/2024, 02:52:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:24] info <== getUserRol
+[6/8/2024, 02:52:47] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:52:47] info <== getUserByLogin
+[6/8/2024, 02:52:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:48] info <== getUserRol
+[6/8/2024, 02:52:48] info ==> getAllBrands.
+[6/8/2024, 02:52:48] info <== getAllBrands
+[6/8/2024, 02:52:48] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:52:48] info <== getUserByLogin
+[6/8/2024, 02:52:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:48] info <== getUserRol
+[6/8/2024, 02:52:48] info ==> getAllBrands.
+[6/8/2024, 02:52:48] info <== getAllBrands
+[6/8/2024, 02:52:50] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:50] info <== getUserRol
+[6/8/2024, 02:52:50] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:52:50] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:52:50] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:52:50] info <== getUserRol
+[6/8/2024, 02:52:50] info ==> getAllBrands.
+[6/8/2024, 02:52:50] info <== getAllBrands
+[6/8/2024, 02:53:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:53:05] info <== getUserRol
+[6/8/2024, 02:53:05] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:53:05] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:53:05] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:53:06] info <== getUserRol
+[6/8/2024, 02:53:06] info ==> getAllBrands.
+[6/8/2024, 02:53:06] info <== getAllBrands
+[6/8/2024, 02:54:50] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:54:50] info <== getUserByLogin
+[6/8/2024, 02:54:50] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:54:50] info <== getUserRol
+[6/8/2024, 02:54:50] info ==> getAllBrands.
+[6/8/2024, 02:54:50] info <== getAllBrands
+[6/8/2024, 02:55:18] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:55:19] info <== getUserRol
+[6/8/2024, 02:55:19] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:55:19] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:55:19] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:55:19] info <== getUserRol
+[6/8/2024, 02:55:19] info ==> getAllBrands.
+[6/8/2024, 02:55:19] info <== getAllBrands
+[6/8/2024, 02:56:06] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:56:06] info <== getUserByLogin
+[6/8/2024, 02:56:06] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:56:06] info <== getUserRol
+[6/8/2024, 02:56:06] info ==> getAllBrands.
+[6/8/2024, 02:56:06] info <== getAllBrands
+[6/8/2024, 02:56:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:56:08] info <== getUserRol
+[6/8/2024, 02:56:08] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:56:08] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:56:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:56:08] info <== getUserRol
+[6/8/2024, 02:56:08] info ==> getAllBrands.
+[6/8/2024, 02:56:08] info <== getAllBrands
+[6/8/2024, 02:58:21] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:58:21] info <== getUserByLogin
+[6/8/2024, 02:58:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:21] info <== getUserRol
+[6/8/2024, 02:58:21] info ==> getAllBrands.
+[6/8/2024, 02:58:21] info <== getAllBrands
+[6/8/2024, 02:58:21] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:58:21] info <== getUserByLogin
+[6/8/2024, 02:58:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:22] info <== getUserRol
+[6/8/2024, 02:58:22] info ==> getAllBrands.
+[6/8/2024, 02:58:22] info <== getAllBrands
+[6/8/2024, 02:58:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:24] info <== getUserRol
+[6/8/2024, 02:58:24] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:58:24] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:58:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:24] info <== getUserRol
+[6/8/2024, 02:58:24] info ==> getAllBrands.
+[6/8/2024, 02:58:24] info <== getAllBrands
+[6/8/2024, 02:58:27] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:58:27] info <== getUserByLogin
+[6/8/2024, 02:58:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:27] info <== getUserRol
+[6/8/2024, 02:58:27] info ==> getAllBrands.
+[6/8/2024, 02:58:27] info <== getAllBrands
+[6/8/2024, 02:58:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:29] info <== getUserRol
+[6/8/2024, 02:58:29] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:58:29] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:58:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:29] info <== getUserRol
+[6/8/2024, 02:58:29] info ==> getAllBrands.
+[6/8/2024, 02:58:29] info <== getAllBrands
+[6/8/2024, 02:58:43] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:58:44] info <== getUserByLogin
+[6/8/2024, 02:58:44] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:44] info <== getUserRol
+[6/8/2024, 02:58:44] info ==> getAllBrands.
+[6/8/2024, 02:58:44] info <== getAllBrands
+[6/8/2024, 02:58:44] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 02:58:44] info <== getUserByLogin
+[6/8/2024, 02:58:44] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:44] info <== getUserRol
+[6/8/2024, 02:58:44] info ==> getAllBrands.
+[6/8/2024, 02:58:44] info <== getAllBrands
+[6/8/2024, 02:58:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:46] info <== getUserRol
+[6/8/2024, 02:58:46] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 02:58:46] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 02:58:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 02:58:46] info <== getUserRol
+[6/8/2024, 02:58:46] info ==> getAllBrands.
+[6/8/2024, 02:58:46] info <== getAllBrands
+[6/8/2024, 03:00:06] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:00:06] info <== getUserByLogin
+[6/8/2024, 03:00:06] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:00:06] info <== getUserByLogin
+[6/8/2024, 03:00:06] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:06] info <== getUserRol
+[6/8/2024, 03:00:06] info ==> getAllBrands.
+[6/8/2024, 03:00:06] info <== getAllBrands
+[6/8/2024, 03:00:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:08] info <== getUserRol
+[6/8/2024, 03:00:08] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:00:08] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:00:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:08] info <== getUserRol
+[6/8/2024, 03:00:08] info ==> getAllBrands.
+[6/8/2024, 03:00:08] info <== getAllBrands
+[6/8/2024, 03:00:27] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:00:27] info <== getUserByLogin
+[6/8/2024, 03:00:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:27] info <== getUserRol
+[6/8/2024, 03:00:27] info ==> getAllBrands.
+[6/8/2024, 03:00:27] info <== getAllBrands
+[6/8/2024, 03:00:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:29] info <== getUserRol
+[6/8/2024, 03:00:29] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:00:29] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:00:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:00:29] info <== getUserRol
+[6/8/2024, 03:00:29] info ==> getAllBrands.
+[6/8/2024, 03:00:29] info <== getAllBrands
+[6/8/2024, 03:01:00] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:01:00] info <== getUserByLogin
+[6/8/2024, 03:01:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:00] info <== getUserRol
+[6/8/2024, 03:01:00] info ==> getAllBrands.
+[6/8/2024, 03:01:00] info <== getAllBrands
+[6/8/2024, 03:01:03] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:03] info <== getUserRol
+[6/8/2024, 03:01:03] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:01:03] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:01:03] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:03] info <== getUserRol
+[6/8/2024, 03:01:03] info ==> getAllBrands.
+[6/8/2024, 03:01:03] info <== getAllBrands
+[6/8/2024, 03:01:44] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:01:44] info <== getUserByLogin
+[6/8/2024, 03:01:44] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:44] info <== getUserRol
+[6/8/2024, 03:01:44] info ==> getAllBrands.
+[6/8/2024, 03:01:44] info <== getAllBrands
+[6/8/2024, 03:01:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:47] info <== getUserRol
+[6/8/2024, 03:01:47] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:01:47] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:01:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:01:47] info <== getUserRol
+[6/8/2024, 03:01:47] info ==> getAllBrands.
+[6/8/2024, 03:01:47] info <== getAllBrands
+[6/8/2024, 03:02:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:02:17] info <== getUserRol
+[6/8/2024, 03:02:17] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:02:17] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:02:37] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:02:37] info <== getUserRol
+[6/8/2024, 03:02:37] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:02:37] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:02:41] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:02:41] info <== getUserRol
+[6/8/2024, 03:02:41] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:02:41] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:07:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:07:32] info <== getUserRol
+[6/8/2024, 03:07:32] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:07:32] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:09:04] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:09:04] info <== getUserByLogin
+[6/8/2024, 03:09:04] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:09:04] info <== getUserRol
+[6/8/2024, 03:09:04] info ==> getAllBrands.
+[6/8/2024, 03:09:04] info <== getAllBrands
+[6/8/2024, 03:10:34] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:34] info <== getUserRol
+[6/8/2024, 03:10:34] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:10:34] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:10:35] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:35] info <== getUserRol
+[6/8/2024, 03:10:35] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:10:35] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:10:36] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:36] info <== getUserRol
+[6/8/2024, 03:10:36] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:10:36] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:10:40] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:40] info <== getUserRol
+[6/8/2024, 03:10:40] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:10:40] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:10:43] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:43] info <== getUserRol
+[6/8/2024, 03:10:43] info getAllHolidays.
+[6/8/2024, 03:10:43] info <== getAllHolidays
+[6/8/2024, 03:10:51] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:10:51] info <== getUserByLogin
+[6/8/2024, 03:10:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:51] info <== getUserRol
+[6/8/2024, 03:10:51] info ==> getAllBrands.
+[6/8/2024, 03:10:51] info <== getAllBrands
+[6/8/2024, 03:10:52] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:10:52] info <== getUserByLogin
+[6/8/2024, 03:10:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:52] info <== getUserRol
+[6/8/2024, 03:10:52] info ==> getAllBrands.
+[6/8/2024, 03:10:52] info <== getAllBrands
+[6/8/2024, 03:10:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:59] info <== getUserRol
+[6/8/2024, 03:10:59] info updateBrand. id:2 nombre:Aperture Science habilitado:undefined
+[6/8/2024, 03:10:59] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Science
+[6/8/2024, 03:10:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:10:59] info <== getUserRol
+[6/8/2024, 03:10:59] info ==> getAllBrands.
+[6/8/2024, 03:10:59] info <== getAllBrands
+[6/8/2024, 03:12:40] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:12:40] info <== getUserRol
+[6/8/2024, 03:12:40] info updateBrand. id:1 nombre:Marca habilitado:undefined
+[6/8/2024, 03:12:40] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:14:58] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:14:58] info <== getUserRol
+[6/8/2024, 03:14:58] info updateBrand. id:1 nombre:Marca habilitado:true
+[6/8/2024, 03:14:58] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:15:00] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:15:00] info <== getUserRol
+[6/8/2024, 03:15:00] info updateBrand. id:1 nombre:Marca habilitado:true
+[6/8/2024, 03:15:00] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:15:10] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:15:10] info <== getUserByLogin
+[6/8/2024, 03:15:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:15:10] info <== getUserRol
+[6/8/2024, 03:15:10] info ==> getAllBrands.
+[6/8/2024, 03:15:10] info <== getAllBrands
+[6/8/2024, 03:16:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:16:24] info <== getUserRol
+[6/8/2024, 03:16:24] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:16:24] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:16:24] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:16:24] info <== getUserRol
+[6/8/2024, 03:16:24] info ==> getAllBrands.
+[6/8/2024, 03:16:24] info <== getAllBrands
+[6/8/2024, 03:18:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:18:10] info <== getUserRol
+[6/8/2024, 03:18:10] info updateBrand. id:1 nombre:Marca habilitado:true
+[6/8/2024, 03:18:10] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:18:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:18:11] info <== getUserRol
+[6/8/2024, 03:18:11] info updateBrand. id:1 nombre:Marca habilitado:true
+[6/8/2024, 03:18:11] error updateBrand  => updateDBBrand : params=> id=1 nombre=Marca
+[6/8/2024, 03:18:25] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:18:25] info <== getUserRol
+[6/8/2024, 03:18:25] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:18:25] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:18:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:18:29] info <== getUserRol
+[6/8/2024, 03:18:29] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:18:29] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:21:13] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:21:13] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:21:13] info <== getUserByLogin
+[6/8/2024, 03:21:13] info <== getUserByLogin
+[6/8/2024, 03:21:13] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:21:13] info <== getUserByLogin
+[6/8/2024, 03:21:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:21:13] info <== getUserRol
+[6/8/2024, 03:21:13] info ==> getAllBrands.
+[6/8/2024, 03:21:13] info <== getAllBrands
+[6/8/2024, 03:21:17] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:21:17] info <== getUserRol
+[6/8/2024, 03:21:17] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:21:17] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:21:17] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:21:17] info <== getUserRol
+[6/8/2024, 03:21:17] info ==> getAllBrands.
+[6/8/2024, 03:21:17] info <== getAllBrands
+[6/8/2024, 03:23:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:23:32] info <== getUserRol
+[6/8/2024, 03:23:32] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:23:32] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:23:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:23:33] info <== getUserRol
+[6/8/2024, 03:23:33] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:23:33] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:23:33] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:23:33] info <== getUserRol
+[6/8/2024, 03:23:33] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:23:33] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:24:34] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:34] info <== getUserRol
+[6/8/2024, 03:24:34] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:24:34] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:24:34] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:35] info <== getUserRol
+[6/8/2024, 03:24:35] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:24:35] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:24:50] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:24:50] info <== getUserByLogin
+[6/8/2024, 03:24:50] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:50] info <== getUserRol
+[6/8/2024, 03:24:50] info ==> getAllBrands.
+[6/8/2024, 03:24:50] info <== getAllBrands
+[6/8/2024, 03:24:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:52] info <== getUserRol
+[6/8/2024, 03:24:52] info getAllProducts.
+[6/8/2024, 03:24:52] info <== getAllProducts
+[6/8/2024, 03:24:52] info <== getUserRol
+[6/8/2024, 03:24:53] info ==> getAllBrands.
+[6/8/2024, 03:24:53] info <== getAllBrands
+[6/8/2024, 03:24:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:57] info <== getUserRol
+[6/8/2024, 03:24:57] info updateBrand. id:395 nombre:test x modelo:Modelo test habilitado:true marca_id:21
+[6/8/2024, 03:24:57] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:24:57] info <== getUserRol
+[6/8/2024, 03:24:57] info getAllProducts.
+[6/8/2024, 03:24:57] info <== getAllProducts
+[6/8/2024, 03:25:01] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:01] info <== getUserRol
+[6/8/2024, 03:25:01] info ==> getAllBrands.
+[6/8/2024, 03:25:01] info <== getAllBrands
+[6/8/2024, 03:25:04] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:04] info <== getUserRol
+[6/8/2024, 03:25:04] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:25:04] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:25:04] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:04] info <== getUserRol
+[6/8/2024, 03:25:04] info ==> getAllBrands.
+[6/8/2024, 03:25:04] info <== getAllBrands
+[6/8/2024, 03:25:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:10] info <== getUserRol
+[6/8/2024, 03:25:10] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:25:10] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:25:11] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:11] info <== getUserRol
+[6/8/2024, 03:25:11] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:25:11] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:25:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:16] info <== getUserRol
+[6/8/2024, 03:25:16] info getAllHolidays.
+[6/8/2024, 03:25:16] info <== getAllHolidays
+[6/8/2024, 03:25:23] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:24] info <== getUserRol
+[6/8/2024, 03:25:24] info ==> getAllBrands.
+[6/8/2024, 03:25:24] info <== getAllBrands
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info <== getUserRol
+[6/8/2024, 03:25:45] info ==> getAllStates.
+[6/8/2024, 03:25:45] info <== getAllStates
+[6/8/2024, 03:25:45] info <== getUserRol
+[6/8/2024, 03:25:45] info ==> getAllPrioritys.
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info <== getAllPrioritys
+[6/8/2024, 03:25:45] info <== getUserRol
+[6/8/2024, 03:25:45] info ==> getFailTypes.
+[6/8/2024, 03:25:45] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:45] info <== getFailTypes
+[6/8/2024, 03:25:45] info <== getUserRol
+[6/8/2024, 03:25:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:46] info ==> getAllUsersByCompany.
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info ==> getTicketTypes.
+[6/8/2024, 03:25:46] info ==> getAllBrands.
+[6/8/2024, 03:25:46] info <== getAllUsersByCompany
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info ==> getAllUsersByCompany.
+[6/8/2024, 03:25:46] info <== getTicketTypes
+[6/8/2024, 03:25:46] info <== getAllBrands
+[6/8/2024, 03:25:46] info ==> getAllCompaniesLocal.
+[6/8/2024, 03:25:46] info <== getAllUsersByCompany
+[6/8/2024, 03:25:46] info ==> getTicketTypes.
+[6/8/2024, 03:25:46] info <== getTicketTypes
+[6/8/2024, 03:25:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:46] info <== getAllCompaniesLocal
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info ==> getAllTicketsByFilter.
+[6/8/2024, 03:25:46] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 03:25:46] info <== getAllTicketsByFilter
+[6/8/2024, 03:25:46] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:46] info <== getUserRol
+[6/8/2024, 03:25:46] info ==> getAllTicketsByFilter.
+[6/8/2024, 03:25:46] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 03:25:46] info <== getAllTicketsByFilter
+[6/8/2024, 03:25:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:47] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:47] info <== getUserRol
+[6/8/2024, 03:25:47] info <== getUserRol
+[6/8/2024, 03:25:47] info getAllProducts.
+[6/8/2024, 03:25:47] info ==> getAllBrands.
+[6/8/2024, 03:25:47] info <== getAllProducts
+[6/8/2024, 03:25:47] info <== getAllBrands
+[6/8/2024, 03:25:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:51] info <== getUserRol
+[6/8/2024, 03:25:51] info updateBrand. id:395 nombre:test  modelo:Modelo test habilitado:true marca_id:21
+[6/8/2024, 03:25:51] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:25:51] info <== getUserRol
+[6/8/2024, 03:25:51] info getAllProducts.
+[6/8/2024, 03:25:51] info <== getAllProducts
+[6/8/2024, 03:26:02] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:26:02] info <== getUserRol
+[6/8/2024, 03:26:02] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:26:02] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:26:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:26:09] info <== getUserRol
+[6/8/2024, 03:26:09] info ==> getAllBrands.
+[6/8/2024, 03:26:10] info <== getAllBrands
+[6/8/2024, 03:26:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:26:13] info <== getUserRol
+[6/8/2024, 03:26:13] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:26:13] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:26:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:26:13] info <== getUserRol
+[6/8/2024, 03:26:13] info ==> getAllBrands.
+[6/8/2024, 03:26:13] info <== getAllBrands
+[6/8/2024, 03:31:38] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:31:38] info <== getUserByLogin
+[6/8/2024, 03:31:38] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:31:38] info <== getUserRol
+[6/8/2024, 03:31:38] info ==> getAllBrands.
+[6/8/2024, 03:31:38] info <== getAllBrands
+[6/8/2024, 03:31:41] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:31:41] info <== getUserRol
+[6/8/2024, 03:31:41] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:31:41] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:31:41] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:31:41] info <== getUserRol
+[6/8/2024, 03:31:41] info ==> getAllBrands.
+[6/8/2024, 03:31:41] info <== getAllBrands
+[6/8/2024, 03:31:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:31:59] info <== getUserRol
+[6/8/2024, 03:31:59] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:31:59] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:32:16] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:32:16] info <== getUserByLogin
+[6/8/2024, 03:32:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:16] info <== getUserRol
+[6/8/2024, 03:32:16] info ==> getAllBrands.
+[6/8/2024, 03:32:16] info <== getAllBrands
+[6/8/2024, 03:32:17] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:32:17] info <== getUserByLogin
+[6/8/2024, 03:32:17] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:17] info <== getUserRol
+[6/8/2024, 03:32:17] info ==> getAllBrands.
+[6/8/2024, 03:32:17] info <== getAllBrands
+[6/8/2024, 03:32:20] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:20] info <== getUserRol
+[6/8/2024, 03:32:20] info updateBrand. id:2 nombre:Aperture Scienceeee habilitado:true
+[6/8/2024, 03:32:20] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Scienceeee
+[6/8/2024, 03:32:20] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:20] info <== getUserRol
+[6/8/2024, 03:32:20] info ==> getAllBrands.
+[6/8/2024, 03:32:20] info <== getAllBrands
+[6/8/2024, 03:32:52] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:32:52] info <== getUserByLogin
+[6/8/2024, 03:32:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:52] info <== getUserRol
+[6/8/2024, 03:32:52] info ==> getAllBrands.
+[6/8/2024, 03:32:52] info <== getAllBrands
+[6/8/2024, 03:32:52] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:32:52] info <== getUserByLogin
+[6/8/2024, 03:32:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:52] info <== getUserRol
+[6/8/2024, 03:32:52] info ==> getAllBrands.
+[6/8/2024, 03:32:52] info <== getAllBrands
+[6/8/2024, 03:32:53] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:32:53] info <== getUserByLogin
+[6/8/2024, 03:32:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:53] info <== getUserRol
+[6/8/2024, 03:32:53] info ==> getAllBrands.
+[6/8/2024, 03:32:53] info <== getAllBrands
+[6/8/2024, 03:32:55] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:55] info <== getUserRol
+[6/8/2024, 03:32:55] info updateBrand. id:2 nombre:Aperture Science habilitado:true
+[6/8/2024, 03:32:55] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Science
+[6/8/2024, 03:32:55] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:55] info <== getUserRol
+[6/8/2024, 03:32:55] info ==> getAllBrands.
+[6/8/2024, 03:32:55] info <== getAllBrands
+[6/8/2024, 03:32:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:32:59] info <== getUserRol
+[6/8/2024, 03:32:59] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:32:59] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:32:59] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:33:00] info <== getUserRol
+[6/8/2024, 03:33:00] info ==> getAllBrands.
+[6/8/2024, 03:33:00] info <== getAllBrands
+[6/8/2024, 03:35:02] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:35:02] info <== getUserRol
+[6/8/2024, 03:35:02] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:35:02] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:35:20] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:35:20] info <== getUserRol
+[6/8/2024, 03:35:20] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:35:20] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:35:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:35:21] info <== getUserRol
+[6/8/2024, 03:35:21] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:35:21] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:35:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:35:21] info <== getUserRol
+[6/8/2024, 03:35:21] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:35:21] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:38:48] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:38:49] info <== getUserRol
+[6/8/2024, 03:38:49] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:38:49] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:38:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:38:49] info <== getUserRol
+[6/8/2024, 03:38:49] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:38:49] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:09] info <== getUserRol
+[6/8/2024, 03:40:09] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:09] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:10] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:10] info <== getUserRol
+[6/8/2024, 03:40:10] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:10] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:18] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:18] info <== getUserRol
+[6/8/2024, 03:40:18] info ==> getAllBrands.
+[6/8/2024, 03:40:18] info <== getAllBrands
+[6/8/2024, 03:40:25] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:25] info <== getUserRol
+[6/8/2024, 03:40:25] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:25] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:26] info <== getUserRol
+[6/8/2024, 03:40:26] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:26] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:49] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:49] info <== getUserRol
+[6/8/2024, 03:40:49] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:49] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:52] info <== getUserRol
+[6/8/2024, 03:40:52] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:52] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:40:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:40:53] info <== getUserRol
+[6/8/2024, 03:40:53] info updateBrand. id:2 nombre:Marca habilitado:true
+[6/8/2024, 03:40:53] error updateBrand  => updateDBBrand : params=> id=2 nombre=Marca
+[6/8/2024, 03:41:20] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:41:20] info <== getUserByLogin
+[6/8/2024, 03:41:20] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:41:20] info <== getUserRol
+[6/8/2024, 03:41:20] info ==> getAllBrands.
+[6/8/2024, 03:41:20] info <== getAllBrands
+[6/8/2024, 03:41:25] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:41:25] info <== getUserRol
+[6/8/2024, 03:41:25] info updateBrand. id:2 nombre:Aperture Sciencee habilitado:true
+[6/8/2024, 03:41:25] error updateBrand  => updateDBBrand : params=> id=2 nombre=Aperture Sciencee
+[6/8/2024, 03:41:25] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:41:25] info <== getUserRol
+[6/8/2024, 03:41:25] info ==> getAllBrands.
+[6/8/2024, 03:41:25] info <== getAllBrands
+[6/8/2024, 03:42:12] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:12] info <== getUserRol
+[6/8/2024, 03:42:12] info createBrand id:238446 nombre:Sample 
+[6/8/2024, 03:42:12] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:12] info <== getUserRol
+[6/8/2024, 03:42:12] info ==> getAllBrands.
+[6/8/2024, 03:42:12] info <== getAllBrands
+[6/8/2024, 03:42:21] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:42:21] info <== getUserByLogin
+[6/8/2024, 03:42:21] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:21] info <== getUserRol
+[6/8/2024, 03:42:21] info ==> getAllBrands.
+[6/8/2024, 03:42:21] info <== getAllBrands
+[6/8/2024, 03:42:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:26] info <== getUserRol
+[6/8/2024, 03:42:26] info createBrand id:269716 nombre:sample 23 
+[6/8/2024, 03:42:26] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:26] info <== getUserRol
+[6/8/2024, 03:42:26] info ==> getAllBrands.
+[6/8/2024, 03:42:26] info <== getAllBrands
+[6/8/2024, 03:42:31] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:42:31] info <== getUserByLogin
+[6/8/2024, 03:42:31] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:31] info <== getUserRol
+[6/8/2024, 03:42:31] info ==> getAllBrands.
+[6/8/2024, 03:42:31] info <== getAllBrands
+[6/8/2024, 03:42:32] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 03:42:32] info <== getUserByLogin
+[6/8/2024, 03:42:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 03:42:32] info <== getUserRol
+[6/8/2024, 03:42:32] info ==> getAllBrands.
+[6/8/2024, 03:42:32] info <== getAllBrands

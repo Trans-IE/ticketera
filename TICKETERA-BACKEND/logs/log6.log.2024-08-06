@@ -1,0 +1,153 @@
+[6/8/2024, 09:12:35] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:12:56] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:13:42] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:14:03] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:15:09] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:15:25] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:15:30] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:15:46] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:17:20] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:17:41] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:18:22] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:18:43] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:18:43] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:19:04] error getAgentByLogin : {"code":"ETIMEDOUT","message":"connect ETIMEDOUT 192.168.112.96:5432","stack":"Error: connect ETIMEDOUT 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:22:04] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:22:06] error getAgentByLogin : {"code":"ECONNREFUSED","message":"connect ECONNREFUSED 192.168.112.96:5432","stack":"Error: connect ECONNREFUSED 192.168.112.96:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)"}
+[6/8/2024, 09:29:27] info ==> getUserByLogin - username: mmaruzza check_password: true AUTHENTICATION_MODE: 1
+[6/8/2024, 09:29:27] info ==> authenticateUser - username: mmaruzza
+[6/8/2024, 09:29:27] info <== authenticateUser
+[6/8/2024, 09:29:27] info <== getUserByLogin
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getAllStates.
+[6/8/2024, 09:29:27] info ==> getTicketTypes.
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getAllCompaniesLocal.
+[6/8/2024, 09:29:27] info <== getAllCompaniesLocal
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getAllUsersByCompany.
+[6/8/2024, 09:29:27] info <== getAllUsersByCompany
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getAllPrioritys.
+[6/8/2024, 09:29:27] info <== getAllPrioritys
+[6/8/2024, 09:29:27] info ==> getAllUsersByCompany.
+[6/8/2024, 09:29:27] info <== getAllUsersByCompany
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getTicketTypes.
+[6/8/2024, 09:29:27] info ==> getAllBrands.
+[6/8/2024, 09:29:27] info <== getAllStates
+[6/8/2024, 09:29:27] info ==> getAllTicketsByFilter.
+[6/8/2024, 09:29:27] info <== getTicketTypes
+[6/8/2024, 09:29:27] info <== getAllBrands
+[6/8/2024, 09:29:27] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 09:29:27] info <== getTicketTypes
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:27] info ==> getFailTypes.
+[6/8/2024, 09:29:27] info <== getUserRol
+[6/8/2024, 09:29:27] info <== getFailTypes
+[6/8/2024, 09:29:27] info ==> getAllTicketsByFilter.
+[6/8/2024, 09:29:27] info getAllTicketsByFilter username:mmaruzza titulo: causaRaiz: ticketPartner: empresaId:-1 productoId:-1 responsableId:-1 numeroId:-1 prioridad:-1 estado:-2 tipoFalla:-1 dateFrom: dateTo: tipoTicket:-1 offset:0 orderBy:t.fecha_creacion orderByType: limit:25
+[6/8/2024, 09:29:27] info <== getAllTicketsByFilter
+[6/8/2024, 09:29:28] info <== getAllTicketsByFilter
+[6/8/2024, 09:29:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:29] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:29] info <== getUserRol
+[6/8/2024, 09:29:29] info <== getUserRol
+[6/8/2024, 09:29:29] info ==> getAllBrands.
+[6/8/2024, 09:29:29] info getAllProducts.
+[6/8/2024, 09:29:29] info <== getAllBrands
+[6/8/2024, 09:29:30] info <== getAllProducts
+[6/8/2024, 09:29:32] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:32] info <== getUserRol
+[6/8/2024, 09:29:32] info ==> getAllBrands.
+[6/8/2024, 09:29:32] info <== getAllBrands
+[6/8/2024, 09:29:42] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:42] info <== getUserRol
+[6/8/2024, 09:29:42] info createBrand id:712781 nombre:AMarca 
+[6/8/2024, 09:29:42] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:42] info <== getUserRol
+[6/8/2024, 09:29:42] info ==> getAllBrands.
+[6/8/2024, 09:29:42] info <== getAllBrands
+[6/8/2024, 09:29:56] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:29:56] info <== getUserRol
+[6/8/2024, 09:29:56] info getAllHolidays.
+[6/8/2024, 09:29:56] info <== getAllHolidays
+[6/8/2024, 09:30:52] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:30:52] info <== getUserRol
+[6/8/2024, 09:30:52] info updateBrand. id:1 nombre:undefined habilitado:undefined
+[6/8/2024, 09:30:53] error updateBrand => updateDBBrand : params=> id=1 nombre=undefined habilitado=undefined
+[6/8/2024, 09:30:53] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:30:53] info <== getUserRol
+[6/8/2024, 09:30:53] info getAllHolidays.
+[6/8/2024, 09:30:53] info <== getAllHolidays
+[6/8/2024, 09:35:03] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:04] info <== getUserRol
+[6/8/2024, 09:35:04] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:35:04] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:04] info <== getUserRol
+[6/8/2024, 09:35:04] info getAllHolidays.
+[6/8/2024, 09:35:04] info <== getAllHolidays
+[6/8/2024, 09:35:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:09] info <== getUserRol
+[6/8/2024, 09:35:09] info updateBrand. id:1 nombre:undefined habilitado:undefined
+[6/8/2024, 09:35:09] error updateBrand => updateDBBrand : params=> id=1 nombre=undefined habilitado=undefined
+[6/8/2024, 09:35:09] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:09] info <== getUserRol
+[6/8/2024, 09:35:09] info getAllHolidays.
+[6/8/2024, 09:35:09] info <== getAllHolidays
+[6/8/2024, 09:35:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:13] info <== getUserRol
+[6/8/2024, 09:35:13] info updateBrand. id:1 nombre:undefined habilitado:undefined
+[6/8/2024, 09:35:13] error updateBrand => updateDBBrand : params=> id=1 nombre=undefined habilitado=undefined
+[6/8/2024, 09:35:13] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:13] info <== getUserRol
+[6/8/2024, 09:35:13] info getAllHolidays.
+[6/8/2024, 09:35:13] info <== getAllHolidays
+[6/8/2024, 09:35:22] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:22] info <== getUserRol
+[6/8/2024, 09:35:22] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:35:22] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:35:22] info <== getUserRol
+[6/8/2024, 09:35:22] info getAllHolidays.
+[6/8/2024, 09:35:22] info <== getAllHolidays
+[6/8/2024, 09:36:07] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:36:07] info <== getUserByLogin
+[6/8/2024, 09:36:07] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:07] info <== getUserRol
+[6/8/2024, 09:36:07] info getAllHolidays.
+[6/8/2024, 09:36:07] info <== getAllHolidays
+[6/8/2024, 09:36:08] info ==> getUserByLogin - username: mmaruzza check_password: false AUTHENTICATION_MODE: 1
+[6/8/2024, 09:36:08] info <== getUserByLogin
+[6/8/2024, 09:36:08] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:08] info <== getUserRol
+[6/8/2024, 09:36:08] info getAllHolidays.
+[6/8/2024, 09:36:08] info <== getAllHolidays
+[6/8/2024, 09:36:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:16] info <== getUserRol
+[6/8/2024, 09:36:16] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:36:16] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:16] info <== getUserRol
+[6/8/2024, 09:36:16] info getAllHolidays.
+[6/8/2024, 09:36:16] info <== getAllHolidays
+[6/8/2024, 09:36:38] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:38] info <== getUserRol
+[6/8/2024, 09:36:38] info updateBrand. id:2 nombre:undefined habilitado:undefined
+[6/8/2024, 09:36:38] info ==> getUserRol - mmaruzza
+[6/8/2024, 09:36:38] info <== getUserRol
+[6/8/2024, 09:36:38] info getAllHolidays.
+[6/8/2024, 09:36:38] info <== getAllHolidays

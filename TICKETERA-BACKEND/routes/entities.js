@@ -55,6 +55,7 @@ const {
   createHoliday,
   deleteHoliday,
   getAllHolidays,
+  updateHoliday,
 } = require("../controllers/holidays");
 const {
   setPriority,
@@ -666,7 +667,16 @@ router.post(
   getHourDetailByTechnician
 );
 router.post("/getAllHolidays", getAllHolidays);
+router.put(
+  "/updateBrand/:id",
+  [
+    check("id", "El id es obligatorio").not().isEmpty(),
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("habilitado", "El campo habilitado es obligatorio").not().isEmpty(),
+  ],
 
+  updateCompany
+);
 router.post(
   "/createHoliday",
   [
@@ -819,4 +829,3 @@ router.post(
 );
 
 module.exports = router;
-

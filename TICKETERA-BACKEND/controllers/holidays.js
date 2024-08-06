@@ -3,6 +3,7 @@ const {
   getAllDBHolidays,
   createDBHoliday,
   deleteDBHoliday,
+  updateDBHoliday,
 } = require("../databases/queries_holidays");
 const { logger, loggerCSV } = require("../logger");
 const { userType } = require("../helpers/constants");
@@ -10,35 +11,34 @@ const crypto = require("crypto");
 
 const getAllHolidays = async (req, res = response) => {
   let function_enter_time = new Date();
-  logger.info(`getAllHolidays.`)
+  logger.info(`getAllHolidays.`);
   try {
-      getAllDBHolidays()
-          .then(result => {
-              logger.info(`<== getAllHolidays`);
-              loggerCSV.info(`getAllHolidays, ${(new Date() - function_enter_time) / 1000}`)
-              res.status(200).json({
-                  ok: true,
-                  value: result,
-                  msg: 'Listado de productos obtenido correctamente.'
-              });
-          })
-          .catch(error => {
-              logger.error(`getAllDBHolidays => getAllDBHolidays : error=> ${error}`);
-          })
-
-  } catch (error) {
-      logger.error(`getAllDBHolidays : params=> error=> ${error}`);
-      res.status(500).json({
-          ok: false,
-          value: [],
-          msg: 'Error obteniendo listado de productos.'
+    getAllDBHolidays()
+      .then((result) => {
+        logger.info(`<== getAllHolidays`);
+        loggerCSV.info(
+          `getAllHolidays, ${(new Date() - function_enter_time) / 1000}`
+        );
+        res.status(200).json({
+          ok: true,
+          value: result,
+          msg: "Listado de feriados obtenido correctamente.",
+        });
+      })
+      .catch((error) => {
+        logger.error(`getAllDBHolidays => getAllDBHolidays : error=> ${error}`);
       });
+  } catch (error) {
+    logger.error(`getAllDBHolidays : params=> error=> ${error}`);
+    res.status(500).json({
+      ok: false,
+      value: [],
+      msg: "Error obteniendo listado de feriados.",
+    });
   }
-}
+};
 
 const createHoliday = async (req, res = response) => {
-  // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes
-  // alli identifica estos datos desencriptando el hash x-token
   const { label } = req;
   const { fecha, descripcion } = req.body;
 
@@ -76,14 +76,9 @@ const createHoliday = async (req, res = response) => {
 const deleteHoliday = async (req, res = response) => {
   const fecha = req.params.fecha;
 
-  // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes
-  // alli identifica estos datos desencriptando el hash x-token
   logger.info(`deleteHoliday fecha:${fecha}`);
 
   try {
-    // AL ELIMINAR PUEDE QUE SEA NECESARIO CHEQUEAR PRIVILEGIOS DE USUARIO
-    // DEBE VALIDAR SI EXISTE EL ELEMENTO
-
     deleteDBHoliday(fecha)
       .then((result) => {
         if (result === 1) {
@@ -93,7 +88,6 @@ const deleteHoliday = async (req, res = response) => {
             msg: `El feriado fue eliminado correctamente`,
           });
         } else {
-          //Ocurrio un error no manejado en sql.
           return res.status(401).json({
             ok: false,
             msg: "El feriado no pudo ser eliminado del sistema.",
@@ -104,7 +98,6 @@ const deleteHoliday = async (req, res = response) => {
         logger.error(
           `deleteHoliday => deleteDBHoliday: params=> fecha=${fecha} error=> ${dataError}`
         );
-        // DESDE CAPA databases recibira un objeto error { code, message, stack }
         res.status(501).json({
           ok: false,
           error: dataError,
@@ -121,8 +114,57 @@ const deleteHoliday = async (req, res = response) => {
   }
 };
 
+const updateHoliday = async (req, res = response) => {
+  const id = req.params.id;
+
+  // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes
+  // alli identifica estos datos desencriptando el hash x-token
+
+  const { descripcion, fecha } = req.body;
+  logger.info(
+    `updateHoliday. id:${id} descripcion:${descripcion} fecha:${fecha}`
+  );
+  try {
+    updateDBHoliday(id, descripcion, fecha)
+      .then((result) => {
+        if (result == 1) {
+          res.status(200).json({
+            ok: true,
+            value: result,
+            msg: `El feriado '${descripcion}' fue actualizado correctamente.`,
+          });
+        } else {
+          return res.status(401).json({
+            ok: false,
+            msg: `El feriado no pudo ser actualizada en el sistema.-`,
+          });
+        }
+      })
+      .catch((dataError) => {
+        logger.error(
+          `updateHoliday  => updateDBHoliday : params=> id=${id} descripcion=${descripcion}`
+        );
+        res.status(501).json({
+          ok: false,
+          error: dataError,
+          msg: `No se pudo actualizar el feriado `,
+        });
+      });
+  } catch (error) {
+    logger.error(
+      `updateHoliday : params=> id=${id} descripcion=${descripcion} error=> ${error}`
+    );
+    res.status(500).json({
+      ok: false,
+      error: error,
+      msg: "Hable con el administrador",
+    });
+  }
+};
+
 module.exports = {
   getAllHolidays,
   createHoliday,
   deleteHoliday,
+  updateHoliday,
 };

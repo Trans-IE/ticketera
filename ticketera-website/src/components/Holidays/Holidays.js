@@ -133,7 +133,6 @@ const Holidays = () => {
 
   const handleSaveItem = (newItem) => {
     if (editingItem) {
-      console.log(newItem);
       dispatch(holidayUpdate({ ...newItem, fecha: editingItem.fecha })).then(
         () => {
           dispatch(holidayGetRowset());
@@ -278,6 +277,7 @@ const Holidays = () => {
           <List>
             <CreateItemDrawer
               fields={fields}
+              type="date"
               holidays={holidays}
               onSave={handleSaveItem}
               onClose={handleDrawerClose}

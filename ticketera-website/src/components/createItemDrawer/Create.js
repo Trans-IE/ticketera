@@ -107,6 +107,7 @@ export default function CreateItemDrawer({
           ) : (
             <TextField
               label={field.label}
+              type={field.type === "date" ? "date" : "text"}
               value={formData[field.id] || ""}
               onChange={(e) => handleChange(field.id, e.target.value)}
               fullWidth
@@ -122,6 +123,9 @@ export default function CreateItemDrawer({
                     borderColor: theme.palette.primary.dark,
                   },
                 },
+              }}
+              InputLabelProps={{
+                shrink: field.type === "date" ? true : undefined,
               }}
             />
           )}
