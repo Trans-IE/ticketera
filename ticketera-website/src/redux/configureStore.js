@@ -13,6 +13,7 @@ import productSlice from "./slices/productSlice";
 import failTypeSlice from "./slices/failTypeSlice";
 import contractSlice from "./slices/contractSlice";
 import brandsSlice from "./slices/brandsSlice";
+import holidaysSlice from "./slices/holidaysSlice";
 
 const loggerMiddleware = createLogger();
 const devTools =
@@ -33,6 +34,7 @@ export const store = configureStore({
     failType: failTypeSlice,
     contract: contractSlice,
     brands: brandsSlice,
+    holidays: holidaysSlice,
   },
   devTools: devTools,
 });

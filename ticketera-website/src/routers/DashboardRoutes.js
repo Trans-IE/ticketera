@@ -15,11 +15,12 @@ import { InvalidSession } from "../components/auth/InvalidSession";
 import Dashboard from "../components/dashboard/dashboard/Dashboard";
 import Admin from "../components/admin/Admin";
 import Reports from "../components/reports/Reports";
-import { TicketDetail } from "../components/ticket/TicketDetail/TicketDetail";
+import { TicketDetail } from "../components/Ticket/TicketDetail/TicketDetail";
 
 // Importaciones de páginas
 import Products from "../components/Product/Products";
 import Marca from "../components/Brands/Brands";
+import Holidays from "../components/Holidays/Holidays";
 
 export const DashboardRoutes = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export const DashboardRoutes = () => {
         <Route path="/reports" element={<Reports />} />
         <Route path="/product" element={<Products />} />
         <Route path="/marca" element={<Marca />} />
+        <Route path="/feriados" element={<Holidays />} />
 
         {/* <Route path="tickets/:id" element={ <TicketDetail /> } />
          */}
