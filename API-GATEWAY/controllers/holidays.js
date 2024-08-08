@@ -136,7 +136,9 @@ const updateHoliday = async (req, res = response) => {
     process.env.HOST_TICKETERA_BACKEND + `/entities/updateHoliday/${id}`;
 
   try {
-    logger.info(`updateHoliday id:${id} descripcion:${descripcion}`);
+    logger.info(
+      `updateHoliday id:${id} descripcion=${descripcion} fecha=${fecha}`
+    );
 
     const rol = await getUserRol(username);
     let arrRolExclusive = rolExclusive.split(",").map(Number);
@@ -163,7 +165,7 @@ const updateHoliday = async (req, res = response) => {
         res.status(200).json({
           ok: true,
           value: body.value,
-          msg: "Marca actualizada correctamente.",
+          msg: "Fecha actualizada correctamente.",
         });
       } else {
         logger.error(`updateHoliday : ${body.msg}`);
@@ -191,7 +193,6 @@ const updateHoliday = async (req, res = response) => {
     });
   }
 };
-
 const deleteHoliday = async (req, res = response) => {
   const { label: username } = req;
   const fecha = req.params.fecha;

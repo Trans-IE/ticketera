@@ -367,6 +367,7 @@ router.put(
   [
     check("id", "El id es obligatorio").not().isEmpty(),
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("habilitado", "El habilitado es obligatorio").not().isEmpty(),
   ],
 
   updateBrand
@@ -668,14 +669,13 @@ router.post(
 );
 router.post("/getAllHolidays", getAllHolidays);
 router.put(
-  "/updateBrand/:id",
+  "/updateHoliday/:id",
   [
     check("id", "El id es obligatorio").not().isEmpty(),
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("habilitado", "El campo habilitado es obligatorio").not().isEmpty(),
+    check("descripcion", "La descripcion es obligatoria").not().isEmpty(),
   ],
 
-  updateCompany
+  updateHoliday
 );
 router.post(
   "/createHoliday",

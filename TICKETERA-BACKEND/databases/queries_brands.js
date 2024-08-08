@@ -69,14 +69,14 @@ const deleteDBBrand = (id) => {
 const updateDBBrand = (id, nombre, habilitado) => {
   const return_promise = new Promise((resolve, reject) => {
     pooldata.getPool.query(
-      "select * from tickets.f_ticketera_brand_update($1,$2,$3)",
+      "select * from tickets.f_ticketera_marcas_update($1,$2,$3)",
       [id, nombre, habilitado],
       (error, results) => {
         if (error) {
           reject(error.message);
         } else {
           try {
-            resolve(results.rows[0].f_ticketera_brand_update);
+            resolve(results.rows[0].f_ticketera_marcas_update);
           } catch (error) {
             reject(error.message);
           }

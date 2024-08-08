@@ -116,27 +116,23 @@ const deleteHoliday = async (req, res = response) => {
 
 const updateHoliday = async (req, res = response) => {
   const id = req.params.id;
-
-  // NOTA: valores que provienen de funcion validar-jwt que se ejecuta antes
-  // alli identifica estos datos desencriptando el hash x-token
-
-  const { descripcion, fecha } = req.body;
+  const { fecha, descripcion } = req.body;
   logger.info(
-    `updateHoliday. id:${id} descripcion:${descripcion} fecha:${fecha}`
+    `updateHoliday. id:${id} fecha:${fecha} descripcion:${descripcion}`
   );
   try {
-    updateDBHoliday(id, descripcion, fecha)
+    updateDBHoliday(id, fecha, descripcion)
       .then((result) => {
         if (result == 1) {
           res.status(200).json({
             ok: true,
             value: result,
-            msg: `El feriado '${descripcion}' fue actualizado correctamente.`,
+            msg: `La fecha '${descripcion}' fue actualizada correctamente.`,
           });
         } else {
           return res.status(401).json({
             ok: false,
-            msg: `El feriado no pudo ser actualizada en el sistema.-`,
+            msg: `La fecha no pudo ser actualizada en el sistema.-`,
           });
         }
       })
@@ -147,7 +143,7 @@ const updateHoliday = async (req, res = response) => {
         res.status(501).json({
           ok: false,
           error: dataError,
-          msg: `No se pudo actualizar el feriado `,
+          msg: `No se pudo actualizar la marca '${descripcion}' `,
         });
       });
   } catch (error) {

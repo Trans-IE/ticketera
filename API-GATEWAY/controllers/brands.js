@@ -131,7 +131,8 @@ const updateBrand = async (req, res = response) => {
   let function_enter_time = new Date();
   const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
   logger.info(`==> updateBrand - username:${username}`);
-  let url = process.env.HOST_TICKETERA_BACKEND + `/entities/updateBrand/${id}`;
+  let url =
+    process.env.HOST_TICKETERA_BACKEND + `/entities/updateBrand/${id}`;
 
   try {
     logger.info(
@@ -145,7 +146,6 @@ const updateBrand = async (req, res = response) => {
 
     if (resultado) {
       const resp = await fetchSinToken(url, { id, nombre, habilitado }, "PUT");
-      console.log(resp);
       const body = await resp.json();
       if (body.ok) {
         if (!body.value) {
@@ -163,7 +163,7 @@ const updateBrand = async (req, res = response) => {
         res.status(200).json({
           ok: true,
           value: body.value,
-          msg: "Marca actualizado correctamente.",
+          msg: "Marca actualizada correctamente.",
         });
       } else {
         logger.error(`updateBrand : ${body.msg}`);
@@ -175,7 +175,7 @@ const updateBrand = async (req, res = response) => {
       }
     } else {
       logger.error(
-        `getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateProduct`
+        `getUserRol. El usuario ${username} posee el rol ${rol}. No puede acceder a la funcion updateBrand`
       );
       res.status(401).json({
         ok: false,
@@ -183,7 +183,7 @@ const updateBrand = async (req, res = response) => {
       });
     }
   } catch (error) {
-    logger.error(`updateProduct : ${error.message}`);
+    logger.error(`updateBrand : ${error.message}`);
     res.status(500).json({
       ok: false,
       error: error,

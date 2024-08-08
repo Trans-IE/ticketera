@@ -360,7 +360,6 @@ const deleteProduct = async (req, res = response) => {
 
         if (resultado) {
             const resp = await fetchSinToken(url, { id }, 'DELETE');
-            console.log(resp);
             const body = await resp.json();
             if (body.ok) {
                 if (!body.value) {

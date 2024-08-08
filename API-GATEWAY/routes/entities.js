@@ -3625,13 +3625,7 @@ router.post(
 );
 router.put(
   "/updateHoliday/:id",
-  [
-    check("id", "El id es obligatorio").not().isEmpty(),
-    check("fecha", "La fecha es obligatoria").not().isEmpty(),
-
-    validarCampos,
-    validarJWT,
-  ],
+  [validarCampos, validarJWT],
 
   updateHoliday
 );

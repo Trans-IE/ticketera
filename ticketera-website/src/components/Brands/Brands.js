@@ -130,7 +130,7 @@ const Brands = () => {
 
   const handleSaveItem = (newItem) => {
     if (editingItem) {
-      dispatch(brandUpdate({ ...newItem, id: editingItem.id })).then(() => {
+      dispatch(brandUpdate(newItem)).then(() => {
         dispatch(brandGetRowset());
       });
     } else {
@@ -138,7 +138,7 @@ const Brands = () => {
         dispatch(brandGetRowset());
       });
     }
-    setDrawerOpen(false);
+    setOpen(false);
     setEditingItem(null);
   };
 

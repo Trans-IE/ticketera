@@ -92,7 +92,7 @@ const updateBrand = async (req, res = response) => {
           res.status(200).json({
             ok: true,
             value: result,
-            msg: `La marca '${nombre}' fue actualizado correctamente.`,
+            msg: `La marca '${nombre}' fue actualizada correctamente.`,
           });
         } else {
           return res.status(401).json({
