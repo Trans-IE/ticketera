@@ -667,16 +667,21 @@ router.post(
 
   getHourDetailByTechnician
 );
+
 router.post("/getAllHolidays", getAllHolidays);
+
 router.put(
   "/updateHoliday/:id",
   [
     check("id", "El id es obligatorio").not().isEmpty(),
     check("descripcion", "La descripcion es obligatoria").not().isEmpty(),
+    check("fecha", "El label es obligatorio").not().isEmpty(),
+
   ],
 
   updateHoliday
 );
+
 router.post(
   "/createHoliday",
   [

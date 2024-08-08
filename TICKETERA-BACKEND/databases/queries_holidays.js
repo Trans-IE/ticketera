@@ -65,9 +65,7 @@ const deleteDBHoliday = (fecha) => {
 const updateDBHoliday = (id, descripcion, fecha) => {
   const return_promise = new Promise((resolve, reject) => {
     pooldata.getPool.query(
-      "select * from tickets.f_ticketera_feriados_update($1,$2,$3)",
-      [id, descripcion, fecha],
-      (error, results) => {
+      "select * from tickets.f_ticketera_feriados_update($1,$2,$3);", [id, descripcion, fecha], (error, results) => {
         if (error) {
           reject(error.message);
         } else {

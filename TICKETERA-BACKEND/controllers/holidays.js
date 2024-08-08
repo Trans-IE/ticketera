@@ -118,10 +118,10 @@ const updateHoliday = async (req, res = response) => {
   const id = req.params.id;
   const { fecha, descripcion } = req.body;
   logger.info(
-    `updateHoliday. id:${id} fecha:${fecha} descripcion:${descripcion}`
+    `updateHoliday. id:${id} descripcion:${descripcion} fecha:${fecha}`
   );
   try {
-    updateDBHoliday(id, fecha, descripcion)
+    updateDBHoliday(id, descripcion, fecha)
       .then((result) => {
         if (result == 1) {
           res.status(200).json({
@@ -132,18 +132,18 @@ const updateHoliday = async (req, res = response) => {
         } else {
           return res.status(401).json({
             ok: false,
-            msg: `La fecha no pudo ser actualizada en el sistema.-`,
+            msg: `La fecha no pudo ser actualizada en el sistema.`,
           });
         }
       })
       .catch((dataError) => {
         logger.error(
-          `updateHoliday  => updateDBHoliday : params=> id=${id} descripcion=${descripcion}`
+          `updateHoliday  => updateDBHoliday : params=> id=${id} descripcion=${descripcion} fecha=${fecha}`
         );
         res.status(501).json({
           ok: false,
           error: dataError,
-          msg: `No se pudo actualizar la marca '${descripcion}' `,
+          msg: `No se pudo actualizar el feriado '${descripcion}' `,
         });
       });
   } catch (error) {

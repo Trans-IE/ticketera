@@ -81,12 +81,12 @@ const createBrand = async (req, res = response) => {
 
 const updateBrand = async (req, res = response) => {
   const id = req.params.id;
-  const { nombre, habilitado } = req.body;
+  const { nombre } = req.body;
   logger.info(
-    `updateBrand. id:${id} nombre:${nombre} habilitado:${habilitado}`
+    `updateBrand. id:${id} nombre:${nombre}`
   );
   try {
-    updateDBBrand(id, nombre, habilitado)
+    updateDBBrand(id, nombre)
       .then((result) => {
         if (result == 1) {
           res.status(200).json({

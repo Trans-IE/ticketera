@@ -127,7 +127,7 @@ const createBrand = async (req, res = response) => {
 const updateBrand = async (req, res = response) => {
   const { label: username } = req;
   const id = req.params.id;
-  const { nombre, habilitado } = req.body;
+  const { nombre } = req.body;
   let function_enter_time = new Date();
   const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
   logger.info(`==> updateBrand - username:${username}`);
@@ -136,7 +136,7 @@ const updateBrand = async (req, res = response) => {
 
   try {
     logger.info(
-      `updateBrand id:${id} nombre:${nombre} habilitado:${habilitado}`
+      `updateBrand id:${id} nombre:${nombre}`
     );
 
     const rol = await getUserRol(username);
@@ -145,7 +145,7 @@ const updateBrand = async (req, res = response) => {
     let resultado = arrRolExclusive.some((numero) => setRolUser.has(numero));
 
     if (resultado) {
-      const resp = await fetchSinToken(url, { id, nombre, habilitado }, "PUT");
+      const resp = await fetchSinToken(url, { id, nombre }, "PUT");
       const body = await resp.json();
       if (body.ok) {
         if (!body.value) {

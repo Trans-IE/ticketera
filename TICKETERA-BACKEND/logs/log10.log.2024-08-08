@@ -282,3 +282,41 @@
 [8/8/2024, 09:05:51] info <== getUserRol
 [8/8/2024, 09:05:51] info getAllHolidays.
 [8/8/2024, 09:05:51] info <== getAllHolidays
+[8/8/2024, 09:53:26] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 09:53:28] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 09:53:28] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 09:53:28] info <== authenticateUser
+[8/8/2024, 09:53:28] info <== getUserByLogin
+[8/8/2024, 10:39:40] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 10:39:40] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 10:39:40] info <== authenticateUser
+[8/8/2024, 10:39:40] info <== getUserByLogin
+[8/8/2024, 10:40:33] info ==> getUserRol - gperdomo
+[8/8/2024, 10:40:33] info <== getUserRol
+[8/8/2024, 10:40:33] info updateBrand. id:253490 nombre:nuevaPrueba1
+[8/8/2024, 10:40:33] error updateBrand  => updateDBBrand : params=> id=253490 nombre=nuevaPrueba1
+[8/8/2024, 10:41:40] info ==> getUserRol - gperdomo
+[8/8/2024, 10:41:41] info <== getUserRol
+[8/8/2024, 10:41:41] info updateBrand. id:253490 nombre:nuevaPrueba1
+[8/8/2024, 11:01:59] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 11:02:00] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 11:02:02] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 11:02:02] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 11:02:02] info <== authenticateUser
+[8/8/2024, 11:02:02] info <== getUserByLogin
+[8/8/2024, 11:02:33] info ==> getUserRol - gperdomo
+[8/8/2024, 11:02:33] info <== getUserRol
+[8/8/2024, 11:02:33] info updateHoliday. id:1 fecha:1983-08-22 descripcion:Mi cumpleaños
+[8/8/2024, 11:02:33] error updateHoliday  => updateDBHoliday : params=> id=1 descripcion=Mi cumpleaños
+[8/8/2024, 11:04:15] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 11:04:15] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 11:04:15] info <== authenticateUser
+[8/8/2024, 11:04:15] info <== getUserByLogin
+[8/8/2024, 11:04:38] info ==> getUserRol - gperdomo
+[8/8/2024, 11:04:38] info <== getUserRol
+[8/8/2024, 11:04:38] info updateHoliday. id:1 fecha:1983-08-22 descripcion:Mi cumpleaños
+[8/8/2024, 11:04:38] error updateHoliday  => updateDBHoliday : params=> id=1 descripcion=Mi cumpleaños
+[8/8/2024, 11:06:38] info ==> getUserRol - gperdomo
+[8/8/2024, 11:06:38] info <== getUserRol
+[8/8/2024, 11:06:38] info updateHoliday. id:1 fecha:1983-08-22 descripcion:Mi cumpleaños
+[8/8/2024, 11:06:38] error updateHoliday  => updateDBHoliday : params=> id=1 fecha=1983-08-22 descripcion=Mi cumpleaños

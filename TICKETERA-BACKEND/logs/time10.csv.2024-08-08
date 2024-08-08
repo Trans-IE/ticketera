@@ -118,3 +118,16 @@
 8/8/2024, 09:05:51,getUserRol,0.03;
 8/8/2024, 09:05:51,getUserRol,0.188;
 8/8/2024, 09:05:51,getAllHolidays, 0.025;
+8/8/2024, 09:53:28,authenticateUser,0.074;
+8/8/2024, 09:53:28,getUserByLogin,0.195;
+8/8/2024, 10:39:40,authenticateUser,0.321;
+8/8/2024, 10:39:40,getUserByLogin,0.458;
+8/8/2024, 10:40:33,getUserRol,0.134;
+8/8/2024, 10:41:41,getUserRol,0.11;
+8/8/2024, 11:02:02,authenticateUser,0.093;
+8/8/2024, 11:02:02,getUserByLogin,0.213;
+8/8/2024, 11:02:33,getUserRol,0.157;
+8/8/2024, 11:04:15,authenticateUser,0.048;
+8/8/2024, 11:04:15,getUserByLogin,0.168;
+8/8/2024, 11:04:38,getUserRol,0.106;
+8/8/2024, 11:06:38,getUserRol,0.111;
