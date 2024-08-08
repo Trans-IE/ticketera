@@ -131,3 +131,6 @@
 8/8/2024, 11:04:15,getUserByLogin,0.168;
 8/8/2024, 11:04:38,getUserRol,0.106;
 8/8/2024, 11:06:38,getUserRol,0.111;
+8/8/2024, 11:12:16,authenticateUser,0.107;
+8/8/2024, 11:12:16,getUserByLogin,0.232;
+8/8/2024, 11:12:46,getUserRol,0.094;

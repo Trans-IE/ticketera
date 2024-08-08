@@ -320,3 +320,10 @@
 [8/8/2024, 11:06:38] info <== getUserRol
 [8/8/2024, 11:06:38] info updateHoliday. id:1 fecha:1983-08-22 descripcion:Mi cumpleaños
 [8/8/2024, 11:06:38] error updateHoliday  => updateDBHoliday : params=> id=1 fecha=1983-08-22 descripcion=Mi cumpleaños
+[8/8/2024, 11:12:16] info ==> getUserByLogin - username: gperdomo check_password: true AUTHENTICATION_MODE: 1
+[8/8/2024, 11:12:16] info ==> authenticateUser - username: gperdomo
+[8/8/2024, 11:12:16] info <== authenticateUser
+[8/8/2024, 11:12:16] info <== getUserByLogin
+[8/8/2024, 11:12:46] info ==> getUserRol - gperdomo
+[8/8/2024, 11:12:46] info <== getUserRol
+[8/8/2024, 11:12:46] info updateHoliday. id:1 descripcion:Mi cumpleaños fecha:1983-08-22
