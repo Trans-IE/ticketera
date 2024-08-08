@@ -8,7 +8,7 @@ metadata:
   projectType: "Node.js"
   language: "JavaScript"
   attributes:
-    alpha.dockerimage-port: 3002
+    alpha.dockerimage-port: 5101
   provider: Red Hat
   supportUrl: https://github.com/devfile-samples/devfile-support#support-information
 parent:
@@ -28,12 +28,12 @@ components:
       deployment/replicas: 1
       deployment/cpuRequest: 10m
       deployment/memoryRequest: 50Mi
-      deployment/container-port: 3002
+      deployment/container-port: 5101
     kubernetes:
       uri: deploy.yaml
       endpoints:
-        - name: http-3002
-          targetPort: 3002
+        - name: http-5101
+          targetPort: 5101
           path: /
           secure: true
 commands:

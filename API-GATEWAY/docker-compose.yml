@@ -6,5 +6,5 @@ services:
     env_file:
       - .env
     ports:
-      - "3002:3002"
+      - "5101:5101"
     command: ["npm", "start"]
