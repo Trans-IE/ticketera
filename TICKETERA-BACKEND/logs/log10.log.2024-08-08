@@ -327,3 +327,11 @@
 [8/8/2024, 11:12:46] info ==> getUserRol - gperdomo
 [8/8/2024, 11:12:46] info <== getUserRol
 [8/8/2024, 11:12:46] info updateHoliday. id:1 descripcion:Mi cumpleaños fecha:1983-08-22
+[8/8/2024, 11:34:48] info ==> getUserRol - gperdomo
+[8/8/2024, 11:34:48] info <== getUserRol
+[8/8/2024, 11:34:48] info ==> getAllBrands.
+[8/8/2024, 11:34:48] info <== getAllBrands
+[8/8/2024, 11:35:03] info ==> getUserRol - gperdomo
+[8/8/2024, 11:35:03] info <== getUserRol
+[8/8/2024, 11:35:03] info getBrandsByCompany. username:gperdomo company:3
+[8/8/2024, 11:35:03] info <== getBrandsByCompany

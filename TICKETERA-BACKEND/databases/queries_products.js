@@ -47,7 +47,7 @@ const getDBProductByBrandAndContract = (marca_id, contract) => {
 const getAllDBProducts = () => {
     const return_promise = new Promise((resolve, reject) => {
 
-        pooldata.getPool.query('SELECT * from productos order by id asc;', [], (error, results) => {
+        pooldata.getPool.query('SELECT * from productos where habilitado = true order by id asc;', [], (error, results) => {
             if (error) {
                 reject(error.message);
             }

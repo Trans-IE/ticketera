@@ -134,3 +134,7 @@
 8/8/2024, 11:12:16,authenticateUser,0.107;
 8/8/2024, 11:12:16,getUserByLogin,0.232;
 8/8/2024, 11:12:46,getUserRol,0.094;
+8/8/2024, 11:34:48,getUserRol,0.12;
+8/8/2024, 11:34:48,getAllBrands, 0.01;
+8/8/2024, 11:35:03,getUserRol,0.096;
+8/8/2024, 11:35:03,getBrandsByCompany, 0.065;
