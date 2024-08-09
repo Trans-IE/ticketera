@@ -85,24 +85,26 @@ export const brandCreate = (brand) => {
   };
 };
 
-export const brandDelete = (brand) => {
+export const brandDelete = (id) => {
   return async (dispatch, getState) => {
     try {
       const { config } = getState().auth;
       let url = getURLFromConfigByName(
         config,
         "api_gateway_host",
-        `entities/updateBrand/${brand.id}`
+        `entities/deleteBrand/${id}`
       );
-      const brandToDisable = { ...brand, habilitado: false };
-      const resp = await fetchConToken(url, brandToDisable, "PUT");
+
+      const resp = await fetchConToken(url, {}, "DELETE");
       const body = await resp.json();
+
       if (body.ok) {
-        dispatch(brandUpdateRedux(brand.id));
+        dispatch(brandUpdateRedux(id));
         Swal.fire("Success", "Brand deleted successfully", "success");
         return body.value;
       } else {
         Swal.fire("Error", body.msg, "error");
+        return null;
       }
     } catch (error) {
       console.log(error);

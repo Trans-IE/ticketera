@@ -93,9 +93,8 @@ const Holidays = () => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este feriado?")) {
       const holiday = holidays.find((holiday) => holiday.fecha === fecha);
       if (holiday) {
-        const updatedHoliday = { ...holiday, habilitado: false };
-        setUndoHoliday(updatedHoliday);
-        dispatch(holidayDelete(updatedHoliday))
+        setUndoHoliday(holidayDelete);
+        dispatch(holidayDelete(holiday))
           .then(() => {
             dispatch(holidayGetRowset());
             setSnackbarOpen(true);

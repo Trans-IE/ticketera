@@ -94,17 +94,19 @@ export const holidayCreate = (holiday) => {
 };
 
 export const holidayDelete = (holiday) => {
+  console.log(holiday);
   return async (dispatch, getState) => {
     try {
       const { config } = getState().auth;
       let url = getURLFromConfigByName(
         config,
         "api_gateway_host",
-        `entities/updateholiday/${holiday.id}`
+        `entities/deleteHoliday/${holiday.id}`
       );
-      const holidayToDisable = { ...holiday, habilitado: false };
-      const resp = await fetchConToken(url, holidayToDisable, "PUT");
+
+      const resp = await fetchConToken(url, { id: holiday.id }, "DELETE");
       const body = await resp.json();
+
       if (body.ok) {
         dispatch(holidayDeleteRedux(holiday.id));
         Swal.fire("Success", "holiday deleted successfully", "success");

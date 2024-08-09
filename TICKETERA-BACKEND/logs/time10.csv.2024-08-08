@@ -138,3 +138,186 @@
 8/8/2024, 11:34:48,getAllBrands, 0.01;
 8/8/2024, 11:35:03,getUserRol,0.096;
 8/8/2024, 11:35:03,getBrandsByCompany, 0.065;
+8/8/2024, 03:13:05,uncaughtException: listen EADDRINUSE: address already in use :::5100
+Error: listen EADDRINUSE: address already in use :::5100
+    at Server.setupListenHandle [as _listen2] (node:net:1904:16)
+    at listenInCluster (node:net:1961:12)
+    at Server.listen (node:net:2063:7)
+    at Function.listen (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\index.js:58:7)
+    at Module._compile (node:internal/modules/cjs/loader:1467:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14);
+8/8/2024, 03:13:48,uncaughtException: listen EADDRINUSE: address already in use :::5100
+Error: listen EADDRINUSE: address already in use :::5100
+    at Server.setupListenHandle [as _listen2] (node:net:1904:16)
+    at listenInCluster (node:net:1961:12)
+    at Server.listen (node:net:2063:7)
+    at Function.listen (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\index.js:58:7)
+    at Module._compile (node:internal/modules/cjs/loader:1467:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14);
+8/8/2024, 03:14:15,getUserByLogin,0.215;
+8/8/2024, 03:14:15,getUserRol,0.042;
+8/8/2024, 03:14:15,getAllStates, 0.034;
+8/8/2024, 03:14:15,getUserRol,0.03;
+8/8/2024, 03:14:15,getAllUsersByCompany, 0.023;
+8/8/2024, 03:14:15,getUserRol,0.022;
+8/8/2024, 03:14:15,getUserRol,0.225;
+8/8/2024, 03:14:15,getUserRol,0.232;
+8/8/2024, 03:14:15,getUserRol,0.231;
+8/8/2024, 03:14:15,getUserRol,0.227;
+8/8/2024, 03:14:15,getUserRol,0.236;
+8/8/2024, 03:14:15,getAllUsersByCompany, 0.03;
+8/8/2024, 03:14:15,getTicketTypes, 0.023;
+8/8/2024, 03:14:15,getAllPrioritys, 0.023;
+8/8/2024, 03:14:15,getFailTypes, 0.031;
+8/8/2024, 03:14:15,getAllBrands, 0.03;
+8/8/2024, 03:14:15,getUserRol,0.029;
+8/8/2024, 03:14:15,getAllCompaniesLocal, 0.058;
+8/8/2024, 03:14:15,getUserRol,0.028;
+8/8/2024, 03:14:15,getUserRol,0.024;
+8/8/2024, 03:14:15,getTicketTypes, 0.018;
+8/8/2024, 03:14:15,getAllTicketsByFilter, 0.148;
+8/8/2024, 03:14:15,getAllTicketsByFilter, 0.145;
+8/8/2024, 03:14:27,getUserRol,0.185;
+8/8/2024, 03:14:27,getUserRol,0.191;
+8/8/2024, 03:14:27,getAllBrands, 0.024;
+8/8/2024, 03:14:27,getAllProducts, 0.049;
+8/8/2024, 03:14:34,getUserRol,0.029;
+8/8/2024, 03:14:34,getUserRol,0.029;
+8/8/2024, 03:14:34,getAllProducts, 0.027;
+8/8/2024, 03:14:38,getUserRol,0.029;
+8/8/2024, 03:14:39,getUserRol,0.032;
+8/8/2024, 03:14:39,getAllProducts, 0.022;
+8/8/2024, 03:14:43,getUserRol,0.022;
+8/8/2024, 03:14:43,getAllBrands, 0.027;
+8/8/2024, 03:14:48,getUserRol,0.023;
+8/8/2024, 03:14:48,getUserRol,0.022;
+8/8/2024, 03:14:48,getAllBrands, 0.025;
+8/8/2024, 03:15:02,getUserRol,0.167;
+8/8/2024, 03:15:02,getUserRol,0.023;
+8/8/2024, 03:15:02,getAllBrands, 0.027;
+8/8/2024, 03:15:14,getUserRol,0.18;
+8/8/2024, 03:15:14,getUserRol,0.03;
+8/8/2024, 03:15:14,getAllBrands, 0.023;
+8/8/2024, 03:15:36,getUserRol,0.182;
+8/8/2024, 03:15:36,getAllHolidays, 0.028;
+8/8/2024, 03:16:57,getUserByLogin,0.195;
+8/8/2024, 03:16:57,getUserRol,0.031;
+8/8/2024, 03:16:57,getAllHolidays, 0.026;
+8/8/2024, 03:23:50,getUserByLogin,0.198;
+8/8/2024, 03:23:51,getUserRol,0.022;
+8/8/2024, 03:23:51,getAllHolidays, 0.026;
+8/8/2024, 03:24:06,getUserRol,0.181;
+8/8/2024, 03:24:06,getUserRol,0.027;
+8/8/2024, 03:24:06,getAllHolidays, 0.024;
+8/8/2024, 03:24:24,getUserRol,0.194;
+8/8/2024, 03:24:24,getUserRol,0.029;
+8/8/2024, 03:24:24,getAllHolidays, 0.022;
+8/8/2024, 03:30:21,getUserByLogin,0.192;
+8/8/2024, 03:30:21,getUserRol,0.029;
+8/8/2024, 03:30:21,getAllHolidays, 0.03;
+8/8/2024, 03:30:35,getUserByLogin,0.195;
+8/8/2024, 03:30:35,getUserRol,0.031;
+8/8/2024, 03:30:35,getAllHolidays, 0.027;
+8/8/2024, 03:31:27,getUserByLogin,0.189;
+8/8/2024, 03:31:29,getUserByLogin,0.038;
+8/8/2024, 03:31:59,getUserByLogin,0.211;
+8/8/2024, 03:31:59,getUserRol,0.022;
+8/8/2024, 03:31:59,getAllHolidays, 0.024;
+8/8/2024, 03:32:41,getUserByLogin,0.198;
+8/8/2024, 03:32:41,getUserRol,0.028;
+8/8/2024, 03:32:41,getAllHolidays, 0.025;
+8/8/2024, 03:33:40,getUserByLogin,0.198;
+8/8/2024, 03:33:40,getUserRol,0.031;
+8/8/2024, 03:33:40,getAllHolidays, 0.024;
+8/8/2024, 03:34:02,getUserByLogin,0.202;
+8/8/2024, 03:34:02,getUserRol,0.028;
+8/8/2024, 03:34:02,getAllHolidays, 0.024;
+8/8/2024, 03:35:22,getUserByLogin,0.194;
+8/8/2024, 03:35:22,getUserRol,0.031;
+8/8/2024, 03:35:22,getAllHolidays, 0.024;
+8/8/2024, 03:36:34,getUserByLogin,0.194;
+8/8/2024, 03:36:34,getUserRol,0.023;
+8/8/2024, 03:36:34,getAllHolidays, 0.025;
+8/8/2024, 03:37:51,getUserByLogin,0.194;
+8/8/2024, 03:37:51,getUserRol,0.033;
+8/8/2024, 03:37:51,getAllHolidays, 0.025;
+8/8/2024, 03:38:02,getUserRol,0.191;
+8/8/2024, 03:38:02,getUserRol,0.031;
+8/8/2024, 03:38:02,getAllHolidays, 0.024;
+8/8/2024, 03:38:05,getUserByLogin,0.028;
+8/8/2024, 03:38:05,getUserRol,0.023;
+8/8/2024, 03:38:05,getAllHolidays, 0.022;
+8/8/2024, 03:38:19,getUserRol,0.19;
+8/8/2024, 03:38:20,getUserRol,0.028;
+8/8/2024, 03:38:20,getAllHolidays, 0.025;
+8/8/2024, 03:38:23,getUserByLogin,0.039;
+8/8/2024, 03:38:23,getUserRol,0.028;
+8/8/2024, 03:38:23,getAllHolidays, 0.023;
+8/8/2024, 03:38:48,getUserRol,0.183;
+8/8/2024, 03:38:48,getUserRol,0.025;
+8/8/2024, 03:38:48,getAllHolidays, 0.022;
+8/8/2024, 03:52:16,getUserByLogin,0.214;
+8/8/2024, 03:52:16,getUserRol,0.031;
+8/8/2024, 03:52:16,getAllHolidays, 0.026;
+8/8/2024, 03:52:34,getUserRol,0.184;
+8/8/2024, 03:52:34,getUserRol,0.029;
+8/8/2024, 03:52:34,getAllHolidays, 0.022;
+8/8/2024, 03:52:48,getUserRol,0.172;
+8/8/2024, 03:52:48,getUserRol,0.028;
+8/8/2024, 03:52:48,getAllHolidays, 0.022;
+8/8/2024, 03:55:28,getUserByLogin,0.214;
+8/8/2024, 03:55:28,getUserRol,0.033;
+8/8/2024, 03:55:28,getAllHolidays, 0.024;
+8/8/2024, 03:55:37,getUserByLogin,0.032;
+8/8/2024, 03:55:37,getUserRol,0.021;
+8/8/2024, 03:55:37,getAllHolidays, 0.025;
+8/8/2024, 03:55:37,getUserByLogin,0.035;
+8/8/2024, 03:55:38,getUserRol,0.024;
+8/8/2024, 03:55:38,getAllHolidays, 0.029;
+8/8/2024, 03:55:51,getUserRol,1.192;
+8/8/2024, 03:55:52,getUserRol,0.029;
+8/8/2024, 03:55:52,getAllHolidays, 0.021;
+8/8/2024, 03:56:39,getUserByLogin,0.214;
+8/8/2024, 03:56:39,getUserRol,0.036;
+8/8/2024, 03:56:39,getAllHolidays, 0.03;
+8/8/2024, 03:56:45,getUserRol,0.275;
+8/8/2024, 03:56:45,getUserRol,0.021;
+8/8/2024, 03:56:45,getAllHolidays, 0.023;
+8/8/2024, 04:00:01,getUserByLogin,0.193;
+8/8/2024, 04:00:01,getUserRol,0.027;
+8/8/2024, 04:00:01,getAllHolidays, 0.037;
+8/8/2024, 04:00:22,getUserByLogin,0.2;
+8/8/2024, 04:00:23,getUserRol,0.036;
+8/8/2024, 04:00:23,getAllHolidays, 0.026;
+8/8/2024, 04:01:25,getUserByLogin,0.199;
+8/8/2024, 04:01:25,getUserRol,0.032;
+8/8/2024, 04:01:25,getAllHolidays, 0.024;
+8/8/2024, 04:01:45,getUserRol,0.18;
+8/8/2024, 04:01:45,getUserRol,0.029;
+8/8/2024, 04:01:45,getAllHolidays, 0.021;
+8/8/2024, 04:02:35,getUserRol,0.191;
+8/8/2024, 04:02:35,getUserRol,0.029;
+8/8/2024, 04:02:35,getAllHolidays, 0.023;
+8/8/2024, 04:04:41,getUserByLogin,0.19;
+8/8/2024, 04:04:41,getUserRol,0.034;
+8/8/2024, 04:04:41,getAllHolidays, 0.031;
+8/8/2024, 04:04:48,getUserRol,0.03;
+8/8/2024, 04:04:48,getUserRol,0.031;
+8/8/2024, 04:04:48,getAllHolidays, 0.024;
+8/8/2024, 04:05:01,getUserRol,0.166;
+8/8/2024, 04:05:02,getUserRol,0.025;
+8/8/2024, 04:05:02,getAllHolidays, 0.023;
+8/8/2024, 04:11:34,getUserByLogin,0.209;
+8/8/2024, 04:11:34,getUserRol,0.03;
+8/8/2024, 04:11:34,getAllHolidays, 0.024;
+8/8/2024, 04:11:41,getUserRol,0.028;
+8/8/2024, 04:11:41,getUserRol,0.025;
+8/8/2024, 04:11:41,getAllHolidays, 0.023;

@@ -90,12 +90,15 @@ const Brands = () => {
     if (window.confirm("¿Estás seguro de que quieres eliminar esta marca?")) {
       const brand = brands.find((brand) => brand.id === id);
       if (brand) {
-        const updatedBrand = { ...brand, habilitado: false };
-        setUndoBrand(updatedBrand);
-        dispatch(brandDelete(updatedBrand))
-          .then(() => {
-            dispatch(brandGetRowset());
-            setSnackbarOpen(true);
+        dispatch(brandDelete(id))
+          .then((result) => {
+            if (result === 1) {
+              setUndoBrand(brand); // Guardar temporalmente la marca eliminada
+              dispatch(brandGetRowset());
+              setSnackbarOpen(true); // Mostrar el Snackbar con opción de deshacer
+            } else {
+              alert(`No se pudo eliminar la marca con id ${id}.`);
+            }
           })
           .catch((error) => {
             console.error("Error deleting brand:", error);
@@ -107,11 +110,11 @@ const Brands = () => {
 
   const handleUndo = () => {
     if (undoBrand) {
-      const reenabledBrand = { ...undoBrand, habilitado: true };
+      const reenabledBrand = { ...undoBrand, habilitado: true }; // Rehabilitar la marca
       dispatch(brandUpdate(reenabledBrand)).then(() => {
         dispatch(brandGetRowset());
-        setUndoBrand(null);
-        setSnackbarOpen(false);
+        setUndoBrand(null); // Limpiar el estado temporal
+        setSnackbarOpen(false); // Cerrar el Snackbar
       });
     }
   };

@@ -1,0 +1,215 @@
+9/8/2024, 11:40:52,authenticateUser,1.04;
+9/8/2024, 11:40:52,getUserByLogin,1.478;
+9/8/2024, 11:40:52,getUserRol,0.023;
+9/8/2024, 11:40:52,getUserRol,0.034;
+9/8/2024, 11:40:52,getAllPrioritys, 0.032;
+9/8/2024, 11:40:52,getUserRol,0.031;
+9/8/2024, 11:40:52,getAllUsersByCompany, 0.029;
+9/8/2024, 11:40:52,getAllStates, 0.195;
+9/8/2024, 11:40:52,getUserRol,0.206;
+9/8/2024, 11:40:52,getUserRol,0.201;
+9/8/2024, 11:40:52,getUserRol,0.028;
+9/8/2024, 11:40:52,getTicketTypes, 0.044;
+9/8/2024, 11:40:52,getTicketTypes, 0.039;
+9/8/2024, 11:40:52,getUserRol,0.036;
+9/8/2024, 11:40:52,getFailTypes, 0.027;
+9/8/2024, 11:40:52,getUserRol,0.031;
+9/8/2024, 11:40:52,getAllUsersByCompany, 0.029;
+9/8/2024, 11:40:52,getUserRol,0.022;
+9/8/2024, 11:40:52,getAllTicketsByFilter, 0.125;
+9/8/2024, 11:40:52,getAllTicketsByFilter, 0.129;
+9/8/2024, 11:40:55,getUserRol,3.192;
+9/8/2024, 11:40:55,getUserRol,3.206;
+9/8/2024, 11:40:55,getAllBrands, 0.032;
+9/8/2024, 11:40:55,getAllCompaniesLocal, 0.128;
+9/8/2024, 11:49:10,getUserByLogin,0.195;
+9/8/2024, 11:49:10,getUserRol,0.028;
+9/8/2024, 11:49:10,getUserRol,0.032;
+9/8/2024, 11:49:10,getTicketTypes, 0.028;
+9/8/2024, 11:49:10,getUserRol,0.023;
+9/8/2024, 11:49:10,getAllBrands, 0.027;
+9/8/2024, 11:49:10,getUserRol,0.017;
+9/8/2024, 11:49:10,getUserRol,0.201;
+9/8/2024, 11:49:10,getAllStates, 0.196;
+9/8/2024, 11:49:10,getUserRol,0.228;
+9/8/2024, 11:49:10,getUserRol,0.227;
+9/8/2024, 11:49:10,getTicketTypes, 0.027;
+9/8/2024, 11:49:10,getAllUsersByCompany, 0.035;
+9/8/2024, 11:49:10,getUserRol,0.036;
+9/8/2024, 11:49:10,getFailTypes, 0.019;
+9/8/2024, 11:49:10,getUserRol,0.024;
+9/8/2024, 11:49:10,getUserRol,0.329;
+9/8/2024, 11:49:10,getAllCompaniesLocal, 0.096;
+9/8/2024, 11:49:10,getAllPrioritys, 0.025;
+9/8/2024, 11:49:11,getAllUsersByCompany, 0.294;
+9/8/2024, 11:49:11,getAllTicketsByFilter, 0.361;
+9/8/2024, 11:49:11,getUserRol,0.027;
+9/8/2024, 11:49:11,getAllTicketsByFilter, 0.38;
+9/8/2024, 11:49:13,getUserRol,0.029;
+9/8/2024, 11:49:13,getAllBrands, 0.025;
+9/8/2024, 11:49:17,getUserRol,0.027;
+9/8/2024, 11:49:17,getUserRol,0.023;
+9/8/2024, 11:49:17,getAllBrands, 0.023;
+9/8/2024, 12:07:14,getUserByLogin,0.192;
+9/8/2024, 12:07:14,getUserRol,0.022;
+9/8/2024, 12:07:14,getAllBrands, 0.028;
+9/8/2024, 12:12:31,uncaughtException: Unexpected token 'export'
+C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\controllers\brands.js:124
+export const brandDelete = (id) => {
+^^^^^^
+
+SyntaxError: Unexpected token 'export'
+    at wrapSafe (node:internal/modules/cjs/loader:1383:18)
+    at Module._compile (node:internal/modules/cjs/loader:1412:20)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:215:24)
+    at Module.require (node:internal/modules/cjs/loader:1304:12)
+    at require (node:internal/modules/helpers:123:16)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\routes\entities.js:44:5);
+9/8/2024, 12:12:52,uncaughtException: Unexpected token 'export'
+C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\controllers\brands.js:124
+export const brandDelete = (id) => {
+^^^^^^
+
+SyntaxError: Unexpected token 'export'
+    at wrapSafe (node:internal/modules/cjs/loader:1383:18)
+    at Module._compile (node:internal/modules/cjs/loader:1412:20)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1551:10)
+    at Module.load (node:internal/modules/cjs/loader:1282:32)
+    at Module._load (node:internal/modules/cjs/loader:1098:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:215:24)
+    at Module.require (node:internal/modules/cjs/loader:1304:12)
+    at require (node:internal/modules/helpers:123:16)
+    at Object.<anonymous> (C:\Users\mmaruzza\Desktop\Proyectos\ticketera\TICKETERA-BACKEND\routes\entities.js:44:5);
+9/8/2024, 12:14:52,getUserByLogin,0.218;
+9/8/2024, 12:14:53,getUserRol,0.029;
+9/8/2024, 12:14:53,getUserRol,0.023;
+9/8/2024, 12:14:53,getAllBrands, 0.028;
+9/8/2024, 12:14:53,getUserRol,0.028;
+9/8/2024, 12:14:53,getFailTypes, 0.025;
+9/8/2024, 12:14:53,getUserRol,0.035;
+9/8/2024, 12:14:53,getAllStates, 0.204;
+9/8/2024, 12:14:53,getUserRol,0.227;
+9/8/2024, 12:14:53,getUserRol,0.23;
+9/8/2024, 12:14:53,getUserRol,0.236;
+9/8/2024, 12:14:53,getAllUsersByCompany, 0.03;
+9/8/2024, 12:14:53,getUserRol,0.229;
+9/8/2024, 12:14:53,getAllPrioritys, 0.021;
+9/8/2024, 12:14:53,getTicketTypes, 0.032;
+9/8/2024, 12:14:53,getUserRol,0.041;
+9/8/2024, 12:14:53,getTicketTypes, 0.036;
+9/8/2024, 12:14:53,getAllCompaniesLocal, 0.053;
+9/8/2024, 12:14:53,getUserRol,0.036;
+9/8/2024, 12:14:53,getAllUsersByCompany, 0.032;
+9/8/2024, 12:14:53,getUserRol,0.028;
+9/8/2024, 12:14:53,getAllTicketsByFilter, 0.141;
+9/8/2024, 12:14:53,getAllTicketsByFilter, 0.133;
+9/8/2024, 12:14:56,getUserRol,0.029;
+9/8/2024, 12:14:56,getAllBrands, 0.028;
+9/8/2024, 12:16:42,getUserByLogin,0.192;
+9/8/2024, 12:16:42,getUserRol,0.033;
+9/8/2024, 12:16:42,getAllBrands, 0.026;
+9/8/2024, 12:16:45,getUserRol,0.027;
+9/8/2024, 12:16:45,getUserRol,0.027;
+9/8/2024, 12:16:45,getAllBrands, 0.024;
+9/8/2024, 12:16:48,getUserRol,0.027;
+9/8/2024, 12:16:48,getUserRol,0.024;
+9/8/2024, 12:16:48,getAllBrands, 0.023;
+9/8/2024, 12:16:58,getUserByLogin,0.035;
+9/8/2024, 12:16:58,getUserRol,0.028;
+9/8/2024, 12:16:58,getAllBrands, 0.026;
+9/8/2024, 12:18:35,getUserByLogin,0.199;
+9/8/2024, 12:18:35,getUserRol,0.023;
+9/8/2024, 12:18:35,getAllBrands, 0.029;
+9/8/2024, 12:19:13,getUserByLogin,0.2;
+9/8/2024, 12:19:13,getUserRol,0.024;
+9/8/2024, 12:19:13,getAllBrands, 0.026;
+9/8/2024, 12:19:16,getUserByLogin,0.031;
+9/8/2024, 12:19:16,getUserRol,0.024;
+9/8/2024, 12:19:16,getAllBrands, 0.028;
+9/8/2024, 12:19:22,getUserByLogin,0.034;
+9/8/2024, 12:19:22,getUserRol,0.024;
+9/8/2024, 12:19:22,getAllBrands, 0.034;
+9/8/2024, 12:19:25,getUserRol,0.03;
+9/8/2024, 12:19:25,getUserRol,0.028;
+9/8/2024, 12:19:25,getAllBrands, 0.025;
+9/8/2024, 12:19:27,getUserRol,0.022;
+9/8/2024, 12:19:27,getUserRol,0.029;
+9/8/2024, 12:19:27,getAllBrands, 0.023;
+9/8/2024, 12:27:54,getUserByLogin,0.187;
+9/8/2024, 12:27:54,getUserRol,0.029;
+9/8/2024, 12:27:54,getAllBrands, 0.021;
+9/8/2024, 12:27:57,getUserRol,0.022;
+9/8/2024, 12:27:57,getAllHolidays, 0.024;
+9/8/2024, 12:28:00,getUserRol,0.032;
+9/8/2024, 12:28:00,getUserRol,0.022;
+9/8/2024, 12:28:00,getAllHolidays, 0.019;
+9/8/2024, 12:30:07,getUserByLogin,0.194;
+9/8/2024, 12:30:07,getUserRol,0.031;
+9/8/2024, 12:30:07,getAllHolidays, 0.026;
+9/8/2024, 12:30:09,getUserRol,0.025;
+9/8/2024, 12:30:09,getUserRol,0.021;
+9/8/2024, 12:30:09,getAllHolidays, 0.022;
+9/8/2024, 12:34:25,getUserByLogin,0.188;
+9/8/2024, 12:34:26,getUserRol,0.035;
+9/8/2024, 12:34:26,getAllHolidays, 0.025;
+9/8/2024, 12:35:55,getUserByLogin,0.213;
+9/8/2024, 12:35:55,getUserRol,0.022;
+9/8/2024, 12:35:55,getAllHolidays, 0.027;
+9/8/2024, 12:36:53,getUserByLogin,0.199;
+9/8/2024, 12:36:53,getUserRol,0.034;
+9/8/2024, 12:36:53,getAllHolidays, 0.027;
+9/8/2024, 12:36:55,getUserRol,0.031;
+9/8/2024, 12:36:55,getAllHolidays, 0.022;
+9/8/2024, 12:37:52,getUserByLogin,0.2;
+9/8/2024, 12:37:52,getUserRol,0.029;
+9/8/2024, 12:37:53,getAllHolidays, 0.024;
+9/8/2024, 12:37:54,getUserRol,0.022;
+9/8/2024, 12:37:54,getUserRol,0.021;
+9/8/2024, 12:37:54,getAllHolidays, 0.023;
+9/8/2024, 12:39:18,getUserByLogin,0.21;
+9/8/2024, 12:39:18,getUserRol,0.034;
+9/8/2024, 12:39:18,getAllHolidays, 0.027;
+9/8/2024, 12:39:20,getUserRol,0.023;
+9/8/2024, 12:39:20,getUserRol,0.032;
+9/8/2024, 12:39:20,getAllHolidays, 0.024;
+9/8/2024, 12:43:21,getUserByLogin,0.225;
+9/8/2024, 12:43:21,getUserRol,0.028;
+9/8/2024, 12:43:21,getAllHolidays, 0.026;
+9/8/2024, 12:43:24,getUserRol,0.022;
+9/8/2024, 12:43:24,getUserRol,0.03;
+9/8/2024, 12:43:24,getAllHolidays, 0.029;
+9/8/2024, 12:44:38,getUserByLogin,0.215;
+9/8/2024, 12:44:38,getUserRol,0.031;
+9/8/2024, 12:44:38,getAllHolidays, 0.026;
+9/8/2024, 12:45:10,getUserByLogin,0.184;
+9/8/2024, 12:45:11,getUserRol,0.029;
+9/8/2024, 12:45:11,getAllHolidays, 0.025;
+9/8/2024, 12:45:13,getUserRol,0.02;
+9/8/2024, 12:45:13,getUserRol,0.028;
+9/8/2024, 12:45:13,getAllHolidays, 0.024;
+9/8/2024, 12:57:02,getUserByLogin,0.193;
+9/8/2024, 12:57:02,getUserRol,0.029;
+9/8/2024, 12:57:02,getAllHolidays, 0.025;
+9/8/2024, 12:58:09,getUserRol,0.187;
+9/8/2024, 12:58:10,getUserRol,0.026;
+9/8/2024, 12:58:10,getAllHolidays, 0.023;
+9/8/2024, 01:05:18,getUserByLogin,0.225;
+9/8/2024, 01:05:18,getUserRol,0.032;
+9/8/2024, 01:05:18,getAllHolidays, 0.027;
+9/8/2024, 01:05:23,getUserByLogin,0.033;
+9/8/2024, 01:05:23,getUserRol,0.024;
+9/8/2024, 01:05:23,getAllHolidays, 0.023;
+9/8/2024, 01:06:18,getUserByLogin,0.189;
+9/8/2024, 01:06:18,getUserRol,0.027;
+9/8/2024, 01:06:18,getAllHolidays, 0.025;
+9/8/2024, 01:09:40,getUserByLogin,0.188;
+9/8/2024, 01:09:40,getUserRol,0.041;
+9/8/2024, 01:09:40,getAllHolidays, 0.025;
+9/8/2024, 01:09:42,getUserRol,0.031;
+9/8/2024, 01:09:43,getUserRol,0.198;
+9/8/2024, 01:09:43,getAllHolidays, 0.03;

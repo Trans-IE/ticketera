@@ -693,8 +693,7 @@ router.post(
 );
 
 router.delete(
-  "/deleteHoliday/:fecha",
-  [check("fecha", "La fecha es obligatoria").not().isEmpty()],
+  "/deleteHoliday/:id",
 
   deleteHoliday
 );

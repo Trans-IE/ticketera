@@ -40,11 +40,11 @@ const createDBHoliday = (fecha, descripcion) => {
   return return_promise;
 };
 
-const deleteDBHoliday = (fecha) => {
+const deleteDBHoliday = (id) => {
   const return_promise = new Promise((resolve, reject) => {
     pooldata.getPool.query(
-      "select * from tickets.f_ticketera_feriados_delete($1);",
-      [fecha],
+      "select * from tickets.f_ticketera_holiday_delete($1);",
+      [id],
       (error, results) => {
         if (error) {
           reject(error.message);

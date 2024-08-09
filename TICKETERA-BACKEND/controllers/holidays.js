@@ -74,42 +74,33 @@ const createHoliday = async (req, res = response) => {
 };
 
 const deleteHoliday = async (req, res = response) => {
-  const fecha = req.params.fecha;
+  const id = req.params.id;
 
-  logger.info(`deleteHoliday fecha:${fecha}`);
+  logger.info(`deleteHoliday id:${id}`);
 
   try {
-    deleteDBHoliday(fecha)
-      .then((result) => {
-        if (result === 1) {
-          res.status(200).json({
-            ok: true,
-            value: result,
-            msg: `El feriado fue eliminado correctamente`,
-          });
-        } else {
-          return res.status(401).json({
-            ok: false,
-            msg: "El feriado no pudo ser eliminado del sistema.",
-          });
-        }
-      })
-      .catch((dataError) => {
-        logger.error(
-          `deleteHoliday => deleteDBHoliday: params=> fecha=${fecha} error=> ${dataError}`
-        );
-        res.status(501).json({
-          ok: false,
-          error: dataError,
-          msg: `No se pudo eliminar el feriado `,
-        });
+    const result = await deleteDBHoliday(id);
+
+    if (result === 1) {
+      res.status(200).json({
+        ok: true,
+        value: result,
+        msg: `El feriado fue eliminado correctamente`,
       });
-  } catch (error) {
-    logger.error(`deleteHoliday: params=> fecha=${fecha} error=> ${error}`);
-    res.status(502).json({
+    } else {
+      res.status(401).json({
+        ok: false,
+        msg: "El feriado no pudo ser eliminado del sistema.",
+      });
+    }
+  } catch (dataError) {
+    logger.error(
+      `deleteHoliday => deleteDBHoliday: params=> id=${id} error=> ${dataError}`
+    );
+    res.status(501).json({
       ok: false,
-      error: error,
-      msg: `No se pudo eliminar el feriado`,
+      error: dataError,
+      msg: `No se pudo eliminar el feriado `,
     });
   }
 };

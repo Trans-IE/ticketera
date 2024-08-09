@@ -195,35 +195,41 @@ const updateHoliday = async (req, res = response) => {
 };
 const deleteHoliday = async (req, res = response) => {
   const { label: username } = req;
-  const fecha = req.params.fecha;
+  const id = req.params.id;
 
   let function_enter_time = new Date();
   const rolExclusive = `${UserRol.LocalSM},${UserRol.LocalTEC},${UserRol.LocalEJ},${UserRol.LocalTAC}`;
   logger.info(`==> deleteHoliday - username:${username}`);
-  let url =
-    process.env.HOST_TICKETERA_BACKEND + `/entities/deleteHoliday/${fecha}`;
+
+  let url = process.env.HOST_TICKETERA_BACKEND + `/entities/deleteHoliday/${id}`;
 
   try {
-    logger.info(`deleteHoliday `);
-
     const rol = await getUserRol(username);
     let arrRolExclusive = rolExclusive.split(",").map(Number);
     let setRolUser = new Set(rol.split(",").map(Number));
     let resultado = arrRolExclusive.some((numero) => setRolUser.has(numero));
 
     if (resultado) {
-      const resp = await fetchSinToken(url, { fecha }, "DELETE");
+      const resp = await fetchSinToken(url, { id }, "DELETE");
       console.log(resp);
       const body = await resp.json();
       if (body.ok) {
-        logger.info(`<== deleteHoliday - username:${username}`);
+        if (!body.value) {
+          return res.status(400).json({
+            ok: false,
+            msg: body.msg,
+          });
+        }
+
+        logger.info(`<== deleteHoliday - id:${id}`);
         loggerCSV.info(
           `deleteHoliday,${(new Date() - function_enter_time) / 1000}`
         );
+
         res.status(200).json({
           ok: true,
           value: body.value,
-          msg: "Se eliminó el feriado correctamente.",
+          msg: "Feriado eliminao correctamente.",
         });
       } else {
         logger.error(`deleteHoliday : ${body.msg}`);
@@ -250,6 +256,7 @@ const deleteHoliday = async (req, res = response) => {
     });
   }
 };
+
 module.exports = {
   getAllHolidays,
   createHoliday,
